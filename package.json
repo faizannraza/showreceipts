@@ -1,0 +1,71 @@
+{
+  "name": "showreceipts",
+  "version": "0.1.0",
+  "description": "Your coding agent said \"done\". Show receipts: audit agent session logs and reconcile every claim against the tool log — offline, read-only, zero dependencies.",
+  "type": "module",
+  "bin": {
+    "showreceipts": "bin/showreceipts.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faizannraza/showreceipts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/faizannraza/showreceipts/issues"
+  },
+  "homepage": "https://github.com/faizannraza/showreceipts#readme",
+  "author": "Muhammad Faizan Raza",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "keywords": [
+    "claude-code",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "copilot",
+    "coding-agent",
+    "agent",
+    "audit",
+    "receipts",
+    "hooks",
+    "cli",
+    "developer-tools"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/build-assets.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "test:e2e": "npm run build && vitest run --config vitest.e2e.config.ts",
+    "test:perf": "npm run build && node scripts/perf.mjs",
+    "test:all": "npm run typecheck && npm run build && vitest run --config vitest.config.ts --coverage && npm run test:e2e && npm run lint:nonet && npm run size",
+    "lint:nonet": "node scripts/check-no-network.mjs",
+    "deps:guard": "node scripts/deps-guard.mjs",
+    "size": "node scripts/size.mjs",
+    "goldens:update": "node scripts/update-goldens.mjs",
+    "fixtures:redact": "node scripts/redact-fixture.mjs",
+    "fixtures:survey": "node scripts/survey-fixtures.mjs",
+    "catalogue": "node scripts/catalogue.mjs",
+    "verify:real": "node scripts/verify-real.mjs",
+    "accuracy": "node scripts/accuracy.mjs --min 1.0",
+    "docs:gen": "node scripts/gen-docs.mjs",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@vitest/coverage-v8": "^4",
+    "typescript": "^5.9",
+    "vitest": "^4"
+  }
+}
