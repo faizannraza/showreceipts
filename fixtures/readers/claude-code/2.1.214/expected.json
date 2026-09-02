@@ -1,0 +1,1607 @@
+{
+  "fixture": "claude-code/2.1.214",
+  "harness": "claude-code",
+  "confidence": "real",
+  "verified": [
+    "Appendix A: 3 compact_boundary in this window → 3 compactions, none splits its turn.",
+    "duplicateUuids > 0 (compaction re-emissions of earlier tool_result lines, §4.2.3 step 2).",
+    "pr-link records present (Appendix A: pr-link written whenever a PR URL is referenced); 16 land in the committed window.",
+    "One fork subagent (fork-context-ref + meta agentType:fork), isFork:true — Appendix A subagent facts.",
+    "Notification-continued turns: several turns have finalTrigger:notification (the final answers the human prompt, §4.2.3 step 4 / Appendix E).",
+    "Versions 2.1.214→2.1.236 both seen (Appendix A: two sessions span two versions)."
+  ],
+  "source": {
+    "harnessVersion": "2.1.214",
+    "originalLines": 11417,
+    "window": "1-50,547-1079,3240-3300,3745-3762,4990-5051,5399-5679,6495-6874,7110-7256,7757-7830,7973-8092,8827-8959,10149-10342,11264-11417",
+    "freezeLines": null,
+    "startedAt": "2026-07-18T17:14:33.146Z",
+    "endedAt": "2026-08-23T23:15:28.105Z",
+    "files": {
+      "projects/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406.jsonl": 2207,
+      "projects/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/subagents/agent-a1b84995146c26ea0.jsonl": 87,
+      "projects/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/subagents/agent-a4f2555c6742f4e6a.jsonl": 64,
+      "projects/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/subagents/agent-a850a98bbbd86b373.jsonl": 211,
+      "projects/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/subagents/agent-a17ba1de7c6ac2046.jsonl": 193,
+      "projects/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/subagents/agent-acf61b73ae0c1bf30.jsonl": 192
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "agent:async_launched",
+    "attachment:edited_text_file",
+    "attachment:hook_system_message",
+    "denial:permission-rule",
+    "file:claude-code:main",
+    "file:claude-code:meta",
+    "file:claude-code:subagent",
+    "flag:duplicateUuid",
+    "flag:fork-context-ref",
+    "flag:interruptedMessageId",
+    "flag:isApiErrorMessage",
+    "flag:isCompactSummary",
+    "flag:logicalParentUuid",
+    "flag:nestedAgentCall",
+    "flag:userNoPromptId",
+    "hazard:u2028",
+    "hazard:u2029",
+    "input:Bash:run_in_background",
+    "meta:agentType:fork",
+    "meta:agentType:general-purpose",
+    "meta:key:isFork",
+    "model:<synthetic>",
+    "record:pr-link",
+    "result-string:exit-code",
+    "result:Agent:absent",
+    "result:Agent:{agentId,canReadOutputFile,description,isAsync,outputFile,prompt,resolvedModel,status}",
+    "result:Bash:string",
+    "result:Bash:{backgroundTaskId,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Bash:{gitOperation,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Bash:{interrupted,isImage,noOutputExpected,persistedOutputPath,persistedOutputSize,stderr,stdout}",
+    "result:Bash:{interrupted,isImage,noOutputExpected,returnCodeInterpretation,stderr,stdout}",
+    "result:Bash:{interrupted,isImage,noOutputExpected,staleReadFileStateHint,stderr,stdout}",
+    "result:Edit:{filePath,newString,oldString,originalFile,replaceAll,staleRecovered,structuredPatch,userModified}",
+    "result:WebSearch:{durationSeconds,query,results,searchCount}",
+    "stop:stop_sequence",
+    "subagent-tool:Agent",
+    "system:compact_boundary",
+    "system:local_command",
+    "system:turn_duration",
+    "tool:Agent",
+    "tool:Monitor",
+    "tool:WebFetch",
+    "tool:WebSearch",
+    "tool:mcp__*",
+    "user:compact",
+    "user:human",
+    "user:interrupt",
+    "user:notification",
+    "user:skill",
+    "version:2.1.214",
+    "version:2.1.236"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "21cf6a82-ebf2-4214-8dce-1869efe9e406": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.236",
+      "harnessVersions": [
+        "2.1.214",
+        "2.1.236"
+      ],
+      "sessionId": "21cf6a82-ebf2-4214-8dce-1869efe9e406",
+      "shortId": "21cf6a82",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": "main",
+      "models": [
+        "claude-sonnet-5",
+        "claude-opus-4-8",
+        "claude-fable-5"
+      ],
+      "primaryModel": "claude-sonnet-5",
+      "startedAt": "2026-07-18T17:14:33.146Z",
+      "endedAt": "2026-08-23T23:15:28.105Z",
+      "kind": "normal",
+      "records": 2954,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "d5252789-8cb6-41e3-840e-193e6168d224",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 6,
+              "seqEnd": 31
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 30280,
+          "apiCalls": 4,
+          "usage": {
+            "input": 8,
+            "cacheRead": 168977,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 26998,
+            "cacheWriteOther": 0,
+            "output": 1900,
+            "thinking": 0,
+            "calls": 4,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 8,
+                "cacheRead": 168977,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 26998,
+                "cacheWriteOther": 0,
+                "output": 1900,
+                "thinking": 0,
+                "calls": 4,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "4bbdf289-99b2-45be-8bd1-e83bed9e6b02",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 33,
+              "seqEnd": 37
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 40,
+              "seqEnd": 42
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 46,
+              "seqEnd": 49
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 2,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 11565,
+          "apiCalls": 3,
+          "usage": {
+            "input": 6,
+            "cacheRead": 148785,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 20492,
+            "cacheWriteOther": 0,
+            "output": 482,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 6,
+                "cacheRead": 148785,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 20492,
+                "cacheWriteOther": 0,
+                "output": 482,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 2,
+          "kind": "human",
+          "promptId": "ce4b8cd8-280a-49b3-93e8-7afb3dcf6e7d",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 50,
+              "seqEnd": 443
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 446,
+              "seqEnd": 615
+            },
+            {
+              "trigger": "compact",
+              "seqStart": 620,
+              "seqEnd": 674
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": true,
+          "compactions": 1,
+          "finalStopReason": "end_turn",
+          "durationMs": 3573883,
+          "apiCalls": 158,
+          "usage": {
+            "input": 1256,
+            "cacheRead": 42527615,
+            "cacheWrite5m": 78893,
+            "cacheWrite1h": 184441,
+            "cacheWriteOther": 0,
+            "output": 129319,
+            "thinking": 0,
+            "calls": 158,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 1256,
+                "cacheRead": 42527615,
+                "cacheWrite5m": 78893,
+                "cacheWrite1h": 184441,
+                "cacheWriteOther": 0,
+                "output": 129319,
+                "thinking": 0,
+                "calls": 158,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 3,
+          "kind": "human",
+          "promptId": "6f340e8b-6072-432a-8999-f3eaebd5e90f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 677,
+              "seqEnd": 680
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": 61,
+          "apiCalls": 0,
+          "usage": {
+            "input": 0,
+            "cacheRead": 0,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 0,
+            "thinking": 0,
+            "calls": 0,
+            "byModel": {}
+          }
+        },
+        {
+          "index": 4,
+          "kind": "skill",
+          "promptId": "70ee88a6-359a-4d16-a900-511f026bc32f",
+          "segments": [
+            {
+              "trigger": "skill",
+              "seqStart": 682,
+              "seqEnd": 695
+            },
+            {
+              "trigger": "meta",
+              "seqStart": 696,
+              "seqEnd": 756
+            },
+            {
+              "trigger": "interrupt",
+              "seqStart": 694,
+              "seqEnd": 694
+            }
+          ],
+          "finalTrigger": "meta",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 1391495,
+          "apiCalls": 13,
+          "usage": {
+            "input": 26,
+            "cacheRead": 6813025,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 29257,
+            "cacheWriteOther": 0,
+            "output": 9688,
+            "thinking": 0,
+            "calls": 13,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 26,
+                "cacheRead": 6813025,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 29257,
+                "cacheWriteOther": 0,
+                "output": 9688,
+                "thinking": 0,
+                "calls": 13,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 5,
+          "kind": "human",
+          "promptId": "0a3d43ad-e052-4e3a-8306-9e9861dc0ad1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 757,
+              "seqEnd": 799
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 802,
+              "seqEnd": 993
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 998,
+              "seqEnd": 1140
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 2,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 2164594,
+          "apiCalls": 127,
+          "usage": {
+            "input": 2893,
+            "cacheRead": 56206847,
+            "cacheWrite5m": 190159,
+            "cacheWrite1h": 66981,
+            "cacheWriteOther": 0,
+            "output": 91573,
+            "thinking": 0,
+            "calls": 127,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 164,
+                "cacheRead": 52001378,
+                "cacheWrite5m": 32444,
+                "cacheWrite1h": 66981,
+                "cacheWriteOther": 0,
+                "output": 56343,
+                "thinking": 0,
+                "calls": 82,
+                "byModel": {}
+              },
+              "claude-fable-5": {
+                "input": 2729,
+                "cacheRead": 4205469,
+                "cacheWrite5m": 157715,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 35230,
+                "thinking": 0,
+                "calls": 45,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 6,
+          "kind": "human",
+          "promptId": "87536665-0316-4153-8cc7-83064cb115be",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1141,
+              "seqEnd": 1520
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 1,
+          "finalStopReason": "end_turn",
+          "durationMs": 1029191,
+          "apiCalls": 86,
+          "usage": {
+            "input": 172,
+            "cacheRead": 62653338,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 1033475,
+            "cacheWriteOther": 0,
+            "output": 45125,
+            "thinking": 0,
+            "calls": 86,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 172,
+                "cacheRead": 62653338,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 1033475,
+                "cacheWriteOther": 0,
+                "output": 45125,
+                "thinking": 0,
+                "calls": 86,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 7,
+          "kind": "human",
+          "promptId": "75d9b34a-dfea-4761-9fc7-361e251ef290",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1521,
+              "seqEnd": 1667
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 254427,
+          "apiCalls": 38,
+          "usage": {
+            "input": 76,
+            "cacheRead": 6236122,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 38001,
+            "cacheWriteOther": 0,
+            "output": 14467,
+            "thinking": 0,
+            "calls": 38,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 76,
+                "cacheRead": 6236122,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 38001,
+                "cacheWriteOther": 0,
+                "output": 14467,
+                "thinking": 0,
+                "calls": 38,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 8,
+          "kind": "human",
+          "promptId": "94ff5b1b-017f-4836-a2aa-9c1efa26abd7",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1668,
+              "seqEnd": 1682
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 1685,
+              "seqEnd": 1812
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 963177,
+          "apiCalls": 56,
+          "usage": {
+            "input": 1263,
+            "cacheRead": 8834637,
+            "cacheWrite5m": 139980,
+            "cacheWrite1h": 26035,
+            "cacheWriteOther": 0,
+            "output": 45672,
+            "thinking": 0,
+            "calls": 56,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 34,
+                "cacheRead": 5179910,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 26035,
+                "cacheWriteOther": 0,
+                "output": 17345,
+                "thinking": 0,
+                "calls": 17,
+                "byModel": {}
+              },
+              "claude-opus-4-8": {
+                "input": 1229,
+                "cacheRead": 3654727,
+                "cacheWrite5m": 139980,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 28327,
+                "thinking": 0,
+                "calls": 39,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 9,
+          "kind": "human",
+          "promptId": "1b3e9fbf-483f-415d-b34d-e988147507ba",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1813,
+              "seqEnd": 1932
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 259490,
+          "apiCalls": 30,
+          "usage": {
+            "input": 60,
+            "cacheRead": 11048394,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 26460,
+            "cacheWriteOther": 0,
+            "output": 14023,
+            "thinking": 0,
+            "calls": 30,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 60,
+                "cacheRead": 11048394,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 26460,
+                "cacheWriteOther": 0,
+                "output": 14023,
+                "thinking": 0,
+                "calls": 30,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 10,
+          "kind": "human",
+          "promptId": "f5f20ba4-8dc1-49bc-b2e4-6a06e8471317",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1933,
+              "seqEnd": 1945
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 1952,
+              "seqEnd": 2137
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 1430298,
+          "apiCalls": 74,
+          "usage": {
+            "input": 3646,
+            "cacheRead": 21006991,
+            "cacheWrite5m": 135072,
+            "cacheWrite1h": 40714,
+            "cacheWriteOther": 0,
+            "output": 67866,
+            "thinking": 0,
+            "calls": 74,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 58,
+                "cacheRead": 17010247,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 40714,
+                "cacheWriteOther": 0,
+                "output": 26632,
+                "thinking": 0,
+                "calls": 29,
+                "byModel": {}
+              },
+              "claude-fable-5": {
+                "input": 3588,
+                "cacheRead": 3996744,
+                "cacheWrite5m": 135072,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 41234,
+                "thinking": 0,
+                "calls": 45,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 11,
+          "kind": "human",
+          "promptId": "0b798a5d-f9c0-45bd-9bf5-72af0ffef444",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2138,
+              "seqEnd": 2170
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 1,
+          "finalStopReason": "end_turn",
+          "durationMs": 327421,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 969232,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 31925,
+            "cacheWriteOther": 0,
+            "output": 1779,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 4,
+                "cacheRead": 969232,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 31925,
+                "cacheWriteOther": 0,
+                "output": 1779,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 12,
+          "kind": "human",
+          "promptId": "bcc9b1ee-1829-4546-9a7d-38f39c9c135c",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2172,
+              "seqEnd": 2217
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2218,
+              "seqEnd": 2220
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2225,
+              "seqEnd": 2234
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 2,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 116712,
+          "apiCalls": 14,
+          "usage": {
+            "input": 28,
+            "cacheRead": 1058340,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 13991,
+            "cacheWriteOther": 0,
+            "output": 5601,
+            "thinking": 0,
+            "calls": 14,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 28,
+                "cacheRead": 1058340,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 13991,
+                "cacheWriteOther": 0,
+                "output": 5601,
+                "thinking": 0,
+                "calls": 14,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 13,
+          "kind": "human",
+          "promptId": "ce3e7220-4958-48fb-9538-1cfa14bd67ee",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2236,
+              "seqEnd": 2245
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 11189,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 82218,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 11,
+            "cacheWriteOther": 0,
+            "output": 846,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 2,
+                "cacheRead": 82218,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 11,
+                "cacheWriteOther": 0,
+                "output": 846,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 14,
+          "kind": "human",
+          "promptId": "50533d76-92bc-4a2c-ad92-9107ad4d5a30",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2247,
+              "seqEnd": 2262
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2263,
+              "seqEnd": 2270
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 28356,
+          "apiCalls": 4,
+          "usage": {
+            "input": 8,
+            "cacheRead": 335874,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 2999,
+            "cacheWriteOther": 0,
+            "output": 1870,
+            "thinking": 0,
+            "calls": 4,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 8,
+                "cacheRead": 335874,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 2999,
+                "cacheWriteOther": 0,
+                "output": 1870,
+                "thinking": 0,
+                "calls": 4,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 15,
+          "kind": "human",
+          "promptId": "c4893faa-5edd-4021-a16c-b186d94085c2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2272,
+              "seqEnd": 2292
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2293,
+              "seqEnd": 2295
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2298,
+              "seqEnd": 2300
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2303,
+              "seqEnd": 2311
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2320,
+              "seqEnd": 2331
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 4,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 62385,
+          "apiCalls": 12,
+          "usage": {
+            "input": 24,
+            "cacheRead": 1066001,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 6696,
+            "cacheWriteOther": 0,
+            "output": 3063,
+            "thinking": 0,
+            "calls": 12,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 24,
+                "cacheRead": 1066001,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 6696,
+                "cacheWriteOther": 0,
+                "output": 3063,
+                "thinking": 0,
+                "calls": 12,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 16,
+          "kind": "human",
+          "promptId": "4d15d843-c7bd-408c-a091-4a7b1cf0befa",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2332,
+              "seqEnd": 2348
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 7606,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 28892,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 304002,
+            "cacheWriteOther": 0,
+            "output": 148,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 2,
+                "cacheRead": 28892,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 304002,
+                "cacheWriteOther": 0,
+                "output": 148,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 17,
+          "kind": "human",
+          "promptId": "79b818a2-1784-4281-854a-57d817ffab87",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2350,
+              "seqEnd": 2396
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 328922,
+          "apiCalls": 6,
+          "usage": {
+            "input": 12,
+            "cacheRead": 1340435,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 246032,
+            "cacheWriteOther": 0,
+            "output": 29183,
+            "thinking": 2956,
+            "calls": 6,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 12,
+                "cacheRead": 1340435,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 246032,
+                "cacheWriteOther": 0,
+                "output": 29183,
+                "thinking": 2956,
+                "calls": 6,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 18,
+          "kind": "human",
+          "promptId": "305713f4-d299-45fa-adde-0f14db5331d9",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2397,
+              "seqEnd": 2415
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 13544,
+          "apiCalls": 3,
+          "usage": {
+            "input": 6,
+            "cacheRead": 838948,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 814,
+            "cacheWriteOther": 0,
+            "output": 660,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 6,
+                "cacheRead": 838948,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 814,
+                "cacheWriteOther": 0,
+                "output": 660,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 19,
+          "kind": "human",
+          "promptId": "07ccb758-a751-4879-982a-a1b607e24bdd",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2416,
+              "seqEnd": 2427
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 2297,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 280618,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 52,
+            "cacheWriteOther": 0,
+            "output": 13,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 2,
+                "cacheRead": 280618,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 52,
+                "cacheWriteOther": 0,
+                "output": 13,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 20,
+          "kind": "human",
+          "promptId": "9560a347-eefd-41da-b3dc-034a8367cd95",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2429,
+              "seqEnd": 2439
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 2395,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 280683,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 52,
+            "cacheWriteOther": 0,
+            "output": 40,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 2,
+                "cacheRead": 280683,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 52,
+                "cacheWriteOther": 0,
+                "output": 40,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 21,
+          "kind": "human",
+          "promptId": "edd45a35-2a93-4657-b5bd-267553f83bbe",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2441,
+              "seqEnd": 2460
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 15686,
+          "apiCalls": 3,
+          "usage": {
+            "input": 6,
+            "cacheRead": 843577,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 1536,
+            "cacheWriteOther": 0,
+            "output": 698,
+            "thinking": 107,
+            "calls": 3,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 6,
+                "cacheRead": 843577,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 1536,
+                "cacheWriteOther": 0,
+                "output": 698,
+                "thinking": 107,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 22,
+          "kind": "human",
+          "promptId": "5929d38a-d555-4a61-b47c-0b9661b5dd8f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2461,
+              "seqEnd": 2476
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 7830,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 564863,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 372,
+            "cacheWriteOther": 0,
+            "output": 315,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "claude-sonnet-5": {
+                "input": 4,
+                "cacheRead": 564863,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 372,
+                "cacheWriteOther": 0,
+                "output": 315,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 734,
+      "toolCallsByKind": {
+        "agent": 6,
+        "edit": 67,
+        "fetch": 10,
+        "mcp": 11,
+        "other": 2,
+        "read": 177,
+        "search": 6,
+        "shell": 387,
+        "task": 40,
+        "write": 28
+      },
+      "exitSources": {
+        "harness": 376,
+        "interpreted": 9,
+        "unknown": 349
+      },
+      "writesTouched": [
+        "/home/u/proj/.gitignore",
+        "/home/u/proj/CHANGELOG.md",
+        "/home/u/proj/benchmarks/traces/README.md",
+        "/home/u/proj/benchmarks/traces/convert_any_agent_trace.py",
+        "/home/u/proj/docs/configuration.md",
+        "/home/u/proj/docs/convergence.md",
+        "/home/u/proj/mkdocs.yml",
+        "/home/u/proj/npm/package.json",
+        "/home/u/proj/pyproject.toml",
+        "/home/u/proj/src/wattage/__init__.py",
+        "/home/u/proj/src/wattage/adapters/otlp_file.py",
+        "/home/u/proj/src/wattage/cli.py",
+        "/home/u/proj/src/wattage/config.py",
+        "/home/u/proj/src/wattage/detectors/__init__.py",
+        "/home/u/proj/src/wattage/detectors/base.py",
+        "/home/u/proj/src/wattage/detectors/cache_gap.py",
+        "/home/u/proj/src/wattage/detectors/prefix_churn.py",
+        "/home/u/proj/src/wattage/detectors/redundant_tool_calls.py",
+        "/home/u/proj/src/wattage/detectors/verbosity.py",
+        "/home/u/proj/src/wattage/normalize.py",
+        "/home/u/proj/src/wattage/pricing/data/pricing.yaml",
+        "/home/u/proj/src/wattage/render/html/__init__.py",
+        "/home/u/proj/src/wattage/render/json_report.py",
+        "/home/u/proj/src/wattage/render/terminal.py",
+        "/home/u/proj/src/wattage/report.py",
+        "/home/u/proj/src/wattage/scoring/__init__.py",
+        "/home/u/proj/src/wattage/scoring/quality.py",
+        "/home/u/proj/src/wattage/scoring/score.py",
+        "/home/u/proj/tests/test_cli.py",
+        "/home/u/proj/tests/test_config.py",
+        "/home/u/proj/tests/test_detector_cache_gap.py",
+        "/home/u/proj/tests/test_detector_prefix_churn.py",
+        "/home/u/proj/tests/test_detector_redundant_tool_calls.py",
+        "/home/u/proj/tests/test_detector_verbosity.py",
+        "/home/u/proj/tests/test_real_trace_any_agent.py",
+        "/home/u/proj/tests/test_render_html.py",
+        "/home/u/proj/tests/test_report_integration.py",
+        "/home/u/proj/tests/test_scoring.py",
+        "/home/u/proj/u.md",
+        "/tmp/claude/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/scratchpad/make_thrash.py",
+        "/tmp/claude/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/scratchpad/rigorous_test/FINDINGS.md",
+        "/tmp/claude/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/scratchpad/rigorous_test/finding1_isolated_test.py"
+      ],
+      "postFinalCalls": 7,
+      "subagents": [
+        {
+          "agentId": "a1b84995146c26ea0",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_KBe9pQRDDCOIFs1arZwfAmXt"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 32,
+          "finished": true
+        },
+        {
+          "agentId": "a4f2555c6742f4e6a",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_xFsiYnb5dcwptUVLEkLoyttQ"
+          },
+          "agentType": "fork",
+          "isFork": true,
+          "toolCalls": 20,
+          "finished": true
+        },
+        {
+          "agentId": "a850a98bbbd86b373",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_0SKMdqaIVaS5H4n6qhCV7Hl2"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 81,
+          "finished": true
+        },
+        {
+          "agentId": "a17ba1de7c6ac2046",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_njOa0RK1yvHNGsxFSbFeYnWv"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 70,
+          "finished": true
+        },
+        {
+          "agentId": "acf61b73ae0c1bf30",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_tNVtQDpiB2o7soLSjd2BYG23"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 71,
+          "finished": true
+        }
+      ],
+      "compactions": [
+        {
+          "seq": 641,
+          "trigger": "auto",
+          "preTokens": 934145,
+          "postTokens": 18169,
+          "cumulativeDroppedTokens": 915976,
+          "durationMs": 157842
+        },
+        {
+          "seq": 1442,
+          "trigger": "auto",
+          "preTokens": 934462,
+          "postTokens": 25719,
+          "cumulativeDroppedTokens": 1824719,
+          "durationMs": 166265
+        },
+        {
+          "seq": 2152,
+          "trigger": "auto",
+          "preTokens": 934726,
+          "postTokens": 19902,
+          "cumulativeDroppedTokens": 2739543,
+          "durationMs": 294042
+        }
+      ],
+      "prRefs": [
+        {
+          "seq": 2194,
+          "prNumber": 6,
+          "prUrl": "https://github.com/u/proj/pull/6",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:51:14.781Z"
+        },
+        {
+          "seq": 2208,
+          "prNumber": 6,
+          "prUrl": "https://github.com/u/proj/pull/6",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:51:24.013Z"
+        },
+        {
+          "seq": 2242,
+          "prNumber": 6,
+          "prUrl": "https://github.com/u/proj/pull/6",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:52:57.122Z"
+        },
+        {
+          "seq": 2255,
+          "prNumber": 6,
+          "prUrl": "https://github.com/u/proj/pull/6",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:54:43.524Z"
+        },
+        {
+          "seq": 2278,
+          "prNumber": 6,
+          "prUrl": "https://github.com/u/proj/pull/6",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:56:03.412Z"
+        },
+        {
+          "seq": 2285,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:56:17.096Z"
+        },
+        {
+          "seq": 2317,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-07-26T22:57:20.773Z"
+        },
+        {
+          "seq": 2341,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-09T19:47:46.887Z"
+        },
+        {
+          "seq": 2363,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:04:59.511Z"
+        },
+        {
+          "seq": 2387,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:10:54.970Z"
+        },
+        {
+          "seq": 2406,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:12:46.292Z"
+        },
+        {
+          "seq": 2425,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:13:09.190Z"
+        },
+        {
+          "seq": 2437,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:13:25.475Z"
+        },
+        {
+          "seq": 2449,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:14:04.892Z"
+        },
+        {
+          "seq": 2470,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:15:16.506Z"
+        },
+        {
+          "seq": 2485,
+          "prNumber": 5,
+          "prUrl": "https://github.com/u/proj/pull/5",
+          "prRepository": "u/proj",
+          "time": "2026-08-23T23:15:28.105Z"
+        }
+      ],
+      "apiErrors": [
+        {
+          "error": "authentication_failed"
+        },
+        {
+          "error": "authentication_failed"
+        },
+        {
+          "error": "authentication_failed"
+        }
+      ],
+      "refusalFallbacks": [],
+      "editedFiles": [
+        {
+          "seq": 414,
+          "path": "/home/u/proj/tests/test_report_integration.py"
+        },
+        {
+          "seq": 733,
+          "path": "/tmp/claude/-home-u-proj/21cf6a82-ebf2-4214-8dce-1869efe9e406/scratchpad/rigorous_test/FINDINGS.md"
+        },
+        {
+          "seq": 1270,
+          "path": "/home/u/proj/src/wattage/cli.py"
+        }
+      ],
+      "usageRows": {
+        "count": 640,
+        "attempts": 640,
+        "billedAttempts": 640,
+        "inherited": 1,
+        "incomplete": 23
+      },
+      "usageTotals": {
+        "input": 9506,
+        "cacheRead": 223334412,
+        "cacheWrite5m": 544104,
+        "cacheWrite1h": 2101336,
+        "cacheWriteOther": 0,
+        "output": 464331,
+        "thinking": 3063,
+        "calls": 639,
+        "byModel": {
+          "claude-sonnet-5": {
+            "input": 1960,
+            "cacheRead": 211477472,
+            "cacheWrite5m": 111337,
+            "cacheWrite1h": 2101336,
+            "cacheWriteOther": 0,
+            "output": 359540,
+            "thinking": 3063,
+            "calls": 510,
+            "byModel": {}
+          },
+          "claude-opus-4-8": {
+            "input": 1229,
+            "cacheRead": 3654727,
+            "cacheWrite5m": 139980,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 28327,
+            "thinking": 0,
+            "calls": 39,
+            "byModel": {}
+          },
+          "claude-fable-5": {
+            "input": 6317,
+            "cacheRead": 8202213,
+            "cacheWrite5m": 292787,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 76464,
+            "thinking": 0,
+            "calls": 90,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {
+          "image": 3,
+          "tool_reference": 15
+        },
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 17,
+        "reorderedEvents": 16,
+        "duplicateUuids": 2,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 14,
+        "localCommandPrompts": 1,
+        "incompleteMessages": 23,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 5,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [],
+        "interimFinals": 14,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 3,
+        "unknownAttachmentTypes": {
+          "invoked_skills": 3,
+          "command_permissions": 1,
+          "plan_file_reference": 1,
+          "auto_mode": 1
+        },
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 2954
+      }
+    }
+  }
+}

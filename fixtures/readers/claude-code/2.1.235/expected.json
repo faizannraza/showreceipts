@@ -1,0 +1,1114 @@
+{
+  "fixture": "claude-code/2.1.235",
+  "harness": "claude-code",
+  "confidence": "real",
+  "verified": [
+    "2 model_refusal_fallback records → 2 refusalFallbacks; fallback model (claude-opus-4-8) added to models (§4.2.2 / Appendix A).",
+    "18 Bash results without toolUseResult counted in bashWithoutToolUseResult (Appendix A: absent 18 on 2.1.235 subagents).",
+    "The ≥ 1 MiB line parses with 0 badLines (hazard:line>=1MiB present; §4.2.1 byte splitter).",
+    "Interrupt lines with promptId → interrupted turns (§4.2.3 step 6)."
+  ],
+  "source": {
+    "harnessVersion": "2.1.235",
+    "originalLines": 9982,
+    "window": "1-100,780-924,1227-1279,1736-1873,6116-6167,7600-7612,8883-8960",
+    "freezeLines": null,
+    "startedAt": "2026-08-20T00:24:25.685Z",
+    "endedAt": "2026-08-21T17:20:14.085Z",
+    "files": {
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c.jsonl": 579,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-acf50f5ca4c5968d5.jsonl": 73,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a051459c8523b8a53.jsonl": 126,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-ae6867b41c9b249f5.jsonl": 107,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a731ee777733de1fc.jsonl": 98,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-afb422377e828067a.jsonl": 158,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-acbae9652bb4044cc.jsonl": 150,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-ae699d5a5c02fbd77.jsonl": 161,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-aa762519b27fe67c7.jsonl": 97,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a9773bbf01dc4ce6d.jsonl": 131,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a62dc4852e2950709.jsonl": 116,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-aa3082504cd80abe1.jsonl": 103,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-aa651c225d73fb38d.jsonl": 58,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a0fd2fa50e23b1aca.jsonl": 48,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-ada37935173010c8b.jsonl": 369,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-af0d0794f6cd94eda.jsonl": 104,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-abc4b557b96563ece.jsonl": 37,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a85f5a5bb648b82bc.jsonl": 97,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a7fdf8601c099d21d.jsonl": 101,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-abdd6792346521cec.jsonl": 157,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a2cb8ba4d2274a973.jsonl": 247,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a109459a6d9fa7769.jsonl": 221,
+      "projects/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/subagents/agent-a9f6d9dacabd0828a.jsonl": 73
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "block:fallback",
+    "denial:automode-blocked",
+    "denial:user-rejected",
+    "file:claude-code:subagent",
+    "flag:interruptedMessageId",
+    "flag:iterations>1",
+    "flag:nestedAgentCall",
+    "flag:retractedMessageUuids",
+    "hazard:line>=1MiB",
+    "meta:agentType:Explore",
+    "meta:key:parentAgentId",
+    "meta:key:worktreeCleanlyRemoved",
+    "model:claude-opus-4-8",
+    "read:parts",
+    "record:frame-link",
+    "result-string:permission",
+    "result-string:rejected",
+    "result:Bash:absent",
+    "result:Bash:{backgroundTaskId,interrupted,isImage,noOutputExpected,stderr,stdout,timedOutAfterMs}",
+    "result:Write:{content,filePath,memdirStamped,originalFile,structuredPatch,type,userModified}",
+    "stop:null",
+    "subagent-tool:Agent",
+    "system:local_command",
+    "system:model_refusal_fallback",
+    "tool:ListAgents",
+    "user:interrupt",
+    "user:skill",
+    "version:2.1.235"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "57687dd1-8430-4568-a210-4a3d63ce162c": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.235",
+      "harnessVersions": [
+        "2.1.235"
+      ],
+      "sessionId": "57687dd1-8430-4568-a210-4a3d63ce162c",
+      "shortId": "57687dd1",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj",
+        "/home/u/proj/.claude/worktrees/agent-ada37935173010c8b"
+      ],
+      "gitBranch": "main",
+      "models": [
+        "claude-fable-5",
+        "claude-opus-4-8",
+        "claude-opus-5"
+      ],
+      "primaryModel": "claude-fable-5",
+      "startedAt": "2026-08-20T00:24:25.682Z",
+      "endedAt": "2026-08-21T18:20:15.773Z",
+      "kind": "normal",
+      "records": 3411,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "64b91564-750c-4ef9-8470-0445043862dc",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 8,
+              "seqEnd": 17
+            },
+            {
+              "trigger": "interrupt",
+              "seqStart": 17,
+              "seqEnd": 17
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 24177,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 11807,
+            "cacheWriteOther": 0,
+            "output": 7,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 24177,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 11807,
+                "cacheWriteOther": 0,
+                "output": 7,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "80caf77c-5a1f-4649-8778-526d4f4a6680",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 19,
+              "seqEnd": 113
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": 9333100,
+          "apiCalls": 12,
+          "usage": {
+            "input": 24,
+            "cacheRead": 1546746,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 95584,
+            "cacheWriteOther": 0,
+            "output": 3686,
+            "thinking": 1452,
+            "calls": 12,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 24,
+                "cacheRead": 1546746,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 95584,
+                "cacheWriteOther": 0,
+                "output": 3686,
+                "thinking": 1452,
+                "calls": 12,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 2,
+          "kind": "human",
+          "promptId": "25deb736-7867-4694-ab3a-c4ab51359608",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 114,
+              "seqEnd": 272
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 717277,
+          "apiCalls": 91,
+          "usage": {
+            "input": 182,
+            "cacheRead": 12690323,
+            "cacheWrite5m": 308467,
+            "cacheWrite1h": 419947,
+            "cacheWriteOther": 0,
+            "output": 114224,
+            "thinking": 62018,
+            "calls": 91,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 40,
+                "cacheRead": 8140136,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 419947,
+                "cacheWriteOther": 0,
+                "output": 27033,
+                "thinking": 7640,
+                "calls": 20,
+                "byModel": {}
+              },
+              "claude-opus-5": {
+                "input": 142,
+                "cacheRead": 4550187,
+                "cacheWrite5m": 308467,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 87191,
+                "thinking": 54378,
+                "calls": 71,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 3,
+          "kind": "human",
+          "promptId": "8f683be8-f667-4364-99e1-e8f1c4ee8122",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 361,
+              "seqEnd": 426
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 172811,
+          "apiCalls": 75,
+          "usage": {
+            "input": 150,
+            "cacheRead": 8680906,
+            "cacheWrite5m": 229027,
+            "cacheWrite1h": 519268,
+            "cacheWriteOther": 0,
+            "output": 93465,
+            "thinking": 59706,
+            "calls": 75,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 16,
+                "cacheRead": 3775066,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 519268,
+                "cacheWriteOther": 0,
+                "output": 8592,
+                "thinking": 3865,
+                "calls": 8,
+                "byModel": {}
+              },
+              "claude-opus-5": {
+                "input": 134,
+                "cacheRead": 4905840,
+                "cacheWrite5m": 229027,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 84873,
+                "thinking": 55841,
+                "calls": 67,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 4,
+          "kind": "human",
+          "promptId": "a5ba6fac-68d1-43db-b704-62621c197900",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 507,
+              "seqEnd": 593
+            },
+            {
+              "trigger": "interrupt",
+              "seqStart": 593,
+              "seqEnd": 593
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 12,
+          "usage": {
+            "input": 26,
+            "cacheRead": 8030449,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 656522,
+            "cacheWriteOther": 0,
+            "output": 13850,
+            "thinking": 9464,
+            "calls": 12,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 24,
+                "cacheRead": 7461575,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 656522,
+                "cacheWriteOther": 0,
+                "output": 13183,
+                "thinking": 9214,
+                "calls": 12,
+                "byModel": {}
+              },
+              "claude-opus-4-8": {
+                "input": 2,
+                "cacheRead": 568874,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 667,
+                "thinking": 250,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 5,
+          "kind": "human",
+          "promptId": "dc064dbf-e90e-4c98-bb90-588b189c8caa",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 598,
+              "seqEnd": 614
+            },
+            {
+              "trigger": "interrupt",
+              "seqStart": 614,
+              "seqEnd": 614
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 4,
+            "cacheRead": 1255537,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 661,
+            "cacheWriteOther": 0,
+            "output": 6389,
+            "thinking": 4379,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 686002,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 661,
+                "cacheWriteOther": 0,
+                "output": 1283,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              },
+              "claude-opus-4-8": {
+                "input": 2,
+                "cacheRead": 569535,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 5106,
+                "thinking": 4379,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 6,
+          "kind": "human",
+          "promptId": "8a339a6f-c9bd-4261-962d-25bdf4d2b6f8",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 615,
+              "seqEnd": 629
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 16352,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 568874,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 6480,
+            "cacheWriteOther": 0,
+            "output": 829,
+            "thinking": 422,
+            "calls": 1,
+            "byModel": {
+              "claude-opus-4-8": {
+                "input": 2,
+                "cacheRead": 568874,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 6480,
+                "cacheWriteOther": 0,
+                "output": 829,
+                "thinking": 422,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 7,
+          "kind": "human",
+          "promptId": "e4ca8759-8fbb-4da7-996f-5eff476d4763",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 630,
+              "seqEnd": 635
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 62284,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 575354,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 1173,
+            "cacheWriteOther": 0,
+            "output": 3825,
+            "thinking": 2611,
+            "calls": 1,
+            "byModel": {
+              "claude-opus-4-8": {
+                "input": 2,
+                "cacheRead": 575354,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 1173,
+                "cacheWriteOther": 0,
+                "output": 3825,
+                "thinking": 2611,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 8,
+          "kind": "human",
+          "promptId": "bfb1526e-ec0f-4273-ae0b-2fdba3b313a2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 645,
+              "seqEnd": 990
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 194835,
+          "apiCalls": 205,
+          "usage": {
+            "input": 410,
+            "cacheRead": 27030749,
+            "cacheWrite5m": 785588,
+            "cacheWrite1h": 17094,
+            "cacheWriteOther": 0,
+            "output": 195681,
+            "thinking": 80142,
+            "calls": 205,
+            "byModel": {
+              "claude-opus-5": {
+                "input": 410,
+                "cacheRead": 27030749,
+                "cacheWrite5m": 785588,
+                "cacheWrite1h": 17094,
+                "cacheWriteOther": 0,
+                "output": 195681,
+                "thinking": 80142,
+                "calls": 205,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 9,
+          "kind": "human",
+          "promptId": "93f2f0ce-67b6-4e40-8faf-3a7cfd97bc2a",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 991,
+              "seqEnd": 1021
+            },
+            {
+              "trigger": "interrupt",
+              "seqStart": 1021,
+              "seqEnd": 1021
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 19,
+          "usage": {
+            "input": 38,
+            "cacheRead": 1226029,
+            "cacheWrite5m": 164223,
+            "cacheWrite1h": 289,
+            "cacheWriteOther": 0,
+            "output": 5068,
+            "thinking": 1225,
+            "calls": 19,
+            "byModel": {
+              "claude-opus-5": {
+                "input": 38,
+                "cacheRead": 1226029,
+                "cacheWrite5m": 164223,
+                "cacheWrite1h": 289,
+                "cacheWriteOther": 0,
+                "output": 5068,
+                "thinking": 1225,
+                "calls": 19,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 10,
+          "kind": "human",
+          "promptId": "082c1d6a-c8e0-49c3-82ab-f98110f60962",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1042,
+              "seqEnd": 1077
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 27123,
+          "apiCalls": 9,
+          "usage": {
+            "input": 18,
+            "cacheRead": 2434060,
+            "cacheWrite5m": 25797,
+            "cacheWrite1h": 7707,
+            "cacheWriteOther": 0,
+            "output": 1802,
+            "thinking": 796,
+            "calls": 9,
+            "byModel": {
+              "claude-opus-5": {
+                "input": 18,
+                "cacheRead": 2434060,
+                "cacheWrite5m": 25797,
+                "cacheWrite1h": 7707,
+                "cacheWriteOther": 0,
+                "output": 1802,
+                "thinking": 796,
+                "calls": 9,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 11,
+          "kind": "human",
+          "promptId": "8fabcaa6-11f0-432e-b54b-804d0afacb22",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1078,
+              "seqEnd": 1160
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 390,
+          "usage": {
+            "input": 780,
+            "cacheRead": 41073621,
+            "cacheWrite5m": 1915113,
+            "cacheWrite1h": 9631,
+            "cacheWriteOther": 0,
+            "output": 356246,
+            "thinking": 167339,
+            "calls": 390,
+            "byModel": {
+              "claude-opus-5": {
+                "input": 780,
+                "cacheRead": 41073621,
+                "cacheWrite5m": 1915113,
+                "cacheWrite1h": 9631,
+                "cacheWriteOther": 0,
+                "output": 356246,
+                "thinking": 167339,
+                "calls": 390,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 1082,
+      "toolCallsByKind": {
+        "agent": 22,
+        "edit": 9,
+        "other": 5,
+        "read": 217,
+        "search": 3,
+        "shell": 811,
+        "task": 5,
+        "write": 10
+      },
+      "exitSources": {
+        "content": 18,
+        "harness": 768,
+        "interpreted": 10,
+        "unknown": 286
+      },
+      "writesTouched": [
+        "/home/u/.claude/projects/-home-u-proj/memory/XHZGSAxk.md",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/UivcnqB4.md",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/sLQIKTGC.md",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/audit.gaps.test.ts",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/batch1.py",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/batch2.py",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/batch3.py",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/batch4.py",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/batch5.py",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/mutate.py",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/recheck.ts",
+        "/tmp/claude/-home-u-proj/57687dd1-8430-4568-a210-4a3d63ce162c/scratchpad/sweep.py"
+      ],
+      "postFinalCalls": 354,
+      "subagents": [
+        {
+          "agentId": "acf50f5ca4c5968d5",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_xQSyYudZACcDxBJ5VRfThcJy"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 27,
+          "finished": true
+        },
+        {
+          "agentId": "a051459c8523b8a53",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_CULQueVNJC9F0jcMhoM6RFqE"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 47,
+          "finished": true
+        },
+        {
+          "agentId": "ae6867b41c9b249f5",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_tWdxElGH0XOqYfojJpTrudKY"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 39,
+          "finished": true
+        },
+        {
+          "agentId": "a731ee777733de1fc",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_QVpgk5eiqFuprokGgjcYlVM5"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 34,
+          "finished": true
+        },
+        {
+          "agentId": "afb422377e828067a",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_0h55SbiHeZeq3LNFmt2XmA4F"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 57,
+          "finished": true
+        },
+        {
+          "agentId": "acbae9652bb4044cc",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_prRK3PFnwyav6RN1znpd5sFp"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 52,
+          "finished": true
+        },
+        {
+          "agentId": "aa651c225d73fb38d",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_p1BjiXC5ZMqgyhdgNFEWIDWT"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 21,
+          "finished": false
+        },
+        {
+          "agentId": "a0fd2fa50e23b1aca",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_fEAsWF8yI4ls2oo0oFCAb3Lm"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 18,
+          "finished": false
+        },
+        {
+          "agentId": "ada37935173010c8b",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_ngDGiBx9yGAQ1Qi2p1BeMBig"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 129,
+          "finished": false
+        },
+        {
+          "agentId": "af0d0794f6cd94eda",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_SJnylrBEdCNCJsaDxvnfhzbm"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 39,
+          "finished": true
+        },
+        {
+          "agentId": "a7fdf8601c099d21d",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_0Wt0ist9jL9g151LL9ExPeCS"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 37,
+          "finished": true
+        },
+        {
+          "agentId": "abdd6792346521cec",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_JmT5YYT2Or2QWpOmEZwfcVHp"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 56,
+          "finished": true
+        },
+        {
+          "agentId": "a109459a6d9fa7769",
+          "parentAgentId": "a2cb8ba4d2274a973",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_PmhQ6Om0hOhW0Ei1Si87qf88"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 78,
+          "finished": false
+        },
+        {
+          "agentId": "a9f6d9dacabd0828a",
+          "parentAgentId": "abdd6792346521cec",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_kcqXB9GGbgo2CN3JWAVmDDCk"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 27,
+          "finished": true
+        },
+        {
+          "agentId": "a2cb8ba4d2274a973",
+          "parentAgentId": "abdd6792346521cec",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_fxClVkYScO6FmfA4449jT1Wl"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 72,
+          "finished": false
+        },
+        {
+          "agentId": "a62dc4852e2950709",
+          "parentAgentId": "acbae9652bb4044cc",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_iTZX49ngLizuK2dMeDDNHIUB"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 42,
+          "finished": true
+        },
+        {
+          "agentId": "aa3082504cd80abe1",
+          "parentAgentId": "acbae9652bb4044cc",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_wovXtZmBXHHtRjDGJGCNqhsD"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 38,
+          "finished": true
+        },
+        {
+          "agentId": "a9773bbf01dc4ce6d",
+          "parentAgentId": "acbae9652bb4044cc",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_XuTrQZNvFTEmLGHS3NbRYMG7"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 50,
+          "finished": true
+        },
+        {
+          "agentId": "ae699d5a5c02fbd77",
+          "parentAgentId": "acbae9652bb4044cc",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_88wukqT1keYpwpSQPkD8VbuU"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 61,
+          "finished": true
+        },
+        {
+          "agentId": "aa762519b27fe67c7",
+          "parentAgentId": "acbae9652bb4044cc",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_wnQKM4bnIGTela9YVrP3UVOo"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 32,
+          "finished": true
+        },
+        {
+          "agentId": "abc4b557b96563ece",
+          "parentAgentId": "af0d0794f6cd94eda",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_qYBMp3T0PGnmRDZp8SawYidP"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 12,
+          "finished": false
+        },
+        {
+          "agentId": "a85f5a5bb648b82bc",
+          "parentAgentId": "af0d0794f6cd94eda",
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_GaQPYvfifUyWCDDqNixO25GP"
+          },
+          "agentType": "Explore",
+          "isFork": false,
+          "toolCalls": 35,
+          "finished": false
+        }
+      ],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [
+        {
+          "error": "server_error"
+        }
+      ],
+      "refusalFallbacks": [
+        {
+          "seq": 591,
+          "originalModel": "claude-fable-5",
+          "fallbackModel": "claude-opus-4-8",
+          "category": "cyber"
+        },
+        {
+          "seq": 611,
+          "originalModel": "claude-fable-5",
+          "fallbackModel": "claude-opus-4-8",
+          "category": "cyber"
+        }
+      ],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 817,
+        "attempts": 819,
+        "billedAttempts": 819,
+        "inherited": 0,
+        "incomplete": 36
+      },
+      "usageTotals": {
+        "input": 1638,
+        "cacheRead": 105136825,
+        "cacheWrite5m": 3428215,
+        "cacheWrite1h": 1746163,
+        "cacheWriteOther": 0,
+        "output": 795072,
+        "thinking": 389554,
+        "calls": 817,
+        "byModel": {
+          "claude-fable-5": {
+            "input": 108,
+            "cacheRead": 21633702,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 1703789,
+            "cacheWriteOther": 0,
+            "output": 53784,
+            "thinking": 22171,
+            "calls": 54,
+            "byModel": {}
+          },
+          "claude-opus-4-8": {
+            "input": 8,
+            "cacheRead": 2282637,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 7653,
+            "cacheWriteOther": 0,
+            "output": 10427,
+            "thinking": 7662,
+            "calls": 4,
+            "byModel": {}
+          },
+          "claude-opus-5": {
+            "input": 1522,
+            "cacheRead": 81220486,
+            "cacheWrite5m": 3428215,
+            "cacheWrite1h": 34721,
+            "cacheWriteOther": 0,
+            "output": 730861,
+            "thinking": 359721,
+            "calls": 761,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {
+          "tool_reference": 4,
+          "fallback": 2,
+          "image": 9
+        },
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 8,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 1,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 3,
+        "incompleteMessages": 36,
+        "bashWithoutToolUseResult": 18,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 22,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [
+          "2 tool call(s) without a result (no-result)"
+        ],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 1,
+        "unknownAttachmentTypes": {
+          "read_truncation_notice": 1,
+          "plan_mode_reentry": 1
+        },
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 3411
+      }
+    }
+  }
+}

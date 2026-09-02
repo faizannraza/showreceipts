@@ -1,0 +1,6 @@
+{"v":1,"t":"2026-07-15T14:00:00Z","h":"dsh","e":"session-start","sid":"01900000-2222-7333-8444-555566667777","hv":"0.3.1","source":"startup"}
+{"v":1,"t":"2026-07-15T14:00:20Z","h":"dsh","e":"tool-post","sid":"01900000-2222-7333-8444-555566667777","cwd":"/home/u/proj","exitSource":"parsed","id":"d-1","tool":"Bash","kind":"shell","in":{"command":"npm test"},"out":{"text":"1 failing","bytes":9,"exit":1,"truncated":true}}
+{"v":1,"t":"2026-07-15T14:00:30Z","h":"dsh","e":"tool-fail","sid":"01900000-2222-7333-8444-555566667777","cwd":"/home/u/proj","exitSource":"parsed","id":"d-2","tool":"Edit","in":{"path":"src/a.ts"},"error":"Error: Exit code 2","failureType":"error","out":{"exit":2}}
+{"v":1,"t":"2026-07-15T14:00:35Z","h":"dsh","e":"tool-post","sid":"01900000-2222-7333-8444-555566667777","id":"d-3","tool":"Write","kind":"write","in":{"path":"src/b.ts"},"out":{"text":"ok","bytes":2}}
+{"v":1,"t":"2026-07-15T14:00:50Z","h":"dsh","e":"subagent-stop","sid":"01900000-2222-7333-8444-555566667777","agent":{"type":"reviewer","status":"completed","summary":"Reviewed the change","modifiedFiles":["src/c.ts","docs/d.md"]}}
+{"v":1,"t":"2026-07-15T14:01:00Z","h":"dsh","e":"stop","sid":"01900000-2222-7333-8444-555566667777","status":"completed","text":"Fixed the failing test in a.ts."}

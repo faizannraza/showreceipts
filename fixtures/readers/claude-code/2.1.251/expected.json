@@ -1,0 +1,367 @@
+{
+  "fixture": "claude-code/2.1.251",
+  "harness": "claude-code",
+  "confidence": "real",
+  "verified": [
+    "bridge-session records counted; owner ids (ownerAccountUuid/ownerOrganizationUuid/bridgeSessionId) never copied into the output (§4.2.8).",
+    "Workflow subagents (workflow-subagent agentType) via subagents/workflows/wf_*/ (§4.2.6).",
+    "atis-latch and hook_system_message counted, never claim input (§4.2.8)."
+  ],
+  "source": {
+    "harnessVersion": "2.1.251",
+    "originalLines": 512,
+    "window": null,
+    "freezeLines": 512,
+    "startedAt": "2026-08-29T21:21:45.115Z",
+    "endedAt": "2026-08-30T02:59:27.423Z",
+    "files": {
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa.jsonl": 512,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-ae3d19eea7d539e43.jsonl": 379,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-ab907519b613708b8.jsonl": 209,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-a4e3c6e031e360679.jsonl": 171,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/journal.jsonl": 36
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "attachment:bash_output_audience_note",
+    "file:claude-code:journal",
+    "file:claude-code:workflow",
+    "flag:isApiErrorMessage",
+    "flag:toolEndsTurn",
+    "hazard:u2028",
+    "journal:result",
+    "journal:started",
+    "meta:agentType:workflow-subagent",
+    "record:atis-latch",
+    "record:bridge-session",
+    "result:Bash:{interrupted,isImage,noOutputExpected,persistedOutputPath,persistedOutputSize,stderr,stdout}",
+    "result:WebFetch:{bytes,code,codeText,durationMs,result,url}",
+    "result:WebSearch:{durationSeconds,query,results,searchCount}",
+    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
+    "tool:StructuredOutput",
+    "tool:WebFetch",
+    "tool:WebSearch",
+    "tool:Workflow",
+    "user:notification",
+    "version:2.1.251"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.251",
+      "harnessVersions": [
+        "2.1.251"
+      ],
+      "sessionId": "6954d8ef-eedb-4b23-8cdc-17e422453dfa",
+      "shortId": "6954d8ef",
+      "cwd": "/home/u",
+      "cwds": [
+        "/home/u",
+        "/home/u/.claude/projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4",
+        "/home/u/.claude/projects",
+        "/home/u/.claude/projects/-home-u/memory"
+      ],
+      "gitBranch": "HEAD",
+      "models": [
+        "claude-fable-5"
+      ],
+      "primaryModel": "claude-fable-5",
+      "startedAt": "2026-08-29T21:21:45.114Z",
+      "endedAt": "2026-08-30T02:59:27.423Z",
+      "kind": "normal",
+      "records": 1271,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "29f8331e-bc4e-4fdc-914e-8bdf4fff8c86",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 13,
+              "seqEnd": 202
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 205,
+              "seqEnd": 679
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 688,
+              "seqEnd": 690
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 9181550,
+          "apiCalls": 61,
+          "usage": {
+            "input": 6070,
+            "cacheRead": 5222368,
+            "cacheWrite5m": 380826,
+            "cacheWrite1h": 270130,
+            "cacheWriteOther": 0,
+            "output": 53072,
+            "thinking": 12565,
+            "calls": 61,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 6070,
+                "cacheRead": 5222368,
+                "cacheWrite5m": 380826,
+                "cacheWrite1h": 270130,
+                "cacheWriteOther": 0,
+                "output": 53072,
+                "thinking": 12565,
+                "calls": 61,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "931c4c65-6454-4341-9287-a2499ea8c803",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 692,
+              "seqEnd": 857
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 700480,
+          "apiCalls": 11,
+          "usage": {
+            "input": 1267,
+            "cacheRead": 2499517,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 293669,
+            "cacheWriteOther": 0,
+            "output": 53580,
+            "thinking": 17982,
+            "calls": 11,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 1267,
+                "cacheRead": 2499517,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 293669,
+                "cacheWriteOther": 0,
+                "output": 53580,
+                "thinking": 17982,
+                "calls": 11,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 424,
+      "toolCallsByKind": {
+        "agent": 4,
+        "fetch": 357,
+        "read": 4,
+        "search": 4,
+        "shell": 50,
+        "task": 3,
+        "write": 2
+      },
+      "exitSources": {
+        "content": 14,
+        "harness": 36,
+        "unknown": 374
+      },
+      "writesTouched": [
+        "/home/u/.claude/projects/-home-u/memory/dEhxhZne.md",
+        "/tmp/claude/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/scratchpad/design/IDEA.md"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [
+        {
+          "agentId": "wf_cff620bd-1f4",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_cff620bd-1f4",
+            "toolUseId": "toolu_99QTP4IXUxdp52FaZlkyHMi4"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": true
+        },
+        {
+          "agentId": "wf_21b28222-9fb",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_21b28222-9fb",
+            "toolUseId": "toolu_BgG19B9iEPTb73nusmeAx5H7"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": true
+        },
+        {
+          "agentId": "wf_a76e07e1-989",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_a76e07e1-989",
+            "toolUseId": "toolu_QMjUmYiMacNdKh8Mp5IJ6lhs"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": false
+        },
+        {
+          "agentId": "a4e3c6e031e360679",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_cff620bd-1f4"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 75,
+          "finished": false
+        },
+        {
+          "agentId": "ab907519b613708b8",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_cff620bd-1f4"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 97,
+          "finished": false
+        },
+        {
+          "agentId": "ae3d19eea7d539e43",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_cff620bd-1f4"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 174,
+          "finished": false
+        }
+      ],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [
+        {
+          "error": "rate_limit",
+          "status": 429
+        }
+      ],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 72,
+        "attempts": 72,
+        "billedAttempts": 72,
+        "inherited": 0,
+        "incomplete": 30
+      },
+      "usageTotals": {
+        "input": 7337,
+        "cacheRead": 7721885,
+        "cacheWrite5m": 380826,
+        "cacheWrite1h": 563799,
+        "cacheWriteOther": 0,
+        "output": 106652,
+        "thinking": 30547,
+        "calls": 72,
+        "byModel": {
+          "claude-fable-5": {
+            "input": 7337,
+            "cacheRead": 7721885,
+            "cacheWrite5m": 380826,
+            "cacheWrite1h": 563799,
+            "cacheWriteOther": 0,
+            "output": 106652,
+            "thinking": 30547,
+            "calls": 72,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {
+          "tool_reference": 8
+        },
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 2,
+        "reorderedEvents": 1,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 2,
+        "localCommandPrompts": 2,
+        "incompleteMessages": 30,
+        "bashWithoutToolUseResult": 14,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 3,
+          "unlinked": 0,
+          "missing": 2
+        },
+        "notes": [],
+        "interimFinals": 1,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 1,
+        "unknownAttachmentTypes": {
+          "auto_mode": 1,
+          "ultra_effort_enter": 1,
+          "read_truncation_notice": 1,
+          "silent_turn_reminder": 3
+        },
+        "journals": 1,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 1271
+      }
+    }
+  }
+}

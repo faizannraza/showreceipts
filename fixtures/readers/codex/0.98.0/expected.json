@@ -1,0 +1,3286 @@
+{
+  "fixture": "codex/0.98.0",
+  "harness": "codex",
+  "confidence": "real",
+  "verified": [
+    "Rollout 019c45e8: 2 turns, 6 tool calls; token deltas sum to input 12082 (94642−82560 cache) / cacheRead 82560 / output 2343 (§4.3.5, S08 pins).",
+    "Rollout 019c4678: 67 turns (69 user_message events across both rollouts, §0.3), 286 tool calls (write_stdin included).",
+    "27 successful apply_patch + 1 failure (attempted paths kept, never writes); 23 back-filled exits; one -1 → exitCode:null + terminated (§4.3.3–4.3.4).",
+    "IDE wrapper stripped from every user_message; base_instructions / user_instructions / reasoning never retained (§4.3.1–4.3.2)."
+  ],
+  "source": {
+    "harnessVersion": "0.98.0",
+    "originalLines": 2243,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2026-02-10T04:56:42.377Z",
+    "endedAt": "2026-02-11T06:13:45.848Z",
+    "files": {
+      "sessions/2026/02/09/rollout-2026-02-09T23-56-42-019c45e8-ac72-76c9-96e4-1a38177c0fb3.jsonl": 64,
+      "sessions/2026/02/10/rollout-2026-02-10T02-33-36-019c4678-53b6-71c6-bb5b-d5b24ff14873.jsonl": 2179,
+      "session_index.jsonl": 2
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "codex:apply_patch:Update",
+    "codex:apply_patch_output:json",
+    "codex:apply_patch_output:plain",
+    "codex:args:exec_command:{cmd,yield_time_ms}",
+    "codex:args:exec_command:{cmd}",
+    "codex:args:write_stdin:{chars,max_output_tokens,session_id,yield_time_ms}",
+    "codex:args:write_stdin:{chars,session_id,yield_time_ms}",
+    "codex:base_instructions",
+    "codex:call:apply_patch",
+    "codex:call:exec_command",
+    "codex:call:write_stdin",
+    "codex:collaboration_mode",
+    "codex:event_msg:agent_message",
+    "codex:event_msg:agent_reasoning",
+    "codex:event_msg:token_count",
+    "codex:event_msg:user_message",
+    "codex:exit:-1",
+    "codex:exit:0",
+    "codex:exit:nonzero",
+    "codex:message:assistant",
+    "codex:message:developer",
+    "codex:message:user",
+    "codex:output:chunk",
+    "codex:output:failed:exec_command",
+    "codex:output:failed:write_stdin",
+    "codex:rate_limits",
+    "codex:reasoning:encrypted",
+    "codex:running",
+    "codex:sandbox-denied",
+    "codex:sandbox:workspace-write",
+    "codex:session_meta",
+    "codex:source:string",
+    "codex:token_count:info",
+    "codex:token_count:nullinfo",
+    "codex:truncated",
+    "codex:turn_context",
+    "codex:user_message:ide-prefix",
+    "codex:write_stdin:interrupt",
+    "file:codex:main",
+    "file:codex:models_cache",
+    "file:codex:session_index"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "019c45e8-ac72-76c9-96e4-1a38177c0fb3": {
+      "harness": "codex",
+      "harnessVersion": "0.98.0",
+      "harnessVersions": [
+        "0.98.0"
+      ],
+      "sessionId": "019c45e8-ac72-76c9-96e4-1a38177c0fb3",
+      "shortId": "177c0fb3",
+      "cwd": "/home/u/proj1",
+      "cwds": [
+        "/home/u/proj1"
+      ],
+      "gitBranch": null,
+      "models": [
+        "gpt-5.2-codex"
+      ],
+      "primaryModel": "gpt-5.2-codex",
+      "startedAt": "2026-02-10T04:56:42.354Z",
+      "endedAt": "2026-02-10T05:09:50.414Z",
+      "kind": "normal",
+      "records": 64,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "t1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 7,
+              "seqEnd": 51
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 6,
+          "usage": {
+            "input": 8278,
+            "cacheRead": 58752,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 2226,
+            "thinking": 64,
+            "calls": 6,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 8278,
+                "cacheRead": 58752,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 2226,
+                "thinking": 64,
+                "calls": 6,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "t2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 51,
+              "seqEnd": 63
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 3804,
+            "cacheRead": 23808,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 117,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 3804,
+                "cacheRead": 23808,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 117,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 6,
+      "toolCallsByKind": {
+        "other": 1,
+        "shell": 5
+      },
+      "exitSources": {
+        "backfilled": 1,
+        "harness": 5
+      },
+      "writesTouched": [],
+      "postFinalCalls": 0,
+      "subagents": [],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 0,
+        "attempts": 0,
+        "billedAttempts": 0,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 12082,
+        "cacheRead": 82560,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 0,
+        "output": 2343,
+        "thinking": 64,
+        "calls": 8,
+        "byModel": {
+          "gpt-5.2-codex": {
+            "input": 12082,
+            "cacheRead": 82560,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 2343,
+            "thinking": 64,
+            "calls": 8,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 8,
+        "input": 94642,
+        "cached": 82560,
+        "output": 2343,
+        "reasoning": 64
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 0,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 0,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 64
+      }
+    },
+    "019c4678-53b6-71c6-bb5b-d5b24ff14873": {
+      "harness": "codex",
+      "harnessVersion": "0.98.0",
+      "harnessVersions": [
+        "0.98.0"
+      ],
+      "sessionId": "019c4678-53b6-71c6-bb5b-d5b24ff14873",
+      "shortId": "4ff14873",
+      "cwd": "/home/u/proj1",
+      "cwds": [
+        "/home/u/proj1"
+      ],
+      "gitBranch": null,
+      "models": [
+        "gpt-5.2-codex"
+      ],
+      "primaryModel": "gpt-5.2-codex",
+      "startedAt": "2026-02-10T07:33:36.822Z",
+      "endedAt": "2026-02-11T06:13:45.848Z",
+      "kind": "normal",
+      "records": 2179,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "t1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 7,
+              "seqEnd": 16
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 1908,
+            "cacheRead": 8320,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 116,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 1908,
+                "cacheRead": 8320,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 116,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "t2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 16,
+              "seqEnd": 25
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 3526,
+            "cacheRead": 10112,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 345,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 3526,
+                "cacheRead": 10112,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 345,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 2,
+          "kind": "human",
+          "promptId": "t3",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 25,
+              "seqEnd": 34
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 3915,
+            "cacheRead": 13568,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 546,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 3915,
+                "cacheRead": 13568,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 546,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 3,
+          "kind": "human",
+          "promptId": "t4",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 34,
+              "seqEnd": 43
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 714,
+            "cacheRead": 17408,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 1217,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 714,
+                "cacheRead": 17408,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 1217,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 4,
+          "kind": "human",
+          "promptId": "t5",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 43,
+              "seqEnd": 51
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 16817,
+            "cacheRead": 7680,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 66,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 16817,
+                "cacheRead": 7680,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 66,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 5,
+          "kind": "human",
+          "promptId": "t6",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 51,
+              "seqEnd": 206
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 23,
+          "usage": {
+            "input": 37538,
+            "cacheRead": 644352,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 8192,
+            "thinking": 1472,
+            "calls": 23,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 37538,
+                "cacheRead": 644352,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 8192,
+                "thinking": 1472,
+                "calls": 23,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 6,
+          "kind": "human",
+          "promptId": "t7",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 206,
+              "seqEnd": 215
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 7713,
+            "cacheRead": 25344,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 112,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 7713,
+                "cacheRead": 25344,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 112,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 7,
+          "kind": "human",
+          "promptId": "t8",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 215,
+              "seqEnd": 418
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 30,
+          "usage": {
+            "input": 38401,
+            "cacheRead": 1226240,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 8717,
+            "thinking": 3072,
+            "calls": 30,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 38401,
+                "cacheRead": 1226240,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 8717,
+                "thinking": 3072,
+                "calls": 30,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 8,
+          "kind": "human",
+          "promptId": "t9",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 418,
+              "seqEnd": 516
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 16,
+          "usage": {
+            "input": 37848,
+            "cacheRead": 750592,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 4904,
+            "thinking": 128,
+            "calls": 16,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 37848,
+                "cacheRead": 750592,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 4904,
+                "thinking": 128,
+                "calls": 16,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 9,
+          "kind": "human",
+          "promptId": "t10",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 516,
+              "seqEnd": 568
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 10,
+          "usage": {
+            "input": 11674,
+            "cacheRead": 525440,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 2472,
+            "thinking": 0,
+            "calls": 10,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 11674,
+                "cacheRead": 525440,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 2472,
+                "thinking": 0,
+                "calls": 10,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 10,
+          "kind": "human",
+          "promptId": "t11",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 568,
+              "seqEnd": 880
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 49,
+          "usage": {
+            "input": 51926,
+            "cacheRead": 3198208,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 11334,
+            "thinking": 3328,
+            "calls": 49,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 51926,
+                "cacheRead": 3198208,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 11334,
+                "thinking": 3328,
+                "calls": 49,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 11,
+          "kind": "human",
+          "promptId": "t12",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 880,
+              "seqEnd": 890
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 60097,
+            "cacheRead": 8320,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 719,
+            "thinking": 448,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 60097,
+                "cacheRead": 8320,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 719,
+                "thinking": 448,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 12,
+          "kind": "human",
+          "promptId": "t13",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 890,
+              "seqEnd": 999
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 18,
+          "usage": {
+            "input": 18991,
+            "cacheRead": 1376256,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 4751,
+            "thinking": 2176,
+            "calls": 18,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 18991,
+                "cacheRead": 1376256,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 4751,
+                "thinking": 2176,
+                "calls": 18,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 13,
+          "kind": "human",
+          "promptId": "t14",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 999,
+              "seqEnd": 1006
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 15569,
+            "cacheRead": 68608,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 279,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 15569,
+                "cacheRead": 68608,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 279,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 14,
+          "kind": "human",
+          "promptId": "t15",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1006,
+              "seqEnd": 1115
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 21,
+          "usage": {
+            "input": 84860,
+            "cacheRead": 1731968,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 1974,
+            "thinking": 64,
+            "calls": 21,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 84860,
+                "cacheRead": 1731968,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 1974,
+                "thinking": 64,
+                "calls": 21,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 15,
+          "kind": "human",
+          "promptId": "t16",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1115,
+              "seqEnd": 1129
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4543,
+            "cacheRead": 172032,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 505,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 4543,
+                "cacheRead": 172032,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 505,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 16,
+          "kind": "human",
+          "promptId": "t17",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1129,
+              "seqEnd": 1136
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 1984,
+            "cacheRead": 87424,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 287,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 1984,
+                "cacheRead": 87424,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 287,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 17,
+          "kind": "human",
+          "promptId": "t18",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1136,
+              "seqEnd": 1258
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 20,
+          "usage": {
+            "input": 14282,
+            "cacheRead": 1919744,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 7260,
+            "thinking": 896,
+            "calls": 20,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 14282,
+                "cacheRead": 1919744,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 7260,
+                "thinking": 896,
+                "calls": 20,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 18,
+          "kind": "human",
+          "promptId": "t19",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1258,
+              "seqEnd": 1270
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 11959,
+            "cacheRead": 188928,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 923,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 11959,
+                "cacheRead": 188928,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 923,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 19,
+          "kind": "human",
+          "promptId": "t20",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1270,
+              "seqEnd": 1552
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 54,
+          "usage": {
+            "input": 42405,
+            "cacheRead": 5841920,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 6149,
+            "thinking": 1344,
+            "calls": 54,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 42405,
+                "cacheRead": 5841920,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 6149,
+                "thinking": 1344,
+                "calls": 54,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 20,
+          "kind": "human",
+          "promptId": "t21",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1552,
+              "seqEnd": 1559
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 7350,
+            "cacheRead": 102912,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 38,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 7350,
+                "cacheRead": 102912,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 38,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 21,
+          "kind": "human",
+          "promptId": "t22",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1559,
+              "seqEnd": 1592
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 5,
+          "usage": {
+            "input": 576,
+            "cacheRead": 551936,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 344,
+            "thinking": 0,
+            "calls": 5,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 576,
+                "cacheRead": 551936,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 344,
+                "thinking": 0,
+                "calls": 5,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 22,
+          "kind": "human",
+          "promptId": "t23",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1592,
+              "seqEnd": 1611
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 1604,
+            "cacheRead": 332544,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 897,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 1604,
+                "cacheRead": 332544,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 897,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 23,
+          "kind": "human",
+          "promptId": "t24",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1611,
+              "seqEnd": 1633
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 4,
+          "usage": {
+            "input": 1528,
+            "cacheRead": 446080,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 226,
+            "thinking": 0,
+            "calls": 4,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 1528,
+                "cacheRead": 446080,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 226,
+                "thinking": 0,
+                "calls": 4,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 24,
+          "kind": "human",
+          "promptId": "t25",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1633,
+              "seqEnd": 1650
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 12476,
+            "cacheRead": 329216,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 2514,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 12476,
+                "cacheRead": 329216,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 2514,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 25,
+          "kind": "human",
+          "promptId": "t26",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1650,
+              "seqEnd": 1680
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 5,
+          "usage": {
+            "input": 617,
+            "cacheRead": 574848,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 622,
+            "thinking": 320,
+            "calls": 5,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 617,
+                "cacheRead": 574848,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 622,
+                "thinking": 320,
+                "calls": 5,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 26,
+          "kind": "human",
+          "promptId": "t27",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1680,
+              "seqEnd": 1697
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 898,
+            "cacheRead": 346112,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 263,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 898,
+                "cacheRead": 346112,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 263,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 27,
+          "kind": "human",
+          "promptId": "t28",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1697,
+              "seqEnd": 1724
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 5,
+          "usage": {
+            "input": 859,
+            "cacheRead": 579712,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 234,
+            "thinking": 0,
+            "calls": 5,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 859,
+                "cacheRead": 579712,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 234,
+                "thinking": 0,
+                "calls": 5,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 28,
+          "kind": "human",
+          "promptId": "t29",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1724,
+              "seqEnd": 1741
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 642,
+            "cacheRead": 349568,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 136,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 642,
+                "cacheRead": 349568,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 136,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 29,
+          "kind": "human",
+          "promptId": "t30",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1741,
+              "seqEnd": 1758
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 584,
+            "cacheRead": 351104,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 160,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 584,
+                "cacheRead": 351104,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 160,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 30,
+          "kind": "human",
+          "promptId": "t31",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1758,
+              "seqEnd": 1765
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 97,
+            "cacheRead": 117504,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 200,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 97,
+                "cacheRead": 117504,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 200,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 31,
+          "kind": "human",
+          "promptId": "t32",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1765,
+              "seqEnd": 1782
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 881,
+            "cacheRead": 353280,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 292,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 881,
+                "cacheRead": 353280,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 292,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 32,
+          "kind": "human",
+          "promptId": "t33",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1782,
+              "seqEnd": 1796
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 258,
+            "cacheRead": 236416,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 104,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 258,
+                "cacheRead": 236416,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 104,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 33,
+          "kind": "human",
+          "promptId": "t34",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1796,
+              "seqEnd": 1803
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 202,
+            "cacheRead": 118272,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 312,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 202,
+                "cacheRead": 118272,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 312,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 34,
+          "kind": "human",
+          "promptId": "t35",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1803,
+              "seqEnd": 1829
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 4,
+          "usage": {
+            "input": 3994,
+            "cacheRead": 479744,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 3263,
+            "thinking": 256,
+            "calls": 4,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 3994,
+                "cacheRead": 479744,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 3263,
+                "thinking": 256,
+                "calls": 4,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 35,
+          "kind": "human",
+          "promptId": "t36",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1829,
+              "seqEnd": 1841
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 3347,
+            "cacheRead": 240768,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 113,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 3347,
+                "cacheRead": 240768,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 113,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 36,
+          "kind": "human",
+          "promptId": "t37",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1841,
+              "seqEnd": 1853
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 342,
+            "cacheRead": 244224,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 85,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 342,
+                "cacheRead": 244224,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 85,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 37,
+          "kind": "human",
+          "promptId": "t38",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1853,
+              "seqEnd": 1865
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 225,
+            "cacheRead": 244736,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 79,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 225,
+                "cacheRead": 244736,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 79,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 38,
+          "kind": "human",
+          "promptId": "t39",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1865,
+              "seqEnd": 1877
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 351,
+            "cacheRead": 244992,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 85,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 351,
+                "cacheRead": 244992,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 85,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 39,
+          "kind": "human",
+          "promptId": "t40",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1877,
+              "seqEnd": 1889
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 115305,
+            "cacheRead": 130432,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 79,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 115305,
+                "cacheRead": 130432,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 79,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 40,
+          "kind": "human",
+          "promptId": "t41",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1889,
+              "seqEnd": 1896
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 145,
+            "cacheRead": 122880,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 290,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 145,
+                "cacheRead": 122880,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 290,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 41,
+          "kind": "human",
+          "promptId": "t42",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1896,
+              "seqEnd": 1915
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 3,
+          "usage": {
+            "input": 929,
+            "cacheRead": 370048,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 478,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 929,
+                "cacheRead": 370048,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 478,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 42,
+          "kind": "human",
+          "promptId": "t43",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1915,
+              "seqEnd": 1927
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 806,
+            "cacheRead": 247168,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 88,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 806,
+                "cacheRead": 247168,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 88,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 43,
+          "kind": "human",
+          "promptId": "t44",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1927,
+              "seqEnd": 1939
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 311,
+            "cacheRead": 248064,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 74,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 311,
+                "cacheRead": 248064,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 74,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 44,
+          "kind": "human",
+          "promptId": "t45",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1939,
+              "seqEnd": 1946
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 166,
+            "cacheRead": 124160,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 95,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 166,
+                "cacheRead": 124160,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 95,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 45,
+          "kind": "human",
+          "promptId": "t46",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1946,
+              "seqEnd": 1960
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 326,
+            "cacheRead": 248704,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 74,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 326,
+                "cacheRead": 248704,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 74,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 46,
+          "kind": "human",
+          "promptId": "t47",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1960,
+              "seqEnd": 1972
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 283,
+            "cacheRead": 249088,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 62,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 283,
+                "cacheRead": 249088,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 62,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 47,
+          "kind": "human",
+          "promptId": "t48",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1972,
+              "seqEnd": 1984
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 117239,
+            "cacheRead": 132480,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 64,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 117239,
+                "cacheRead": 132480,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 64,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 48,
+          "kind": "human",
+          "promptId": "t49",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1984,
+              "seqEnd": 1996
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 216,
+            "cacheRead": 249856,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 82,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 216,
+                "cacheRead": 249856,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 82,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 49,
+          "kind": "human",
+          "promptId": "t50",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1996,
+              "seqEnd": 2003
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 161,
+            "cacheRead": 125056,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 66,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 161,
+                "cacheRead": 125056,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 66,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 50,
+          "kind": "human",
+          "promptId": "t51",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2003,
+              "seqEnd": 2010
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 155,
+            "cacheRead": 125184,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 35,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 155,
+                "cacheRead": 125184,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 35,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 51,
+          "kind": "human",
+          "promptId": "t52",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2010,
+              "seqEnd": 2022
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 117946,
+            "cacheRead": 132992,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 59,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 117946,
+                "cacheRead": 132992,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 59,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 52,
+          "kind": "human",
+          "promptId": "t53",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2022,
+              "seqEnd": 2034
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 273,
+            "cacheRead": 251008,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 60,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 273,
+                "cacheRead": 251008,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 60,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 53,
+          "kind": "human",
+          "promptId": "t54",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2034,
+              "seqEnd": 2046
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 233,
+            "cacheRead": 251392,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 59,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 233,
+                "cacheRead": 251392,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 59,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 54,
+          "kind": "human",
+          "promptId": "t55",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2046,
+              "seqEnd": 2058
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 321,
+            "cacheRead": 251648,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 57,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 321,
+                "cacheRead": 251648,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 57,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 55,
+          "kind": "human",
+          "promptId": "t56",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2058,
+              "seqEnd": 2071
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 118550,
+            "cacheRead": 133760,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 72,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 118550,
+                "cacheRead": 133760,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 72,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 56,
+          "kind": "human",
+          "promptId": "t57",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2071,
+              "seqEnd": 2080
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 198,
+            "cacheRead": 126080,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 95,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 198,
+                "cacheRead": 126080,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 95,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 57,
+          "kind": "human",
+          "promptId": "t58",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2080,
+              "seqEnd": 2092
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 338,
+            "cacheRead": 252544,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 59,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 338,
+                "cacheRead": 252544,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 59,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 58,
+          "kind": "human",
+          "promptId": "t59",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2092,
+              "seqEnd": 2108
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 309,
+            "cacheRead": 252928,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 182,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 309,
+                "cacheRead": 252928,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 182,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 59,
+          "kind": "human",
+          "promptId": "t60",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2108,
+              "seqEnd": 2115
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 351,
+            "cacheRead": 126464,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 155,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 351,
+                "cacheRead": 126464,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 155,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 60,
+          "kind": "human",
+          "promptId": "t61",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2115,
+              "seqEnd": 2122
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 169,
+            "cacheRead": 126848,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 85,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 169,
+                "cacheRead": 126848,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 85,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 61,
+          "kind": "human",
+          "promptId": "t62",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2122,
+              "seqEnd": 2129
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 174,
+            "cacheRead": 126976,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 118,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 174,
+                "cacheRead": 126976,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 118,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 62,
+          "kind": "human",
+          "promptId": "t63",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2129,
+              "seqEnd": 2138
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 618,
+            "cacheRead": 127232,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 275,
+            "thinking": 64,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 618,
+                "cacheRead": 127232,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 275,
+                "thinking": 64,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 63,
+          "kind": "human",
+          "promptId": "t64",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2138,
+              "seqEnd": 2147
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 367,
+            "cacheRead": 127744,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 252,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 367,
+                "cacheRead": 127744,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 252,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 64,
+          "kind": "human",
+          "promptId": "t65",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2147,
+              "seqEnd": 2156
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 399,
+            "cacheRead": 128000,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 139,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 399,
+                "cacheRead": 128000,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 139,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 65,
+          "kind": "human",
+          "promptId": "t66",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2156,
+              "seqEnd": 2163
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 505,
+            "cacheRead": 128384,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 150,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 505,
+                "cacheRead": 128384,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 150,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 66,
+          "kind": "human",
+          "promptId": "t67",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2163,
+              "seqEnd": 2178
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 473,
+            "cacheRead": 258304,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 1177,
+            "thinking": 768,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.2-codex": {
+                "input": 473,
+                "cacheRead": 258304,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 1177,
+                "thinking": 768,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 286,
+      "toolCallsByKind": {
+        "edit": 28,
+        "other": 143,
+        "shell": 115
+      },
+      "exitSources": {
+        "backfilled": 23,
+        "harness": 131,
+        "parsed": 2,
+        "unknown": 130
+      },
+      "writesTouched": [
+        "/home/u/proj1/u/src/exposure/make_exposure_features.py",
+        "/home/u/proj1/u/src/models/event_study_u_month.py",
+        "/home/u/proj1/u/src/models/heterogeneity_causalml.py",
+        "/home/u/proj1/u/src/models/mechanism_decomposition.py",
+        "/home/u/proj1/u/src/models/micro_transition_models.py",
+        "/home/u/proj1/u/src/panel/build_model_ready.py",
+        "/home/u/proj1/u/src/panel/load_panel.py",
+        "/home/u/proj1/u/src/panel/qc_panel.py",
+        "/home/u/proj1/u/src/utils/fe.py",
+        "/home/u/proj1/u/src/utils/weights.py"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 0,
+        "attempts": 0,
+        "billedAttempts": 0,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 980767,
+        "cacheRead": 29241856,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 0,
+        "output": 75316,
+        "thinking": 14336,
+        "calls": 353,
+        "byModel": {
+          "gpt-5.2-codex": {
+            "input": 980767,
+            "cacheRead": 29241856,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 75316,
+            "thinking": 14336,
+            "calls": 353,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 353,
+        "input": 30222623,
+        "cached": 29241856,
+        "output": 75316,
+        "reasoning": 14336
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 0,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 0,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 2179
+      }
+    }
+  }
+}

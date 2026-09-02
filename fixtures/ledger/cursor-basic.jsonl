@@ -1,0 +1,7 @@
+{"v":1,"t":"2026-03-05T10:00:00Z","h":"cursor","e":"session-start","sid":"c1a2b3c4-0000-4000-8000-00000000c001","hv":"1.7.2","model":"gpt-5","transcript":"/home/u/.cursor/chats/chat-1.json","source":"startup"}
+{"v":1,"t":"2026-03-05T10:00:30Z","h":"cursor","e":"tool-post","sid":"c1a2b3c4-0000-4000-8000-00000000c001","tid":"gen-1","cwd":"/home/u/proj","exitSource":"harness","id":"tu-1","tool":"Shell","kind":"shell","in":{"command":"npm test"},"out":{"text":"1 passing","bytes":9,"exit":0,"durationMs":1200}}
+{"v":1,"t":"2026-03-05T10:00:40Z","h":"cursor","e":"tool-post","sid":"c1a2b3c4-0000-4000-8000-00000000c001","tid":"gen-1","cwd":"/home/u/proj","id":"tu-2","tool":"Edit","kind":"edit","in":{"path":"src/a.ts","edits":[{"old":"const a = 1","new":"const a = 2"}]},"out":{"text":"ok","bytes":2}}
+{"v":1,"t":"2026-03-05T10:00:50Z","h":"cursor","e":"agent-response","sid":"c1a2b3c4-0000-4000-8000-00000000c001","tid":"gen-1","text":"Done. Tests pass."}
+{"v":1,"t":"2026-03-05T10:00:55Z","h":"cursor","e":"stop","sid":"c1a2b3c4-0000-4000-8000-00000000c001","tid":"gen-1","model":"gpt-5","status":"completed"}
+{"v":1,"t":"2026-03-05T10:01:10Z","h":"cursor","e":"tool-post","sid":"c1a2b3c4-0000-4000-8000-00000000c001","tid":"gen-2","id":"tu-3","tool":"MCP:filesystem","kind":"mcp","in":{"raw":"{}"},"out":{"text":"[]","bytes":2}}
+{"v":1,"t":"2026-03-05T10:01:12Z","h":"cursor","e":"stop","sid":"c1a2b3c4-0000-4000-8000-00000000c001","tid":"gen-2","model":"gpt-5","status":"aborted"}

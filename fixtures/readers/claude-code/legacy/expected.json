@@ -1,0 +1,243 @@
+{
+  "fixture": "claude-code/legacy",
+  "harness": "claude-code",
+  "confidence": "synthetic",
+  "note": "Hand-written, unverified against real data (no 2025 transcripts exist on the author's machine): 2025-style `Task` tool with a non-async result, `cache_creation_input_tokens` without the `cache_creation` breakdown, an in-file `isSidechain:true` chain rooted at `parentUuid:null`, a `type:summary` line with `leafUuid`, `MultiEdit` with `edits[]`, and a human prompt line without `promptId`.",
+  "source": {
+    "harnessVersion": "1.0.83",
+    "originalLines": 13,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2025-09-01T10:00:00.000Z",
+    "endedAt": "2025-09-01T10:00:12.100Z",
+    "files": {
+      "projects/-home-u-proj/9b1c2d3e-4f50-4a6b-8c7d-0e1f2a3b4c5d.jsonl": 13
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "block:text",
+    "block:thinking",
+    "block:tool_use",
+    "file:claude-code:main",
+    "flag:legacy-summary",
+    "flag:sidechain",
+    "flag:userNoPromptId",
+    "flag:userParentNull",
+    "record:assistant",
+    "record:summary",
+    "record:system",
+    "record:user",
+    "result:Bash:{interrupted,isImage,stderr,stdout}",
+    "result:MultiEdit:{edits,filePath,originalFileContents,structuredPatch,userModified}",
+    "result:Task:{content,totalDurationMs,totalTokens,totalToolUseCount,usage}",
+    "stop:end_turn",
+    "stop:tool_use",
+    "system:turn_duration",
+    "tool:Bash",
+    "tool:MultiEdit",
+    "tool:Task",
+    "usage:no-cache-breakdown",
+    "user:human",
+    "user:tool_result",
+    "version:1.0.83"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)",
+    "note": "synthetic content, written directly in redacted form"
+  },
+  "verified": [
+    "Synthetic, unverified against real data: Task→Agent and MultiEdit→Edit remaps, type:summary ignored, inline isSidechain chain diverted — all counted in legacyShapes, never doctor problems (§4.2.9)."
+  ],
+  "session": {
+    "9b1c2d3e-4f50-4a6b-8c7d-0e1f2a3b4c5d": {
+      "harness": "claude-code",
+      "harnessVersion": "1.0.83",
+      "harnessVersions": [
+        "1.0.83"
+      ],
+      "sessionId": "9b1c2d3e-4f50-4a6b-8c7d-0e1f2a3b4c5d",
+      "shortId": "9b1c2d3e",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": "main",
+      "models": [
+        "claude-sonnet-4-20250514"
+      ],
+      "primaryModel": "claude-sonnet-4-20250514",
+      "startedAt": "2025-09-01T10:00:00.000Z",
+      "endedAt": "2025-09-01T10:00:12.100Z",
+      "kind": "normal",
+      "records": 17,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "1a000000-0000-4000-8000-000000000001",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1,
+              "seqEnd": 3
+            },
+            {
+              "trigger": "meta",
+              "seqStart": 8,
+              "seqEnd": 14
+            }
+          ],
+          "finalTrigger": "meta",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 12000,
+          "apiCalls": 3,
+          "usage": {
+            "input": 4100,
+            "cacheRead": 3000,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 300,
+            "output": 190,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "claude-sonnet-4-20250514": {
+                "input": 4100,
+                "cacheRead": 3000,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 300,
+                "output": 190,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 3,
+      "toolCallsByKind": {
+        "agent": 1,
+        "edit": 1,
+        "shell": 1
+      },
+      "exitSources": {
+        "harness": 1,
+        "unknown": 2
+      },
+      "writesTouched": [
+        "/home/u/proj/src/app.py"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [
+        {
+          "agentId": "5a000000-0000-4000-8000-000000000005",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "inline"
+          },
+          "agentType": null,
+          "isFork": false,
+          "toolCalls": 1,
+          "finished": true
+        }
+      ],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 5,
+        "attempts": 5,
+        "billedAttempts": 5,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 5950,
+        "cacheRead": 5400,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 300,
+        "output": 242,
+        "thinking": 0,
+        "calls": 5,
+        "byModel": {
+          "claude-sonnet-4-20250514": {
+            "input": 5950,
+            "cacheRead": 5400,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 300,
+            "output": 242,
+            "thinking": 0,
+            "calls": 5,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 0,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 0,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {
+          "summary": 1,
+          "no-cache-breakdown": 2,
+          "Task": 1,
+          "task-result": 1,
+          "MultiEdit": 2,
+          "inline-sidechain": 1
+        },
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [
+          "agent 5a000000-0000-4000-8000-000000000005: events with an unknown promptId attributed to the session (agentUnlinked)"
+        ],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 17
+      }
+    }
+  }
+}

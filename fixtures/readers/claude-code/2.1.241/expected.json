@@ -1,0 +1,807 @@
+{
+  "fixture": "claude-code/2.1.241",
+  "harness": "claude-code",
+  "confidence": "real",
+  "verified": [
+    "dangerouslyDisableSandbox input → ToolCall.sandboxDisabled:true (§4.2.5 rule j, the sandbox-disabled DangerFlag seed for S12).",
+    "Workflow run with subagents/workflows/wf_*/agent-*.jsonl → workflow subagents linked (§4.2.6).",
+    "pr-link ×7 (Appendix A db935e59) → prRefs."
+  ],
+  "source": {
+    "harnessVersion": "2.1.241",
+    "originalLines": 2167,
+    "window": "1-106,860-930,1000-1020,1315-1322,1405-1427,1430-1767,1973-2167",
+    "freezeLines": null,
+    "startedAt": "2026-08-23T23:15:40.658Z",
+    "endedAt": "2026-08-29T15:54:51.736Z",
+    "files": {
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d.jsonl": 762,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/agent-a91fbfd03fa75d1f8.jsonl": 77,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/agent-afcef73c45ac219bf.jsonl": 108,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-a03ec310e62aa862c.jsonl": 171,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-a37516a78f982c441.jsonl": 36,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-aea09ad1c47afc043.jsonl": 64
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "attachment:hook_system_message",
+    "denial:permission-rule",
+    "file:claude-code:subagent",
+    "file:claude-code:workflow",
+    "flag:toolEndsTurn",
+    "hazard:line>=1MiB",
+    "hazard:u2028",
+    "input:Bash:dangerouslyDisableSandbox",
+    "meta:agentType:workflow-subagent",
+    "read:image",
+    "record:pr-link",
+    "result:Bash:{dangerouslyDisableSandbox,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Bash:{gitOperation,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
+    "result:Write:{content,filePath,memdirStamped,originalFile,structuredPatch,type,userModified}",
+    "tool:Agent",
+    "tool:StructuredOutput",
+    "tool:Workflow",
+    "tool:mcp__*",
+    "user:notification",
+    "version:2.1.241",
+    "workflow-tool:StructuredOutput"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "2c707aeb-ba85-44e3-aec6-b50184966e3d": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.241",
+      "harnessVersions": [
+        "2.1.241"
+      ],
+      "sessionId": "2c707aeb-ba85-44e3-aec6-b50184966e3d",
+      "shortId": "2c707aeb",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": "main",
+      "models": [
+        "claude-fable-5"
+      ],
+      "primaryModel": "claude-fable-5",
+      "startedAt": "2026-08-23T23:15:40.656Z",
+      "endedAt": "2026-08-29T15:54:51.736Z",
+      "kind": "normal",
+      "records": 1218,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "262ec14d-36ad-4781-9721-360880c5310f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 12,
+              "seqEnd": 30
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 22123,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 64806,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 38670,
+            "cacheWriteOther": 0,
+            "output": 1072,
+            "thinking": 75,
+            "calls": 2,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 4,
+                "cacheRead": 64806,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 38670,
+                "cacheWriteOther": 0,
+                "output": 1072,
+                "thinking": 75,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "13d51085-7293-4d5e-9373-db744cac110e",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 32,
+              "seqEnd": 215
+            },
+            {
+              "trigger": "meta",
+              "seqStart": 216,
+              "seqEnd": 405
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 406,
+              "seqEnd": 743
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 2,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 12013819,
+          "apiCalls": 199,
+          "usage": {
+            "input": 398,
+            "cacheRead": 63355515,
+            "cacheWrite5m": 500983,
+            "cacheWrite1h": 701693,
+            "cacheWriteOther": 0,
+            "output": 230489,
+            "thinking": 80358,
+            "calls": 199,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 398,
+                "cacheRead": 63355515,
+                "cacheWrite5m": 500983,
+                "cacheWrite1h": 701693,
+                "cacheWriteOther": 0,
+                "output": 230489,
+                "thinking": 80358,
+                "calls": 199,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 2,
+          "kind": "human",
+          "promptId": "1afaa37c-bcda-4e42-bab7-bd7ed63ed76f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 744,
+              "seqEnd": 851
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 297281,
+          "apiCalls": 17,
+          "usage": {
+            "input": 34,
+            "cacheRead": 13681452,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 35861,
+            "cacheWriteOther": 0,
+            "output": 15722,
+            "thinking": 6571,
+            "calls": 17,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 34,
+                "cacheRead": 13681452,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 35861,
+                "cacheWriteOther": 0,
+                "output": 15722,
+                "thinking": 6571,
+                "calls": 17,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 3,
+          "kind": "human",
+          "promptId": "68d43d6b-b3e4-4f8c-a331-112d74a80881",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 853,
+              "seqEnd": 865
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 40320,
+          "apiCalls": 3,
+          "usage": {
+            "input": 6,
+            "cacheRead": 2467289,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 2738,
+            "cacheWriteOther": 0,
+            "output": 2162,
+            "thinking": 934,
+            "calls": 3,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 6,
+                "cacheRead": 2467289,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 2738,
+                "cacheWriteOther": 0,
+                "output": 2162,
+                "thinking": 934,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 4,
+          "kind": "human",
+          "promptId": "19f5f8f3-843b-44b6-a54d-01c9f9768b37",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 873,
+              "seqEnd": 882
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 77836,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 1650591,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 3695,
+            "cacheWriteOther": 0,
+            "output": 5182,
+            "thinking": 3276,
+            "calls": 2,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 4,
+                "cacheRead": 1650591,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 3695,
+                "cacheWriteOther": 0,
+                "output": 5182,
+                "thinking": 3276,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 5,
+          "kind": "human",
+          "promptId": "716ba88b-7371-48f9-87b6-ff9dc82cafc7",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 890,
+              "seqEnd": 895
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 17687,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 830650,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 43,
+            "cacheWriteOther": 0,
+            "output": 1013,
+            "thinking": 421,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 830650,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 43,
+                "cacheWriteOther": 0,
+                "output": 1013,
+                "thinking": 421,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 6,
+          "kind": "human",
+          "promptId": "b2f1d5b8-ff8f-4a0f-af59-e137ceefa06e",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 897,
+              "seqEnd": 907
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 35517,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 831706,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 886,
+            "cacheWriteOther": 0,
+            "output": 2559,
+            "thinking": 1477,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 831706,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 886,
+                "cacheWriteOther": 0,
+                "output": 2559,
+                "thinking": 1477,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 7,
+          "kind": "human",
+          "promptId": "63f3bb9c-d052-4b76-8f08-d779e104abae",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 909,
+              "seqEnd": 926
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 99275,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 862217,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 812964,
+            "cacheWriteOther": 0,
+            "output": 5265,
+            "thinking": 3010,
+            "calls": 2,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 4,
+                "cacheRead": 862217,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 812964,
+                "cacheWriteOther": 0,
+                "output": 5265,
+                "thinking": 3010,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 8,
+          "kind": "human",
+          "promptId": "73c8d5fc-48ec-474e-bb41-dc8de206bef3",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 928,
+              "seqEnd": 932
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 22799,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 841667,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 72,
+            "cacheWriteOther": 0,
+            "output": 1430,
+            "thinking": 723,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 841667,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 72,
+                "cacheWriteOther": 0,
+                "output": 1430,
+                "thinking": 723,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 297,
+      "toolCallsByKind": {
+        "agent": 4,
+        "edit": 31,
+        "fetch": 10,
+        "mcp": 9,
+        "other": 1,
+        "read": 115,
+        "search": 3,
+        "shell": 109,
+        "task": 3,
+        "write": 12
+      },
+      "exitSources": {
+        "content": 19,
+        "harness": 88,
+        "interpreted": 1,
+        "unknown": 189
+      },
+      "writesTouched": [
+        "/home/u/.claude/projects/-home-u-proj/memory/5D7UF9uZ.md",
+        "/home/u/.claude/projects/-home-u-proj/memory/ptuYAP4s.md",
+        "/home/u/proj/.github/dependabot.yml",
+        "/home/u/proj/.github/workflows/test-action.yml",
+        "/home/u/proj/README.md",
+        "/home/u/proj/action.yml",
+        "/home/u/proj/action/entrypoint.sh",
+        "/home/u/proj/npm/README.md",
+        "/home/u/proj/npm/bin/wattage.js",
+        "/home/u/proj/npm/package.json",
+        "/home/u/proj/src/wattage/adapters/otlp_file.py",
+        "/home/u/proj/src/wattage/ci.py",
+        "/home/u/proj/src/wattage/cli.py",
+        "/home/u/proj/src/wattage/detectors/base.py",
+        "/home/u/proj/src/wattage/detectors/prefix_churn.py",
+        "/home/u/proj/src/wattage/detectors/retry_storm.py",
+        "/home/u/proj/src/wattage/normalize.py",
+        "/home/u/proj/src/wattage/pricing/registry.py",
+        "/home/u/proj/src/wattage/render/html/__init__.py",
+        "/home/u/proj/src/wattage/render/html/tree.py",
+        "/home/u/proj/src/wattage/sessionize.py",
+        "/home/u/proj/tests/test_action.py",
+        "/home/u/proj/tests/test_adapters_claude_code.py",
+        "/home/u/proj/tests/test_adapters_otlp_file.py",
+        "/home/u/proj/tests/test_baseline.py",
+        "/home/u/proj/tests/test_detector_retry_storm.py",
+        "/home/u/proj/tests/test_detector_tool_result_bloat.py",
+        "/home/u/proj/tests/test_npm_shim.py",
+        "/home/u/proj/tests/test_scoring.py"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [
+        {
+          "agentId": "wf_42a7dcd5-323",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_42a7dcd5-323",
+            "toolUseId": "toolu_D11Eijuc55GUT1WtiCMHSIyD"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": false
+        },
+        {
+          "agentId": "a91fbfd03fa75d1f8",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_cGThWucKsthByr22UT7gmVa5"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 27,
+          "finished": true
+        },
+        {
+          "agentId": "afcef73c45ac219bf",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_LorUhMit1cGWXBgmVHWpSp5p"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 40,
+          "finished": true
+        },
+        {
+          "agentId": "wf_1015886e-5a1",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_1015886e-5a1",
+            "toolUseId": "toolu_wj4HjwXkf6pHBcWkMHISloI6"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": true
+        },
+        {
+          "agentId": "a03ec310e62aa862c",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_42a7dcd5-323"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 71,
+          "finished": false
+        },
+        {
+          "agentId": "a37516a78f982c441",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_42a7dcd5-323"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 13,
+          "finished": false
+        },
+        {
+          "agentId": "aea09ad1c47afc043",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_42a7dcd5-323"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 24,
+          "finished": false
+        }
+      ],
+      "compactions": [],
+      "prRefs": [
+        {
+          "seq": 829,
+          "prNumber": 50,
+          "prUrl": "https://github.com/u/proj/pull/50",
+          "prRepository": "u/proj",
+          "time": "2026-08-27T02:42:34.768Z"
+        },
+        {
+          "seq": 836,
+          "prNumber": 16,
+          "prUrl": "https://github.com/u/proj/pull/16",
+          "prRepository": "u/proj",
+          "time": "2026-08-27T02:42:54.546Z"
+        },
+        {
+          "seq": 849,
+          "prNumber": 16,
+          "prUrl": "https://github.com/u/proj/pull/16",
+          "prRepository": "u/proj",
+          "time": "2026-08-27T02:43:04.185Z"
+        },
+        {
+          "seq": 871,
+          "prNumber": 16,
+          "prUrl": "https://github.com/u/proj/pull/16",
+          "prRepository": "u/proj",
+          "time": "2026-08-27T02:45:02.086Z"
+        },
+        {
+          "seq": 888,
+          "prNumber": 16,
+          "prUrl": "https://github.com/u/proj/pull/16",
+          "prRepository": "u/proj",
+          "time": "2026-08-27T02:48:44.420Z"
+        },
+        {
+          "seq": 904,
+          "prNumber": 16,
+          "prUrl": "https://github.com/u/proj/pull/16",
+          "prRepository": "u/proj",
+          "time": "2026-08-27T02:57:49.859Z"
+        },
+        {
+          "seq": 922,
+          "prNumber": 16,
+          "prUrl": "https://github.com/u/proj/pull/16",
+          "prRepository": "u/proj",
+          "time": "2026-08-29T15:45:18.777Z"
+        }
+      ],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [
+        {
+          "seq": 491,
+          "path": "/home/u/proj/src/wattage/detectors/model_mismatch.py"
+        },
+        {
+          "seq": 492,
+          "path": "/home/u/proj/src/wattage/detectors/reasoning_overspend.py"
+        },
+        {
+          "seq": 493,
+          "path": "/home/u/proj/src/wattage/detectors/verbosity.py"
+        },
+        {
+          "seq": 494,
+          "path": "/home/u/proj/src/wattage/detectors/redundant_tool_calls.py"
+        },
+        {
+          "seq": 495,
+          "path": "/home/u/proj/src/wattage/detectors/prefix_churn.py"
+        },
+        {
+          "seq": 529,
+          "path": "/home/u/proj/docs/detectors/retry_storm.md"
+        },
+        {
+          "seq": 530,
+          "path": "/home/u/proj/src/wattage/report.py"
+        },
+        {
+          "seq": 531,
+          "path": "/home/u/proj/src/wattage/detectors/retry_storm.py"
+        },
+        {
+          "seq": 542,
+          "path": "/home/u/proj/src/wattage/cli.py"
+        },
+        {
+          "seq": 624,
+          "path": "/home/u/proj/CHANGELOG.md"
+        },
+        {
+          "seq": 633,
+          "path": "/home/u/proj/docs/ci.md"
+        },
+        {
+          "seq": 634,
+          "path": "/home/u/proj/docs/adapters.md"
+        },
+        {
+          "seq": 684,
+          "path": "/home/u/proj/src/wattage/sessionize.py"
+        }
+      ],
+      "usageRows": {
+        "count": 228,
+        "attempts": 228,
+        "billedAttempts": 228,
+        "inherited": 0,
+        "incomplete": 6
+      },
+      "usageTotals": {
+        "input": 456,
+        "cacheRead": 84585893,
+        "cacheWrite5m": 500983,
+        "cacheWrite1h": 1596622,
+        "cacheWriteOther": 0,
+        "output": 264894,
+        "thinking": 96845,
+        "calls": 228,
+        "byModel": {
+          "claude-fable-5": {
+            "input": 456,
+            "cacheRead": 84585893,
+            "cacheWrite5m": 500983,
+            "cacheWrite1h": 1596622,
+            "cacheWriteOther": 0,
+            "output": 264894,
+            "thinking": 96845,
+            "calls": 228,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {
+          "tool_reference": 11,
+          "image": 2
+        },
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 8,
+        "reorderedEvents": 7,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 1,
+        "localCommandPrompts": 2,
+        "incompleteMessages": 6,
+        "bashWithoutToolUseResult": 19,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 2,
+          "workflow": 3,
+          "unlinked": 0,
+          "missing": 1
+        },
+        "notes": [
+          "1 tool call(s) without a result (no-result)"
+        ],
+        "interimFinals": 2,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {
+          "ultra_effort_enter": 2
+        },
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 1218
+      }
+    }
+  }
+}

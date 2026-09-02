@@ -1,0 +1,9 @@
+{"v":1,"t":"2026-06-20T13:00:00Z","h":"hermes","e":"session-start","sid":"hermes-sess-9","model":"hermes-4"}
+{"v":1,"t":"2026-06-20T13:00:20Z","h":"hermes","e":"tool-post","sid":"hermes-sess-9","tid":"turn-1","cwd":"/home/u/proj","exitSource":"harness","id":"call-1","tool":"terminal","kind":"shell","in":{"command":"make test"},"out":{"text":"OK","bytes":2,"exit":0,"durationMs":800}}
+{"v":1,"t":"2026-06-20T13:00:25Z","h":"hermes","e":"tool-post","sid":"hermes-sess-9","tid":"turn-1","cwd":"/home/u/proj","exitSource":"harness","id":"call-2","tool":"edit_file","kind":"edit","in":{"path":"src/y.py"},"out":{"text":"ok","bytes":2}}
+{"v":1,"t":"2026-06-20T13:00:30Z","h":"hermes","e":"prompt","sid":"hermes-sess-9","tid":"turn-1","text":"run the tests"}
+{"v":1,"t":"2026-06-20T13:00:30Z","h":"hermes","e":"stop","sid":"hermes-sess-9","tid":"turn-1","model":"hermes-4","status":"completed","text":"All tests pass."}
+{"v":1,"t":"2026-06-20T13:00:31Z","h":"hermes","e":"stop","sid":"hermes-sess-9","tid":"turn-1","status":"completed"}
+{"v":1,"t":"2026-06-20T13:01:00Z","h":"hermes","e":"tool-post","sid":"hermes-sess-9","tid":"turn-2","cwd":"/home/u/proj","exitSource":"harness","id":"call-3","tool":"write_file","kind":"write","in":{"path":"src/x.py"},"out":{"text":"ok","bytes":2}}
+{"v":1,"t":"2026-06-20T13:01:10Z","h":"hermes","e":"stop","sid":"hermes-sess-9","tid":"turn-2","status":"interrupted"}
+{"v":1,"t":"2026-06-20T13:01:20Z","h":"hermes","e":"session-end","sid":"hermes-sess-9","reason":"finalize"}

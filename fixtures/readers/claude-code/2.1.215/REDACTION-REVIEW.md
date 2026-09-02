@@ -1,0 +1,525 @@
+# Redaction review — claude-code/2.1.215
+
+Every string kept verbatim by the redaction policy, for the author's eyeball review before commit. Stubs (`<kind:Nb>`) are not listed.
+
+- kept sentences: 357
+- kept output lines: 326
+- commands (skeleton): 104
+- stubs: 39051
+- forbidden-token hits (masked): 107
+- masked hosts: 1
+- mapped branches: 0
+- project roots mapped: 0
+- dropped unparsable lines: 0
+
+## command (100 distinct)
+
+- `DRY=/tmp/claude/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/scratchpad/dryrun && rm -rf $DRY && mkdir -p $DRY && cd ~/Desktop/5BfxLM2X/QZCrQGGl && rsync -a --exclude node_modules --exclude .git --exclude .env --exclude 'evidence/_scratch' . $DRY/ && cd $DRY && npm install --silent 2>&1 | tail -1 && npm test 2>&1 | tail -3` ×1
+- `cat /tmp/claude/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/tasks/9sgrsp8h3.output` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && cat package.json && echo === && ls src/core src/discovery src/replay src/hitl src/policy src/schema src/surface src/catalog src/evidence` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && for f in $(find src apps tests -name "*.ts" | sort); do echo "===== $f ====="; sed -n '1,28p' "$f"; done` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && for f in README.md REPORT.md evidence/README.md; do echo "== $f =="; awk '<str:114b>' "$f"; done` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && git ls-files | head -100 && echo --- && find evidence -type f | head -60 && echo --- && ls apps capabilities policies src tenants tests` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && git remote -v; git status -sb | head -2; grep -c '' REPORT.md; awk '<str:37b>' src/u.ts | head -5` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -c "—" README.md REPORT.md evidence/README.md src/u.ts && grep -rn --include="*.ts" -E "<str:41b>" src apps tests | head` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -n "//" src/u.ts src/cli.ts | grep -vE "https?://" | head -60` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -n "//" src/u.ts | grep -vE "https?://" | head -70` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -nP "<str:94b>" README.md REPORT.md evidence/README.md .env.example src/hitl/terminalOperator.ts | head -20` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -rn --include="*.ts" -E "<str:138b>" src apps tests | grep -vE "^\s*import" | head -60` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -rn --include="*.ts" -E "<str:143b>" src apps tests | head -50` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && grep -rn --include="*.ts" -P "<str:102b>" src apps tests | head -60` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && head -c 3000 evidence/discovery/20260815-225407-02b9/run.jsonl && echo && echo "---transcript head---" && head -c 1500 evidence/discovery/20260815-225407-02b9/transcript.json && echo && echo "---result of error replay---" && cat evidence/replay/20260815-225541-9hma/result.json | head -80` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && ls src/core src/discovery src/replay src/hitl src/policy src/schema src/surface src/catalog src/evidence apps/u 2>/dev/null; cat policies/default.policy.json tenants/demo-u.overlay.json | head -120` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | tail -3; npm run lint 2>&1 | tail -5` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && npm test 2>&1 | tail -25` ×1
+- `cd /home/u/Desktop/5BfxLM2X/QZCrQGGl && rm -rf evidence/replay/20260816-123037-g2l1 evidence/replay/20260816-123048-huju && git status --porcelain && echo CLEAN; pkill -f "apps/u/server.ts" 2>/dev/null; echo ok` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && (u_PORT=4173 npx tsx apps/u/server.ts > /dev/null 2>&1 &) && sleep 2 && curl -s localhost:4173/__health` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && SP=/tmp/claude/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/scratchpad && mv $SP/shot.ts $SP/shot.mts && npx tsx $SP/shot.mts` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && cat evidence/_scratch/replay/20260815-175047-dfk5/run.jsonl | head -6 && ls evidence/_scratch/replay/20260815-175047-dfk5/steps/` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && echo "FrameHint from core:" && grep -rn "core/types" src apps tests | xargs -I{} true; grep -rn "FrameHint" src tests | grep -v "schema/locators" | grep -v "core/types.ts:" ; echo "---spine:" && grep -rn "\.spine()" src tests ; echo "---terminate/currentState:" && grep -rn "terminate()\|currentState()" src tests` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git add -A && git status --short` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git add -A && git status --short | grep -v "<str:35b>" && git status --short | grep -c "^A  evidence/"` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git add -A && git status --short | grep -v evidence/ ; git status --short | grep -c evidence/` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git log --oneline | head -14 && git status -sb | head -2 && ls evidence/replay evidence/discovery` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git mv tenants/tenant-a.overlay.json tenants/demo-u.overlay.json` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git rm -q capabilities/.gitkeep policies/.gitkeep tenants/.gitkeep evidence/discovery/.gitkeep evidence/replay/.gitkeep && (u_PORT=4173 npx tsx apps/u/server.ts > /dev/null 2>&1 &) && sleep 2 && curl -s localhost:4173/__health && git status --short | grep -v "^??" | head` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git status -sb | head -2 && git log --oneline -3 && git remote -v | head -1` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && git status -sb | head -3 && git log --oneline -2 && wc -w README.md REPORT.md evidence/README.md && python3 -c "<str:132b>"` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -c "^## " REPORT.md && grep "^## " REPORT.md && npm test 2>&1 | grep -E "Tests" && git add -A && git status --short && git diff --cached --stat | tail -2` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -n "<str:125b>" src/u.ts | head -40` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -n "<str:52b>" src/u.ts | head` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -n "compileTrace({" src/u.ts && sed -n '<str:52b>' src/u.ts | head -30` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -n "kind:" src/schema/capability.ts | head -12` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -rn "①\|②\|③\|④\|⑤\|⚠" src apps tests README.md REPORT.md evidence/README.md | grep -v _scratch; echo "glyph-scan-done" && git add -A && git status --short | head -30 && gh repo view u/u --json visibility -q .visibility 2>/dev/null` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && ls evidence/discovery evidence/replay && lsof -ti :4173 | xargs kill 2>/dev/null; echo done` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && mkdir -p tests/fixtures && git mv "<str:49b>" tests/fixtures/u.readSavingsBalance.gold.json && grep -rn "<str:38b>" tests/ | cut -d: -f1 | sort -u` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm install 2>&1 | tail -4` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm install @anthropic-ai/sdk@latest 2>&1 | tail -2 && grep -rn "adaptive" node_modules/@anthropic-ai/sdk/resources/messages/messages.d.ts | head -4 && grep -n '"strict"' node_modules/@anthropic-ai/sdk/resources/messages/messages.d.ts | head -2; grep -n "strict" node_modules/@anthropic-ai/sdk/resources/messages/messages.d.ts | head -4` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm ls --depth=0 2>&1 | head -20 && npx playwright install chromium 2>&1 | tail -3` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && git add -A && git status --short` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm run typecheck && git add -A && git status --short` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm run typecheck && git add -A && git status --short && echo --- && head -c 600 evidence/_scratch/replay/*/run.jsonl | head -8` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm run typecheck && npm test 2>&1 | tail -4 && git add -A && git status --short` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm test 2>&1 | tail -25` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm test 2>&1 | tail -5` ×2
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm test 2>&1 | tail -6` ×2
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run lint && npm test 2>&1 | tail -8` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && git add -A && git status --short` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npm test 2>&1 | tail -4 && echo "<str:16b>" && git grep -l "<str:6b>" -- . | grep -v ".env.example"; grep -rl "<str:14b>" evidence/ | grep -v _scratch; echo "scan-clean" && git add -A && git status --short | awk '{print $1}' | sort | uniq -c` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npm test 2>&1 | tail -4 && git check-ignore .env && git grep -l "<str:6b>" -- . | grep -v ".env.example" ; echo "<str:16b>"` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npm test 2>&1 | tail -4 && lsof -ti :4173 | xargs kill 2>/dev/null; git add -A && git status --short | head -30` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npm test 2>&1 | tail -5` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npm test 2>&1 | tail -6` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npm test 2>&1 | tail -8` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm run lint && npx vitest run tests/catalog.test.ts 2>&1 | tail -4` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm test 2>&1 | grep -E "Tests|FAIL|✕" | head -8` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm test 2>&1 | tail -25` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm test 2>&1 | tail -30` ×2
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck && npm test 2>&1 | tail -4` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | head -10 && npx tsx src/cli.ts hash capabilities/u@example.com && npx tsx src/cli.ts validate capabilities/u@example.com && rm evidence/_scratch/probe*.mts` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | head -15 && npm test 2>&1 | tail -4` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | head -15 && npx tsx src/cli.ts hash capabilities/u@example.com && npx tsx src/cli.ts validate capabilities/u@example.com` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | head -20` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | head -20 && npx tsx src/cli.ts hash capabilities/u@example.com && npx tsx src/cli.ts validate capabilities/u@example.com` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm run typecheck 2>&1 | head -30` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm test 2>&1 | grep -B2 -A18 "FAIL\|✕" | head -50` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && npm test 2>&1 | tail -8` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && python3 -c "<str:119b>" && (u_PORT=4173 npx tsx apps/u/server.ts > /dev/null 2>&1 &) && sleep 2 && curl -s localhost:4173/__health` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && python3 -c "<str:173b>"` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && python3 -c "<str:237b>"` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && rm -rf evidence/replay/20260815-191141-0pia evidence/replay/20260815-191315-kgjc evidence/replay/20260815-191334-lu3n && ls evidence/replay && git status --short evidence/ | head -5` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && sed -i '' "<str:104b>" tests/overlay.test.ts tests/replay.integration.test.ts tests/schema.test.ts && npm run typecheck && npm run lint 2>&1 | tail -5` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && sed -n '1,30p' evidence/README.md | head -14 && echo "..." && grep -n "<str:63b>" README.md | wc -l` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && sed -n '1,40p' src/surface/web/elementMap.ts | head -5` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && sed -n '1,60p' src/u.ts | grep -n "import"` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && sed -n 175,230p src/u.ts` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && tail -4 evidence/replay/20260815-184355-7ttn/run.jsonl | cut -c1-400` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && u_USER=u u_PASS=<str:0b>'<str:9b>' npx tsx src/cli.ts replay --capability capabilities/u@example.com --param u=99999 --allow-draft 2>&1 | grep -E 'BUSINESS_OUTCOME|outcome:|"code"' | head -4` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && wc -w REPORT.md` ×2
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl && wc -w REPORT.md && grep -o "<str:54b>" REPORT.md | sort | uniq -c` ×1
+- `cd ~/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/discovery/zxpC95Pq && ls && echo --- && wc -l run.jsonl && grep -c '"type":"tool_use"' run.jsonl && ls steps | head -4 && echo "<str:46b>" && grep -o '"type":"[a-z_]*"' run.jsonl | sort | uniq -c | sort -rn && echo --- && grep -i "<str:8b>" run.jsonl transcript.json | wc -l` ×1
+- `find /home/u/Desktop/5BfxLM2X/QZCrQGGl -type f \( -name "*.ts" -o -name "*.md" -o -name "*.json" -o -name ".env.example" \) -not -path "*/node_modules/*" -not -path "*/.git/*" | head -80` ×1
+- `grep -c "dimension" /tmp/claude/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/tasks/wf8bdijy4.output; head -c 400 /tmp/claude/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/tasks/wf8bdijy4.output` ×1
+- `grep -rn "<str:61b>" /home/u/Desktop/5BfxLM2X/QZCrQGGl --include="*.json" --include="*.jsonl" --include="*.md" -l | head -30` ×1
+- `ls "<str:47b>"` ×1
+- `ls "<str:47b>" && ls "<str:70b>"` ×1
+- `ls -la "<str:47b>" && mdls -name kMDItemNumberOfPages "<str:98b>" 2>/dev/null` ×1
+- `ls -la /home/u/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/ /home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/ 2>&1` ×1
+- `ls /home/u/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/discovery/ /home/u/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/vwJQPHxS/ && echo --- && wc -w /home/u/Desktop/5BfxLM2X/QZCrQGGl/sLQIKTGC.md` ×1
+- `ls ~/t8Jx0HFD/xDWt90ip/3k5Zn399/ | grep -i chromium; cd ~/Desktop/5BfxLM2X/QZCrQGGl && touch capabilities/.gitkeep policies/.gitkeep tenants/.gitkeep evidence/discovery/.gitkeep evidence/replay/.gitkeep && npm run typecheck && git status --short | head -20` ×1
+- `mkdir -p ~/Desktop/5BfxLM2X/QZCrQGGl && cd ~/Desktop/5BfxLM2X/QZCrQGGl && git init -b main && mkdir -p apps/u/{routes,views,data} src/{core,schema,surface/web,policy,discovery,replay,hitl,evidence,catalog} tests capabilities policies tenants evidence/{discovery,replay}` ×1
+- `node --version 2>/dev/null; npm --version 2>/dev/null; pnpm --version 2>/dev/null; python3 --version 2>/dev/null; git --version; echo "---"; [ -n "<str:18b>" ] && echo "<str:22b>" || echo "<str:26b>"; [ -n "<str:15b>" ] && echo "<str:19b>" || echo "<str:23b>"; echo "---"; gh auth status 2>&1 | head -5` ×1
+- `npm view @anthropic-ai/sdk version && npm view @anthropic-ai/sdk@latest version 2>/dev/null; cd ~/Desktop/5BfxLM2X/QZCrQGGl && grep -rn "adaptive" node_modules/@anthropic-ai/sdk/resources/messages/messages.d.ts | head -5` ×1
+- `python3 - <<'EOF'\n<heredoc:212b>\nEOF` ×1
+- `sed -n 1,20p "<str:120b>"` ×1
+- `sleep 45 && ls -t ~/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/discovery/ | head -2 && tail -3 ~/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/discovery/EZjAFEbA -t ~/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/discovery/ | head -1)/run.jsonl 2>/dev/null | cut -c1-220` ×1
+- `which ant && ant auth status 2>&1 | head -10 || echo "ant CLI not installed"` ×1
+
+## output-line (41 distinct)
+
+- `      Tests  1 failed | 34 passed (35)` ×2
+- `      Tests  1 failed | 65 passed (66)` ×2
+- `      Tests  1 failed | 73 passed (74)` ×4
+- `      Tests  1 failed | 87 passed (88)` ×4
+- `      Tests  104 passed (104)` ×6
+- `      Tests  16 passed (16)` ×4
+- `      Tests  35 passed (35)` ×2
+- `      Tests  5 passed (5)` ×2
+- `      Tests  66 passed (66)` ×4
+- `      Tests  74 passed (74)` ×2
+- `      Tests  78 passed (78)` ×2
+- `      Tests  83 passed (83)` ×2
+- `      Tests  88 passed (88)` ×4
+- `      Tests  94 passed (94)` ×6
+- ` Test Files  1 failed | 3 passed (4)` ×2
+- ` Test Files  1 failed | 7 passed (8)` ×2
+- ` Test Files  1 failed | 8 passed (9)` ×4
+- ` Test Files  1 passed (1)` ×2
+- ` Test Files  11 passed (11)` ×2
+- ` Test Files  12 passed (12)` ×2
+- ` Test Files  13 passed (13)` ×2
+- ` Test Files  14 passed (14)` ×4
+- ` Test Files  4 passed (4)` ×2
+- ` Test Files  8 passed (8)` ×2
+- `</persisted-output>` ×1
+- `<persisted-output>` ×1
+- `<tool_use_error>` ×2
+- `Error:` ×4
+- `Error: Blocked:` ×1
+- `Error: Exit code 1` ×10
+- `Error: Exit code 2` ×4
+- `Error: String to replace not found in file` ×1
+- `Exit code 1` ×10
+- `Exit code 2` ×4
+- `Output too large (57.9KB). Full output saved to: /home/u/.claude/projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/tool-results/p3xrlki2v.txt` ×1
+- `Preview (first 2KB):` ×1
+- `Shell cwd was reset to /home/u/proj` ×190
+- `npm notice` ×8
+- `ok` ×10
+- `✖ 1 problem (1 error, 0 warnings)` ×4
+- `✖ 2 problems (2 errors, 0 warnings)` ×4
+
+## sentence (355 distinct)
+
+- `"by construction" x3: keep `​overlay.ts:5`​ (lowercase the caps); `​tests/overlay.test.ts:2`​ and `​REPORT.md:41`​ → drop the phrase, the sentence survives without it.` ×1
+- `"choke point" x6 (`​u.ts:2`​, `​sessionController.ts:12`​, `​README.md:104`​, REPORT.md x2, `​tests/u.test.ts:2`​): keep the u.ts and one REPORT use; README.md:104 → "every action funnels through it".` ×1
+- `(Note: paths assume the assignment repo is created at the current working directory root; if you scaffold a fresh repo elsewhere, the same relative layout applies.)` ×1
+- `(or create it empty on github.com and `​git remote add origin … && git push -u origin main`​)` ×1
+- `**"The seam is proven in practice: the u, u, and policy gate share one Surface implementation without importing the driver."** (Heterogeneity) — This is the one that made me write a margin note.` ×1
+- `**"X, not Y" reversal cluster in test names (5 titles share one cadence)**` ×1
+- `**A design win found during evidence generation**: the discovered artifact failed the timeout scenario — *correctly*, because it honestly ships `​recoveries: []`​ (the LLM never observed a timeout).` ×1
+- `**Adversarial-review hardening as commit narrative** (`​68c9069`​, `​ed36118`​) — the git history itself shows red-teaming discipline.` ×1
+- `**Assisted single-step LLM fallback on replay failure** — design-only (one step, policy-gated, recorded as evidence, proposes an artifact patch rather than silently healing).` ×1
+- `**Both finals are done.** Here's the complete verdict.` ×1
+- `**Canonicalization** (in `​discovery/compile.ts`​, deterministic code, no LLM):` ×1
+- `**Code quality**: typecheck/lint/tests all clean; zero TODO/FIXME in `​src`​/`​apps`​/`​tests`​.` ×1
+- `**Compiler emits a subtly wrong artifact** (missed parameterization → replays only for the recorded u; over-parameterization → corrupts anchors).` ×1
+- `**Correctness of core loop**: real LLM run completes goal; replay verified live; 104 tests incl.` ×1
+- `**Create the public repo and push** (repo name `​u`​ under your account):` ×1
+- `**Deterministic compiler with an audit trail** — `​compile-report.json`​ records every parameterization and pruning decision; "nothing executable comes from the model."` ×1
+- `**Dialog holding** — native `​confirm()`​ dialogs are *held*, surfaced as observed state, and answered only by explicit decision.` ×1
+- `**Dispatch-time irreversibility semantics** — an irreversible action "counts" once dispatched even if its checkpoint fails, `​irreversibleCompleted`​ in every result, and restart-refusal after irreversibility (the double-execution guard) — all tested.` ×1
+- `**Email** `​u@example.com`​ **from the address you applied with**, repo URL on its own line, no zip:` ×1
+- `**Every mutating step has a postcondition.** "Checkpoint" isn't a single final assertion; it's the per-step contract that makes failure reports precise (`​stepId, expected, observed`​).` ×1
+- `**Everything is ready.** The handoff file is at `​~/Desktop/5BfxLM2X/jX0b5H2l.md`​ — deliberately *outside* the repo folder so it can never be committed to your public repository (it contains your candid weakness analysis and u strategy).` ×1
+- `**Failed/escalated results silently dropped their forensics** — `​stepsRun`​/`​recoveriesUsed`​ came back empty exactly when a caller needs them.` ×1
+- `**File:** `​~/Desktop/5BfxLM2X/QZCrQGGl/.env`​ (it doesn't exist yet — you create it)` ×1
+- `**Five new hardening tests** for the previously-untested branches — timeout, exhausted recovery, precondition failure, fail-fast anomaly, and most importantly the **refuse-restart-after-irreversible guard** (the double-execution trap).` ×1
+- `**Fix:** sensitive reads are registered with the redactor the instant they exist and shown to the model *only in masked form* (a value the model never sees is a value it can't echo), and the shipped artifact file itself now passes through the redactor.` ×1
+- `**Flow 2 (risky)**: Open Sub-Account → validated form (min $25 deposit) → review screen with "cannot be undone" warning → confirm → confirmation screen with confirmation number.` ×1
+- `**Generalization**: overlays implemented + exercised, desktop mapping designed.` ×1
+- `**HITL**: token-enforced control transfer at the gate — mechanism, not TODO.` ×1
+- `**Human-action capture**: listeners in every frame record click/change/submit with a structural description of the target — **values are never captured, only their length**.` ×1
+- `**I re-ran discovery (~$0.70)** — the new run compiled cleanly in 15 turns, the balance appears *nowhere* in the new artifact or evidence, and the whole replay evidence set was regenerated against it.` ×1
+- `**Integrity hashing** — canonical-JSON sha256 on artifacts + `​cu hash`​/`​cu validate`​, making silent artifact edits detectable.` ×1
+- `**Intervention requests carry full context**: capability/step/intent, reason, live-state summary, screenshot, suggested resolution, and the legal resolution options — written to evidence as `​intervention-int-01.json`​ etc.` ×1
+- `**It can never leak into the repo**: `​.env`​ is in `​.gitignore`​ (I set that up in M0), so `​git add -A`​ will never pick it up.` ×1
+- `**Judged acceptable and left alone** (defensible, documented): page-global `​textPresent`​ (region scoping named as future work), `​restartRun`​-only re-auth, semver caret 0.x nuance, screenshot redaction, act/record atomicity edge.` ×1
+- `**Local mock u u with fault injection**` ×1
+- `**M0 is complete** — the repo scaffold is validated (typecheck ✅, lint ✅) and everything is staged for your first commit.` ×1
+- `**M1 is complete and validated** — lint ✅, typecheck ✅, all **16 smoke tests green**, and I visually verified the rendered app via Playwright screenshots (proper 90s-enterprise look, working three-frame frameset, balance in a plain table cell).` ×1
+- `**M2 is complete and validated** — lint ✅, typecheck ✅, **35/35 tests green** (7 resolver, 9 gate, 3 browser-integration, plus the 16 M1 smoke tests).` ×1
+- `**M3 is complete — the centerpiece is real and validated.** Lint ✅, typecheck ✅, **66/66 tests**, plus the actual u demo command verified end-to-end via the CLI.` ×1
+- `**M4 is complete — the heart of the assignment is real.** 78/78 tests, and the mandated evidence exists: a genuine LLM-driven discovery run, recorded, compiled, and proven to generalize.` ×1
+- `**M4 — u + compiler (1–1.5 days).** Tool-use loop, recorder, deterministic compiler.` ×1
+- `**M5 is complete and validated** — typecheck ✅, lint ✅, **83/83 tests**, including five HITL scenarios that all passed on the first full run.` ×1
+- `**M5 — HITL (1–1.5 days).** Controller, intervention, capture, resume verification.` ×1
+- `**M6 is complete — the project is finished and submission-ready.** Final state: **88/88 tests**, lint ✅, typecheck ✅, no secrets in the tree, and a fresh-checkout dry run that installed, passed all tests, and ran the demo path exactly as the README describes.` ×1
+- `**MET — byte-verified**` ×1
+- `**MET — executed verbatim**` ×1
+- `**New artifact**: `​u@example.com`​ — the risky flow, `​maxRisk: irreversible`​, with the `​u_AUTH_REQUIRED`​ escalate-recovery and a `​VALIDATION_REJECTED`​ business outcome.` ×1
+- `**Numbers added** (the REPORT had zero): one concrete sentence — 15-turn `​claude-opus-4-8`​ run, ~130k tokens, under $1, 9-step artifact, sub-3-second replay — with a direct path into the evidence.` ×1
+- `**One optional upgrade you can do in 2 minutes**: the scripted HITL evidence shows `​heldForMs: 5`​ — visibly synthetic.` ×1
+- `**Operator surface = the already-headed browser window + a terminal prompt** (readline).` ×1
+- `**Pre-check:** evaluate `​step.pre`​; on failure, run the global recovery scan once (maybe a timeout page landed between steps) — if a recovery matches, run it and re-check; else fail `​PRECONDITION_FAILED`​.` ×1
+- `**Prompt A** (in the handoff, §11): first message of your new prep thread — has Claude read the handoff, the PDF, and verify against the actual repo, then stop.` ×1
+- `**REPORT § Architecture** — add one numbers-and-provenance sentence at the end: "The shipped artifact came from a single 15-turn claude-opus-4-8 discovery run (< $1; `​evidence/discovery/20260815-225407-02b9/`​); u of it completes in ~Ns."` ×1
+- `**REPORT § Heterogeneity** — replace "The seam is proven in practice: the u, u, and policy gate share one Surface implementation without importing the driver."` ×1
+- `**Replay interpreter with resolution ladder + ambiguity rejection**` ×1
+- `**Resolve target** via the ladder → `​TARGET_NOT_FOUND`​ / `​TARGET_AMBIGUOUS`​ with the candidate list in `​observed`​.` ×1
+- `**Robustness & error handling**: strict classification priority (outcome > recovery > anomaly > timeout), nine named failure classes, no-guess ambiguity refusal, condition-based waits.` ×1
+- `**Safety & data handling**: redaction verified in the actual evidence bytes.` ×1
+- `**Second tenant variant app** — cut; overlay *mechanism* is implemented and unit-tested, the second skin isn't built.` ×1
+- `**Section 3 core requirements**: all seven subsections trace to specific files, tests, and evidence runs.` ×1
+- `**Section 6 mechanics**: REPORT headings byte-match, README commands verified by execution, no secrets in tracked files, git history clean and single-authored under your name matching your application email, and I confirmed the repo is **PUBLIC**.` ×1
+- `**Send it from the exact email address you applied with** — the brief calls this out specifically.` ×1
+- `**Seven deterministic faults** via test-harness endpoints (`​POST /__faults`​, `​POST /__reset`​ — which the automation policy will *never* allowlist): session timeout, permission denied, interstitial notice, native `​confirm()`​ dialog, duplicate Search button (ambiguity trap), slow load, hard 500.` ×1
+- `**Step 2 — commit** (the approve rewrites the file, so re-stage first):` ×1
+- `**System design**: import-graph-enforced boundaries (verified: no discovery↔replay imports; Playwright confined to surface+hitl); REPORT §Architecture.` ×1
+- `**Taken fully (1): Agent-facing capability interface** — `​src/catalog/catalog.ts`​, `​cu catalog --invoke <name> --param ...`​, labeled "(stretch goal)" in README, invoked in evidence-reproducible demo, tested (`​tests/catalog.test.ts`​).` ×1
+- `**Terminal editor:** `​nano ~/Desktop/5BfxLM2X/QZCrQGGl/.env`​ (edit, then Ctrl+O, Enter to save, Ctrl+X to exit)` ×1
+- `**TextEdit:** `​open -e ~/Desktop/5BfxLM2X/QZCrQGGl/.env`​` ×1
+- `**That said** — if you'd like a demo-friendly knob, there's a legitimate, common pattern: a `​--slow-mo <ms>`​ flag that passes Playwright's `​slowMo`​ through to the browser launch, so `​--headed --slow-mo 500`​ plays the flow at human-watchable speed.` ×1
+- `**The acceptance criteria — both green:**` ×1
+- `**The big one — read-value PII leaked past redaction.** The redactor only knew about *params*; values the agent **read off the page** bypassed it.` ×1
+- `**The committed HITL evidence is scripted, and the risky flow was never discovered.** `​qcc7`​'s interventions were resolved by a scripted operator (`​heldForMs: 5`​ and `​45`​ — visibly synthetic to anyone reading `​result.json`​), and `​u.openSubAccount`​ is hand-authored, not LLM-discovered (Cuts 4).` ×1
+- `**The one true blocker — `​irreversibleCompleted`​ had a hole in its own guarantee.** It was set when a step's checkpoint *confirmed*, not when the action *dispatched*.` ×1
+- `**Then send the email** to `​u@example.com`​ — from the address you applied with, repo URL on its own line, no attachments:` ×1
+- `**Toolchain trap**: the CLI (tsx) silently broke the in-page walker — esbuild's `​keepNames`​ injected a `​__name`​ helper into the serialized closure that doesn't exist in the browser.` ×1
+- `**Top 5 highest-leverage edits:**` ×1
+- `**VS Code (if installed):** `​code ~/Desktop/5BfxLM2X/QZCrQGGl/.env`​` ×1
+- `**What lands:** The four-numbered summary is the right move — I know the whole system shape before scrolling.` ×1
+- `**Where to get the key**: [console.anthropic.com](https://host-1.example/) → API Keys → Create Key.` ×1
+- `**Why fast is the point.** The entire thesis of the assignment is: the LLM figures the flow out *once* (slow, expensive, ~15 turns, $0.68), and then production invocations replay it *deterministically* — no model, no reasoning, just resolve-act-verify.` ×1
+- `**Why the u won't miss anything.** They're engineers reading a u, and their own document says they care about the artifact schema, error taxonomy, escalation model, and evidence — not visual spectacle.` ×1
+- `**Zod-validated capability artifact with locator stacks, checkpoints, detectors**` ×1
+- `**evidence/** — delete or index `​_scratch/`​, and in the escalation row replace "(notes in the records say so)" with a concrete field name in `​intervention-int-01.json`​ or nothing.` ×1
+- `*Architecture, bullet 1:* "For ARIA-free legacy markup this is precisely what the browser's accessibility tree would contain; computing it in one pass adds the anchors and geometry we need without brittle AX-node→DOM joins across framesets."` ×1
+- `*Architecture, bullet 3:* "— the brief's through-line expressed as a dependency rule" — telling me you followed my brief is not information.` ×1
+- `*Determinism:* "Every result — failures and escalations included, which is exactly when a caller needs forensics — carries…" → "Every result, including failures and escalations, carries…".` ×1
+- `*I could not verify from here that the GitHub repo's visibility is set to Public — worth a 10-second check before emailing.*` ×1
+- `*Mitigation:* hard milestone gates — M3's five validations are the "must ship" core; risky flow enters only at M5/M6 as the escalation vehicle; catalog and second-tenant skin are cut first; every cut pre-drafted in REPORT §Cuts (see §8) so cutting is a documentation edit, not a scramble.` ×1
+- `*Mitigation:* value-matching restricted to declared param values and URL path segments; gold-artifact diff in M4; acceptance test = compiled artifact replayed with a *different* u than recorded.` ×1
+- `*Validate:* a throwaway hardcoded script (not an artifact yet) completes the lookup flow purely through `​Surface`​+gate; unit tests: resolver ambiguity rejection, gate deny (off-origin, disallowed action).` ×1
+- `*Validate:* clean-clone run-through of the README on a fresh machine; every §3 requirement traceable to a file or evidence artifact.` ×1
+- `*Validate:* manual click-through of both flows and every fault; `​npm run mock`​ documented.` ×1
+- `*Validate:* real LLM run completes the goal; compiled artifact validates against Zod, diffs sanely against the hand-authored gold artifact, and **replays green through the M3 engine**.` ×1
+- `*Validate:* the §4.2 demo scenario end to end, evidence captured; unit test: gate rejects agent action while `​holder=human`​.` ×1
+- `3.5 Evidence / observability — **MET.** Every run writes `​run.jsonl`​ (action + intent + gate decision + timing), per-step PNGs; richer failure signal = failure screenshot (`​9hma/steps/007-failure.png`​) plus expected/observed forensics.` ×1
+- `43 edits total; 104/104 tests still green after all of it.` ×1
+- `5 new tests.` ×1
+- `94/94 tests, lint/typecheck clean, secret scan clean.` ×1
+- `A `​restartRun`​ recovery is refused if any completed step was irreversible.` ×1
+- `A desktop UIA surface implements `​activate`​ as `​Invoke()`​; web implements it as click.` ×1
+- `A fresh thread loading `​HANDOFF.md`​ + the live repo gets **curated, verified, current** context in a few thousand tokens — strictly more reliable and far cheaper.` ×1
+- `A headed browser opens and drives itself; the terminal will stop you twice — type `​approve`​ for the confirm, then enter PIN `​7391`​ in the browser window and type `​resume`​.` ×1
+- `A one-line statement of how many steps the compiled artifact has and typical replay duration — I will otherwise have to open the JSON to gauge scale.` ×1
+- `A remote console would implement the same `​Operator`​ interface; that's the documented seam.` ×1
+- `Actually interacts with real UI; bias toward no-clean-DOM` ×1
+- `Add one ordering insight: **build the u before the u**, against a hand-authored artifact.` ×1
+- `After it completes, do the final sanity pass before emailing:` ×1
+- `After that push, this submission has been adversarially reviewed **three times** — codebase, documentation, and the hardening itself — with every surviving finding either fixed and tested or explicitly owned as a documented limit.` ×1
+- `After the operator resumes, the engine simply re-enters its classification loop — **the step's own postcondition verifies the human's work**.` ×1
+- `Agent-facing capability interface — implemented fully.** This was the natural pick because it completes the brief's through-line (the artifact as something an AI agent *invokes*).` ×1
+- `All of that is in the code, tests, and REPORT where they'll actually look.` ×1
+- `All three documents read; evidence/ and capabilities/ listings verified against the index.` ×1
+- `All verification below was done against the live repo: **104/104 tests pass (17.7s), `​tsc --noEmit`​ clean, `​eslint .`​ clean**, and the README demo commands were executed verbatim and behaved exactly as documented.` ×1
+- `Already clean` ×1
+- `Also change the opener "Deliberate, each with a designed seam:" → "All cut knowingly; each leaves a seam:".` ×1
+- `Also fixed en route: the compiler was persisting raw recorded row text (u name, DOB) into snapshot fields — a PII-in-artifact violation the new test caught.` ×1
+- `Also note this header near-duplicates `​src/schema/capability.ts:7-9`​ ("…so replay can never misreport it as a crash"); one of the two should carry the argument, the other just point at it.` ×1
+- `Also worth saying: the *complexity* they want isn't visual either — it's the frameset-hostile target, the ambiguity refusal, the outcome-vs-recovery-vs-failure taxonomy, the overlay mechanism.` ×1
+- `And `​npm test`​ re-proves on *their* machine that the discovered artifact replays for a different u — no API key needed, because the LLM's job is already done.` ×1
+- `And the evidence log provably contains `​«secret:password»`​, never `​u!`​.` ×1
+- `And when you're ready to prep for the conversation this email should earn you, say the word and I'll build the deep-dive walkthrough: how every piece works, why every decision went the way it did, and strong answers for the three places we know they'll probe.` ×1
+- `Any workspace is fine; the discovery run will cost well under a dollar.` ×1
+- `Assisted fallback touches the u's core control flow — implement only if everything else is done and evidenced; otherwise design-only in Cuts.` ×1
+- `Audit complete.` ×2
+- `Believability dings: the `​_scratch`​ directory (above), and the last sentence of the escalation row ("notes in the records say so") is weak self-attestation — either the record proves it or don't mention it.` ×1
+- `Below are the 25 highest-impact edits, then pattern-level notes, then clean files.` ×1
+- `Both are disclosed, and the interactive `​--hitl`​ path is real and tested — but the marquee escalation criterion is evidenced one step removed from "a human actually did it," on an artifact the model never produced.` ×1
+- `Build day itself: plan mode first (cheap, high value), then milestone execution.` ×1
+- `Build day: new thread, definitively` ×1
+- `Build the element map from CDP `​Accessibility.getFullAXTree`​ merged with DOM-derived text/geometry per frame (legacy table markup has almost no ARIA roles — the a11y tree alone will be sparse; you need the merge).` ×1
+- `But it surfaced **one genuine safety defect, three real engineering weaknesses, and six documentation inaccuracies** — all now fixed, tested, and re-evidenced.` ×1
+- `Catalog is cheap (you already have Zod schemas → generate tool definitions → one demo invocation) and directly demonstrates the "agent-invocable capability" through-line.` ×1
+- `Change the REPORT copy → "rather than being hammered by retries."` ×1
+- `Check `​/usage`​ for your reset date — if your window resets before Thursday, this is all moot; if not, protect ~35–40% for build day.` ×1
+- `Commit history tells the build story in nine clean commits.` ×1
+- `Compress to one clause and let Cuts item 8 (which already covers it) carry the detail.` ×1
+- `Confirm it exists with:` ×1
+- `Confirmed — your local `​main`​ is exactly **1 commit ahead** of GitHub (the final M6 commit).` ×1
+- `Control token in `​SessionController`​; `​u.ts:79-81`​ denies `​NOT_IN_CONTROL`​ — the invariant is enforced at the same choke point as the allowlist, and there's a dedicated lockout test` ×1
+- `Critical Files for Implementation` ×1
+- `Cut the whole sentence; the preceding one already defines Observation.` ×1
+- `Delete it or index it.` ×1
+- `Delete the blockquote; the numbered list above it already says all three things.` ×1
+- `Deliberate cuts (pre-written for REPORT.md §7)` ×1
+- `Dependencies installed: Playwright 1.62 (headed Chromium downloaded — needed later for the human-takeover demo), Anthropic SDK, Zod 4, Express 5 + EJS` ×1
+- `Design argument for REPORT.md: patches are **additive and narrow by construction** — an overlay can re-rank locators and extend tolerance but cannot change actions, params, outputs, or risk classes, so a tenant override can never silently change what a capability *does*.` ×1
+- `Detect runtime errors; three-way distinction (business outcome / recoverable / hard failure) in the **result contract**` ×1
+- `Deterministic compiler `​src/discovery/compile.ts`​ (+ `​compile-report.json`​ listing every parameterization/pruning decision); output `​capabilities/u@example.com`​; schema `​src/schema/capability.ts`​ (Zod)` ×1
+- `Don't commit them — the curated set in `​evidence/README.md`​ is what the u are meant to read.` ×1
+- `Engine (`​src/u.ts`​): first ladder strategy with exactly one confident candidate wins; near-ties are hard `​TARGET_AMBIGUOUS`​ refusals; postconditions polled (no fixed sleeps); `​result.json`​ carries `​outputs`​` ×1
+- `Every finding goes through an adversarial verifier before it reaches you.` ×1
+- `Everything confirmed is now fixed: **104/104 tests**, lint/typecheck clean, and both shipped artifacts still validate against the *tightened* schema.` ×1
+- `Everything is staged.` ×1
+- `Fallback: keep the hand-authored artifact as the primary demo and present the compiled one alongside — legitimate, but only if the discovery run itself is real and evidenced.` ×1
+- `Fixed by committing navigation early and racing load-completion against dialog-detection — exactly the kind of failure a real banking interstitial would cause.` ×1
+- `Fixed via shared run state; the shipped ambiguity-failure evidence now shows s1–s5 completed before the refusal.` ×1
+- `For every "watchable" need, something better already exists:` ×1
+- `Four distinct: business outcome (`​3o15`​), recoverable timeout (`​ipwa`​), hard failure with forensics (`​9hma`​), escalation (`​qcc7`​)` ×1
+- `Fresh git repo (branch `​main`​) with the full folder skeleton from the plan` ×1
+- `Here is the implementation plan.` ×1
+- `Here's the email — short, per their instructions (URL on its own line, sent from the address you applied with, no attachments):` ×1
+- `I read every header, all inline comments, and all four prose docs, and ran pattern sweeps for the specific tells.` ×1
+- `I'll finalize it alongside the audit results, apply everything in one pass, re-run the suite, and give you the full checkbox verdict with the final commit.` ×1
+- `I'll synthesize the results with my own judgment on top — including anything I believe should change before you send the email — as soon as the fleet reports back.` ×1
+- `I'm now waiting on the independent architecture-review agent (it's reading the PDF and stress-testing the artifact schema, error taxonomy, and control-transfer design).` ×1
+- `If that's `​u@example.com`​, you're set (it matches your git commits, which is a nice consistency signal).` ×1
+- `If you *want* to watch it work, add `​--headed`​:` ×1
+- `Implementation Plan: u System (u u)` ×1
+- `Instead of papering over it, the timeout evidence now runs through the **`​demo-u`​ tenant overlay** which adds the recovery via `​addRecovery`​ — so the overlay mechanism went from unit-tested to demonstrated live, and the REPORT explains why that separation is a feature.` ×1
+- `It costs almost nothing and converts the multi-tenant section of REPORT.md from prose into "here is the mechanism, tested."` ×1
+- `It demonstrates immediately that the error scenarios in our evidence aren't staged screenshots — they're reproducible on their machine.` ×1
+- `It would mean one more small commit and push before you email.` ×1
+- `It's a ~10-line change, honest (it changes pacing, not behavior), and I'd document it in the README as a demo aid.` ×1
+- `It's ready to send, and honestly, the review-fix history is now part of what makes it impressive.` ×1
+- `Its checkpoints were *mined from observed state deltas*, not written by the model.` ×1
+- `Keep (verified real ID)` ×1
+- `Keep only the successful spine: the recorder marks actions; the compiler drops steps the agent explicitly retracted (via a `​revise`​ tool) and dead-end navigations that were followed by a back-out.` ×1
+- `Last 10-second check before sending: open the repo link in an incognito/private browser window to confirm it renders logged-out (README with the diagram, REPORT.md, evidence folders visible).` ×1
+- `Lines 14–28: install, `​npx playwright install chromium`​, `​.env`​ needed only for discovery, everything else offline` ×1
+- `Local mock only; demo creds `​u/u!`​ labeled fake in `​.env.example`​` ×1
+- `Meta: nearly every src header opens "The <Thing>:" (`​compile.ts`​, `​recorder.ts`​, `​agent.ts`​, `​tools.ts`​, `​u.ts`​, `​sessionController.ts`​, `​capability.ts`​, `​conditions.ts`​, `​result.ts`​, `​surface.ts`​, `​catalog.ts`​).` ×1
+- `Milestones with validation gates` ×1
+- `Minor: README says "94 tests" twice but never says how long they take; "runs in Ns" is a cheap trust-builder.` ×1
+- `Native dialogs: register Playwright's `​dialog`​ handler at session start to *hold* the dialog and surface it into the next `​Observation`​ as `​dialogOpen`​ — never auto-accept (auto-accepting a confirm() in a banking app is exactly the wrong default; say so in REPORT.md).` ×1
+- `Next: brand/rename variant of the mock + one overlay demo run.` ×1
+- `Not much yet by design — but the commit history already starts telling the right story: the *first* thing committed is the surface-agnostic vocabulary, which signals the architecture was designed before code was piled up.` ×1
+- `Not verifiable from repo` ×1
+- `Nothing above it imports Playwright; a desktop driver would implement the same five methods.` ×1
+- `Now irreversible actions count **the moment they leave the gate**, with a test proving a dispatched-then-timed-out confirm still reports `​irreversibleCompleted: true`​.` ×1
+- `One addition not in your leanings: implement the **tenant overlay merge** as a ~40-line pure function (`​applyOverlay(base, overlay)`​) with unit tests, even if you never build a second tenant skin.` ×1
+- `One hygiene note on the form: the legal-name/DOB ask is normal for airline booking (TSA Secure Flight requires it), but since you spoke to u today, just confirm the email's sender domain is `​u`​ and the form link goes somewhere plausibly theirs before entering it.` ×1
+- `One judgment call vs. the original plan wording: I compute the a11y semantics in-page rather than joining CDP AX-tree node IDs to DOM geometry — for ARIA-free legacy markup the AX tree *is* this implicit mapping, and the single pass avoids fragile cross-API joins across framesets.` ×1
+- `One verification vocabulary for machine and human actions alike; no bespoke resume logic.` ×1
+- `Only `​.env.example`​ (with placeholders) is committed.` ×1
+- `Only findings that survive verification will reach you, ranked by severity.` ×1
+- `Only remaining human action: confirm GitHub visibility = Public, then email the repo URL on its own line to u@example.com (no zip).` ×1
+- `Ordered locator ladders (`​roleName`​→`​labelText`​→`​textAnchor`​→`​tableCell`​→surface-tagged `​structural`​); reasoning in REPORT §Artifact schema; `​snapshot`​ (text context, bbox, screenshot ref) kept as review evidence, never used for resolution` ×1
+- `Ordering rationale to defend: replay-before-discovery de-risks the graded core and gives the compiler a target; HITL after replay because escalation triggers are replay failure classes.` ×1
+- `Overlay/canonicalization work reads as stretch #5 territory but is defensibly the §3.7 core requirement done properly; the second-variant demo was explicitly *not* built (Cuts 3).` ×1
+- `Password field values are structurally never observed.` ×1
+- `Per-step `​risk: read/reversible/irreversible`​; policy modes block/confirm/escalate (default escalate, justified in REPORT §Safety); *dispatch-time* irreversibility semantics + `​irreversibleCompleted`​ flag + refusal to restart after an irreversible step (tested in `​engine.hardening.test.ts`​)` ×1
+- `Playwright drives a deliberately hostile target (`​apps/u`​: framesets, table layout, no test IDs).` ×1
+- `Plus a new contract field: **`​irreversibleCompleted`​** — the retry-safety signal a calling agent needs.` ×1
+- `Plus the CLI: `​cu replay | validate | hash`​.` ×1
+- `Plus two *data-driven* exceptional states that need no fault flag: u-not-found and validation errors.` ×1
+- `Public-ready: **YES** — tests/typecheck/lint clean, no TODO/FIXME, no local absolute paths, no real PII, remote configured and synced.` ×1
+- `README exact demo commands: **YES — executed and matched documented output/exit codes**.` ×1
+- `REPORT.md seven headings byte-match: **YES** (verified via `​grep '^#'`​; exact strings, exact order).` ×1
+- `Ratings and top 5 edits` ×1
+- `Replay deterministically, no LLM in the loop, report success/failure` ×1
+- `Replay is the production path and the graded centerpiece; the u then only has to produce something the already-proven interpreter accepts.` ×1
+- `Replay with 99999 → `​business_outcome u_NOT_FOUND`​, carrying the model-written description to the caller.` ×1
+- `Replay, validate, and the mock app never touch it, which is exactly the "no LLM in the production path" story.` ×1
+- `Resolution ladder (in `​surface/web/locatorResolver.ts`​): try strategies in order against the current `​Observation`​; each yields candidates with a score (exact name = 1.0, contains = 0.8, geometric sanity vs `​snapshot.bboxPct`​ as a ±0.1 modifier only).` ×1
+- `Resume verification is condition evaluation you already built in M3 — reuse, don't invent.` ×1
+- `Right now the REPORT gestures at evidence twice ("the evidence's timeout replay runs through it", "the evidence shows that path working") without ever giving a path.` ×1
+- `Safety's "Limits, honestly:" passage is the honesty I look for and rarely get.` ×1
+- `Same logic applied twice: prep thread now, separate build thread Thursday.` ×1
+- `Save, and you can verify it's set (without printing the whole key) with:` ×1
+- `Say the word and I'll build it.` ×1
+- `Say the word whenever you're ready and I'll build you a structured deep-dive — architecture tour, the "why" behind every load-bearing decision, and the likely u questions with strong answers.` ×1
+- `Search the repo for `​.env`​ — you should only find `​.env.example`​.` ×1
+- `Seed data conspicuously synthetic ("Alexis u", "Jordan u"), deliberately so per comment in `​apps/u/data/seed.ts`​` ×1
+- `Semver with stated patch/minor/major semantics (REPORT), `​provenance`​ block tying artifact to its discovery run + named approval, `​integrity.contentHash`​ (sha256 over canonical JSON), `​cu validate`​ / `​cu hash`​ / `​cu approve`​ CLI verbs` ×1
+- `Send the email whenever you're ready — and the offer stands for the deep-dive walkthrough to prep you for defending it.` ×1
+- `Shrink to: `​/** Evaluates a Condition against an Observation. One u serves postconditions, outcome detectors, recovery triggers, anomaly screens, and success criteria. */`​ and delete the conditions.ts sentence — argue it once, in one place.` ×1
+- `Since you've already pushed the curated evidence set, either leave the new runs uncommitted, or clean them with `​git status`​ → `​git clean -n evidence/`​ (shows what would be deleted) → `​git clean -f evidence/`​ if you want the tree back to exactly what's on GitHub.` ×1
+- `Skip the huge review fleets unless the day allows — a single `​/code-review`​ pass before each demo checkpoint gives most of the value at a fraction of the cost.` ×1
+- `Smaller items (below the top-25 line, worth a pass)` ×1
+- `So an irreversible click whose confirmation screen then failed to load would report "safe to retry" — and worse, a `​restartRun`​ recovery firing in that same window would pass the double-execution guard and re-post the transaction.` ×1
+- `Stable targeting, checkpoint verification, outputs returned` ×1
+- `Stale `​.gitkeep`​s removed; your three local demo runs cleaned out of `​evidence/`​.` ×1
+- `Terminal operator + headed window is the real interactive path (README `​--hitl`​ demo); the *committed* evidence run used a scripted operator through the same `​Operator`​ interface — disclosed in `​evidence/README.md`​` ×1
+- `Tests: `​tests/catalog.test.ts`​ (5 tests)` ×1
+- `That's the honest and defensible position: DOM access is an implementation detail of one surface, not an assumption of the schema.` ×1
+- `The "one error replay" deliverable is exceeded four ways (business outcome, recoverable timeout, hard failure with forensics, escalation).` ×1
+- `The Notes section's second bullet duplicates the README's `​git clean`​ note.` ×1
+- `The README has the full demo path — everything except the discovery run works offline with no API key, and `​evidence/README.md`​ indexes the recorded runs, including the LLM discovery run, an error replay, and a human-in-the-loop escalation on a live session.` ×1
+- `The README renders with the full demo path (if it still shows the short "under construction" stub, the push didn't land — refresh).` ×1
+- `The `​Surface`​ interface, semantic actions, and surface-tagged locator strategies are the seam; REPORT maps each locator strategy to UIA/AX equivalents.` ×1
+- `The `​git clean -fd evidence/`​ note is buried inside the hard-failure code block where it looks like part of that scenario; it belongs once, at the end of Demo path.` ×1
+- `The `​structural`​ variant carrying a `​surface`​ tag is the clean answer to "how does this stay surface-agnostic": a desktop resolver skips strategies tagged for another surface; `​roleName`​, `​labelText`​, `​textAnchor`​, `​tableCell`​ are meaningful in web a11y *and* UIA/AX trees.` ×1
+- `The authorship-voice pass — done, with one boundary` ×1
+- `The blockquote tagline ("The model discovers.` ×1
+- `The brief explicitly permits a local mock and the hostility is real (framesets, tables, no test IDs), but this is the single most attackable choice — be ready to defend why not, say, a public legacy demo site, beyond the (good) reproducibility argument in REPORT §Architecture.` ×1
+- `The centerpiece.** Write `​u@example.com`​ **by hand**; build the interpreter.` ×1
+- `The committed artifact's provenance points back at that run.` ×1
+- `The complete through-line, verifiable on their machine: `​evidence/discovery/`​ holds the real run (JSONL of every model turn + gate decision, 7 screenshots, the redacted transcript, the compile report listing every parameterization).` ×1
+- `The discovery run is executing in the background (the harness will notify me when it completes).` ×1
+- `The engineers who read your code will be in the room watching *how* you work — the plan-first, validate-every-milestone, adversarial-self-review discipline that produced this submission is itself what you're demonstrating.` ×1
+- `The evidence index knows it was "claude-opus-4-8, 15 turns" — the REPORT should own that line with a pointer to `​evidence/discovery/20260815-225407-02b9/`​.` ×1
+- `The five validations (all green, all against the live app)` ×1
+- `The four-way top-level split (success / business_outcome / escalated / failed) maps 1:1 to the brief's required distinctions and makes "no such u is a result, not a crash" structurally impossible to get wrong — `​u_NOT_FOUND`​ cannot be represented as a `​Failure`​.` ×1
+- `The gap between "top decile" and "top of the pile" is entirely editorial: the REPORT needs a 30% haircut, one honesty fix in Heterogeneity, and one sentence of numbers.` ×1
+- `The handoff was written precisely so nothing is lost in that transfer.` ×1
+- `The human works in the literal same page/session — same cookies, same server-side session; nothing to transfer because nothing moves.` ×1
+- `The integration test drives the *entire* lookup flow — sign-in, cross-frame menu navigation, search, opening the u from the results row **anchored by row text**, reading `​$u`​ from the `​REGULAR SAVINGS`​ × `​Balance`​ table cell — using only semantic locators through the gate.` ×1
+- `The old artifact's model-written description literally contained `​Returns savingsBalance (e.g. "$u")`​, and the balance sat raw in the discovery trace and transcript — contradicting our own REPORT, and with real bank data it would be exactly the violation the brief warns about.` ×1
+- `The other lines (`​CU_MODEL`​, `​u_USER`​, `​u_PASS`​, etc.) can stay exactly as they are — the defaults are correct.` ×1
+- `The parenthetical editorializes.` ×1
+- `The plan draft is written.` ×1
+- `The proof it really drove the UI is in the output you just got: all 8 steps `​ok`​, every locator resolved by its primary strategy (`​strategyIndex: 0`​ — the drift telemetry saying "nothing has moved"), and the balance extracted from the live table.` ×1
+- `The review fleet is running — 8 independent reviewers (each with a different adversarial lens, several actually executing the test suite and a full fresh-copy u simulation), and every finding they raise gets handed to a skeptical verifier whose job is to refute it.` ×1
+- `The second half (demonstrating one artifact on a second app variant) was explicitly cut (Cuts item 3), though the overlay mechanism that would carry it is implemented, tested, and exercised live in the timeout-recovery evidence run.` ×1
+- `The single-author illusion breaks in three ways: (a) every file header — including test files — follows the identical "The X: [thesis].` ×1
+- `The strongest genuinely-human-sounding prose in the repo is `​elementMap.ts`​'s "why a string, not a closure" paragraph and `​cli.ts:181-182`​ ("…and only surface after a paid run") — the rest of the repo should sound more like those.` ×1
+- `The table's "What it shows" column is doing reviewer's-eye framing ("a u the discovery run never saw"; "refuses to guess") — that's exactly what an index should do.` ×1
+- `The test proves the u PIN appears nowhere in evidence while the PIN-field change event *is* recorded as `​valueLength: 4`​.` ×1
+- `The token isn't advisory — the u calls `​holder()`​ on *every* action, so while a handoff is open the automation physically cannot act (M2's gate test suddenly earns its keep).` ×1
+- `The traceability auditor read the brief PDF line-by-line against the live repo (and *executed* the README demo commands to confirm they behave exactly as documented).` ×1
+- `The u's complete flow (what they'll see)` ×1
+- `The vulnerabilities are all in the "defend it live" dimension — self-built target, scripted HITL evidence, single-surface proof — and all three are already disclosed in the submission's own prose, which is the right posture for the u.` ×1
+- `Then open `​.env`​ in any editor and replace the placeholder on the first line with your real key:` ×1
+- `They clone, `​npm install && npx playwright install chromium`​, `​npm test`​ → 88 tests prove the whole system on their machine with **no API key** (the LLM's work is already committed as evidence + artifact).` ×1
+- `They open `​evidence/README.md`​ and walk the real discovery run — model turns, gate decisions, screenshots, the redacted transcript, the compile report.` ×1
+- `This also gives the compiler a gold-standard artifact to diff against.` ×1
+- `This edit alone recovers most of the page-budget overshoot.` ×1
+- `This is the stage every later demo runs on.` ×1
+- `This pass is also your best u prep in miniature — you can now truthfully say the submission was adversarially reviewed, that the review found a PII leak in the discovery path, and walk them through exactly how the fix works.` ×1
+- `This surfaced a genuine bug during validation: a dialog firing mid-navigation deadlocked `​goto(waitUntil:'load')`​ forever.` ×1
+- `To be clear about the line I held: nothing in the repo claims the work was built without AI assistance, and I added no such claim — the brief explicitly assumes AI-assisted development and grades you on owning and defending the result.` ×1
+- `To open and edit it, pick whichever you prefer:` ×1
+- `Toolchain: TypeScript 5.9 (strict, with `​noUncheckedIndexedAccess`​ + `​exactOptionalPropertyTypes`​ — the strictest useful config), ESLint 9 flat config, Vitest 3, tsx runner` ×1
+- `Top 25 edits` ×1
+- `Two corrections: (a) make **business outcomes and recoveries first-class top-level sections** of the artifact, not per-step decorations — the result contract is graded as hard as the schema; (b) make canonicalization a **deterministic compiler pass**, not an LLM pass (see §2.4).` ×1
+- `Two nuances worth having ready for the u:` ×1
+- `Two real bugs the validation caught (worth knowing for your defense)` ×1
+- `Use `​thinking: {type: "adaptive"}`​, `​output_config.effort: "high"`​, and **strict tool use** (`​strict: true`​ + `​additionalProperties: false`​) so tool inputs validate exactly — that matters when tool inputs feed a recorder.` ×1
+- `Vary a third of them — e.g. `​recorder.ts:1-5`​ → `​/** Append-only trace of what the agent actually did. The compiler consumes this; nothing in the artifact comes from the model transcript. */`​; `​surface.ts`​ is fine as-is (short, load-bearing).` ×1
+- `Verification` ×2
+- `Verification failure → one more intervention, then `​TERMINATED`​ with `​escalated/aborted`​ result.` ×1
+- `Verified after edits: the seven exact headings intact, 94/94 tests still green, all referenced evidence paths real.` ×1
+- `Verified live: `​npm run cu -- replay --capability ... --param u=12345`​ → success with typed output, no key needed` ×1
+- `Verify Claude Code is signed in and working on that laptop; confirm `​~/Desktop/5BfxLM2X/jX0b5H2l.md`​ and the PDF are on it.` ×1
+- `Waiting on the cold-reader agent's report — once it lands I'll fold its highest-leverage edits together with my trim of REPORT.md into one final documentation revision, re-verify every claim, and hand you the commit.` ×1
+- `Want me to add it?` ×1
+- `What M6 added` ×1
+- `What changed` ×1
+- `When you're done exploring, clean the local demo runs so your tree matches GitHub (`​git clean -f evidence/`​ — after checking with `​git clean -n evidence/`​ first), and you're clear to send the submission email.` ×1
+- `When you're ready for the deep-dive walkthrough to prep your defense, say the word.` ×1
+- `While those two audits run, I'm drafting the one addition I still think earns its place — a compact architecture diagram for the README (the single most-requested thing reviewers skim for and the one visual the repo lacks).` ×1
+- `With no second surface implemented (Cuts item 2 admits desktop is design-only), "proven" is an over-claim in the exact section where I'm probing for over-claims.` ×1
+- `With that pushed, the submission is genuinely done: adversarially reviewed twice (code, then docs), every finding either fixed or explicitly owned in the REPORT's limits.` ×1
+- `Working tree left exactly as found (verified `​git status`​ clean; mock server stopped; demo-created evidence folders removed).` ×1
+- `Writing this first, carefully documented, is deliberate: it's the seam the whole "extends to desktop" story hangs on, and it makes the first commit substantive rather than boilerplate-only.` ×1
+- `Written to `​evidence/.../interventions/<id>.json`​ and rendered to the terminal.` ×1
+- `You can verify anytime with `​git check-ignore .env`​ — it should print `​.env`​.` ×1
+- `You mentioned at the start wanting a **deep end-to-end walkthrough so you can explain and defend every part** (the brief explicitly says you must).` ×1
+- `You should see a Chromium browser flash through the flow (headless by default, so actually no window — just a pause of a few seconds), then:` ×1
+- `You should see both `​.env`​ and `​.env.example`​.` ×1
+- `Your final commit` ×1
+- `Your key never left your machine.` ×1
+- `Your move — commit #1` ×1
+- `Your move — commit #2` ×1
+- `Your move — commit #3` ×1
+- `Your move — commit #4` ×1
+- `Your move — commit #6` ×1
+- `Your move — commit #7` ×1
+- `Your move — final commit` ×1
+- `Your move — the final commit` ×1
+- `Your move — three steps` ×1
+- `Your move — two steps this time` ×1
+- ``​/home/u/proj/src/hitl/sessionController.ts`​ — session ownership, state machine, pause/cede/resume` ×1
+- ``​/home/u/proj/src/policy/u.ts`​ — single choke point: allowlist, risk handling, control token` ×1
+- ``​/home/u/proj/src/schema/capability.ts`​ — the capability artifact Zod schema (evaluation focal point; everything else derives from it)` ×1
+- ``​/home/u/proj/src/surface/web/locatorResolver.ts`​ — strategy ladder, scoring, ambiguity rejection (determinism story lives here)` ×1
+- ``​/home/u/proj/src/u.ts`​ — deterministic interpreter with the detect/classify loop and result contract` ×1
+- ``​InterventionRequest`​: `​{ id, capabilityId | goal, stepId, reason, screenshotRef, observationSummary, suggestedResolution: "complete_step" | "clear_obstacle" | "approve_risky", resumePolicy }`​.` ×1
+- ``​README.md`​ stub that already states the system's thesis` ×1
+- ``​REPORT.md:17`​ — "so conflating it with a failure is structurally impossible" → "so it simply can't be filed as a failure".` ×1
+- ``​evidence/README.md:15,19`​ — "## Discovery (the real LLM run)" + "**The genuine LLM-driven discovery run**" protests too much.` ×1
+- ``​evidence/README.md:30`​ — "① the irreversible confirm paused… ② u authorization escalated" → "first the irreversible confirm paused for approval (`​approve_risky`​), then u authorization escalated (`​human_action_required`​)".` ×1
+- ``​evidence/replay/20260815-225541-9hma/result.json`​: `​failed TARGET_AMBIGUOUS`​ at `​s6`​ with expected, observed (both candidates named), screenshot ref, and full step traces of everything before it` ×1
+- ``​overlay.ts`​ — the tenant merge: overlays can re-rank locators, extend waits, add recoveries, bind `​baseUrl`​ — and the schema gives them **no way** to alter actions, params, outputs, or risk.` ×1
+- ``​params`​ with type, pattern, `​sensitivity: none/internal/pii/secret`​, `​source: caller/env`​; schema **rejects** caller-supplied secrets (`​tests/schema.test.ts`​)` ×1
+- ``​result.ts`​ — the four-way result contract; "no such u" is a different *type* from a failure.` ×1
+- ``​src/hitl/humanCapture.ts:7-10`​ — worst instance, and reviewer-addressed: "Fidelity is deliberately event-level, not keystroke-perfect: the graded requirement is a faithful record of WHAT the human did on WHICH controls, not a replayable macro."` ×1
+- ``​src/hitl/sessionController.ts:17`​ — "Resume verification is deliberately NOT done here:" → "Resume verification lives in the engine, not here:".` ×1
+- ``​src/policy/u.ts`​ (single choke point, checks holder + origin + path + action kind + risk on *every* action, discovery and replay alike), `​policies/default.policy.json`​, `​src/policy/redact.ts`​; `​tests/u.test.ts`​, `​tests/redact.test.ts`​` ×1
+- ``​src/u.ts`​; **verified: `​@anthropic-ai/sdk`​ is imported only in `​src/u.ts`​** and `​src/replay`​/`​src/catalog`​ have zero imports from `​src/discovery`​; six committed replay runs under `​evidence/replay/`​; I re-ran two demo replays live (exit 0)` ×1
+- ``​tests/catalog.test.ts:1`​ — "typed, discoverable, honest about risk" triad → "derived entirely from the artifact's own contract".` ×1
+- ``​tests/replay.integration.test.ts:2`​ — "The M3 acceptance suite:" (milestone label addressed at the grader) → "Gold artifact replayed against the live mock app — no model anywhere.` ×1
+- ``​tests/replay.integration.test.ts:66,84,92,101,114`​ — circled numbers in test names (`​it('① succeeds...')`​ … `​it('⑤ dismisses...')`​).` ×1
+- ``​tests/surface.integration.test.ts:2`​ — "End-to-end proof of the M2 layer:" → "Drives the full u-lookup flow through Surface + u: semantic locators only, across frames, …"` ×1
+- ``​tests/u.test.ts:2`​ and `​tests/locatorResolver.test.ts:2`​ — "The u is the safety story…" / "The locator ladder is the determinism story…" are a matched pair; a dead giveaway.` ×1
+- ``​title`​, `​description`​ — written for two audiences: a human reviewer and a calling agent (the catalog reuses `​description`​ verbatim as the tool description).` ×1
+- ``​value`​ fields never hold raw recorded text when it matched a param (compiler guarantees this).` ×1
+- ``​version: "1.0.0"`​ — semver with stated semantics: **patch** = locator/wait/detector tuning (callers unaffected); **minor** = new optional param, new outcome code, new recovery (callers should re-read the contract); **major** = param/output shape change (callers must migrate).` ×1
+- `hard failure, business outcome, recovery, escalation).` ×1
+- `u **12345 / Alexis u** exists with savings of **$u** — matching the brief's own example goal verbatim.` ×1
+- `x4, "write boundary" x4, "structurally impossible" x3, "by construction" x3, "the moment they exist" x3); (c) non-ASCII flourishes (①-⑤ in test names).` ×1
+- `— implementation justification I didn't ask for, and "precisely" is an unverifiable claim.` ×1
+- `— the exclamation inside an ASCII table is a tell; → "(a result, not a failure)" or just "(a result)".` ×1
+- `→ locatorResolver: "Ladder behavior: ordered fallback, unique-confident match wins, near-ties fail hard, frame filtering, score thresholds."` ×1
+- `④ Bad deposit → `​business_outcome VALIDATION_REJECTED`​ unattended (outcomes before the risky step still work).` ×1
+
+## tag (3 distinct)
+
+- `/auto-mode-setup` ×1
+- `/model` ×1
+- `completed` ×6
+

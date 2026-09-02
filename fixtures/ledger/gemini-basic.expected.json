@@ -1,0 +1,179 @@
+{
+  "fixture": "ledger/gemini-basic",
+  "harness": "gemini",
+  "verified": [
+    "ledgerCoverage:partial (a gap line); stop text preferred over the interim agent-response; unknown tool → other, never a write (§4.4)."
+  ],
+  "session": {
+    "gem-session-0001": {
+      "harness": "gemini",
+      "harnessVersion": null,
+      "harnessVersions": [],
+      "sessionId": "gem-session-0001",
+      "shortId": "34f3861c",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": null,
+      "models": [],
+      "primaryModel": "unknown",
+      "startedAt": "2026-04-10T11:00:00.000Z",
+      "endedAt": "2026-04-10T11:01:20.000Z",
+      "kind": "normal",
+      "records": 10,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "t1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2,
+              "seqEnd": 8
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 0,
+          "usage": {
+            "input": 0,
+            "cacheRead": 0,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 0,
+            "thinking": 0,
+            "calls": 0,
+            "byModel": {}
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "t2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 10,
+              "seqEnd": 10
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 0,
+          "usage": {
+            "input": 0,
+            "cacheRead": 0,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 0,
+            "thinking": 0,
+            "calls": 0,
+            "byModel": {}
+          }
+        }
+      ],
+      "toolCallCount": 5,
+      "toolCallsByKind": {
+        "fetch": 1,
+        "other": 1,
+        "read": 1,
+        "shell": 1,
+        "write": 1
+      },
+      "exitSources": {
+        "parsed": 1,
+        "unknown": 4
+      },
+      "writesTouched": [
+        "src/app.py"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 0,
+        "attempts": 0,
+        "billedAttempts": 0,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 0,
+        "cacheRead": 0,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 0,
+        "output": 0,
+        "thinking": 0,
+        "calls": 0,
+        "byModel": {}
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {
+          "smart_edit": 1
+        },
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 0,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 0,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [
+          "ledger gap at line 9: oversize (300000 bytes)"
+        ],
+        "interimFinals": 1,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 10
+      }
+    }
+  }
+}

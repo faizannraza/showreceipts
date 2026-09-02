@@ -1,0 +1,271 @@
+{
+  "fixture": "codex/shell_command",
+  "harness": "codex",
+  "confidence": "synthetic",
+  "note": "Hand-written (unverified against real data): the 0.148 `shell_command{command, workdir, timeout_ms}` dialect, `apply_patch` through `exec_command` with a heredoc carrying Add/Delete/Update+Move headers, JSON-string outputs, the legacy `shell{command: string[]}` form, one exit -1, a background process back-filled by `write_stdin`, a `\\u0003` interrupt, a truncated output and a sandbox denial.",
+  "source": {
+    "harnessVersion": "0.148.0",
+    "originalLines": 40,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2026-03-01T10:00:00.000Z",
+    "endedAt": "2026-03-01T10:01:02.100Z",
+    "files": {
+      "sessions/2026/03/01/rollout-2026-03-01T10-00-00-019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b.jsonl": 40,
+      "session_index.jsonl": 1
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "codex:args:exec_command:{cmd}",
+    "codex:args:shell:{command,timeout_ms,workdir}",
+    "codex:args:shell_command:{command,timeout_ms,workdir}",
+    "codex:args:write_stdin:{chars,session_id,yield_time_ms}",
+    "codex:call:exec_command",
+    "codex:call:shell",
+    "codex:call:shell_command",
+    "codex:call:write_stdin",
+    "codex:command:array",
+    "codex:event_msg:agent_message",
+    "codex:event_msg:token_count",
+    "codex:event_msg:user_message",
+    "codex:exit:-1",
+    "codex:exit:0",
+    "codex:exit:nonzero",
+    "codex:message:assistant",
+    "codex:output:chunk",
+    "codex:output:failed:shell_command",
+    "codex:output:json",
+    "codex:phase:final_answer",
+    "codex:running",
+    "codex:sandbox-denied",
+    "codex:session_meta",
+    "codex:source:string",
+    "codex:token_count:info",
+    "codex:token_count:nullinfo",
+    "codex:truncated",
+    "codex:turn_context",
+    "codex:write_stdin:interrupt",
+    "file:codex:main",
+    "file:codex:session_index"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)",
+    "note": "synthetic content, written directly in redacted form"
+  },
+  "verified": [
+    "Synthetic 0.148 shell_command dialect: exitCodeSource covers harness, backfilled and unknown (§4.3.3).",
+    "apply_patch via exec_command heredoc with Add/Delete/Update+Move; JSON-string outputs; string[] command wrapper collapse; one -1 terminated; sandbox denial → denied:sandbox-denied (§4.3.3–4.3.4)."
+  ],
+  "session": {
+    "019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b": {
+      "harness": "codex",
+      "harnessVersion": "0.148.0",
+      "harnessVersions": [
+        "0.148.0"
+      ],
+      "sessionId": "019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b",
+      "shortId": "9e0f1a2b",
+      "cwd": "/home/u/proj1",
+      "cwds": [
+        "/home/u/proj1"
+      ],
+      "gitBranch": null,
+      "models": [
+        "gpt-5.6-sol"
+      ],
+      "primaryModel": "gpt-5.6-sol",
+      "startedAt": "2026-03-01T10:00:00.000Z",
+      "endedAt": "2026-03-01T10:01:02.100Z",
+      "kind": "normal",
+      "records": 40,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "t1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2,
+              "seqEnd": 33
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4612,
+            "cacheRead": 12288,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 410,
+            "thinking": 90,
+            "calls": 2,
+            "byModel": {
+              "gpt-5.6-sol": {
+                "input": 4612,
+                "cacheRead": 12288,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 410,
+                "thinking": 90,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "t2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 33,
+              "seqEnd": 39
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 1,
+          "usage": {
+            "input": 1304,
+            "cacheRead": 4096,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 60,
+            "thinking": 10,
+            "calls": 1,
+            "byModel": {
+              "gpt-5.6-sol": {
+                "input": 1304,
+                "cacheRead": 4096,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 0,
+                "cacheWriteOther": 0,
+                "output": 60,
+                "thinking": 10,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 11,
+      "toolCallsByKind": {
+        "other": 2,
+        "shell": 9
+      },
+      "exitSources": {
+        "backfilled": 1,
+        "harness": 8,
+        "parsed": 1,
+        "unknown": 1
+      },
+      "writesTouched": [
+        "/home/u/proj1/src/new_module.py",
+        "/home/u/proj1/src/old_module.py",
+        "/home/u/proj1/src/renamed_to.py"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 0,
+        "attempts": 0,
+        "billedAttempts": 0,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 5916,
+        "cacheRead": 16384,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 0,
+        "output": 470,
+        "thinking": 100,
+        "calls": 3,
+        "byModel": {
+          "gpt-5.6-sol": {
+            "input": 5916,
+            "cacheRead": 16384,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 470,
+            "thinking": 100,
+            "calls": 3,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 3,
+        "input": 22300,
+        "cached": 16384,
+        "output": 470,
+        "reasoning": 100
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 0,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 0,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 40
+      }
+    }
+  }
+}

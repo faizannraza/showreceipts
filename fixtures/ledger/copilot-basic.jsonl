@@ -1,0 +1,6 @@
+{"v":1,"t":"2026-05-12T12:00:00Z","h":"copilot","e":"session-start","sid":"copilot-sess-01","source":"startup"}
+{"v":1,"t":"2026-05-12T12:00:01Z","h":"copilot","e":"prompt","sid":"copilot-sess-01","text":"add a login page"}
+{"v":1,"t":"2026-05-12T12:00:30Z","h":"copilot","e":"tool-post","sid":"copilot-sess-01","cwd":"/home/u/proj","exitSource":"parsed","id":"cp-1","tool":"bash","kind":"shell","in":{"command":"npm run build"},"out":{"text":"build ok (exit code 0)","bytes":22,"exit":0}}
+{"v":1,"t":"2026-05-12T12:00:40Z","h":"copilot","e":"tool-fail","sid":"copilot-sess-01","cwd":"/home/u/proj","exitSource":"parsed","id":"cp-2","tool":"edit","in":{"path":"src/login.ts"},"error":"permission denied","failureType":"permission_denied","durationMs":50,"out":{"exit":1}}
+{"v":1,"t":"2026-05-12T12:01:00Z","h":"copilot","e":"stop","sid":"copilot-sess-01","transcript":"/home/u/.copilot/history/session-1.jsonl"}
+{"v":1,"t":"2026-05-12T12:01:05Z","h":"copilot","e":"session-end","sid":"copilot-sess-01","reason":"exit"}

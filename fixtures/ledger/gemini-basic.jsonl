@@ -1,0 +1,10 @@
+{"v":1,"t":"2026-04-10T11:00:00Z","h":"gemini","e":"session-start","sid":"gem-session-0001","transcript":"/home/u/.gemini/tmp/chat-1.json"}
+{"v":1,"t":"2026-04-10T11:00:20Z","h":"gemini","e":"tool-post","sid":"gem-session-0001","cwd":"/home/u/proj","exitSource":"parsed","id":"g-1","tool":"run_shell_command","kind":"shell","in":{"command":"pytest -q"},"out":{"text":"2 passed","bytes":8,"exit":0}}
+{"v":1,"t":"2026-04-10T11:00:30Z","h":"gemini","e":"tool-post","sid":"gem-session-0001","cwd":"/home/u/proj","id":"g-2","tool":"write_file","kind":"write","in":{"path":"src/app.py"},"out":{"text":"ok","bytes":2}}
+{"v":1,"t":"2026-04-10T11:00:35Z","h":"gemini","e":"tool-post","sid":"gem-session-0001","id":"g-3","tool":"smart_edit","kind":"edit","in":{"path":"notes.txt"},"out":{"text":"ok","bytes":2}}
+{"v":1,"t":"2026-04-10T11:00:40Z","h":"gemini","e":"tool-post","sid":"gem-session-0001","id":"g-4","tool":"google_web_search","kind":"fetch","in":{"url":"https://example.com/docs"},"out":{"text":"fetched","bytes":7}}
+{"v":1,"t":"2026-04-10T11:00:50Z","h":"gemini","e":"agent-response","sid":"gem-session-0001","text":"I updated app.py."}
+{"v":1,"t":"2026-04-10T11:00:55Z","h":"gemini","e":"prompt","sid":"gem-session-0001","text":"fix the bug"}
+{"v":1,"t":"2026-04-10T11:00:55Z","h":"gemini","e":"stop","sid":"gem-session-0001","status":"completed","text":"Fixed the bug and tests pass."}
+{"v":1,"t":"2026-04-10T11:01:10Z","h":"gemini","e":"gap","sid":"gem-session-0001","reason":"oversize","bytes":300000}
+{"v":1,"t":"2026-04-10T11:01:20Z","h":"gemini","e":"tool-post","sid":"gem-session-0001","id":"g-5","tool":"read_file","kind":"read","in":{"path":"README.md"},"out":{"text":"# proj","bytes":6}}

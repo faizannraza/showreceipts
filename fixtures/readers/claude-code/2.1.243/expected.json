@@ -1,0 +1,132 @@
+{
+  "fixture": "claude-code/2.1.243",
+  "harness": "claude-code",
+  "confidence": "real",
+  "verified": [
+    "Header-only remote-control session with 0 assistant lines → kind:no-turns, turns.length===0 (§4.1).",
+    "bridge-session records counted, never parsed as transcripts (Appendix A)."
+  ],
+  "source": {
+    "harnessVersion": "2.1.243",
+    "originalLines": 13,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2026-08-29T21:16:13.259Z",
+    "endedAt": "2026-08-29T21:16:30.125Z",
+    "files": {
+      "projects/-home-u-proj/1f574b70-66e7-4434-96de-1c7d4a0c6fb8.jsonl": 13
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "file:claude-code:main",
+    "record:bridge-session",
+    "record:last-prompt",
+    "record:user",
+    "user:local-command",
+    "user:meta",
+    "user:skill",
+    "version:2.1.243"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "1f574b70-66e7-4434-96de-1c7d4a0c6fb8": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.243",
+      "harnessVersions": [
+        "2.1.243"
+      ],
+      "sessionId": "1f574b70-66e7-4434-96de-1c7d4a0c6fb8",
+      "shortId": "1f574b70",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": null,
+      "models": [],
+      "primaryModel": "unknown",
+      "startedAt": "2026-08-29T21:16:13.258Z",
+      "endedAt": "2026-08-29T21:16:30.125Z",
+      "kind": "no-turns",
+      "records": 13,
+      "turns": [],
+      "toolCallCount": 0,
+      "toolCallsByKind": {},
+      "exitSources": {},
+      "writesTouched": [],
+      "postFinalCalls": 0,
+      "subagents": [],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 0,
+        "attempts": 0,
+        "billedAttempts": 0,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 0,
+        "cacheRead": 0,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 0,
+        "output": 0,
+        "thinking": 0,
+        "calls": 0,
+        "byModel": {}
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 1,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 2,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 13
+      }
+    }
+  }
+}

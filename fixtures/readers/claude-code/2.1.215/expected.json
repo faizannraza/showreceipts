@@ -1,0 +1,1665 @@
+{
+  "fixture": "claude-code/2.1.215",
+  "harness": "claude-code",
+  "confidence": "real",
+  "verified": [
+    "backgroundTaskId results → background:true, exitCode:null until a notification supplies it (§4.2.5 rule d).",
+    "returnCodeInterpretation results → exitCodeSource:interpreted, exitCode:null, interpretation retained (§4.2.5 rule c).",
+    "Notification segment present with a notification finalTrigger (Appendix A: notification-continued turns).",
+    "Async Agent + Workflow subagents (direct + workflow files, §4.2.6)."
+  ],
+  "source": {
+    "harnessVersion": "2.1.215",
+    "originalLines": 2202,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2026-08-15T19:47:15.653Z",
+    "endedAt": "2026-08-18T16:52:35.865Z",
+    "files": {
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53.jsonl": 2202,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a9c2811fcde7a3a3e.jsonl": 16,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a3250b0d6fa1b363b.jsonl": 17,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a119b2e3f20e4bbd4.jsonl": 64,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-ac265e2ced3b22468.jsonl": 56,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-ab5a7f1a6c8c93d4d.jsonl": 4,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-a745f83bd9b0ca85b.jsonl": 4,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-a7f40b81241123f30.jsonl": 9
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "agent:async_launched",
+    "attachment:queued_command",
+    "block:document",
+    "file:claude-code:subagent",
+    "file:claude-code:workflow",
+    "flag:isApiErrorMessage",
+    "input:Bash:run_in_background",
+    "meta:agentType:Plan",
+    "meta:agentType:workflow-subagent",
+    "read:image",
+    "read:pdf",
+    "result:Bash:absent",
+    "result:Bash:{backgroundCwdHint,backgroundTaskId,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Bash:{interrupted,isImage,noOutputExpected,returnCodeInterpretation,stderr,stdout}",
+    "result:Skill:{allowedTools,commandName,success}",
+    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
+    "stop:stop_sequence",
+    "system:informational",
+    "system:local_command",
+    "tool:Agent",
+    "tool:EnterPlanMode",
+    "tool:ExitPlanMode",
+    "tool:Workflow",
+    "user:local-command",
+    "user:notification",
+    "user:skill",
+    "version:2.1.215",
+    "version:2.1.233",
+    "workflow-record:assistant"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "session": {
+    "f150468e-ae67-4d6b-a36d-688ae5025a53": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.233",
+      "harnessVersions": [
+        "2.1.215",
+        "2.1.233"
+      ],
+      "sessionId": "f150468e-ae67-4d6b-a36d-688ae5025a53",
+      "shortId": "f150468e",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": "main",
+      "models": [
+        "claude-fable-5"
+      ],
+      "primaryModel": "claude-fable-5",
+      "startedAt": "2026-08-15T19:47:15.651Z",
+      "endedAt": "2026-08-18T16:52:35.865Z",
+      "kind": "normal",
+      "records": 2372,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "8ae4cecb-42ae-4783-9678-1d149a58c733",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 7,
+              "seqEnd": 91
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 94,
+              "seqEnd": 215
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 1637865,
+          "apiCalls": 34,
+          "usage": {
+            "input": 68,
+            "cacheRead": 7518644,
+            "cacheWrite5m": 246187,
+            "cacheWrite1h": 303857,
+            "cacheWriteOther": 0,
+            "output": 48697,
+            "thinking": 0,
+            "calls": 34,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 68,
+                "cacheRead": 7518644,
+                "cacheWrite5m": 246187,
+                "cacheWrite1h": 303857,
+                "cacheWriteOther": 0,
+                "output": 48697,
+                "thinking": 0,
+                "calls": 34,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "62e94977-a474-4602-83a7-46d0ae7f6caf",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 216,
+              "seqEnd": 428
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 605481,
+          "apiCalls": 27,
+          "usage": {
+            "input": 54,
+            "cacheRead": 9556065,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 51025,
+            "cacheWriteOther": 0,
+            "output": 39861,
+            "thinking": 0,
+            "calls": 27,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 54,
+                "cacheRead": 9556065,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 51025,
+                "cacheWriteOther": 0,
+                "output": 39861,
+                "thinking": 0,
+                "calls": 27,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 2,
+          "kind": "human",
+          "promptId": "d1b12f1f-4a1a-49ae-b450-159bc8818c86",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 429,
+              "seqEnd": 576
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 742935,
+          "apiCalls": 22,
+          "usage": {
+            "input": 44,
+            "cacheRead": 9049262,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 53593,
+            "cacheWriteOther": 0,
+            "output": 50099,
+            "thinking": 0,
+            "calls": 22,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 44,
+                "cacheRead": 9049262,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 53593,
+                "cacheWriteOther": 0,
+                "output": 50099,
+                "thinking": 0,
+                "calls": 22,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 3,
+          "kind": "human",
+          "promptId": "96dc6903-2e1c-4444-aba7-f1aceb90f00e",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 577,
+              "seqEnd": 831
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 1183368,
+          "apiCalls": 38,
+          "usage": {
+            "input": 76,
+            "cacheRead": 18707963,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 94005,
+            "cacheWriteOther": 0,
+            "output": 81506,
+            "thinking": 0,
+            "calls": 38,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 76,
+                "cacheRead": 18707963,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 94005,
+                "cacheWriteOther": 0,
+                "output": 81506,
+                "thinking": 0,
+                "calls": 38,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 4,
+          "kind": "human",
+          "promptId": "dfbd674c-15e1-4354-80ac-c6887f43a64a",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 832,
+              "seqEnd": 837
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 11258,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 528244,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 54,
+            "cacheWriteOther": 0,
+            "output": 545,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 528244,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 54,
+                "cacheWriteOther": 0,
+                "output": 545,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 5,
+          "kind": "human",
+          "promptId": "70c39e2f-91c8-4026-9ed7-acee0b076c3f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 839,
+              "seqEnd": 848
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 12674,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 528843,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 114,
+            "cacheWriteOther": 0,
+            "output": 561,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 528843,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 114,
+                "cacheWriteOther": 0,
+                "output": 561,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 6,
+          "kind": "human",
+          "promptId": "6ce95fbf-c9a8-4f70-8577-cc4a3bde26a0",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 850,
+              "seqEnd": 995
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 998,
+              "seqEnd": 1045
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 931997,
+          "apiCalls": 33,
+          "usage": {
+            "input": 66,
+            "cacheRead": 19086585,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 72356,
+            "cacheWriteOther": 0,
+            "output": 58742,
+            "thinking": 0,
+            "calls": 33,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 66,
+                "cacheRead": 19086585,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 72356,
+                "cacheWriteOther": 0,
+                "output": 58742,
+                "thinking": 0,
+                "calls": 33,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 7,
+          "kind": "human",
+          "promptId": "17ac37cf-1a0f-4bce-991a-d452361a3069",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1046,
+              "seqEnd": 1209
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 590022,
+          "apiCalls": 22,
+          "usage": {
+            "input": 44,
+            "cacheRead": 13875231,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 48780,
+            "cacheWriteOther": 0,
+            "output": 41442,
+            "thinking": 0,
+            "calls": 22,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 44,
+                "cacheRead": 13875231,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 48780,
+                "cacheWriteOther": 0,
+                "output": 41442,
+                "thinking": 0,
+                "calls": 22,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 8,
+          "kind": "human",
+          "promptId": "9a46ba7b-8df8-4db6-98ff-fd7dfa674f2f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1210,
+              "seqEnd": 1354
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 550388,
+          "apiCalls": 23,
+          "usage": {
+            "input": 46,
+            "cacheRead": 15377858,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 29854,
+            "cacheWriteOther": 0,
+            "output": 26538,
+            "thinking": 0,
+            "calls": 23,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 46,
+                "cacheRead": 15377858,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 29854,
+                "cacheWriteOther": 0,
+                "output": 26538,
+                "thinking": 0,
+                "calls": 23,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 9,
+          "kind": "human",
+          "promptId": "2d8f5cfa-7e51-4425-ac9a-c8378203d321",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1355,
+              "seqEnd": 1370
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 21906,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 1371567,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 775,
+            "cacheWriteOther": 0,
+            "output": 881,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 4,
+                "cacheRead": 1371567,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 775,
+                "cacheWriteOther": 0,
+                "output": 881,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 10,
+          "kind": "human",
+          "promptId": "d0cc0e1d-765b-49bd-a5d3-bf71423aa121",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1372,
+              "seqEnd": 1376
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 15829,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 687038,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 401,
+            "cacheWriteOther": 0,
+            "output": 796,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 687038,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 401,
+                "cacheWriteOther": 0,
+                "output": 796,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 11,
+          "kind": "human",
+          "promptId": "9777ad68-e252-47b5-afe4-1928dd042c2f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1383,
+              "seqEnd": 1387
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 17945,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 688235,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 1172,
+            "cacheWriteOther": 0,
+            "output": 812,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 688235,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 1172,
+                "cacheWriteOther": 0,
+                "output": 812,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 12,
+          "kind": "human",
+          "promptId": "eca50c22-5be8-46da-ab8c-724aedc73f0a",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1389,
+              "seqEnd": 1398
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 27543,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 690219,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 108,
+            "cacheWriteOther": 0,
+            "output": 1308,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 690219,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 108,
+                "cacheWriteOther": 0,
+                "output": 1308,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 13,
+          "kind": "human",
+          "promptId": "5020cdde-8f76-46b6-9f4b-8f5d2984b8ff",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1400,
+              "seqEnd": 1414
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 1417,
+              "seqEnd": 1427
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 1173118,
+          "apiCalls": 3,
+          "usage": {
+            "input": 6,
+            "cacheRead": 1391892,
+            "cacheWrite5m": 5324,
+            "cacheWrite1h": 8872,
+            "cacheWriteOther": 0,
+            "output": 7671,
+            "thinking": 0,
+            "calls": 3,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 6,
+                "cacheRead": 1391892,
+                "cacheWrite5m": 5324,
+                "cacheWrite1h": 8872,
+                "cacheWriteOther": 0,
+                "output": 7671,
+                "thinking": 0,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 14,
+          "kind": "human",
+          "promptId": "9fe7e638-b541-4e99-8e8c-55f896d73b7f",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1429,
+              "seqEnd": 1429
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 0,
+          "usage": {
+            "input": 0,
+            "cacheRead": 0,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 0,
+            "thinking": 0,
+            "calls": 0,
+            "byModel": {}
+          }
+        },
+        {
+          "index": 15,
+          "kind": "human",
+          "promptId": "01800c25-ce43-44eb-a1a8-8e0a42f35a2a",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1432,
+              "seqEnd": 1729
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 932080,
+          "apiCalls": 45,
+          "usage": {
+            "input": 90,
+            "cacheRead": 33103617,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 768326,
+            "cacheWriteOther": 0,
+            "output": 56226,
+            "thinking": 0,
+            "calls": 45,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 90,
+                "cacheRead": 33103617,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 768326,
+                "cacheWriteOther": 0,
+                "output": 56226,
+                "thinking": 0,
+                "calls": 45,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 16,
+          "kind": "human",
+          "promptId": "97c1b6ca-c0b7-4561-8cf4-a33ada5b6159",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1735,
+              "seqEnd": 1773
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 1776,
+              "seqEnd": 1884
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 508735,
+          "apiCalls": 22,
+          "usage": {
+            "input": 44,
+            "cacheRead": 15407371,
+            "cacheWrite5m": 27306,
+            "cacheWrite1h": 40162,
+            "cacheWriteOther": 0,
+            "output": 32409,
+            "thinking": 0,
+            "calls": 22,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 44,
+                "cacheRead": 15407371,
+                "cacheWrite5m": 27306,
+                "cacheWrite1h": 40162,
+                "cacheWriteOther": 0,
+                "output": 32409,
+                "thinking": 0,
+                "calls": 22,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 17,
+          "kind": "human",
+          "promptId": "4e621003-951e-456f-81d5-ac73a27f262d",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1885,
+              "seqEnd": 1900
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 1903,
+              "seqEnd": 1910
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 810625,
+          "apiCalls": 2,
+          "usage": {
+            "input": 4,
+            "cacheRead": 1661010,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 6032,
+            "cacheWriteOther": 0,
+            "output": 5551,
+            "thinking": 0,
+            "calls": 2,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 4,
+                "cacheRead": 1661010,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 6032,
+                "cacheWriteOther": 0,
+                "output": 5551,
+                "thinking": 0,
+                "calls": 2,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 18,
+          "kind": "human",
+          "promptId": "60c08db9-9619-4455-9d15-f991fa0e5ba1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 1912,
+              "seqEnd": 2040
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 514897,
+          "apiCalls": 16,
+          "usage": {
+            "input": 32,
+            "cacheRead": 13252979,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 897481,
+            "cacheWriteOther": 0,
+            "output": 34575,
+            "thinking": 0,
+            "calls": 16,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 32,
+                "cacheRead": 13252979,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 897481,
+                "cacheWriteOther": 0,
+                "output": 34575,
+                "thinking": 0,
+                "calls": 16,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 19,
+          "kind": "human",
+          "promptId": "3aa18642-b70f-4521-b8ea-2f59282fd052",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2041,
+              "seqEnd": 2074
+            },
+            {
+              "trigger": "notification",
+              "seqStart": 2082,
+              "seqEnd": 2179
+            }
+          ],
+          "finalTrigger": "notification",
+          "interimFinals": 1,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 594648,
+          "apiCalls": 35,
+          "usage": {
+            "input": 70,
+            "cacheRead": 9814257,
+            "cacheWrite5m": 138612,
+            "cacheWrite1h": 56023,
+            "cacheWriteOther": 0,
+            "output": 56256,
+            "thinking": 0,
+            "calls": 35,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 70,
+                "cacheRead": 9814257,
+                "cacheWrite5m": 138612,
+                "cacheWrite1h": 56023,
+                "cacheWriteOther": 0,
+                "output": 56256,
+                "thinking": 0,
+                "calls": 35,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 20,
+          "kind": "human",
+          "promptId": "504150ba-3a3b-456c-b1e6-5011120f4dd1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2180,
+              "seqEnd": 2185
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 13937,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 977747,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 74,
+            "cacheWriteOther": 0,
+            "output": 729,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 977747,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 74,
+                "cacheWriteOther": 0,
+                "output": 729,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 21,
+          "kind": "human",
+          "promptId": "ed6774e5-607e-4354-8e50-bdeb604fd8a1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2187,
+              "seqEnd": 2196
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 27898,
+          "apiCalls": 1,
+          "usage": {
+            "input": 2,
+            "cacheRead": 978550,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 53,
+            "cacheWriteOther": 0,
+            "output": 1829,
+            "thinking": 0,
+            "calls": 1,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 2,
+                "cacheRead": 978550,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 53,
+                "cacheWriteOther": 0,
+                "output": 1829,
+                "thinking": 0,
+                "calls": 1,
+                "byModel": {}
+              }
+            }
+          }
+        },
+        {
+          "index": 22,
+          "kind": "human",
+          "promptId": "bffede19-eb64-4570-a2e0-86c66a51fb86",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2199,
+              "seqEnd": 2249
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": "end_turn",
+          "durationMs": 382858,
+          "apiCalls": 3,
+          "usage": {
+            "input": 6,
+            "cacheRead": 1991462,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 973556,
+            "cacheWriteOther": 0,
+            "output": 15726,
+            "thinking": 2952,
+            "calls": 3,
+            "byModel": {
+              "claude-fable-5": {
+                "input": 6,
+                "cacheRead": 1991462,
+                "cacheWrite5m": 0,
+                "cacheWrite1h": 973556,
+                "cacheWriteOther": 0,
+                "output": 15726,
+                "thinking": 2952,
+                "calls": 3,
+                "byModel": {}
+              }
+            }
+          }
+        }
+      ],
+      "toolCallCount": 410,
+      "toolCallsByKind": {
+        "agent": 6,
+        "edit": 114,
+        "other": 5,
+        "read": 20,
+        "search": 2,
+        "shell": 155,
+        "task": 27,
+        "write": 81
+      },
+      "exitSources": {
+        "content": 2,
+        "harness": 149,
+        "interpreted": 1,
+        "notification": 1,
+        "unknown": 257
+      },
+      "writesTouched": [
+        "/home/u/.claude/plans/7DgP1SJg.md",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/A8nwLq9o/LFxwW6Om.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/A8nwLq9o/TVP5eTYD.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/BkKUPxKG.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/KGEYFh6V.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/cIRIKkvZ/ExHuO4K7.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/4Ho5trD8.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/5QPuJuoL.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/5fnA1e3x.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/DKKda24b.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/E3EWuQcB.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/EPSNxfuC.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/JGDmtJBk/W5dCafwD.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/JGDmtJBk/qBTgvC61.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/KdxZcl40.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/OwdV5hI9.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/SyRDotpz.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/ZqFVdAuT.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/bI161m0T.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/l09uVuQx.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/g7WscypM/xyfVJ8um.ejs",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/o1b2fucS.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/pvFxbcS5/2hd9t6aS.css",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/UivcnqB4.md",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/UivcnqB4.md",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/6boEkNkG.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/7z8M8ZOZ.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/AbVAE0Vk.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/BisbHGGR.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/PFrILP7v.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/UOvImjPv.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/fGfPZgVq.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/lhvvfD3N.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/mdNVeBLJ.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/rXoYkWZc.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/uTHXdSoB.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/vAoXUduA.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/y686XbRX.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/aEk0w3gB.json",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/igBST9Bf.example",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/Vpgh07Vn.json",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/rWC5SwpS.json",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/kRo9ehIP.js",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/oCY86rVi/CxJZ0ytd.json",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/oCY86rVi/KusHYgfG.json",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/pAHF9wkg",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/sLQIKTGC.md",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/AT1psIJF.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/ENDZ2XCG/HGCE4oO9.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/ENDZ2XCG/wnFU7btA.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/T0uSwkUH/l9AafYzW.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/2KgYssQ5.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/5Swyperj.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/CkoEcKHk.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/Q7RZbFSO.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/lcGWSf6v.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/AnIFPIgR.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/MMElT0RS.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/bj5iH8PD.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/y5jc0RxD.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/yvQbZTLR.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/EvvEX8ve.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/gAMTqOVD.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/jfTlT5ZF.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/lZLA2LaT.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/o6NU3BF0/H8RXog9E.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/o6NU3BF0/o6NU3BF0.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/o6NU3BF0/sRIIDUQf.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/2niUUFCt.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/4BifqGOy.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/BeSHDJpl.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/uriqI2qq/uriqI2qq.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/vwJQPHxS/detectors.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/vwJQPHxS/xNPJoGjW.ts",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/thEFhgir.json",
+        "/home/u/Desktop/5BfxLM2X/QZCrQGGl/yDesPK59/z6QvD9MU.json",
+        "/home/u/Desktop/5BfxLM2X/jX0b5H2l.md"
+      ],
+      "postFinalCalls": 2,
+      "subagents": [
+        {
+          "agentId": "a9c2811fcde7a3a3e",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_XH0AMIeRLJxNLCHjwhoywyVd"
+          },
+          "agentType": "Plan",
+          "isFork": false,
+          "toolCalls": 3,
+          "finished": true
+        },
+        {
+          "agentId": "wf_31172c4f-910",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_31172c4f-910",
+            "toolUseId": "toolu_tKBBqRi2BHcxpdvqHYjfGUBb"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": true
+        },
+        {
+          "agentId": "a3250b0d6fa1b363b",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_1qci2Es904OTjCjKSH8Y5DfP"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 5,
+          "finished": true
+        },
+        {
+          "agentId": "wf_fc4a5215-02b",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_fc4a5215-02b",
+            "toolUseId": "toolu_PC5leXpYYqkkJ5ZwqL8WqGHJ"
+          },
+          "agentType": "workflow",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": true
+        },
+        {
+          "agentId": "a119b2e3f20e4bbd4",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_PPWow8qFj73vdwgMlamknQjs"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 22,
+          "finished": true
+        },
+        {
+          "agentId": "ac265e2ced3b22468",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Agent",
+            "toolUseId": "toolu_HoPclUW6iCBp7y5CJqbCnl1y"
+          },
+          "agentType": "general-purpose",
+          "isFork": false,
+          "toolCalls": 18,
+          "finished": true
+        },
+        {
+          "agentId": "a745f83bd9b0ca85b",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_31172c4f-910"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": false
+        },
+        {
+          "agentId": "a7f40b81241123f30",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_31172c4f-910"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 2,
+          "finished": false
+        },
+        {
+          "agentId": "ab5a7f1a6c8c93d4d",
+          "parentAgentId": null,
+          "spawnedBy": {
+            "tool": "Workflow",
+            "runId": "wf_31172c4f-910"
+          },
+          "agentType": "workflow-subagent",
+          "isFork": false,
+          "toolCalls": 0,
+          "finished": false
+        }
+      ],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [
+        {
+          "error": "rate_limit",
+          "status": 429
+        },
+        {
+          "error": "rate_limit",
+          "status": 429
+        },
+        {
+          "error": "rate_limit",
+          "status": 429
+        },
+        {
+          "error": "rate_limit",
+          "status": 429
+        },
+        {
+          "error": "rate_limit",
+          "status": 429
+        }
+      ],
+      "refusalFallbacks": [],
+      "editedFiles": [
+        {
+          "seq": 712,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/rWC5SwpS.json"
+        },
+        {
+          "seq": 922,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/BisbHGGR.ts"
+        },
+        {
+          "seq": 923,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/7z8M8ZOZ.ts"
+        },
+        {
+          "seq": 924,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/6boEkNkG.ts"
+        },
+        {
+          "seq": 940,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/aEk0w3gB.json"
+        },
+        {
+          "seq": 1168,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/Vpgh07Vn.json"
+        },
+        {
+          "seq": 1545,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/yvQbZTLR.ts"
+        },
+        {
+          "seq": 1613,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/yvQbZTLR.ts"
+        },
+        {
+          "seq": 1614,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/o6NU3BF0/H8RXog9E.ts"
+        },
+        {
+          "seq": 1718,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/UivcnqB4.md"
+        },
+        {
+          "seq": 1874,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/UivcnqB4.md"
+        },
+        {
+          "seq": 1953,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/CkoEcKHk.ts"
+        },
+        {
+          "seq": 1954,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/vwJQPHxS/xNPJoGjW.ts"
+        },
+        {
+          "seq": 1960,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/y5jc0RxD.ts"
+        },
+        {
+          "seq": 1977,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/o6NU3BF0/sRIIDUQf.ts"
+        },
+        {
+          "seq": 1978,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/jfTlT5ZF.ts"
+        },
+        {
+          "seq": 1979,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/ENDZ2XCG/HGCE4oO9.ts"
+        },
+        {
+          "seq": 1980,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/2KgYssQ5.ts"
+        },
+        {
+          "seq": 1981,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/vwJQPHxS/detectors.ts"
+        },
+        {
+          "seq": 1992,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/uriqI2qq/uriqI2qq.ts"
+        },
+        {
+          "seq": 1993,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/BkKUPxKG.ts"
+        },
+        {
+          "seq": 1994,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/A8nwLq9o/LFxwW6Om.ts"
+        },
+        {
+          "seq": 1995,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/4BifqGOy.ts"
+        },
+        {
+          "seq": 1996,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/AT1psIJF.ts"
+        },
+        {
+          "seq": 2010,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/BeSHDJpl.ts"
+        },
+        {
+          "seq": 2011,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/ENDZ2XCG/wnFU7btA.ts"
+        },
+        {
+          "seq": 2012,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/bj5iH8PD.ts"
+        },
+        {
+          "seq": 2018,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/lhvvfD3N.ts"
+        },
+        {
+          "seq": 2117,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/Q7RZbFSO.ts"
+        },
+        {
+          "seq": 2118,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/2niUUFCt.ts"
+        },
+        {
+          "seq": 2119,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/gAMTqOVD.ts"
+        },
+        {
+          "seq": 2133,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/sLQIKTGC.md"
+        },
+        {
+          "seq": 2134,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/MMElT0RS.ts"
+        },
+        {
+          "seq": 2135,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/AbVAE0Vk.ts"
+        },
+        {
+          "seq": 2136,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/fGfPZgVq.ts"
+        },
+        {
+          "seq": 2137,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/uTHXdSoB.ts"
+        },
+        {
+          "seq": 2148,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/vAoXUduA.ts"
+        },
+        {
+          "seq": 2149,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/mdNVeBLJ.ts"
+        },
+        {
+          "seq": 2150,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/o1b2fucS.ts"
+        },
+        {
+          "seq": 2151,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/y686XbRX.ts"
+        },
+        {
+          "seq": 2202,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/0pi6T3YN/W739NLMY/o1b2fucS.ts"
+        },
+        {
+          "seq": 2203,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/jfTlT5ZF.ts"
+        },
+        {
+          "seq": 2204,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/o6NU3BF0/sRIIDUQf.ts"
+        },
+        {
+          "seq": 2205,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/AbVAE0Vk.ts"
+        },
+        {
+          "seq": 2206,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/fGfPZgVq.ts"
+        },
+        {
+          "seq": 2207,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/ENDZ2XCG/HGCE4oO9.ts"
+        },
+        {
+          "seq": 2208,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/YhffqDyJ/2KgYssQ5.ts"
+        },
+        {
+          "seq": 2209,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/vwJQPHxS/detectors.ts"
+        },
+        {
+          "seq": 2210,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/rWC5SwpS.json"
+        },
+        {
+          "seq": 2211,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/7z8M8ZOZ.ts"
+        },
+        {
+          "seq": 2212,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/6boEkNkG.ts"
+        },
+        {
+          "seq": 2213,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/BisbHGGR.ts"
+        },
+        {
+          "seq": 2214,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/lZLA2LaT/3Az2GTHk/gAMTqOVD.ts"
+        },
+        {
+          "seq": 2215,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/discovery/y5jc0RxD.ts"
+        },
+        {
+          "seq": 2216,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/sbh7Hsbn/4BifqGOy.ts"
+        },
+        {
+          "seq": 2217,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/jHqrXy1B/Vpgh07Vn.json"
+        },
+        {
+          "seq": 2218,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/mdNVeBLJ.ts"
+        },
+        {
+          "seq": 2219,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/src/uriqI2qq/uriqI2qq.ts"
+        },
+        {
+          "seq": 2220,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/vAoXUduA.ts"
+        },
+        {
+          "seq": 2221,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/UivcnqB4.md"
+        },
+        {
+          "seq": 2222,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/ZpPCTHtB/lhvvfD3N.ts"
+        },
+        {
+          "seq": 2223,
+          "path": "/home/u/Desktop/5BfxLM2X/QZCrQGGl/T0uSwkUH/UivcnqB4.md"
+        }
+      ],
+      "usageRows": {
+        "count": 334,
+        "attempts": 334,
+        "billedAttempts": 334,
+        "inherited": 0,
+        "incomplete": 2
+      },
+      "usageTotals": {
+        "input": 668,
+        "cacheRead": 176244639,
+        "cacheWrite5m": 417429,
+        "cacheWrite1h": 3406673,
+        "cacheWriteOther": 0,
+        "output": 562760,
+        "thinking": 2952,
+        "calls": 334,
+        "byModel": {
+          "claude-fable-5": {
+            "input": 668,
+            "cacheRead": 176244639,
+            "cacheWrite5m": 417429,
+            "cacheWrite1h": 3406673,
+            "cacheWriteOther": 0,
+            "output": 562760,
+            "thinking": 2952,
+            "calls": 334,
+            "byModel": {}
+          }
+        }
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {
+          "tool_reference": 4,
+          "image": 3
+        },
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 19,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 6,
+        "localCommandPrompts": 1,
+        "incompleteMessages": 2,
+        "bashWithoutToolUseResult": 2,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 4,
+          "workflow": 3,
+          "unlinked": 0,
+          "missing": 1
+        },
+        "notes": [],
+        "interimFinals": 4,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 5,
+        "unknownAttachmentTypes": {
+          "command_permissions": 1,
+          "plan_mode_exit": 1
+        },
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 2372
+      }
+    }
+  }
+}

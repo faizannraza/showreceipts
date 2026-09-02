@@ -1,0 +1,177 @@
+{
+  "fixture": "ledger/cursor-basic",
+  "harness": "cursor",
+  "verified": [
+    "ledgerCoverage:all-tools; finalText from the last agent-response, finalTextSource:transcript; UUIDv4 shortId (§4.4, S09)."
+  ],
+  "session": {
+    "c1a2b3c4-0000-4000-8000-00000000c001": {
+      "harness": "cursor",
+      "harnessVersion": "1.7.2",
+      "harnessVersions": [
+        "1.7.2"
+      ],
+      "sessionId": "c1a2b3c4-0000-4000-8000-00000000c001",
+      "shortId": "c1a2b3c4",
+      "cwd": "/home/u/proj",
+      "cwds": [
+        "/home/u/proj"
+      ],
+      "gitBranch": null,
+      "models": [
+        "gpt-5"
+      ],
+      "primaryModel": "gpt-5",
+      "startedAt": "2026-03-05T10:00:00.000Z",
+      "endedAt": "2026-03-05T10:01:12.000Z",
+      "kind": "normal",
+      "records": 7,
+      "turns": [
+        {
+          "index": 0,
+          "kind": "human",
+          "promptId": "t1",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 2,
+              "seqEnd": 5
+            }
+          ],
+          "finalTrigger": "human",
+          "interimFinals": 0,
+          "isDone": true,
+          "interrupted": false,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 0,
+          "usage": {
+            "input": 0,
+            "cacheRead": 0,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 0,
+            "thinking": 0,
+            "calls": 0,
+            "byModel": {}
+          }
+        },
+        {
+          "index": 1,
+          "kind": "human",
+          "promptId": "t2",
+          "segments": [
+            {
+              "trigger": "human",
+              "seqStart": 6,
+              "seqEnd": 7
+            }
+          ],
+          "finalTrigger": null,
+          "interimFinals": 0,
+          "isDone": false,
+          "interrupted": true,
+          "compactions": 0,
+          "finalStopReason": null,
+          "durationMs": null,
+          "apiCalls": 0,
+          "usage": {
+            "input": 0,
+            "cacheRead": 0,
+            "cacheWrite5m": 0,
+            "cacheWrite1h": 0,
+            "cacheWriteOther": 0,
+            "output": 0,
+            "thinking": 0,
+            "calls": 0,
+            "byModel": {}
+          }
+        }
+      ],
+      "toolCallCount": 3,
+      "toolCallsByKind": {
+        "edit": 1,
+        "mcp": 1,
+        "shell": 1
+      },
+      "exitSources": {
+        "harness": 1,
+        "unknown": 2
+      },
+      "writesTouched": [
+        "src/a.ts"
+      ],
+      "postFinalCalls": 0,
+      "subagents": [],
+      "compactions": [],
+      "prRefs": [],
+      "apiErrors": [],
+      "refusalFallbacks": [],
+      "editedFiles": [],
+      "usageRows": {
+        "count": 0,
+        "attempts": 0,
+        "billedAttempts": 0,
+        "inherited": 0,
+        "incomplete": 0
+      },
+      "usageTotals": {
+        "input": 0,
+        "cacheRead": 0,
+        "cacheWrite5m": 0,
+        "cacheWrite1h": 0,
+        "cacheWriteOther": 0,
+        "output": 0,
+        "thinking": 0,
+        "calls": 0,
+        "byModel": {}
+      },
+      "tokenDeltaTotals": {
+        "count": 0,
+        "input": 0,
+        "cached": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "diagnostics": {
+        "unknownRecordTypes": {},
+        "unknownSubtypes": {},
+        "unknownToolShapes": {},
+        "unknownContentBlocks": {},
+        "unknownCodexPayloads": {},
+        "badLines": 0,
+        "lineSeparatorChars": 0,
+        "reorderedEvents": 0,
+        "duplicateUuids": 0,
+        "duplicateToolResults": 0,
+        "negativeDeltas": 0,
+        "orphanAssistantLines": 0,
+        "notificationPrompts": 0,
+        "localCommandPrompts": 0,
+        "incompleteMessages": 0,
+        "bashWithoutToolUseResult": 0,
+        "legacyShapes": {},
+        "subagentFiles": {
+          "direct": 0,
+          "workflow": 0,
+          "unlinked": 0,
+          "missing": 0
+        },
+        "notes": [],
+        "interimFinals": 0,
+        "emptySessions": 0,
+        "excludedSyntheticLines": 0,
+        "unknownAttachmentTypes": {},
+        "journals": 0,
+        "unrecognisedFiles": 0,
+        "orphanSessionDirs": 0,
+        "emptyProjects": 0,
+        "corruptCache": 0,
+        "copilotTranscriptUnparsed": 0,
+        "records": 7
+      }
+    }
+  }
+}
