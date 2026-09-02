@@ -511,15 +511,8 @@ function generateCodex(src, outDir, ctx) {
   return { survey, files, written, startedAt, endedAt };
 }
 
-function mergeExpected(existingPath, fresh, sign) {
-  let existing = {};
-  if (existsSync(existingPath)) {
-    try {
-      existing = readJson(existingPath);
-    } catch {
-      existing = {};
-    }
-  }
+function mergeExpected(existing, fresh, sign) {
+  existing = existing ?? {};
   const reviewedBy = sign ?? existing.redaction?.reviewedBy ?? null;
   const out = { fixture: fresh.fixture, harness: fresh.harness, confidence: fresh.confidence };
   for (const [k, v] of Object.entries(existing)) if (!(k in out) && k !== 'source' && k !== 'shapes' && k !== 'redaction') out[k] = v;
@@ -532,6 +525,17 @@ function mergeExpected(existingPath, fresh, sign) {
 /** Generates one real fixture into `fixturesRoot/readers/<id>/`. */
 function generateFixture(id, entry, src, seed, forbidden, fixturesRoot, sign) {
   const outDir = join(fixturesRoot, 'readers', id);
+  // Read the previous expected.json BEFORE rmSync: in-place regeneration (fixturesRoot === FIXTURES)
+  // deletes it below, which used to drop hand-written sections like verified[] on --all.
+  let priorExpected = null;
+  const priorPath = join(FIXTURES, 'readers', id, 'expected.json');
+  if (existsSync(priorPath)) {
+    try {
+      priorExpected = readJson(priorPath);
+    } catch {
+      priorExpected = null;
+    }
+  }
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });
   const ids = createIdMap(seed);
@@ -580,7 +584,7 @@ function generateFixture(id, entry, src, seed, forbidden, fixturesRoot, sign) {
     badLines: stats.badLines,
   };
   const expectedPath = join(outDir, 'expected.json');
-  const expected = mergeExpected(join(FIXTURES, 'readers', id, 'expected.json'), {
+  const expected = mergeExpected(priorExpected, {
     fixture: id,
     harness: src.harness,
     confidence: 'real',
