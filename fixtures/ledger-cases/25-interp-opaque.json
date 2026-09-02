@@ -1,0 +1,15 @@
+{
+  "name": "f-string sink target sets opaqueWrite and produces no path",
+  "calls": [
+    {
+      "command": "python3 -c 'for i in range(3):\n    open(f\"/tmp/x-{i}.json\", \"w\").write(str(i))'",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [],
+    "opaqueWriteSeqs": [
+      1
+    ]
+  }
+}

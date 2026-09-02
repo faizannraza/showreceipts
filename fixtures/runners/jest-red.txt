@@ -1,0 +1,4 @@
+FAIL src/__tests__/app.test.ts
+Test Suites: 1 failed, 2 passed, 3 total
+Tests:       2 failed, 40 passed, 42 total
+Time:        2.412 s

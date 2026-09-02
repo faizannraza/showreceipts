@@ -1,0 +1,32 @@
+{
+  "name": "Codex networkAccess:false makes contacts attempted with a note",
+  "context": {
+    "harness": "codex",
+    "cwd": "/workspace",
+    "repoRoot": null,
+    "sandbox": {
+      "type": "workspace-write",
+      "writableRoots": [
+        "/workspace"
+      ],
+      "networkAccess": false
+    }
+  },
+  "calls": [
+    {
+      "command": "npm install",
+      "exitCode": 1,
+      "resultText": "network error"
+    }
+  ],
+  "expect": {
+    "network": [
+      {
+        "host": "registry.npmjs.org",
+        "status": "attempted",
+        "exit": 1,
+        "note": "sandbox: network off"
+      }
+    ]
+  }
+}

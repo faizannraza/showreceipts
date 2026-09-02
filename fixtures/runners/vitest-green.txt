@@ -1,0 +1,8 @@
+ RUN  v4.0.0 /home/u/proj
+
+ ✓ test/unit/app.test.ts (379 tests) 133ms
+
+ Test Files  17 passed (17)
+      Tests  379 passed (379)
+   Start at  12:00:00
+   Duration  2.34s

@@ -1,0 +1,25 @@
+{
+  "name": "failed Edit (isError, no result filePath) is a failed write",
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "src/app.py"
+      },
+      "isError": true,
+      "filesTouched": [],
+      "resultText": "String to replace not found in file."
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/app.py",
+        "display": "src/app.py",
+        "status": "failed",
+        "source": "tool"
+      }
+    ],
+    "filesChanged": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "subagent-stop modifiedFiles become subagent-list writes with unknown status",
+  "calls": [
+    {
+      "tool": "subagent-stop",
+      "filesTouched": [
+        "/home/u/proj/src/gen.ts"
+      ]
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/gen.ts",
+        "source": "subagent-list",
+        "status": "unknown",
+        "resolved": true
+      }
+    ],
+    "filesChanged": []
+  }
+}

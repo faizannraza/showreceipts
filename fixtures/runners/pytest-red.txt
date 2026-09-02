@@ -1,0 +1,6 @@
+=================================== FAILURES ===================================
+______________________________ test_masks_home ________________________________
+E       AssertionError: assert unexpected value
+=========================== short test summary info ============================
+FAILED tests/test_mask.py::test_masks_home - AssertionError
+============================== 1 failed in 0.18s ===============================

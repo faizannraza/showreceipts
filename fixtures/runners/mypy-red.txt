@@ -1,0 +1,2 @@
+src/api.py:10: error: Incompatible return value type  [return-value]
+Found 1 error in 1 file (checked 48 source files)

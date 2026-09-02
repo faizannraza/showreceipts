@@ -1,0 +1,59 @@
+{
+  "name": "branch, tag, stash, reset facts with danger tiers",
+  "calls": [
+    {
+      "command": "git checkout -b feat/x",
+      "exitCode": 0
+    },
+    {
+      "command": "git tag v1.0.0",
+      "exitCode": 0
+    },
+    {
+      "command": "git stash",
+      "exitCode": 0
+    },
+    {
+      "command": "git reset --hard HEAD~1",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "git": [
+      {
+        "seq": 1,
+        "op": "branch",
+        "branch": "feat/x",
+        "ok": true
+      },
+      {
+        "seq": 2,
+        "op": "tag",
+        "branch": "v1.0.0",
+        "ok": true
+      },
+      {
+        "seq": 3,
+        "op": "stash",
+        "ok": true
+      },
+      {
+        "seq": 4,
+        "op": "reset",
+        "ok": true
+      }
+    ],
+    "danger": [
+      {
+        "seq": 3,
+        "tier": "cleanup",
+        "kind": "destructive-git"
+      },
+      {
+        "seq": 4,
+        "tier": "danger",
+        "kind": "destructive-git"
+      }
+    ]
+  }
+}

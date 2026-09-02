@@ -1,0 +1,19 @@
+{
+  "name": "command-family write with unknown exit is status unknown (not filesChanged)",
+  "calls": [
+    {
+      "command": "sed -i 's/x/y/' a.py",
+      "exitCode": null
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/a.py",
+        "status": "unknown",
+        "source": "shell-inferred"
+      }
+    ],
+    "filesChanged": []
+  }
+}

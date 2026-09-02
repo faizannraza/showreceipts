@@ -1,0 +1,48 @@
+{
+  "name": "rm -rf tiers: tmp cleanup, home danger, unresolved/resolved $VAR cleanup",
+  "calls": [
+    {
+      "command": "rm -rf /tmp/build-cache",
+      "exitCode": 0
+    },
+    {
+      "command": "rm -rf ~/experiments",
+      "exitCode": 0
+    },
+    {
+      "command": "rm -rf $TMPDIR2",
+      "exitCode": 0
+    },
+    {
+      "command": "TMPD=/tmp/y && rm -rf $TMPD",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "danger": [
+      {
+        "seq": 1,
+        "tier": "cleanup",
+        "kind": "rm-rf"
+      },
+      {
+        "seq": 2,
+        "tier": "danger",
+        "kind": "rm-rf",
+        "detail": "rm -rf ~/experiments"
+      },
+      {
+        "seq": 3,
+        "tier": "cleanup",
+        "kind": "rm-rf",
+        "detail": "rm -rf $TMPDIR2 (unresolved)"
+      },
+      {
+        "seq": 4,
+        "tier": "cleanup",
+        "kind": "rm-rf",
+        "detail": "rm -rf /tmp/y"
+      }
+    ]
+  }
+}

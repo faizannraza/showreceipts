@@ -1,0 +1,14 @@
+{
+  "name": "an interrupted call yields no shell-inferred writes at all",
+  "calls": [
+    {
+      "command": "echo x > f.txt",
+      "exitCode": null,
+      "interrupted": true
+    }
+  ],
+  "expect": {
+    "writes": [],
+    "filesChanged": []
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "formatter with no named path \u21d2 one unresolved write",
+  "calls": [
+    {
+      "command": "ruff format",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "display": "formatter modified files",
+        "resolved": false,
+        "status": "ok",
+        "source": "shell-inferred"
+      }
+    ],
+    "filesChanged": []
+  }
+}

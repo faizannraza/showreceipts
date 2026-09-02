@@ -1,0 +1,27 @@
+{
+  "name": "curl -o writes the output file and contacts the host",
+  "calls": [
+    {
+      "command": "curl -sSf -o dist/pkg.tgz https://example.com/p.tgz",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/dist/pkg.tgz",
+        "verb": "create",
+        "source": "shell-inferred",
+        "status": "ok"
+      }
+    ],
+    "network": [
+      {
+        "host": "example.com",
+        "via": "shell",
+        "inferred": false,
+        "status": "contacted"
+      }
+    ]
+  }
+}

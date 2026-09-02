@@ -1,0 +1,21 @@
+{
+  "name": "python heredoc with a literal open(..., 'w') is an interp-inferred write",
+  "calls": [
+    {
+      "command": "python3 - <<'PY'\nimport json\nwith open('out/data.json', 'w') as f:\n    json.dump({}, f)\nPY",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/out/data.json",
+        "display": "out/data.json",
+        "source": "interp-inferred",
+        "status": "ok",
+        "resolved": true
+      }
+    ],
+    "opaqueWriteSeqs": []
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "a write into ~/.claude is harness-config scope and a danger flag",
+  "calls": [
+    {
+      "command": "echo x > ~/.claude/settings.json",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/.claude/settings.json",
+        "scope": "harness-config",
+        "status": "ok"
+      }
+    ],
+    "danger": [
+      {
+        "tier": "danger",
+        "kind": "write-outside-repo",
+        "detail": "/home/u/.claude/settings.json"
+      }
+    ]
+  }
+}

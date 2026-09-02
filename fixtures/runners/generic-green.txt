@@ -1,0 +1,6 @@
+> app@1.0.0 test
+> jest
+
+PASS src/app.test.ts
+Test Suites: 2 passed, 2 total
+Tests:       40 passed, 40 total

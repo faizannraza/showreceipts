@@ -1,0 +1,34 @@
+{
+  "name": "danger-full-access sandbox and per-call sandboxDisabled",
+  "context": {
+    "harness": "codex",
+    "cwd": "/workspace",
+    "repoRoot": null,
+    "sandbox": {
+      "type": "danger-full-access",
+      "writableRoots": [],
+      "networkAccess": true
+    }
+  },
+  "calls": [
+    {
+      "command": "ls",
+      "exitCode": 0,
+      "sandboxDisabled": true
+    }
+  ],
+  "expect": {
+    "danger": [
+      {
+        "seq": 1,
+        "tier": "danger",
+        "kind": "sandbox-disabled"
+      },
+      {
+        "seq": 1,
+        "tier": "cleanup",
+        "kind": "sandbox-disabled"
+      }
+    ]
+  }
+}

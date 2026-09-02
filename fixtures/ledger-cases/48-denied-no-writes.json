@@ -1,0 +1,14 @@
+{
+  "name": "a denied command yields no writes and no danger flags",
+  "calls": [
+    {
+      "command": "rm -rf /",
+      "denied": "user-rejected",
+      "exitCode": null
+    }
+  ],
+  "expect": {
+    "writes": [],
+    "danger": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "denied Edit is a failed write",
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "src/app.py"
+      },
+      "denied": "permission-rule",
+      "filesTouched": []
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "status": "failed",
+        "source": "tool",
+        "path": "/home/u/proj/src/app.py"
+      }
+    ],
+    "filesChanged": []
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "a hook-ledger edit call (in.path) is a tool write",
+  "calls": [
+    {
+      "tool": "edit_file",
+      "kind": "edit",
+      "input": {
+        "path": "src/x.py"
+      },
+      "filesTouched": [
+        "/home/u/proj/src/x.py"
+      ]
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/x.py",
+        "display": "src/x.py",
+        "source": "tool",
+        "status": "ok"
+      }
+    ]
+  }
+}

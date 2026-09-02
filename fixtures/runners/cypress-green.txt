@@ -1,0 +1,11 @@
+  (Results)
+
+  ┌──────────────────────────────┐
+  │ Tests:        3                │
+  │ Passing:      3                │
+  │ Failing:      0                │
+  │ Pending:      0                │
+  │ Skipped:      0                │
+  └──────────────────────────────┘
+
+  ✔  All specs passed!

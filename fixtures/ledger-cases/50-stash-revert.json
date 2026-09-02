@@ -1,0 +1,29 @@
+{
+  "name": "bare git stash reverts earlier repo-scope writes",
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "src/a.py"
+      },
+      "filesTouched": [
+        "/home/u/proj/src/a.py"
+      ]
+    },
+    {
+      "command": "git stash",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/a.py",
+        "reverted": {
+          "seq": 2,
+          "by": "git stash"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0 -- in com.example.FooTest
+[INFO] Results:
+[INFO] Tests run: 42, Failures: 0, Errors: 0, Skipped: 1
+[INFO] BUILD SUCCESS

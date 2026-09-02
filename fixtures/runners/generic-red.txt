@@ -1,0 +1,7 @@
+> app@1.0.0 test
+> jest
+
+FAIL src/app.test.ts
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       2 failed, 38 passed, 40 total
+npm error Lifecycle script `test` failed with error

@@ -1,0 +1,41 @@
+{
+  "name": "tool-input urls tag fetch/browser; private hosts are dropped",
+  "calls": [
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://docs.example.com/page"
+      }
+    },
+    {
+      "tool": "mcp__claude-in-chrome__navigate",
+      "kind": "mcp",
+      "input": {
+        "url": "https://app.example.io/x"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "http://192.168.1.5/admin"
+      }
+    }
+  ],
+  "expect": {
+    "network": [
+      {
+        "seq": 1,
+        "host": "docs.example.com",
+        "via": "fetch",
+        "inferred": false,
+        "status": "contacted"
+      },
+      {
+        "seq": 2,
+        "host": "app.example.io",
+        "via": "browser",
+        "status": "contacted"
+      }
+    ]
+  }
+}

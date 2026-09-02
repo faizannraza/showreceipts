@@ -1,0 +1,44 @@
+{
+  "name": "Write tool creates a file (created from Write type, patch lines kept)",
+  "calls": [
+    {
+      "tool": "Write",
+      "input": {
+        "file_path": "src/new.ts"
+      },
+      "filesTouched": [
+        "/home/u/proj/src/new.ts"
+      ],
+      "created": true,
+      "patch": {
+        "added": [
+          "a",
+          "b"
+        ],
+        "removed": [],
+        "hunks": 1
+      }
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/new.ts",
+        "display": "src/new.ts",
+        "verb": "create",
+        "source": "tool",
+        "status": "ok",
+        "resolved": true,
+        "scope": "repo",
+        "created": true,
+        "linesAdded": 2,
+        "linesRemoved": 0,
+        "isTestFile": false,
+        "isDoc": false
+      }
+    ],
+    "filesChanged": [
+      "/home/u/proj/src/new.ts"
+    ]
+  }
+}

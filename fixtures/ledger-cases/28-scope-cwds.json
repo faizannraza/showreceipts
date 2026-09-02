@@ -1,0 +1,32 @@
+{
+  "name": "scope follows the per-call cwd, not a single session cwd",
+  "context": {
+    "cwds": [
+      "/home/u/proj",
+      "/tmp/scratch"
+    ]
+  },
+  "calls": [
+    {
+      "command": "echo a > f1.txt",
+      "exitCode": 0
+    },
+    {
+      "command": "echo b > f2.txt",
+      "cwd": "/tmp/scratch",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/f1.txt",
+        "scope": "repo"
+      },
+      {
+        "path": "/tmp/scratch/f2.txt",
+        "scope": "scratch"
+      }
+    ]
+  }
+}

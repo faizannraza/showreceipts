@@ -1,0 +1,27 @@
+{
+  "unit": "usd_per_million_tokens",
+  "models": {
+    "gpt-5.2": {
+      "provider": "openai",
+      "rates": [{ "from": null, "until": null, "input": 1.0, "output": 8.0, "cacheRead": 0.1 }],
+      "verified": false,
+      "confidence": "estimate",
+      "source": "override",
+      "note": "negotiated rate"
+    },
+    "acme-lm-1": {
+      "provider": "openai",
+      "rates": [{ "from": null, "until": null, "input": 3.0, "output": 9.0, "cacheRead": 0.3 }],
+      "verified": false,
+      "confidence": "estimate",
+      "source": "override"
+    },
+    "acme-lm-1-turbo": {
+      "provider": "openai",
+      "aliasOf": "acme-lm-1",
+      "verified": false,
+      "confidence": "estimate",
+      "source": "override"
+    }
+  }
+}

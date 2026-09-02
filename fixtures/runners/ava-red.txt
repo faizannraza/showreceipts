@@ -1,0 +1,4 @@
+  ✘ util › masks home paths Rejected promise returned by test
+
+  1 test failed
+  12 tests passed

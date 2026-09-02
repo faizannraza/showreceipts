@@ -1,0 +1,31 @@
+{
+  "name": "mkdir/touch are recorded but never filesChanged-eligible",
+  "calls": [
+    {
+      "command": "mkdir -p src/utils",
+      "exitCode": 0
+    },
+    {
+      "command": "touch README.md",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/utils",
+        "verb": "create",
+        "metadataOnly": true,
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/README.md",
+        "verb": "create",
+        "metadataOnly": true,
+        "status": "ok",
+        "isDoc": true
+      }
+    ],
+    "filesChanged": []
+  }
+}

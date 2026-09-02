@@ -1,0 +1,5 @@
+--- FAIL: TestParse (0.00s)
+    parse_test.go:12: got 4, want 5
+FAIL
+ok  	example.com/pkg/a	0.312s
+FAIL	example.com/pkg/b	0.104s

@@ -1,0 +1,19 @@
+{
+  "name": "GNU sed -i updates the named file",
+  "calls": [
+    {
+      "command": "sed -i 's/a/b/' src/app.py",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/app.py",
+        "verb": "update",
+        "source": "shell-inferred",
+        "status": "ok"
+      }
+    ]
+  }
+}

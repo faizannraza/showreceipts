@@ -1,0 +1,19 @@
+{
+  "name": "failed apply_patch produces no write (attempted[] is S18's)",
+  "calls": [
+    {
+      "tool": "apply_patch",
+      "isError": true,
+      "exitCode": 1,
+      "filesTouched": [],
+      "attempted": [
+        "/home/u/proj/x.py"
+      ],
+      "resultText": "apply_patch verification failed: Failed to find expected lines"
+    }
+  ],
+  "expect": {
+    "writes": [],
+    "filesChanged": []
+  }
+}

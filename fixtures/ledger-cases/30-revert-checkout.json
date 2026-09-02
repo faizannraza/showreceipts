@@ -1,0 +1,30 @@
+{
+  "name": "git checkout -- p marks the earlier write reverted",
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "src/app.py"
+      },
+      "filesTouched": [
+        "/home/u/proj/src/app.py"
+      ]
+    },
+    {
+      "command": "git checkout -- src/app.py",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/app.py",
+        "status": "ok",
+        "reverted": {
+          "seq": 2,
+          "by": "git checkout"
+        }
+      }
+    ]
+  }
+}

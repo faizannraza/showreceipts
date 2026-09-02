@@ -1,0 +1,28 @@
+{
+  "name": "uv add rewrites uv.lock and pyproject.toml",
+  "calls": [
+    {
+      "command": "uv add requests",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/uv.lock",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/pyproject.toml",
+        "status": "ok"
+      }
+    ],
+    "network": [
+      {
+        "host": "pypi.org",
+        "via": "package-manager",
+        "inferred": true
+      }
+    ]
+  }
+}

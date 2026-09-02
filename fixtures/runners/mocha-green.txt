@@ -1,0 +1,5 @@
+  api
+    ✓ returns 200
+
+  12 passing (300ms)
+  1 pending

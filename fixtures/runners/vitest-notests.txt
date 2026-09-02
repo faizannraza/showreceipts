@@ -1,0 +1,4 @@
+include: test/**/*.test.ts
+exclude:  node_modules/**
+
+No test files found, exiting with code 1

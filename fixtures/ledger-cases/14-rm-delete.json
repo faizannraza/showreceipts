@@ -1,0 +1,29 @@
+{
+  "name": "rm and git rm are delete writes",
+  "calls": [
+    {
+      "command": "rm build/tmp.txt",
+      "exitCode": 0
+    },
+    {
+      "command": "git rm old.py",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/build/tmp.txt",
+        "verb": "delete",
+        "source": "shell-inferred",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/old.py",
+        "verb": "delete",
+        "source": "shell-inferred",
+        "status": "ok"
+      }
+    ]
+  }
+}

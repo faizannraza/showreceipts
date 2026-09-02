@@ -1,0 +1,42 @@
+{
+  "name": "formatter/fixer runs write their named paths",
+  "calls": [
+    {
+      "command": "ruff format src/a.py src/b.py",
+      "exitCode": 0
+    },
+    {
+      "command": "prettier --write src/c.ts",
+      "exitCode": 0
+    },
+    {
+      "command": "ruff check --fix src/",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/a.py",
+        "source": "shell-inferred",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/src/b.py",
+        "source": "shell-inferred",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/src/c.ts",
+        "source": "shell-inferred",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/src",
+        "display": "src/",
+        "source": "shell-inferred",
+        "status": "ok"
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "apply_patch Move \u21d2 rename with fromPath; single write carries the patch lines",
+  "calls": [
+    {
+      "tool": "exec_command",
+      "command": "apply_patch <<'EOF'\n*** Begin Patch\n*** Update File: src/old_name.py\n*** Move to: src/new_name.py\n@@\n-a\n+b\n*** End Patch\nEOF",
+      "filesTouched": [
+        "/home/u/proj/src/new_name.py",
+        "/home/u/proj/src/old_name.py"
+      ],
+      "resultText": "Success. Updated the following files:\nM src/new_name.py\n",
+      "patch": {
+        "added": [
+          "b"
+        ],
+        "removed": [
+          "a"
+        ],
+        "hunks": 1
+      },
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/new_name.py",
+        "verb": "rename",
+        "fromPath": "/home/u/proj/src/old_name.py",
+        "source": "patch",
+        "status": "ok",
+        "linesAdded": 1,
+        "linesRemoved": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+Failures:
+
+  1) Mask masks the home directory
+
+12 examples, 2 failures

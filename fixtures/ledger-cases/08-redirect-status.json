@@ -1,0 +1,33 @@
+{
+  "name": "redirect ok despite exit 1; failed when stderr names the target",
+  "calls": [
+    {
+      "command": "python check.py > out.log",
+      "exitCode": 1
+    },
+    {
+      "command": "echo hi > /nope/x.txt",
+      "exitCode": 1,
+      "resultText": "bash: /nope/x.txt: No such file or directory"
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/out.log",
+        "verb": "create",
+        "source": "shell-inferred",
+        "status": "ok",
+        "scope": "repo"
+      },
+      {
+        "path": "/nope/x.txt",
+        "source": "shell-inferred",
+        "status": "failed"
+      }
+    ],
+    "filesChanged": [
+      "/home/u/proj/out.log"
+    ]
+  }
+}

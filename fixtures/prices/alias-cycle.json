@@ -1,0 +1,19 @@
+{
+  "unit": "usd_per_million_tokens",
+  "models": {
+    "a": {
+      "provider": "openai",
+      "aliasOf": "b",
+      "verified": false,
+      "confidence": "inferred",
+      "source": "override"
+    },
+    "b": {
+      "provider": "openai",
+      "aliasOf": "a",
+      "verified": false,
+      "confidence": "inferred",
+      "source": "override"
+    }
+  }
+}

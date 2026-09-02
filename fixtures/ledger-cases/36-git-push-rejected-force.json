@@ -1,0 +1,38 @@
+{
+  "name": "rejected push is ok:false; --force is force-push and a danger flag",
+  "calls": [
+    {
+      "command": "git push",
+      "exitCode": 1,
+      "resultText": "To github.com:u/r.git\n ! [rejected]        main -> main (fetch first)\nerror: failed to push some refs\n"
+    },
+    {
+      "command": "git push --force",
+      "exitCode": 0,
+      "resultText": "To github.com:u/r.git\n + 1a2b3c...4d5e6f main -> main (forced update)\n"
+    }
+  ],
+  "expect": {
+    "git": [
+      {
+        "seq": 1,
+        "op": "push",
+        "ok": false,
+        "host": "github.com"
+      },
+      {
+        "seq": 2,
+        "op": "force-push",
+        "ok": true
+      }
+    ],
+    "danger": [
+      {
+        "seq": 2,
+        "tier": "danger",
+        "kind": "force-push",
+        "detail": "git push --force"
+      }
+    ]
+  }
+}

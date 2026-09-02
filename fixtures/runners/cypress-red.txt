@@ -1,0 +1,8 @@
+  (Results)
+
+  │ Tests:        3                │
+  │ Passing:      2                │
+  │ Failing:      1                │
+  │ Pending:      0                │
+
+  ✖  1 of 3 failed (33%)

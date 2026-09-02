@@ -1,0 +1,29 @@
+{
+  "name": "sudo and chmod 777",
+  "calls": [
+    {
+      "command": "sudo npm install -g something",
+      "exitCode": 0
+    },
+    {
+      "command": "chmod -R 777 .",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "danger": [
+      {
+        "seq": 1,
+        "tier": "danger",
+        "kind": "sudo",
+        "detail": "sudo npm"
+      },
+      {
+        "seq": 2,
+        "tier": "danger",
+        "kind": "chmod-777",
+        "detail": "chmod -R 777 ."
+      }
+    ]
+  }
+}

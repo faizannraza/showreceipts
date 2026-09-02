@@ -1,0 +1,44 @@
+{
+  "name": "gitOperation amend after a push raises amend-after-push",
+  "calls": [
+    {
+      "command": "git push origin main",
+      "exitCode": 0,
+      "resultText": "To github.com:u/repo.git\n   1a2b3c..4d5e6f  main -> main\n"
+    },
+    {
+      "command": "git commit --amend --no-edit",
+      "exitCode": 0,
+      "gitOperation": {
+        "sha": "d4e5f6a",
+        "kind": "amended"
+      }
+    }
+  ],
+  "expect": {
+    "git": [
+      {
+        "seq": 1,
+        "op": "push",
+        "ok": true,
+        "host": "github.com",
+        "remote": "origin",
+        "branch": "main"
+      },
+      {
+        "seq": 2,
+        "op": "amend",
+        "sha": "d4e5f6a",
+        "ok": true,
+        "source": "gitOperation"
+      }
+    ],
+    "danger": [
+      {
+        "seq": 2,
+        "tier": "danger",
+        "kind": "amend-after-push"
+      }
+    ]
+  }
+}

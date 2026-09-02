@@ -1,0 +1,30 @@
+{
+  "name": ">> appends; tee -a is redirect-family ok",
+  "calls": [
+    {
+      "command": "echo a >> notes.txt",
+      "exitCode": 0
+    },
+    {
+      "command": "pytest -q | tee -a test.log",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/notes.txt",
+        "verb": "update",
+        "source": "shell-inferred",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/test.log",
+        "verb": "update",
+        "source": "shell-inferred",
+        "status": "ok",
+        "isTestFile": false
+      }
+    ]
+  }
+}

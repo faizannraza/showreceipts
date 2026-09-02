@@ -1,0 +1,2 @@
+ok  	example.com/pkg/a	0.312s
+ok  	example.com/pkg/b	(cached)

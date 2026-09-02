@@ -1,0 +1,6 @@
+PASS src/__tests__/app.test.ts
+Test Suites: 3 passed, 3 total
+Tests:       42 passed, 42 total
+Snapshots:   0 total
+Time:        2.153 s
+Ran all test suites.

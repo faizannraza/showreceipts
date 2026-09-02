@@ -1,0 +1,27 @@
+{
+  "name": "npm install rewrites the lockfile and contacts the registry",
+  "calls": [
+    {
+      "command": "npm install express",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/package-lock.json",
+        "display": "package-lock.json",
+        "verb": "update",
+        "status": "ok"
+      }
+    ],
+    "network": [
+      {
+        "host": "registry.npmjs.org",
+        "via": "package-manager",
+        "inferred": true,
+        "status": "contacted"
+      }
+    ]
+  }
+}

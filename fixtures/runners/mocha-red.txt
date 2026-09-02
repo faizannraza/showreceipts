@@ -1,0 +1,6 @@
+  12 passing (300ms)
+  1 pending
+  2 failing
+
+  1) api returns 200:
+     AssertionError: expected 500 to equal 200

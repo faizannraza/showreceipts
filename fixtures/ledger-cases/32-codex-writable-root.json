@@ -1,0 +1,30 @@
+{
+  "name": "Codex writableRoots act as the repo boundary when no repo root exists",
+  "context": {
+    "harness": "codex",
+    "cwd": "/workspace",
+    "repoRoot": null,
+    "sandbox": {
+      "type": "workspace-write",
+      "writableRoots": [
+        "/workspace"
+      ],
+      "networkAccess": true
+    }
+  },
+  "calls": [
+    {
+      "command": "echo hi > notes.md",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/workspace/notes.md",
+        "scope": "repo",
+        "status": "ok"
+      }
+    ]
+  }
+}

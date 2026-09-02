@@ -376,6 +376,7 @@ function completeEditLike(call: ToolCall, result: unknown, diag: ToolDiag): void
   }
   if (isWriteResult(result)) {
     call.filesTouched = [result.filePath];
+    if (result.type === 'create') call.created = true; // §4.6.1: `WriteFact.created` from the Write result type (S12)
     if (typeof result['userModified'] === 'boolean') call.userModified = result['userModified'];
     let patch = patchFromStructured(result['structuredPatch']);
     if (patch === null && result.type === 'update') {

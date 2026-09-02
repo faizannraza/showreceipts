@@ -1,0 +1,24 @@
+{
+  "name": "gitOperation and the parsed stdout sha dedupe by prefix",
+  "calls": [
+    {
+      "command": "git commit -m 'msg'",
+      "exitCode": 0,
+      "gitOperation": {
+        "sha": "abc1234def5678",
+        "kind": "committed"
+      },
+      "resultText": "[main abc1234] msg\n"
+    }
+  ],
+  "expect": {
+    "git": [
+      {
+        "op": "commit",
+        "sha": "abc1234def5678",
+        "ok": true,
+        "source": "gitOperation"
+      }
+    ]
+  }
+}

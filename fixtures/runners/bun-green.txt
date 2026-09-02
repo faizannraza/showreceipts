@@ -1,0 +1,8 @@
+bun test v1.1.30
+
+src/app.test.ts:
+✓ adds [0.12ms]
+
+ 12 pass
+ 0 fail
+Ran 12 tests across 1 files. [45.00ms]

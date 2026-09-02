@@ -1,0 +1,271 @@
+{"text": "All 64 tests still green, ruff/mypy clean.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 64}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint", "tool": "ruff"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type", "tool": "mypy"}}], "tags": ["spec"]}
+{"text": "Phase 0 is done: name locked, full skeleton built, real trace → correctly priced report, 20 tests green, ruff/mypy clean, committed locally as `1ffc965`.", "expect": [{"kind": "completion", "polarity": "positive"}, {"kind": "test", "polarity": "positive", "fields": {"count": 20}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type"}}, {"kind": "git", "polarity": "positive", "fields": {"op": "commit", "sha": "1ffc965"}}], "tags": ["spec", "git"]}
+{"text": "Phase 1 is complete and committed locally as `b739565`.", "expect": [{"kind": "completion", "polarity": "positive"}, {"kind": "git", "polarity": "positive", "fields": {"op": "commit", "sha": "b739565"}}], "tags": ["spec", "git"]}
+{"text": "Push it up whenever you're ready:\n```\ngit push origin main\n```", "expect": [], "tags": ["spec", "zero", "fenced"]}
+{"text": "I won't run these myself since they touch your account.", "expect": [], "tags": ["spec", "zero"]}
+{"text": "240 tests pass, `ruff check` + `ruff format --check` + `mypy --strict` all clean, `mkdocs build --strict` clean.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 240}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint", "tool": "ruff"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "format"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type", "tool": "mypy --strict"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "build", "tool": "mkdocs"}}], "tags": ["spec"]}
+{"text": "**Confirmed live and working** — `pip install wattage` pulls the real package from PyPI and runs correctly.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["spec"]}
+{"text": "The push worked fine — `891b3ac` is on `origin/main`, nothing left unpushed.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "push", "branch": "main", "remote": "origin"}}], "tags": ["spec", "git"]}
+{"text": "Both were verified above — `uv build` produces a correct wheel.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["spec"]}
+{"text": "I was mid-way through a smoke test — that's the command that just got interrupted.", "expect": [], "tags": ["spec", "zero"]}
+{"text": "Created `lea_col_drop_preview.ipynb` in the current directory.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "lea_col_drop_preview.ipynb"}}], "tags": ["spec", "path"]}
+{"text": "Wrote `CONTRIBUTING.md` — a full \"write a detector\" walkthrough.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "CONTRIBUTING.md"}}], "tags": ["spec", "path"]}
+{"text": "Fixed `mkdocs.yml`'s fake `readthedocs.io` URL.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "mkdocs.yml"}}], "tags": ["spec", "path"]}
+{"text": "I haven't run the tests yet.", "expect": [{"kind": "test-ran", "polarity": "negated"}], "tags": ["spec", "cue"]}
+{"text": "Tests should pass now.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["spec", "cue"]}
+{"text": "You should run `pytest` to double-check.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "pytest"}}], "tags": ["spec", "cue"]}
+{"text": "The test suite is green.", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["spec"]}
+{"text": "No failing tests.", "expect": [{"kind": "test", "polarity": "positive", "rule": "test.nofail"}], "tags": ["spec", "cue"]}
+{"text": "Lint is clean.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}], "tags": ["spec"]}
+{"text": "Typecheck passes.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "type"}}], "tags": ["spec"]}
+{"text": "Build succeeds.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["spec"]}
+{"text": "Opened PR #6.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "pr", "prNumber": 6}}], "tags": ["spec", "git"]}
+{"text": "Pushed to origin/main.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "push"}}], "tags": ["spec", "git"]}
+{"text": "Created a new branch `fix/lint`.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "branch", "branch": "fix/lint"}}], "tags": ["spec", "git"]}
+{"text": "Installed `vitest` as a dev dependency.", "expect": [{"kind": "install", "polarity": "positive", "fields": {"subject": "vitest"}}], "tags": ["spec"]}
+{"text": "Ran `npm test` — 12 passed.", "expect": [{"kind": "command", "polarity": "positive", "fields": {"subject": "npm test"}}, {"kind": "test", "polarity": "positive", "fields": {"count": 12}}], "tags": ["spec"]}
+{"text": "I couldn't get the tests to run in this sandbox.", "expect": [{"kind": "test-ran", "polarity": "negated"}], "tags": ["spec", "cue"]}
+{"text": "Tests pass (except the flaky e2e one, which is skipped).", "expect": [{"kind": "test", "polarity": "positive", "fields": {"partial": true}}], "tags": ["spec"]}
+{"text": "Note: I did not commit anything.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "commit"}}], "tags": ["spec", "cue", "git"]}
+{"text": "Left the migration for you to run.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "migration"}}], "tags": ["spec", "cue"]}
+{"text": "TODO: add tests for the parser.", "expect": [], "tags": ["spec", "zero", "cue"]}
+{"text": "Everything is now verified, not asserted.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["spec"]}
+{"text": "Updated `src/wattage/models.py`, `tests/test_cli.py`, and `README.md`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "src/wattage/models.py"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "tests/test_cli.py"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "README.md"}}], "tags": ["spec", "path"]}
+{"text": "3 files changed.", "expect": [{"kind": "file-count", "polarity": "positive", "fields": {"count": 3}}], "tags": ["spec"]}
+{"text": "Removed the dead `legacy/` directory.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "delete", "directObject": true, "subject": "legacy/"}}], "tags": ["spec", "path"]}
+{"text": "Renamed `foo.ts` to `bar.ts`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "rename", "subject": "bar.ts", "fromPath": "foo.ts"}}], "tags": ["spec", "path"]}
+{"text": "Formatted with prettier.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "format", "tool": "prettier"}}], "tags": ["spec"]}
+{"text": "Compiles without warnings.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["spec", "cue"]}
+{"text": "It works as expected.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["spec"]}
+{"text": "This should work, but I wasn't able to test it here.", "expect": [{"kind": "verification", "polarity": "deferred"}, {"kind": "test-ran", "polarity": "negated"}], "tags": ["spec", "cue"]}
+{"text": "Is the test suite green?", "expect": [], "tags": ["spec", "zero"]}
+{"text": "| Tests | ✅ 41 passed |", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 41}}], "tags": ["spec", "marker"]}
+{"text": "❌ Tests: 2 failing (see above)", "expect": [{"kind": "test", "polarity": "negated"}], "tags": ["spec", "marker", "cue"]}
+{"text": "The tests were already passing before my change.", "expect": [], "tags": ["spec", "zero", "temporal"]}
+{"text": "Run `npm run build` to verify the output.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "npm run build"}}], "tags": ["spec", "cue"]}
+{"text": "Committed and pushed.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}, {"kind": "git", "polarity": "positive", "fields": {"op": "push"}}], "tags": ["spec", "git"]}
+{"text": "`cargo test` → 128 passed; clippy clean", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 128}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint", "tool": "clippy"}}], "tags": ["spec"]}
+{"text": "All green ✅", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["spec", "marker"]}
+{"text": "I've added `.skip` to the flaky test for now.", "expect": [], "tags": ["spec", "zero"]}
+{"text": "Verified with `curl localhost:3000/health` → 200.", "expect": [{"kind": "verification", "polarity": "positive"}, {"kind": "command", "polarity": "positive", "fields": {"subject": "curl localhost:3000/health"}}], "tags": ["spec"]}
+{"text": "Green baseline confirmed: 339 tests pass, ruff/format/mypy-strict/mkdocs-strict all clean.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 339}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "format"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["spec"]}
+{"text": "M6 is complete — 88/88 tests, lint ✅, typecheck ✅, no secrets in the tree.", "expect": [{"kind": "completion", "polarity": "positive"}, {"kind": "test", "polarity": "positive", "fields": {"count": 88}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type"}}], "tags": ["spec", "marker"]}
+{"text": "The discovery run is executing in the background.", "expect": [], "tags": ["spec", "zero"]}
+{"text": "Memory saved. The adversarial review workflow is running.", "expect": [], "tags": ["spec", "zero"]}
+{"text": "Confirmed: you're on `main`, working tree clean, 2 commits ahead of `origin/main`.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["spec"]}
+{"text": "No changes were needed — the config already handles it.", "expect": [{"kind": "no-change", "polarity": "positive"}], "tags": ["spec", "cue"]}
+{"text": "Added tests for the tokenizer in `tests/test_shell.py`.", "expect": [{"kind": "test-added", "polarity": "positive"}, {"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "tests/test_shell.py"}}], "tags": ["spec", "path"]}
+{"text": "80/88 tests pass; the 8 failures are in the e2e suite.", "expect": [{"kind": "test", "polarity": "negated", "fields": {"ratio": [80, 88]}}], "tags": ["spec", "cue"]}
+{"text": "Full validation gate (pytest, ruff check/format, mypy, mkdocs build --strict) passed on both the floor and the primary.", "expect": [{"kind": "test", "polarity": "positive", "rule": "test.gate"}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "format"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["gate"]}
+{"text": "**345 tests**, typecheck and lint clean", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 345}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}], "tags": ["gate"]}
+{"text": "444 tests, three clean runs", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 444}}], "tags": ["gate"]}
+{"text": "typecheck ✓, lint ✓, 136/136 tests", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "type"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}, {"kind": "test", "polarity": "positive", "fields": {"count": 136}}], "tags": ["gate", "marker"]}
+{"text": "256 tests passing (up from 240 at the start of this whole session).", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 256}}], "tags": ["temporal"]}
+{"text": "Caught and fixed one unrelated pre-existing doc/code drift in `GROUND_TRUTH.md`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "GROUND_TRUTH.md"}}], "tags": ["temporal", "path"]}
+{"text": "Removed both from `pyproject.toml`'s core dependencies.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "pyproject.toml"}}], "tags": ["path"]}
+{"text": "Nothing is committed or pushed.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "commit"}}, {"kind": "git", "polarity": "negated", "fields": {"op": "push"}}], "tags": ["cue", "git"]}
+{"text": "I nearly committed it.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "commit"}}], "tags": ["cue", "git"]}
+{"text": "The tests are not passing yet.", "expect": [{"kind": "test", "polarity": "negated"}], "tags": ["cue"]}
+{"text": "I never ran the tests.", "expect": [{"kind": "test-ran", "polarity": "negated"}], "tags": ["cue"]}
+{"text": "I didn't run the linter.", "expect": [{"kind": "command", "polarity": "negated", "fields": {"subject": "linter"}}], "tags": ["cue"]}
+{"text": "I couldn't run `npm test` in this sandbox.", "expect": [{"kind": "command", "polarity": "negated", "fields": {"subject": "npm test"}}], "tags": ["cue"]}
+{"text": "We haven't pushed.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "push"}}], "tags": ["cue", "git"]}
+{"text": "❌ lint: 3 errors", "expect": [{"kind": "check", "polarity": "negated", "fields": {"family": "lint"}}], "tags": ["cue", "marker"]}
+{"text": "Neither `a_mod.py` nor `b_mod.py` was updated.", "expect": [{"kind": "file", "polarity": "negated", "fields": {"verb": "update", "subject": "b_mod.py"}}], "tags": ["cue", "path"]}
+{"text": "I was unable to run the test suite.", "expect": [{"kind": "test-ran", "polarity": "negated"}], "tags": ["cue"]}
+{"text": "Nothing is on origin/main yet.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "push"}}], "tags": ["cue", "git"]}
+{"text": "Skipped running the tests.", "expect": [{"kind": "test-ran", "polarity": "negated"}], "tags": ["cue"]}
+{"text": "We didn't commit anything today.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "commit"}}], "tags": ["cue", "git"]}
+{"text": "I have not opened a PR yet.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "pr"}}], "tags": ["cue", "git"]}
+{"text": "Nothing changed.", "expect": [{"kind": "no-change", "polarity": "positive"}], "tags": ["cue"]}
+{"text": "Finished without any test failures.", "expect": [{"kind": "completion", "polarity": "positive"}, {"kind": "test", "polarity": "positive", "rule": "test.nofail"}], "tags": ["cue"]}
+{"text": "Zero failures across the suite.", "expect": [{"kind": "test", "polarity": "positive", "rule": "test.nofail"}], "tags": ["cue"]}
+{"text": "I almost pushed the fix.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "push"}}], "tags": ["cue", "git"]}
+{"text": "The commit is in, but the push failed.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}], "tags": ["cue", "git"]}
+{"text": "The tests will probably pass after a rebuild.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "You can run `make lint` to double-check.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "make lint"}}], "tags": ["cue"]}
+{"text": "Please run `npm run typecheck` before merging.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "npm run typecheck"}}], "tags": ["cue"]}
+{"text": "I'll push it after lunch.", "expect": [{"kind": "git", "polarity": "deferred", "fields": {"op": "push"}}], "tags": ["cue", "git"]}
+{"text": "Next I'll run the tests.", "expect": [{"kind": "test-ran", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "Remember to run `git commit` yourself.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "git commit"}}], "tags": ["cue"]}
+{"text": "Once you merge, the tests will pass.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "The migration is left for you to run.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "migration"}}], "tags": ["cue"]}
+{"text": "I plan to add tests next.", "expect": [], "tags": ["cue", "zero"]}
+{"text": "Expect `274 passed (274)` in the output.", "expect": [], "tags": ["cue", "zero"]}
+{"text": "You should see 34 tests pass.", "expect": [{"kind": "test", "polarity": "deferred", "fields": {"count": 34}}], "tags": ["cue"]}
+{"text": "Assuming the cache is warm, everything is green.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "Run `pytest -q` and you should see zero failures.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "pytest -q"}}, {"kind": "test", "polarity": "deferred", "rule": "test.nofail"}], "tags": ["cue"]}
+{"text": "If the linter passes, we're done.", "expect": [{"kind": "check", "polarity": "deferred", "fields": {"family": "lint"}}], "tags": ["cue"]}
+{"text": "In theory it compiles.", "expect": [{"kind": "check", "polarity": "deferred", "fields": {"family": "build"}}], "tags": ["cue"]}
+{"text": "Pending: the docs build.", "expect": [], "tags": ["cue", "zero"]}
+{"text": "I'm going to rerun the tests after the fix.", "expect": [{"kind": "test-ran", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "Let me know if the build fails.", "expect": [], "tags": ["cue", "zero"]}
+{"text": "Push the branch when you're ready.", "expect": [], "tags": ["cue", "zero", "git"]}
+{"text": "Verify the output with `npm run demo`.", "expect": [], "tags": ["cue", "zero"]}
+{"text": "Commit the changes and tag the release.", "expect": [], "tags": ["cue", "zero", "git"]}
+{"text": "Try running `cargo test` locally.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "cargo test"}}], "tags": ["cue"]}
+{"text": "The fallback should work.", "expect": [{"kind": "verification", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "Hopefully the tests pass on your machine.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "When you rerun it, expect all green.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "We could ship this once the tests are green.", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["cue"]}
+{"text": "The tests were passing before my changes.", "expect": [], "tags": ["temporal", "zero"]}
+{"text": "The test suite was already green before my changes.", "expect": [], "tags": ["temporal", "zero"]}
+{"text": "Lint was already clean before my changes.", "expect": [], "tags": ["temporal", "zero"]}
+{"text": "The tests were green prior to my changes.", "expect": [], "tags": ["temporal", "zero"]}
+{"text": "Tests were passing before the refactor.", "expect": [], "tags": ["temporal", "zero"]}
+{"text": "It was committed before my changes, then reverted.", "expect": [], "tags": ["temporal", "zero", "git"]}
+{"text": "The tests were failing previously; now 52 tests pass.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 52}}], "tags": ["temporal"]}
+{"text": "The pre-existing failures are unrelated; 88 tests pass.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 88}}], "tags": ["temporal"]}
+{"text": "Originally the build was red, but it compiles now.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["temporal"]}
+{"text": "At the start only 4 tests passed; now 44 tests pass and lint is clean.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 44}}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}], "tags": ["temporal"]}
+{"text": "| Lint | ✅ |", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}], "tags": ["marker"]}
+{"text": "| Typecheck | ✅ pass |", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "type"}}], "tags": ["marker"]}
+{"text": "| Build | ❌ broken |", "expect": [{"kind": "check", "polarity": "negated", "fields": {"family": "build"}}], "tags": ["marker", "cue"]}
+{"text": "| Tests | 41 passed | 0 failed |", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 41}}], "tags": ["marker"]}
+{"text": "✅ All 88 tests pass", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 88}}], "tags": ["marker"]}
+{"text": "❌ typecheck: 3 errors", "expect": [{"kind": "check", "polarity": "negated", "fields": {"family": "type"}}], "tags": ["marker", "cue"]}
+{"text": "🟢 build", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["marker"]}
+{"text": "✔ format", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "format"}}], "tags": ["marker"]}
+{"text": "✗ tests", "expect": [{"kind": "test", "polarity": "negated"}], "tags": ["marker", "cue"]}
+{"text": "| Step | Status |\n|---|---|\n| Unit tests | ✅ |\n| Lint | ✅ |", "expect": [{"kind": "test", "polarity": "positive"}, {"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}], "tags": ["marker"]}
+{"text": "❗ The push failed.", "expect": [], "tags": ["marker", "zero", "git"]}
+{"text": "✅ Committed as `9f2c1ab3`.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit", "sha": "9f2c1ab3"}}], "tags": ["marker", "git"]}
+{"text": "☑ 12 passed", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 12}}], "tags": ["marker"]}
+{"text": "✅ green ✅", "expect": [{"kind": "test", "polarity": "positive", "rule": "test.green_marker"}], "tags": ["marker"]}
+{"text": "| Coverage | 93% |", "expect": [], "tags": ["marker", "zero"]}
+{"text": "- [x] tests pass ✅", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["marker"]}
+{"text": "| lint | passed |", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}], "tags": ["marker"]}
+{"text": "❌ Tests | 2 failed", "expect": [{"kind": "test", "polarity": "negated"}], "tags": ["marker", "cue"]}
+{"text": "✅ 41 passed", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 41}}], "tags": ["marker"]}
+{"text": "Fixed the drift in src\\x.ts as well.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "src/x.ts"}}], "tags": ["path"]}
+{"text": "Bumped to v2.1.214 of the parser.", "expect": [], "tags": ["path", "zero"]}
+{"text": "We rely on node.js and socket.io for the server.", "expect": [], "tags": ["path", "zero"]}
+{"text": "The a.b.c chain resolves now.", "expect": [], "tags": ["path", "zero"]}
+{"text": "Updated `docs/`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "docs/"}}], "tags": ["path"]}
+{"text": "Updated src/wattage/cli.py and README.md.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "src/wattage/cli.py"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "README.md"}}], "tags": ["path"]}
+{"text": "Created ./scripts/new_tool.py alongside the old one.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "scripts/new_tool.py"}}], "tags": ["path"]}
+{"text": "Wrote ~/notes/plan.md for reference.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "~/notes/plan.md"}}], "tags": ["path"]}
+{"text": "Touched only `internal/cache.go`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "internal/cache.go"}}], "tags": ["path"]}
+{"text": "Edited `run.sh` and `Makefile`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "run.sh"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "Makefile"}}], "ledgerPaths": ["/repo/Makefile"], "tags": ["path"]}
+{"text": "Refactored `src/big file name.ts` for clarity.", "expect": [], "tags": ["path", "zero"]}
+{"text": "Deleted `<temp>` entries.", "expect": [], "tags": ["path", "zero"]}
+{"text": "I set `DEBUG=1` and re-ran the tests.", "expect": [{"kind": "test-ran", "polarity": "positive"}], "tags": ["path"]}
+{"text": "Renamed `src\\old.ts` to `src\\new.ts`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "rename", "subject": "src/new.ts", "fromPath": "src/old.ts"}}], "tags": ["path"]}
+{"text": "Moved `utils.py` into `src/common/`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "rename", "subject": "src/common/", "fromPath": "utils.py"}}], "tags": ["path"]}
+{"text": "Updated the config file.", "expect": [], "tags": ["path", "zero"]}
+{"text": "I created foo/bar.", "expect": [], "tags": ["path", "zero"]}
+{"text": "Cleaned up tests/helpers/util_test.go.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "tests/helpers/util_test.go"}}], "tags": ["path"]}
+{"text": "Dropped the unused `benchmarks/old_bench.rs`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "delete", "directObject": true, "subject": "benchmarks/old_bench.rs"}}], "tags": ["path"]}
+{"text": "New module: `pkg/runner/exec.go`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "pkg/runner/exec.go"}}], "tags": ["path"]}
+{"text": "The exporter is defined in `internal/export/csv.go`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "internal/export/csv.go"}}], "tags": ["path"]}
+{"text": "Generated `outputs/report.html` and `outputs/report.pdf`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "outputs/report.html"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "outputs/report.pdf"}}], "tags": ["path"]}
+{"text": "New file: `src/hooks/use_cache.ts`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "src/hooks/use_cache.ts"}}], "tags": ["path"]}
+{"text": "I cut the tag `v0.2.0` and pushed it.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "tag", "subject": "v0.2.0"}}, {"kind": "git", "polarity": "positive", "fields": {"op": "push"}}], "tags": ["git"]}
+{"text": "Made 3 commits on `fix/parser`.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}], "tags": ["git"]}
+{"text": "Checked out a new branch `feat/ledger`.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "branch", "branch": "feat/ledger"}}], "tags": ["git"]}
+{"text": "Switched to branch `develop`.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "branch", "branch": "develop"}}], "tags": ["git"]}
+{"text": "Tagged v1.4.0 and pushed the tag.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "tag", "subject": "v1.4.0"}}, {"kind": "git", "polarity": "positive", "fields": {"op": "push"}}], "tags": ["git"]}
+{"text": "Amended and force-pushed `main`.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "push"}}], "tags": ["git"]}
+{"text": "Submitted a pull request.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "pr"}}], "tags": ["git"]}
+{"text": "Raised PR #128 for review.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "pr", "prNumber": 128}}], "tags": ["git"]}
+{"text": "The commit is in.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}], "tags": ["git"]}
+{"text": "The commit is in and pushed to origin/release.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}, {"kind": "git", "polarity": "positive", "fields": {"op": "push", "remote": "origin", "branch": "release"}}], "tags": ["git"]}
+{"text": "Pushed the fix to origin/hotfix-1.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "push", "branch": "hotfix-1"}}], "tags": ["git"]}
+{"text": "I haven't pushed; the commits are local.", "expect": [{"kind": "git", "polarity": "negated", "fields": {"op": "push"}}], "tags": ["git", "cue"]}
+{"text": "CI reported tests passing.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"attribution": "other"}}], "tags": ["attribution"]}
+{"text": "Dependabot noticed the CVE and opened the PR.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "pr", "attribution": "other"}}], "tags": ["attribution", "git"]}
+{"text": "Those are the fixes you just pushed.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "push", "attribution": "other"}}], "tags": ["attribution", "git"]}
+{"text": "Marcus cloned and independently verified the fix.", "expect": [{"kind": "verification", "polarity": "positive", "fields": {"attribution": "other"}}], "tags": ["attribution"]}
+{"text": "The user ran the tests on their machine.", "expect": [{"kind": "test-ran", "polarity": "positive", "fields": {"attribution": "other"}}], "tags": ["attribution"]}
+{"text": "They pushed the branch already.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "push", "attribution": "other"}}], "tags": ["attribution", "git"]}
+{"text": "I can’t terminate the running process.", "expect": [], "tags": ["codex", "zero"]}
+{"text": "It didn’t even write the first checkpoint file.", "expect": [], "tags": ["codex", "zero"]}
+{"text": "# Context\nThe tests pass now.", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["codex"]}
+{"text": "# Result\nI’ve updated `agent/loop.py` and re-ran the tests.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "agent/loop.py"}}, {"kind": "test-ran", "polarity": "positive"}], "tags": ["codex", "path"]}
+{"text": "“All 12 tests pass,” it reported.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 12}}], "tags": ["codex"]}
+{"text": "I’ll rerun the tests after you approve.", "expect": [{"kind": "test-ran", "polarity": "deferred"}], "tags": ["codex", "cue"]}
+{"text": "The suite’s green — 202/202 tests.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 202}}], "tags": ["codex"]}
+{"text": "# Update\nCommitted as ‘1a2b3c4’ and pushed.", "expect": [{"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}, {"kind": "git", "polarity": "positive", "fields": {"op": "push"}}], "tags": ["codex", "git"]}
+{"text": "# Context\n```\n$ pytest\n128 passed\n```\nAll green ✅", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["codex", "fenced"]}
+{"text": "I wasn’t able to verify the fix end-to-end.", "expect": [], "tags": ["codex", "zero", "cue"]}
+{"text": "The committed evidence lives in `evidence/`.", "expect": [], "tags": ["zero"]}
+{"text": "19 committed evidence runs back this up.", "expect": [], "tags": ["zero", "git"]}
+{"text": "There is a removed doc file in the diff.", "expect": [], "tags": ["zero"]}
+{"text": "The design write-up is in REPORT.md.", "expect": [], "tags": ["zero", "path"]}
+{"text": "The linter is strict about imports.", "expect": [], "tags": ["zero"]}
+{"text": "The helpers live in the tests folder.", "expect": [], "tags": ["zero"]}
+{"text": "Everything is hash-verified.", "expect": [], "tags": ["zero"]}
+{"text": "It wants a verified email before publishing.", "expect": [], "tags": ["zero"]}
+{"text": "The test directory mirrors src.", "expect": [], "tags": ["zero"]}
+{"text": "This container can't reach the network.", "expect": [], "tags": ["zero"]}
+{"text": "A previously failing case is now covered.", "expect": [], "tags": ["zero", "temporal"]}
+{"text": "The command builds the report from cached data.", "expect": [], "tags": ["zero"]}
+{"text": "Coverage sits at 93% for now.", "expect": [], "tags": ["zero"]}
+{"text": "Everything is done once you merge.", "expect": [], "tags": ["zero", "cue"]}
+{"text": "Did you want me to also update `README.md`?", "expect": [], "tags": ["zero"]}
+{"text": "The fix:\n```py\n# all tests pass\nassert True\n```\nDeferred the cleanup.", "expect": [], "tags": ["zero", "fenced"]}
+{"text": "## Not done\n- wire the exporter\n- tests for the CLI\n\n## Done\nCommitted the parser fix.", "expect": [{"kind": "completion", "polarity": "positive"}, {"kind": "git", "polarity": "positive", "fields": {"op": "commit"}}], "tags": ["scope", "git"]}
+{"text": "### Remaining\n- add the CSV exporter\n- the tests pass only on Linux\n\nDone with the rest.", "expect": [{"kind": "test", "polarity": "deferred"}, {"kind": "completion", "polarity": "deferred"}], "tags": ["scope", "cue"]}
+{"text": "**Next steps:**\n- run `npm test`\n- push the branch\n\nThe exporter is done.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "npm test"}}, {"kind": "git", "polarity": "deferred", "fields": {"op": "push"}}, {"kind": "completion", "polarity": "positive"}], "tags": ["scope", "cue", "git"]}
+{"text": "**What's left:**\n- confirm the tests pass on a clean machine", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["scope", "cue"]}
+{"text": "**Before you push:**\n- the tests pass locally only with `-j1`", "expect": [{"kind": "test", "polarity": "deferred"}], "tags": ["scope", "cue"]}
+{"text": "**Outputs generated**\n- `outputs/tables/micro_entry_results.csv`\n- `outputs/figures/entry.png`", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "outputs/tables/micro_entry_results.csv"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "outputs/figures/entry.png"}}], "tags": ["scope", "path"]}
+{"text": "Verified:\n- ran `pytest` twice\n- `uv build` produces a wheel", "expect": [{"kind": "verification", "polarity": "positive"}, {"kind": "command", "polarity": "positive", "fields": {"subject": "pytest"}}], "tags": ["scope"]}
+{"text": "**Files updated:**\n- `src/cli.ts`\n- `docs/usage.md`", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "src/cli.ts"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "docs/usage.md"}}], "tags": ["scope", "path"]}
+{"text": "Created:\n- `a_tool.py`\n- `b_tool.py`", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "a_tool.py"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "b_tool.py"}}], "tags": ["scope", "path"]}
+{"text": "## New files\n- `docs/receipt-schema.md`", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "docs/receipt-schema.md"}}], "tags": ["scope", "path"]}
+{"text": "Added lodash as a dependency.", "expect": [{"kind": "install", "polarity": "positive", "fields": {"subject": "lodash"}}], "tags": ["install"]}
+{"text": "Installed `pytest-cov` as a dev dependency.", "expect": [{"kind": "install", "polarity": "positive", "fields": {"subject": "pytest-cov"}}], "tags": ["install"]}
+{"text": "Installed requests as a dependency.", "expect": [], "tags": ["install", "zero"]}
+{"text": "Installed `ruff@0.4.4` as a dev dependency.", "expect": [{"kind": "install", "polarity": "positive", "fields": {"subject": "ruff@0.4.4"}}], "tags": ["install"]}
+{"text": "pnpm add `zod` finished cleanly.", "expect": [{"kind": "install", "polarity": "positive", "fields": {"subject": "zod"}}], "tags": ["install"]}
+{"text": "Pulled in @types/node@20 as a dev dependency.", "expect": [{"kind": "install", "polarity": "positive", "fields": {"subject": "@types/node@20"}}], "tags": ["install"]}
+{"text": "Added it as a dependency.", "expect": [], "tags": ["install", "zero"]}
+{"text": "Ran `make docs` successfully.", "expect": [{"kind": "command", "polarity": "positive", "fields": {"subject": "make docs", "successPredicate": true}}], "tags": ["command"]}
+{"text": "Executed the migrations against staging.", "expect": [{"kind": "command", "polarity": "positive", "fields": {"subject": "migrations"}}], "tags": ["command"]}
+{"text": "I ran the benchmark twice.", "expect": [{"kind": "command", "polarity": "positive", "fields": {"subject": "benchmark"}}], "tags": ["command"]}
+{"text": "Kicked off `terraform plan` in the sandbox.", "expect": [{"kind": "command", "polarity": "positive", "fields": {"subject": "terraform plan"}}], "tags": ["command"]}
+{"text": "The smoke test is left for you to run.", "expect": [{"kind": "command", "polarity": "deferred", "fields": {"subject": "smoke test"}}], "tags": ["command", "cue"]}
+{"text": "Sanity-checked the output by hand.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["verify"]}
+{"text": "Tested it manually on macOS.", "expect": [{"kind": "verification", "polarity": "positive"}, {"kind": "test-ran", "polarity": "positive"}], "tags": ["verify"]}
+{"text": "Works as expected.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["verify"]}
+{"text": "Confirmed working end-to-end.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["verify"]}
+{"text": "Double-checked the math.", "expect": [{"kind": "verification", "polarity": "positive"}], "tags": ["verify"]}
+{"text": "No code changes were required.", "expect": [{"kind": "no-change", "polarity": "positive"}], "tags": ["nochange", "cue"]}
+{"text": "Left the files untouched.", "expect": [{"kind": "no-change", "polarity": "positive"}], "tags": ["nochange"]}
+{"text": "No changes to `settings.py` were needed.", "expect": [{"kind": "no-change", "polarity": "positive", "fields": {"subject": "settings.py"}}], "tags": ["nochange", "path"]}
+{"text": "Done.", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done"]}
+{"text": "All done!", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done"]}
+{"text": "Both done.", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done"]}
+{"text": "That's it — the feature is in place.", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done"]}
+{"text": "Shipped.", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done"]}
+{"text": "All 5 fixes are done.", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done"]}
+{"text": "The branch is ready to merge.", "expect": [{"kind": "completion", "polarity": "positive"}], "tags": ["done", "git"]}
+{"text": "In total, 7 files changed across the repo.", "expect": [{"kind": "file-count", "polarity": "positive", "fields": {"count": 7}}], "tags": ["path"]}
+{"text": "Added 12 new tests for the lexer.", "expect": [{"kind": "test-added", "polarity": "positive", "fields": {"count": 12}}], "tags": ["command"]}
+{"text": "The rate limiter is implemented in `middleware/rate.py`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "middleware/rate.py"}}], "tags": ["path"]}
+{"text": "397 tests (was 339) green.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 397}}], "tags": ["gate"]}
+{"text": "I re-ran the full test suite.", "expect": [{"kind": "test-ran", "polarity": "positive"}], "tags": ["command"]}
+{"text": "You created `config.yml` yourself.", "expect": [], "tags": ["zero", "attribution"]}
+{"text": "It was updated.", "expect": [], "tags": ["zero"]}
+{"text": "Added a new module: nothing fancy.", "expect": [], "tags": ["zero"]}
+{"text": "The helper is defined in the config.", "expect": [], "tags": ["zero"]}
+{"text": "The commit lands upstream later.", "expect": [], "tags": ["zero", "git"]}
+{"text": "`CHANGELOG.md` was updated.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "CHANGELOG.md", "explicitVerb": false}}], "tags": ["path"]}
+{"text": "Tests pass, but the linter is unhappy.", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["cue"]}
+{"text": "Everything is green.", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["gate"]}
+{"text": "The test suite passes.", "expect": [{"kind": "test", "polarity": "positive"}], "tags": ["gate"]}
+{"text": "5/5 tests green.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 5}}], "tags": ["gate"]}
+{"text": "52 tests, 0 failures.", "expect": [{"kind": "test", "polarity": "positive", "fields": {"count": 52}}], "tags": ["gate"]}
+{"text": "0 failed.", "expect": [{"kind": "test", "polarity": "positive", "rule": "test.nofail"}], "tags": ["gate", "cue"]}
+{"text": "All checks (ruff, mypy, tsc) passed.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "lint"}}, {"kind": "check", "polarity": "positive", "fields": {"family": "type", "tool": "mypy"}}], "tags": ["gate"]}
+{"text": "The validation gate passed again.", "expect": [{"kind": "test", "polarity": "positive", "rule": "test.gate"}], "tags": ["gate"]}
+{"text": "Everything compiles.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "build"}}], "tags": ["gate"]}
+{"text": "mkdocs build --strict is clean.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "build", "tool": "mkdocs"}}], "tags": ["gate"]}
+{"text": "gofmt reformatted nothing; the tree is clean.", "expect": [], "tags": ["zero"]}
+{"text": "Ran gofmt; everything is formatted.", "expect": [{"kind": "check", "polarity": "positive", "fields": {"family": "format"}}], "tags": ["gate"]}
+{"text": "I also fixed `apps/web/pages/index.tsx` while I was in there.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "apps/web/pages/index.tsx"}}], "tags": ["path"]}
+{"text": "Rewrote `parser/grammar.ts` from scratch.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "update", "subject": "parser/grammar.ts", "directObject": true}}], "tags": ["path"]}
+{"text": "Scaffolded `services/auth/handler.go` and `services/auth/handler_test.go`.", "expect": [{"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "services/auth/handler.go"}}, {"kind": "file", "polarity": "positive", "fields": {"verb": "create", "subject": "services/auth/handler_test.go"}}], "tags": ["path"]}
+{"text": "Wrote tests, ran the test suite, and 18 passed.", "expect": [{"kind": "test-added", "polarity": "positive"}, {"kind": "test-ran", "polarity": "positive"}, {"kind": "test", "polarity": "positive", "fields": {"count": 18}}], "tags": ["command"]}
+{"text": "Everything is verified end-to-end and the demo is ready to ship.", "expect": [{"kind": "verification", "polarity": "positive"}, {"kind": "completion", "polarity": "positive"}], "tags": ["verify", "done"]}

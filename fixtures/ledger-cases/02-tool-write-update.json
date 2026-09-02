@@ -1,0 +1,38 @@
+{
+  "name": "Edit tool updates a file (linesAdded/Removed from patch, userModified copied)",
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "/home/u/proj/src/app.py"
+      },
+      "filesTouched": [
+        "/home/u/proj/src/app.py"
+      ],
+      "userModified": false,
+      "patch": {
+        "added": [
+          "new"
+        ],
+        "removed": [
+          "old"
+        ],
+        "hunks": 1
+      }
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/src/app.py",
+        "verb": "update",
+        "source": "tool",
+        "status": "ok",
+        "scope": "repo",
+        "linesAdded": 1,
+        "linesRemoved": 1,
+        "userModified": false
+      }
+    ]
+  }
+}

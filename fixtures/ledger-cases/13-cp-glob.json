@@ -1,0 +1,21 @@
+{
+  "name": "cp with a glob source is unresolved",
+  "calls": [
+    {
+      "command": "cp src/*.py backup/",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "display": "backup/*.py",
+        "verb": "update",
+        "resolved": false,
+        "status": "ok",
+        "scope": "unknown"
+      }
+    ],
+    "filesChanged": []
+  }
+}

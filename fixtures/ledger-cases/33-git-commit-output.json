@@ -1,0 +1,34 @@
+{
+  "name": "commit sha from stdout; exit-0 commit without output has sha null",
+  "calls": [
+    {
+      "command": "git commit -m 'Add feature'",
+      "exitCode": 0,
+      "resultText": "[main abc1234] Add feature\n 1 file changed, 2 insertions(+)\n"
+    },
+    {
+      "command": "git commit -m 'quiet'",
+      "exitCode": 0,
+      "resultText": ""
+    }
+  ],
+  "expect": {
+    "git": [
+      {
+        "seq": 1,
+        "op": "commit",
+        "sha": "abc1234",
+        "branch": "main",
+        "ok": true,
+        "source": "output"
+      },
+      {
+        "seq": 2,
+        "op": "commit",
+        "sha": null,
+        "ok": true,
+        "source": "command"
+      }
+    ]
+  }
+}

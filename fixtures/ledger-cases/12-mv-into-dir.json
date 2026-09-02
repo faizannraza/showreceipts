@@ -1,0 +1,22 @@
+{
+  "name": "mv a dir/ writes dir/basename as a rename",
+  "calls": [
+    {
+      "command": "mv a.txt docs/",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/docs/a.txt",
+        "display": "docs/a.txt",
+        "verb": "rename",
+        "fromPath": "/home/u/proj/a.txt",
+        "source": "shell-inferred",
+        "status": "ok",
+        "isDoc": true
+      }
+    ]
+  }
+}

@@ -81,6 +81,20 @@ describe('formatClock', () => {
       expect(calendarDaysBetween(ref, T('2026-08-30T03:30:00Z'), 'local')).toBe(0);
       expect(calendarDaysBetween(ref, T('2026-08-30T03:30:00Z'), 'utc')).toBe(1);
     });
+
+    it('is DST-safe: each instant is shifted by its own offset, not the reference day’s', () => {
+      process.env['TZ'] = 'America/New_York';
+      const winterRef = T('2026-01-15T09:00:00Z');
+      // EST is UTC-5 in January (offset 300), EDT is UTC-4 in August (offset 240).
+      expect(new Date(winterRef).getTimezoneOffset()).toBe(300);
+      expect(new Date(ref).getTimezoneOffset()).toBe(240);
+      // 03:30Z on Jan 16 is 22:30 on Jan 15 in New York: same local day as the winter reference.
+      expect(formatClock(T('2026-01-16T03:30:00Z'), 'local', winterRef)).toBe('22:30');
+      // A summer instant formatted against the winter reference still uses its own EDT offset.
+      expect(formatClock(T('2026-08-30T03:30:00Z'), 'local', winterRef)).toBe('Aug 29 23:30');
+      // A range spanning the spring-forward transition counts calendar days per-instant.
+      expect(calendarDaysBetween(T('2026-03-08T04:00:00Z'), T('2026-03-09T03:59:00Z'), 'local')).toBe(1);
+    });
   });
 });
 

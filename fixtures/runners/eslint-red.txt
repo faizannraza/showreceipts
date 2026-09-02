@@ -1,0 +1,4 @@
+/home/u/proj/src/app.ts
+  10:5  error  x is assigned a value but never used  no-unused-vars
+
+✖ 2 problems (2 errors, 0 warnings)

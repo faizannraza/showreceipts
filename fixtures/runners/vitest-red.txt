@@ -1,0 +1,6 @@
+ ❯ test/unit/x.test.ts (35 tests | 1 failed) 120ms
+
+ Test Files  1 failed | 16 passed (17)
+      Tests  1 failed | 34 passed (35)
+   Start at  12:00:01
+   Duration  2.41s

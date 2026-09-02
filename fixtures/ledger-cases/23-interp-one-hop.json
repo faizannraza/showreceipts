@@ -1,0 +1,19 @@
+{
+  "name": "one-hop literal assignment resolves the interp write target",
+  "calls": [
+    {
+      "command": "python3 -c 'p = \"reports/summary.md\"\nf = open(p, \"w\")\nf.write(\"done\")'",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/reports/summary.md",
+        "source": "interp-inferred",
+        "status": "ok"
+      }
+    ],
+    "opaqueWriteSeqs": []
+  }
+}

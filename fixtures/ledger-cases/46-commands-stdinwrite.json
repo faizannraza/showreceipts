@@ -1,0 +1,32 @@
+{
+  "name": "stdinWrite calls are skipped by commands.ts",
+  "calls": [
+    {
+      "command": "echo hi && ls",
+      "exitCode": 0,
+      "durationMs": 12
+    },
+    {
+      "tool": "write_stdin",
+      "command": "y\n",
+      "stdinWrite": true,
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "commands": [
+      {
+        "seq": 1,
+        "raw": "echo hi && ls",
+        "chained": true,
+        "background": false,
+        "interrupted": false,
+        "durationMs": 12,
+        "segmentPrograms": [
+          "echo",
+          "ls"
+        ]
+      }
+    ]
+  }
+}

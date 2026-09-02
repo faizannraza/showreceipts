@@ -1,0 +1,12 @@
+{
+  "unit": "usd_per_million_tokens",
+  "models": {
+    "bad-model": {
+      "provider": "openai",
+      "rates": [{ "from": null, "until": null, "input": -1, "output": 8.0 }],
+      "verified": false,
+      "confidence": "estimate",
+      "source": "override"
+    }
+  }
+}

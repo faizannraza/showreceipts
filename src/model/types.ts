@@ -170,6 +170,8 @@ export interface ToolCall {
   stdinWrites?: { seq: number; chars: number; interrupted?: boolean }[];
   /** Paths of a failed `apply_patch` (§4.3.4) — never counted as writes. */
   attempted?: string[];
+  /** Write `toolUseResult.type === 'create'` (§4.6.1 `WriteFact.created`; addition S12). */
+  created?: boolean;
 }
 
 export interface Ledger {
@@ -229,6 +231,8 @@ export interface WriteFact {
   isTestFile: boolean;
   isDoc: boolean;
   userModified?: boolean;
+  /** `mkdir|touch|ln -s|chmod|chown`-style writes: recorded, never in `filesChanged` (§4.6.1; addition S12). */
+  metadataOnly?: boolean;
 }
 
 /** A shell segment (one simple command inside a `Bash`/`exec_command` line, §4.5). */
@@ -398,7 +402,8 @@ export interface DangerFlag {
     | 'sudo'
     | 'chmod-777'
     | 'amend-after-push'
-    | 'read-secret';
+    | 'read-secret'
+    | 'kill';
   detail: string;
 }
 

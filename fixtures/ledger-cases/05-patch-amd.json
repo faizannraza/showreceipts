@@ -1,0 +1,39 @@
+{
+  "name": "successful apply_patch: A create, M update, D delete from output lines",
+  "calls": [
+    {
+      "tool": "apply_patch",
+      "cwd": "/home/u/proj",
+      "filesTouched": [
+        "/home/u/proj/new.py",
+        "/home/u/proj/src/app.py",
+        "/home/u/proj/old.py"
+      ],
+      "resultText": "Success. Updated the following files:\nA new.py\nM src/app.py\nD old.py\n",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/new.py",
+        "verb": "create",
+        "source": "patch",
+        "status": "ok",
+        "created": true
+      },
+      {
+        "path": "/home/u/proj/src/app.py",
+        "verb": "update",
+        "source": "patch",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/old.py",
+        "verb": "delete",
+        "source": "patch",
+        "status": "ok"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+Passed!  - Failed:     0, Passed:    12, Skipped:     0, Total:    12, Duration: 1 s

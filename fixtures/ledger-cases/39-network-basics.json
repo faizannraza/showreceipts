@@ -1,0 +1,95 @@
+{
+  "name": "package managers infer registries; npx and npm run never count",
+  "calls": [
+    {
+      "command": "npm install",
+      "exitCode": 0
+    },
+    {
+      "command": "npx vitest run",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "pip install requests",
+      "exitCode": 1
+    },
+    {
+      "command": "cargo add serde",
+      "exitCode": 0
+    },
+    {
+      "command": "gh api /repos/u/r",
+      "exitCode": 0,
+      "resultText": "{}"
+    },
+    {
+      "command": "curl https://Example.COM/path http://localhost:3000/x",
+      "exitCode": 0
+    },
+    {
+      "command": "git fetch",
+      "exitCode": 0,
+      "resultText": "From github.com:u/repo\n   1a2b3c..4d5e6f  main -> origin/main\n"
+    },
+    {
+      "command": "git pull",
+      "exitCode": 0,
+      "resultText": "Already up to date.\n"
+    }
+  ],
+  "expect": {
+    "network": [
+      {
+        "seq": 1,
+        "host": "registry.npmjs.org",
+        "via": "package-manager",
+        "inferred": true,
+        "status": "contacted"
+      },
+      {
+        "seq": 4,
+        "host": "pypi.org",
+        "via": "package-manager",
+        "status": "attempted",
+        "exit": 1
+      },
+      {
+        "seq": 5,
+        "host": "crates.io",
+        "via": "package-manager",
+        "status": "contacted"
+      },
+      {
+        "seq": 6,
+        "host": "api.github.com",
+        "via": "git",
+        "status": "contacted"
+      },
+      {
+        "seq": 7,
+        "host": "example.com",
+        "via": "shell",
+        "inferred": false,
+        "status": "contacted"
+      },
+      {
+        "seq": 8,
+        "host": "github.com",
+        "via": "git",
+        "inferred": false,
+        "status": "contacted"
+      },
+      {
+        "seq": 9,
+        "host": "origin (host unknown)",
+        "via": "git",
+        "inferred": true,
+        "status": "contacted"
+      }
+    ]
+  }
+}

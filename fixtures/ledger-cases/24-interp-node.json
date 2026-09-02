@@ -1,0 +1,19 @@
+{
+  "name": "node -e fs.writeFileSync with a literal path",
+  "calls": [
+    {
+      "command": "node -e 'const fs = require(\"fs\"); fs.writeFileSync(\"out.js\", source)'",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/out.js",
+        "source": "interp-inferred",
+        "status": "ok"
+      }
+    ],
+    "opaqueWriteSeqs": []
+  }
+}

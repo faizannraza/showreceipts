@@ -1,0 +1,24 @@
+{
+  "name": "BSD sed -i.bak adds a backup write",
+  "calls": [
+    {
+      "command": "sed -i.bak -e 's/a/b/' app.py",
+      "exitCode": 0
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "path": "/home/u/proj/app.py",
+        "verb": "update",
+        "status": "ok"
+      },
+      {
+        "path": "/home/u/proj/app.py.bak",
+        "verb": "create",
+        "status": "ok",
+        "created": true
+      }
+    ]
+  }
+}

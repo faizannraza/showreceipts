@@ -1,0 +1,3 @@
+ [2mTest Files[22m  [1m[32m1 passed[39m[22m (1)
+      [2mTests[22m  [1m[32m136 passed[39m[22m (136)
+   [2mDuration[22m  1.21s

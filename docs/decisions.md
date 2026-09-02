@@ -215,3 +215,101 @@ unit test; `typecheck`, the full suite, `lint:nonet`, `deps:guard`, `size`,
   `SHOWRECEIPTS_PERF=1`-gated test in `test/goldens/readers.test.ts` — plain
   `npm test` runs suites in parallel, which roughly halves the measured MB/s
   and would flake the floor.
+
+## W2 — Ledger, claims, cost (S11–S16, lead)
+
+Review-pass minors resolved at the wave close. Fixes below landed with unit
+tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
+`lint:nonet`, `deps:guard` and `size` are green after them.
+
+### S11 — shell lexing, segments, families
+
+- **`mvn:verify|package` → family `test` (ratified).** §4.5.6's build row
+  (`mvn:package|compile|verify`) conflicts with §7's maven detection
+  (`mvn test|verify|package` + the surefire/failsafe tail). §7 wins: a
+  `verify`/`package` that prints no surefire summary parses no counts and
+  stays `green: unknown`, so nothing is over-credited; `compile` alone stays
+  `build`.
+- **`-p` stays a subset flag for every runner (ratified).** §4.5.6 lists
+  `-p` in the one subset-flag list, so `pytest -p no:cacheprovider` (a plugin
+  flag) is labelled `subset` with the plugin name as target — a false
+  positive in the conservative direction (subset is weaker evidence than
+  full), now pinned in `families.test.ts` rather than special-cased against
+  the architecture text.
+- **`make`/`just`/`gradle` target folding (fixed, W2 close).** Folding now
+  skips the runners' value-taking flags before picking the target
+  (`make -C dir test` → `make:test`, argv keeps `-C dir`; make's `-j`
+  swallows a separate value only when numeric, as make itself does),
+  mirroring `gitSubcommand`.
+- **Lex perf budgets (fixed, W2 close).** The coverage multiplier rose
+  6x → 10x: a warmed best of ~31 ms was observed for the 5 ms case under
+  coverage on a machine loaded with parallel build agents, past the old
+  30 ms budget. Uninstrumented budgets stay 5/20 ms per the S11 acceptance
+  line; the guarded pathologies cost seconds, so 50/200 ms stays decisive.
+
+### S12 — fact extractors
+
+- **Additive type changes ratified.** `DangerFlag` kind `'kill'` (§4.6.8
+  lists `pkill -f` with no matching kind), `WriteFact.metadataOnly`
+  (`mkdir`/`touch`/`chmod` never reach `filesChanged`), and the one-line S04
+  reader change deriving `call.created` from the Write tool's
+  `type: 'create'` result (§4.6.1 requires `created`). All additive and
+  commented at the site.
+- Whether §4.9 staleness (S17) should ignore `metadataOnly` writes (a
+  `touch` bumping `W` between an edit and a test run) is S17's call; carried
+  there as an open note.
+- The ~100-line fixture-loader boilerplate duplicated across the five
+  extractor test files is accepted for W2; hoist into a shared helper (with
+  the S03 owner) only if the case format ever changes.
+
+### S13 — runner/check parsing, integrity
+
+- The builder report's "53 index entries" was a count slip — the file has 52
+  (23 runner green/red pairs plus variants), and the 23×2 presence is
+  test-asserted. No code change.
+- `parseOutput` parses the final 1 KB slice first and keeps a successful
+  tail parse. A summary line cut exactly at the slice boundary could in
+  theory lose a leading token, but every §7 runner prints its summary within
+  the final KB and a red run's non-zero exit vetoes green regardless.
+  Accepted for v1.
+
+### S14 — ledger assembly
+
+- The S14 checklist line "per-turn `W` excludes test-file writes" is a
+  wording slip: `W` counts any `ok` write (§4.8 `W_all`) and `Wsrc` is the
+  excluding counter, per the S02 type doc the code follows. Code unchanged.
+- W2 close: tests added for the transcript-path home fallback (home-prefix
+  and config-dir forms, plus home `''` — `~` collapses to `/`, never a
+  guessed user) and for a tool call whose `turnIndex` has no `Turn` (a
+  `perTurn` entry still appears; no Turn counter is touched).
+
+### S15 — claim extraction
+
+- **Widened trigger fragments (ratified).** Several trigger regexes are
+  deliberately wider than the §6.1 prose (modal/negation forms of
+  `test.pass`, `-strict` suffixes for the tools rules, sentence-initial
+  `check.build`, …). The generated rule table (`scripts/gen-claims-doc.mjs`,
+  pasted into `docs/claims.md` by S33) is the source of truth over the §6.1
+  prose; the 271-line corpus holds the widened forms at 100 %
+  precision/recall (`npm run accuracy --min 1.0`).
+- **Cue-list equivalences vs §4.7 step 5 (accepted).** `about to` lives in
+  `HEDGE_RE` only (deferred is checked before negated, so behaviour
+  matches); bare `expect(ed)` is intentionally absent (sentence-initial
+  `Expect …` is imperative; `as expected` is a genuine `verify.generic`
+  positive).
+
+### S16 — pricing
+
+- `mergeTables` versions an override as
+  `sha256(stableStringify({defaults, models}))[:8]`, not raw file bytes:
+  JSON-equivalent reformatting keeps the version. §8.1 says only
+  "sha256(override)[:8]"; the canonical-form reading is deterministic and
+  test-pinned.
+- `pickWindow` assumes dated windows are contiguous and ordered as in §8.2
+  (first window containing the day wins; a day before every window prices as
+  the earliest window + `estimate`). The bundled table satisfies this;
+  override authors must keep windows contiguous. Not validated in
+  `validateTable` for v1.
+- Multiplier-based `cacheRead` renders as `0.1× input` in the generated
+  provenance table; S33 confirms the wording when assembling
+  `docs/prices.md`.

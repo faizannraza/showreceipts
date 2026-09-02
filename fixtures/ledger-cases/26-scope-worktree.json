@@ -1,0 +1,22 @@
+{
+  "name": "a write under .claude/worktrees/ is scope worktree",
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "/home/u/proj/.claude/worktrees/w1/src/x.ts"
+      },
+      "filesTouched": [
+        "/home/u/proj/.claude/worktrees/w1/src/x.ts"
+      ]
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "scope": "worktree",
+        "status": "ok"
+      }
+    ]
+  }
+}

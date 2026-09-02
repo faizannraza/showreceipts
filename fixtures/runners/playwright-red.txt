@@ -1,0 +1,5 @@
+  1 failed
+    [chromium] › example.spec.ts:3:1 › gets title ──────────────────
+  1 flaky
+    [firefox] › nav.spec.ts:9:1 › navigates ──────────────────────
+  2 passed (5.1s)

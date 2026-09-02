@@ -1,0 +1,3 @@
+Running 3 tests using 2 workers
+
+  3 passed (4.2s)

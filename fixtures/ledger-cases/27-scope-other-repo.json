@@ -1,0 +1,28 @@
+{
+  "name": "a write in another repository resolves via the injected resolver",
+  "context": {
+    "repoRoots": {
+      "/home/u/lib": "/home/u/lib"
+    }
+  },
+  "calls": [
+    {
+      "tool": "Edit",
+      "input": {
+        "file_path": "/home/u/lib/z.ts"
+      },
+      "filesTouched": [
+        "/home/u/lib/z.ts"
+      ]
+    }
+  ],
+  "expect": {
+    "writes": [
+      {
+        "scope": "other-repo",
+        "otherRoot": "/home/u/lib",
+        "status": "ok"
+      }
+    ]
+  }
+}
