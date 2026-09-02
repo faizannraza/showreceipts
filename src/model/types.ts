@@ -604,6 +604,8 @@ export interface UsageRow {
   serviceTier?: string;
   promptTokens: number;
   incomplete?: boolean;
+  /** §4.2.2: an interrupted stream — billed once, a known interruption (never `incomplete`). */
+  interrupted?: boolean;
   inherited?: boolean;
 }
 

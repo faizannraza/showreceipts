@@ -75,3 +75,143 @@ never name a real session id, path, user or private project here.
   `REDACTION-REVIEW.md` and runs `node scripts/redact-fixture.mjs --sign "<name>"`
   before `fixtures/` is committed (S03 acceptance criterion). S19 appends to
   this file rather than starting it.
+
+## W1 — Readers (S04–S10)
+
+### S10 — real-data verification (M1 review fixes)
+
+- **Record correction.** The first S10 build report attributed the +900
+  deduped-output divergence to the 2.1.235 transcript and claimed that file's
+  raw output sum matches the §0.3 pin of 4,599,129. Wrong file: the 2.1.235
+  transcript's raw sum is 3,458,905; the biggest-output session — the file
+  both §0.3 output pins are measured on — is the frozen 2.1.214+2.1.236
+  transcript (raw 4,599,129 with the byte-level splitter; `node:readline`
+  mangles 16 of its lines and reads 4,598,288). The substantive conclusion
+  stands: the divergence is on frozen bytes, not live-session drift.
+- **The +900 (§4.2.7 pin vs reader), resolved without an S06 change.**
+  §4.2.7's "4,599,129 raw → 1,734,118 deduped" pin measures the
+  *top-level-usage representative-line* sum (the §0.3 survey method: per
+  `message.id` group, the last line with a non-null `stop_reason`, summing
+  top-level `usage.output_tokens`). The reader's `Session.usage.output` is the
+  §8.3 *billed-attempt* quantity (`attempts = usage.iterations ?? [usage]`,
+  billed attempts summed). They differ on exactly one message of the biggest
+  transcript: an assistant message re-emitted on two lines (same `message.id`,
+  distinct uuids, `stop_reason` `"tool_use"`) whose **top-level usage is
+  all-zero** while its single `usage.iterations[0]` carries `output_tokens`
+  900 / `input_tokens` 2 — one of §8.3's "12,461 of 12,463 single-iteration
+  lines" exceptions. The same mechanism adds +1,500 on the 2.1.235 transcript
+  (the two refusal-fallback records' refused attempts, 217 + 1,283 output
+  tokens), which §8.3 explicitly requires to be billed. Changing the dedupe to
+  reproduce 1,734,118 would unbill those attempts and break the S06 §8.3
+  pins, so the reader keeps attempt billing; `verify:real` asserts **both**
+  quantities, each by its own method — 1,734,118 "deduped (§0.3 method)" and
+  1,735,018 "billed (§8.3 attempts)" — and both PASS on the frozen bytes.
+- **`verify:real` is now a gate with per-frozen-file pins.** §0.3's aggregate
+  pins that include the live session (26,590 main lines, 440 timestamp
+  regressions, 4,820 `message.id` groups, 3 interrupted turns) are permanently
+  unmeetable on a machine whose live session keeps growing. Per the S10
+  review, expectations are pinned per frozen transcript (the six finished
+  Claude Code mains and the two Codex rollouts); a frozen-file mismatch now
+  FAILs with exit 1 (frozen bytes cannot drift, so a mismatch means a reader
+  behaviour change); live or post-snapshot transcripts print as INFO, never
+  asserted; the live-inclusive §0.3 aggregates print as INFO with their
+  snapshot values. The S10 acceptance line "prints every assertion as PASS"
+  is read over these assertions.
+- **Interrupted-turn counting.** The reader's `Turn.interrupted` flag (last
+  assistant message `tool_use`/`null`, or an interrupt segment closing the
+  turn — S06 instr. 3) counts 7 turns across the frozen transcripts alone,
+  where §0.3's survey counted 3 across all files with its narrower
+  interrupt-segment definition; the earlier report's "live-session drift"
+  explanation for this row was therefore also wrong. The per-file pins use
+  the reader's flag; the survey number remains an INFO row.
+
+### W1 merge — integration decisions (S04–S10, lead)
+
+Review-pass minors resolved at the wave close. Every fix below landed with a
+unit test; `typecheck`, the full suite, `lint:nonet`, `deps:guard`, `size`,
+`catalogue --check` and `verify:real` are green after them.
+
+- **S04/S09 — ledger line splitting.** `src/readers/ledger/reader.ts` keeps
+  its local splitter instead of consuming S04's `readJsonl`: ledger files are
+  written by our own hooks (single-`appendFileSync` lines), the transcript
+  reader's carry/offset/type-sniff machinery buys nothing on an in-memory
+  text, and both splitters have torn-line tests. Revisit only if ledgers ever
+  need incremental tail parsing.
+- **S09 — coverage readings (accepted).** (1) Zero tool events ⇒
+  `ledgerCoverage: 'partial'` ("no tool events recorded"): an empty ledger
+  cannot attest hook coverage, so a chat-only session is deliberately never
+  `'all-tools'`. (2) For gemini/copilot/hermes/dsh one recorded tool event
+  attests the whole managed hook block; hand-editing single entries out of
+  the managed block is out of scope for v1.
+- **S09 — blank interim finals (fixed).** Empty-text `agent-response` lines
+  no longer count in `interimFinals` (a blank line can never be a final).
+- **S06 — result-text cap (fixed).** `capResultText` treats the 1 Mi cap as
+  a UTF-16 code-unit memory bound; a multibyte-heavy string within that cap
+  is kept whole. The old byte-length early-return made head and tail overlap
+  and *lengthen* such a string with a duplicated middle.
+- **S06 — denial kinds (fixed).** `toolDenialKind` present ⇒ denied, per
+  §4.2.5 (b): `sandbox-denied` maps to itself, unknown future kinds fall
+  back to `tool_use_error`. Previously only three literals were mapped.
+- **S06 — interrupted streams (fixed).** A usage row whose `message.id`
+  appears in a later line's `interruptedMessageId` is flagged `interrupted`
+  (new optional `UsageRow.interrupted`), not `incomplete`, per §4.2.2
+  "billed once and flagged `interrupted`". Billing is unchanged. The 2.1.235
+  golden's `incomplete`/`incompleteMessages` moved 38 → 36 (its two
+  interrupted streams); no `verify:real` pin involves those counts, and all
+  pins still PASS on the frozen bytes.
+- **S07 — inherited snapshot (fixed).** `mergeSubagents` now matches
+  §4.2.7's inherited rule against main-file rows only (`agentId === null`),
+  so a second merge (the reader's inline-then-dir double call) can no longer
+  mark a row inherited for sharing an id with a previously merged subagent
+  row. Main-file ids still inherit on any later merge.
+- **S07 — unreadable subagent files (fixed).** An enumerated `agent-*.jsonl`
+  that cannot be opened leaves `subagent file <name> unreadable` in
+  `diagnostics.notes` instead of vanishing silently.
+- **S07 — nested spawn ordering (test added).** A synthetic case now asserts
+  every merged event of a nested agent sits after its own spawning call
+  inside the parent agent's file (the 2.1.235 fixture only pinned linkage).
+- **S07 — 2.1.241 journal (accepted).** The fixture ships no
+  `journal.jsonl`; "counted, never parsed" stays pinned by the synthetic
+  enumeration test. The fixture is not extended (S03 owns generation).
+- **S08 — Codex MCP heuristic (kept + trace).** `codexToolKind` keeps the
+  broad double-underscore test — Codex MCP tools are named `server__tool`,
+  without Claude Code's `mcp__` prefix, so restricting to `mcp__` would
+  misclassify real MCP calls — but a non-`mcp__` match now bumps
+  `unknownCodexPayloads['mcp-name:<name>']` so the catalogue surfaces the
+  shape.
+- **S08 — step-text arithmetic slip.** The step's "352 zero-delta duplicates
+  across both files" reused the per-file figure (§4.3.5's "352 of 706" in
+  one rollout); the cross-file total is 359 (7 + 352). `verify:real` pins
+  359.
+- **S08 — stdin wording (routed).** The reader records structured facts only
+  (`stdinWrites[{seq, chars, interrupted?}]`, `target.interrupted`); the
+  "interactive input" / "interrupted by Ctrl-C" wording belongs to receipt
+  composition/rendering — noted in the S18 step file so it is not dropped.
+- **S08 — defaulted patch exit (accepted).** An exec-delivered `apply_patch`
+  whose output matches no parser keeps `exitCodeSource: 'parsed'` for its
+  defaulted exit 1 (the union has no 'default' member); commented at the
+  site, and such a call is `isError` and never green either way.
+- **S05 — cache key granularity (accepted).** `cacheKey` hashes the
+  discovery-spelled path (realpath at the root only, §4.1); a transcript
+  that is itself a symlink keys by its spelled path. S27b must realpath a
+  hook-provided `transcript_path` before cache lookup (noted in the S27b
+  step file).
+- **S05 — index concurrency / beside-file manifests (accepted).**
+  `index.json`'s read-modify-write is last-writer-wins: entries are never
+  corrupted and a lost slot only costs one incremental-parse opportunity;
+  single-writer in practice and self-healing on the next put. Beside-layout
+  agent files joining every session's `subagentManifest` (so one beside-file
+  change invalidates the project's sessions together) is deliberate —
+  attribution needs parsing, which discovery must never do.
+- **S10 — frozen-id prefixes (accepted).** The 8-character session-id
+  prefixes in `scripts/verify-real.mjs` stay: the script is author-only,
+  runs against local logs, and a prefix identifies nothing beyond a
+  session's existence; the redaction pipeline's full-id hash list
+  intentionally cannot match prefixes. Recorded here in lieu of a
+  docs/privacy.md (not yet created).
+- **S10 — goldens throughput.** The throughput line is written straight to
+  `process.stdout` (vitest's console intercept swallows `console.log` from
+  `afterAll`), and the 60 MB/s floor is asserted by a
+  `SHOWRECEIPTS_PERF=1`-gated test in `test/goldens/readers.test.ts` — plain
+  `npm test` runs suites in parallel, which roughly halves the measured MB/s
+  and would flake the floor.
