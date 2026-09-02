@@ -6,33 +6,6 @@
     "Header-only remote-control session with 0 assistant lines → kind:no-turns, turns.length===0 (§4.1).",
     "bridge-session records counted, never parsed as transcripts (Appendix A)."
   ],
-  "source": {
-    "harnessVersion": "2.1.243",
-    "originalLines": 13,
-    "window": null,
-    "freezeLines": null,
-    "startedAt": "2026-08-29T21:16:13.259Z",
-    "endedAt": "2026-08-29T21:16:30.125Z",
-    "files": {
-      "projects/-home-u-proj/1f574b70-66e7-4434-96de-1c7d4a0c6fb8.jsonl": 13
-    },
-    "badLines": 0
-  },
-  "shapes": [
-    "file:claude-code:main",
-    "record:bridge-session",
-    "record:last-prompt",
-    "record:user",
-    "user:local-command",
-    "user:meta",
-    "user:skill",
-    "version:2.1.243"
-  ],
-  "redaction": {
-    "policyVersion": 1,
-    "seed": "showreceipts-fixtures-1",
-    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
-  },
   "session": {
     "1f574b70-66e7-4434-96de-1c7d4a0c6fb8": {
       "harness": "claude-code",
@@ -128,5 +101,32 @@
         "records": 13
       }
     }
+  },
+  "source": {
+    "harnessVersion": "2.1.243",
+    "originalLines": 13,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2026-08-29T21:16:13.259Z",
+    "endedAt": "2026-08-29T21:16:30.125Z",
+    "files": {
+      "projects/-home-u-proj/1f574b70-66e7-4434-96de-1c7d4a0c6fb8.jsonl": 13
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "file:claude-code:main",
+    "record:bridge-session",
+    "record:last-prompt",
+    "record:user",
+    "user:local-command",
+    "user:meta",
+    "user:skill",
+    "version:2.1.243"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
   }
 }

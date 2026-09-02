@@ -7,52 +7,6 @@
     "Workflow run with subagents/workflows/wf_*/agent-*.jsonl → workflow subagents linked (§4.2.6).",
     "pr-link ×7 (Appendix A db935e59) → prRefs."
   ],
-  "source": {
-    "harnessVersion": "2.1.241",
-    "originalLines": 2167,
-    "window": "1-106,860-930,1000-1020,1315-1322,1405-1427,1430-1767,1973-2167",
-    "freezeLines": null,
-    "startedAt": "2026-08-23T23:15:40.658Z",
-    "endedAt": "2026-08-29T15:54:51.736Z",
-    "files": {
-      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d.jsonl": 762,
-      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/agent-a91fbfd03fa75d1f8.jsonl": 77,
-      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/agent-afcef73c45ac219bf.jsonl": 108,
-      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-a03ec310e62aa862c.jsonl": 171,
-      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-a37516a78f982c441.jsonl": 36,
-      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-aea09ad1c47afc043.jsonl": 64
-    },
-    "badLines": 0
-  },
-  "shapes": [
-    "attachment:hook_system_message",
-    "denial:permission-rule",
-    "file:claude-code:subagent",
-    "file:claude-code:workflow",
-    "flag:toolEndsTurn",
-    "hazard:line>=1MiB",
-    "hazard:u2028",
-    "input:Bash:dangerouslyDisableSandbox",
-    "meta:agentType:workflow-subagent",
-    "read:image",
-    "record:pr-link",
-    "result:Bash:{dangerouslyDisableSandbox,interrupted,isImage,noOutputExpected,stderr,stdout}",
-    "result:Bash:{gitOperation,interrupted,isImage,noOutputExpected,stderr,stdout}",
-    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
-    "result:Write:{content,filePath,memdirStamped,originalFile,structuredPatch,type,userModified}",
-    "tool:Agent",
-    "tool:StructuredOutput",
-    "tool:Workflow",
-    "tool:mcp__*",
-    "user:notification",
-    "version:2.1.241",
-    "workflow-tool:StructuredOutput"
-  ],
-  "redaction": {
-    "policyVersion": 1,
-    "seed": "showreceipts-fixtures-1",
-    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
-  },
   "session": {
     "2c707aeb-ba85-44e3-aec6-b50184966e3d": {
       "harness": "claude-code",
@@ -803,5 +757,51 @@
         "records": 1218
       }
     }
+  },
+  "source": {
+    "harnessVersion": "2.1.241",
+    "originalLines": 2167,
+    "window": "1-106,860-930,1000-1020,1315-1322,1405-1427,1430-1767,1973-2167",
+    "freezeLines": null,
+    "startedAt": "2026-08-23T23:15:40.658Z",
+    "endedAt": "2026-08-29T15:54:51.736Z",
+    "files": {
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d.jsonl": 762,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/agent-a91fbfd03fa75d1f8.jsonl": 77,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/agent-afcef73c45ac219bf.jsonl": 108,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-a03ec310e62aa862c.jsonl": 171,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-a37516a78f982c441.jsonl": 36,
+      "projects/-home-u-proj/2c707aeb-ba85-44e3-aec6-b50184966e3d/subagents/workflows/wf_42a7dcd5-323/agent-aea09ad1c47afc043.jsonl": 64
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "attachment:hook_system_message",
+    "denial:permission-rule",
+    "file:claude-code:subagent",
+    "file:claude-code:workflow",
+    "flag:toolEndsTurn",
+    "hazard:line>=1MiB",
+    "hazard:u2028",
+    "input:Bash:dangerouslyDisableSandbox",
+    "meta:agentType:workflow-subagent",
+    "read:image",
+    "record:pr-link",
+    "result:Bash:{dangerouslyDisableSandbox,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Bash:{gitOperation,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
+    "result:Write:{content,filePath,memdirStamped,originalFile,structuredPatch,type,userModified}",
+    "tool:Agent",
+    "tool:StructuredOutput",
+    "tool:Workflow",
+    "tool:mcp__*",
+    "user:notification",
+    "version:2.1.241",
+    "workflow-tool:StructuredOutput"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
   }
 }

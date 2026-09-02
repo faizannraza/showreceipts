@@ -7,50 +7,6 @@
     "Workflow subagents (workflow-subagent agentType) via subagents/workflows/wf_*/ (§4.2.6).",
     "atis-latch and hook_system_message counted, never claim input (§4.2.8)."
   ],
-  "source": {
-    "harnessVersion": "2.1.251",
-    "originalLines": 512,
-    "window": null,
-    "freezeLines": 512,
-    "startedAt": "2026-08-29T21:21:45.115Z",
-    "endedAt": "2026-08-30T02:59:27.423Z",
-    "files": {
-      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa.jsonl": 512,
-      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-ae3d19eea7d539e43.jsonl": 379,
-      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-ab907519b613708b8.jsonl": 209,
-      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-a4e3c6e031e360679.jsonl": 171,
-      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/journal.jsonl": 36
-    },
-    "badLines": 0
-  },
-  "shapes": [
-    "attachment:bash_output_audience_note",
-    "file:claude-code:journal",
-    "file:claude-code:workflow",
-    "flag:isApiErrorMessage",
-    "flag:toolEndsTurn",
-    "hazard:u2028",
-    "journal:result",
-    "journal:started",
-    "meta:agentType:workflow-subagent",
-    "record:atis-latch",
-    "record:bridge-session",
-    "result:Bash:{interrupted,isImage,noOutputExpected,persistedOutputPath,persistedOutputSize,stderr,stdout}",
-    "result:WebFetch:{bytes,code,codeText,durationMs,result,url}",
-    "result:WebSearch:{durationSeconds,query,results,searchCount}",
-    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
-    "tool:StructuredOutput",
-    "tool:WebFetch",
-    "tool:WebSearch",
-    "tool:Workflow",
-    "user:notification",
-    "version:2.1.251"
-  ],
-  "redaction": {
-    "policyVersion": 1,
-    "seed": "showreceipts-fixtures-1",
-    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
-  },
   "session": {
     "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
       "harness": "claude-code",
@@ -363,5 +319,49 @@
         "records": 1271
       }
     }
+  },
+  "source": {
+    "harnessVersion": "2.1.251",
+    "originalLines": 512,
+    "window": null,
+    "freezeLines": 512,
+    "startedAt": "2026-08-29T21:21:45.115Z",
+    "endedAt": "2026-08-30T02:59:27.423Z",
+    "files": {
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa.jsonl": 512,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-ae3d19eea7d539e43.jsonl": 379,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-ab907519b613708b8.jsonl": 209,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/agent-a4e3c6e031e360679.jsonl": 171,
+      "projects/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/subagents/workflows/wf_cff620bd-1f4/journal.jsonl": 36
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "attachment:bash_output_audience_note",
+    "file:claude-code:journal",
+    "file:claude-code:workflow",
+    "flag:isApiErrorMessage",
+    "flag:toolEndsTurn",
+    "hazard:u2028",
+    "journal:result",
+    "journal:started",
+    "meta:agentType:workflow-subagent",
+    "record:atis-latch",
+    "record:bridge-session",
+    "result:Bash:{interrupted,isImage,noOutputExpected,persistedOutputPath,persistedOutputSize,stderr,stdout}",
+    "result:WebFetch:{bytes,code,codeText,durationMs,result,url}",
+    "result:WebSearch:{durationSeconds,query,results,searchCount}",
+    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
+    "tool:StructuredOutput",
+    "tool:WebFetch",
+    "tool:WebSearch",
+    "tool:Workflow",
+    "user:notification",
+    "version:2.1.251"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
   }
 }

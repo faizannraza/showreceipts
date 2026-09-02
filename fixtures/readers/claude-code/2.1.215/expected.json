@@ -8,61 +8,6 @@
     "Notification segment present with a notification finalTrigger (Appendix A: notification-continued turns).",
     "Async Agent + Workflow subagents (direct + workflow files, §4.2.6)."
   ],
-  "source": {
-    "harnessVersion": "2.1.215",
-    "originalLines": 2202,
-    "window": null,
-    "freezeLines": null,
-    "startedAt": "2026-08-15T19:47:15.653Z",
-    "endedAt": "2026-08-18T16:52:35.865Z",
-    "files": {
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53.jsonl": 2202,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a9c2811fcde7a3a3e.jsonl": 16,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a3250b0d6fa1b363b.jsonl": 17,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a119b2e3f20e4bbd4.jsonl": 64,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-ac265e2ced3b22468.jsonl": 56,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-ab5a7f1a6c8c93d4d.jsonl": 4,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-a745f83bd9b0ca85b.jsonl": 4,
-      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-a7f40b81241123f30.jsonl": 9
-    },
-    "badLines": 0
-  },
-  "shapes": [
-    "agent:async_launched",
-    "attachment:queued_command",
-    "block:document",
-    "file:claude-code:subagent",
-    "file:claude-code:workflow",
-    "flag:isApiErrorMessage",
-    "input:Bash:run_in_background",
-    "meta:agentType:Plan",
-    "meta:agentType:workflow-subagent",
-    "read:image",
-    "read:pdf",
-    "result:Bash:absent",
-    "result:Bash:{backgroundCwdHint,backgroundTaskId,interrupted,isImage,noOutputExpected,stderr,stdout}",
-    "result:Bash:{interrupted,isImage,noOutputExpected,returnCodeInterpretation,stderr,stdout}",
-    "result:Skill:{allowedTools,commandName,success}",
-    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
-    "stop:stop_sequence",
-    "system:informational",
-    "system:local_command",
-    "tool:Agent",
-    "tool:EnterPlanMode",
-    "tool:ExitPlanMode",
-    "tool:Workflow",
-    "user:local-command",
-    "user:notification",
-    "user:skill",
-    "version:2.1.215",
-    "version:2.1.233",
-    "workflow-record:assistant"
-  ],
-  "redaction": {
-    "policyVersion": 1,
-    "seed": "showreceipts-fixtures-1",
-    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
-  },
   "session": {
     "f150468e-ae67-4d6b-a36d-688ae5025a53": {
       "harness": "claude-code",
@@ -1661,5 +1606,60 @@
         "records": 2372
       }
     }
+  },
+  "source": {
+    "harnessVersion": "2.1.215",
+    "originalLines": 2202,
+    "window": null,
+    "freezeLines": null,
+    "startedAt": "2026-08-15T19:47:15.653Z",
+    "endedAt": "2026-08-18T16:52:35.865Z",
+    "files": {
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53.jsonl": 2202,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a9c2811fcde7a3a3e.jsonl": 16,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a3250b0d6fa1b363b.jsonl": 17,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-a119b2e3f20e4bbd4.jsonl": 64,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/agent-ac265e2ced3b22468.jsonl": 56,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-ab5a7f1a6c8c93d4d.jsonl": 4,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-a745f83bd9b0ca85b.jsonl": 4,
+      "projects/-home-u-proj/f150468e-ae67-4d6b-a36d-688ae5025a53/subagents/workflows/wf_31172c4f-910/agent-a7f40b81241123f30.jsonl": 9
+    },
+    "badLines": 0
+  },
+  "shapes": [
+    "agent:async_launched",
+    "attachment:queued_command",
+    "block:document",
+    "file:claude-code:subagent",
+    "file:claude-code:workflow",
+    "flag:isApiErrorMessage",
+    "input:Bash:run_in_background",
+    "meta:agentType:Plan",
+    "meta:agentType:workflow-subagent",
+    "read:image",
+    "read:pdf",
+    "result:Bash:absent",
+    "result:Bash:{backgroundCwdHint,backgroundTaskId,interrupted,isImage,noOutputExpected,stderr,stdout}",
+    "result:Bash:{interrupted,isImage,noOutputExpected,returnCodeInterpretation,stderr,stdout}",
+    "result:Skill:{allowedTools,commandName,success}",
+    "result:Workflow:{runId,scriptPath,status,summary,taskId,taskType,transcriptDir,workflowName}",
+    "stop:stop_sequence",
+    "system:informational",
+    "system:local_command",
+    "tool:Agent",
+    "tool:EnterPlanMode",
+    "tool:ExitPlanMode",
+    "tool:Workflow",
+    "user:local-command",
+    "user:notification",
+    "user:skill",
+    "version:2.1.215",
+    "version:2.1.233",
+    "workflow-record:assistant"
+  ],
+  "redaction": {
+    "policyVersion": 1,
+    "seed": "showreceipts-fixtures-1",
+    "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
   }
 }
