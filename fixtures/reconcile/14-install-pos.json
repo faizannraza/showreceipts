@@ -1,0 +1,42 @@
+{
+  "name": "install.pkg: install segment naming the package, exit 0 → VERIFIED",
+  "row": 14,
+  "ledger": {
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T19:40:00.000Z",
+        "segments": [
+          {
+            "program": "npm",
+            "argv": [
+              "install",
+              "left-pad"
+            ],
+            "family": "install"
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "install",
+      "rule": "install.pkg",
+      "subject": "left-pad",
+      "sentence": "Installed left-pad.",
+      "clause": "installed the left-pad package"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "npm install left-pad → exit 0 (19:40)"
+      ]
+    }
+  ]
+}

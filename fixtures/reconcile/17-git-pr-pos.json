@@ -1,0 +1,36 @@
+{
+  "name": "git.pr: pr-created fact with a matching number → VERIFIED",
+  "row": 17,
+  "ledger": {
+    "git": [
+      {
+        "seq": 70,
+        "at": "2026-03-01T22:51:00.000Z",
+        "op": "pr-created",
+        "ok": true,
+        "prNumber": 6
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "git",
+      "rule": "git.pr",
+      "op": "pr",
+      "prNumber": 6,
+      "sentence": "Opened PR #6.",
+      "clause": "opened PR #6"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "gh pr create → #6 (22:51)"
+      ]
+    }
+  ]
+}

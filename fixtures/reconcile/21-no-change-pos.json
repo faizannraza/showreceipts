@@ -1,0 +1,24 @@
+{
+  "name": "no-change: zero writes in the turn → VERIFIED",
+  "row": 21,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "no-change",
+      "rule": "nochange.marker",
+      "sentence": "No changes were needed.",
+      "clause": "no changes were needed"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "no writes in this turn (23:58)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "git.pr: no create op; a pr-link reference never verifies → UNVERIFIED no-git-op",
+  "row": 17,
+  "session": {
+    "prRefs": [
+      {
+        "seq": 70,
+        "prNumber": 6,
+        "prUrl": "https://github.com/o/r/pull/6",
+        "prRepository": "o/r",
+        "time": "2026-03-01T22:51:00.000Z"
+      }
+    ]
+  },
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "git",
+      "rule": "git.pr",
+      "op": "pr",
+      "prNumber": 6,
+      "sentence": "Opened PR #6.",
+      "clause": "opened PR #6"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-git-op",
+      "evidence": [
+        "no gh pr create in log (23:58)",
+        "pr-link #6 (22:51)"
+      ]
+    }
+  ]
+}

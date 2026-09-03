@@ -1,0 +1,44 @@
+{
+  "name": "install.pkg: every matching install failed → CONTRADICTED command-failed",
+  "row": 14,
+  "ledger": {
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T19:40:00.000Z",
+        "exitCode": 1,
+        "segments": [
+          {
+            "program": "npm",
+            "argv": [
+              "install",
+              "left-pad"
+            ],
+            "family": "install",
+            "exitCode": 1
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "install",
+      "rule": "install.pkg",
+      "subject": "left-pad",
+      "sentence": "Installed left-pad.",
+      "clause": "installed the left-pad package"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "CONTRADICTED",
+      "reason": "command-failed",
+      "evidence": [
+        "npm install left-pad → exit 1 (19:40)"
+      ]
+    }
+  ]
+}

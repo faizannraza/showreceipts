@@ -1,0 +1,39 @@
+{
+  "name": "test.pass: latest run red → CONTRADICTED last-run-red",
+  "row": 1,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "testRuns": [
+      {
+        "seq": 40,
+        "at": "2026-03-01T23:41:00.000Z",
+        "exitCode": 1,
+        "green": false,
+        "conclusive": false,
+        "parsed": {
+          "failed": 2
+        }
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "CONTRADICTED",
+      "reason": "last-run-red",
+      "evidence": [
+        "pytest → exit 1 · 2 failed (23:41)"
+      ]
+    }
+  ]
+}

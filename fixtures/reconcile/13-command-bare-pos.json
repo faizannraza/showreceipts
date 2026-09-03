@@ -1,0 +1,42 @@
+{
+  "name": "command.ran_bare: a segment of the noun family ran → VERIFIED",
+  "row": 13,
+  "ledger": {
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T20:15:00.000Z",
+        "segments": [
+          {
+            "program": "alembic",
+            "argv": [
+              "upgrade",
+              "head"
+            ],
+            "family": "migrate"
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "command",
+      "rule": "command.ran_bare",
+      "subject": "migrations",
+      "sentence": "Ran the migrations.",
+      "clause": "ran the migrations"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "alembic upgrade head → exit 0 (20:15)"
+      ]
+    }
+  ]
+}

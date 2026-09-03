@@ -1,0 +1,38 @@
+{
+  "name": "file delete: a delete fact for the path → VERIFIED",
+  "row": 9,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 35,
+        "at": "2026-03-01T19:02:00.000Z",
+        "path": "/home/u/proj/src/old.py",
+        "verb": "delete",
+        "source": "shell-inferred"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file",
+      "rule": "file.verb",
+      "verb": "delete",
+      "subject": "src/old.py",
+      "explicitVerb": true,
+      "directObject": true,
+      "sentence": "Deleted src/old.py.",
+      "clause": "deleted src/old.py"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "file deleted (19:02)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "file rename: nothing about either path → UNVERIFIED no-write-to-path",
+  "row": 10,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file",
+      "rule": "file.verb",
+      "verb": "rename",
+      "subject": "src/renamed.py",
+      "fromPath": "src/orig.py",
+      "explicitVerb": true,
+      "sentence": "Renamed src/orig.py to src/renamed.py.",
+      "clause": "renamed src/orig.py to src/renamed.py"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-write-to-path",
+      "evidence": [
+        "no rename in log (23:58)"
+      ]
+    }
+  ]
+}

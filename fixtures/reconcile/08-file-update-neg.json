@@ -1,0 +1,37 @@
+{
+  "name": "file.implemented_in is UNVERIFIED-only even with an ok write",
+  "row": 8,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z",
+        "path": "/home/u/proj/src/core.py"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file",
+      "rule": "file.implemented_in",
+      "verb": "update",
+      "subject": "src/core.py",
+      "sentence": "Implemented in src/core.py.",
+      "clause": "implemented in src/core.py"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-evidence",
+      "evidence": [
+        "Edit (17:31) · location claims are never auto-verified"
+      ],
+      "notes": [
+        "location claims are never auto-verified"
+      ]
+    }
+  ]
+}

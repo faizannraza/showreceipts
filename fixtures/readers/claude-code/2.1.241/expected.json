@@ -3,9 +3,11 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "dangerouslyDisableSandbox input → ToolCall.sandboxDisabled:true (§4.2.5 rule j, the sandbox-disabled DangerFlag seed for S12).",
-    "Workflow run with subagents/workflows/wf_*/agent-*.jsonl → workflow subagents linked (§4.2.6).",
-    "pr-link ×7 (Appendix A db935e59) → prRefs."
+    "dangerouslyDisableSandbox input \u2192 ToolCall.sandboxDisabled:true (\u00a74.2.5 rule j, the sandbox-disabled DangerFlag seed for S12).",
+    "Workflow run with subagents/workflows/wf_*/agent-*.jsonl \u2192 workflow subagents linked (\u00a74.2.6).",
+    "pr-link \u00d77 (Appendix A db935e59) \u2192 prRefs.",
+    "S19 receipt goldens hand-verified: default turn 8 has no claims (kind no-claims); turn 1 carries the VERIFIED test.count_clean (397 tests green), check.build (ruff/mypy/mkdocs clean) and verify.generic, plus an UNVERIFIED git.commit (the commit command fell outside the redaction window, so no commit fact exists in the fixture \u2014 no-git-op is correct for this trimmed data).",
+    "S19: cost 136.029880, unverified false, cacheHitPct 97.58; expectVerdicts VERIFIED, UNVERIFIED, NOT_SCORED."
   ],
   "session": {
     "2c707aeb-ba85-44e3-aec6-b50184966e3d": {
@@ -803,5 +805,66 @@
     "policyVersion": 1,
     "seed": "showreceipts-fixtures-1",
     "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "expectVerdicts": [
+    "VERIFIED",
+    "UNVERIFIED",
+    "NOT_SCORED"
+  ],
+  "receipt": {
+    "2c707aeb-ba85-44e3-aec6-b50184966e3d": {
+      "kind": "no-claims",
+      "verdict": "NO_CLAIMS",
+      "turnIndex": 8,
+      "claimsRecognized": 0,
+      "counts": {
+        "VERIFIED": 0,
+        "UNVERIFIED": 0,
+        "CONTRADICTED": 0,
+        "NOT_SCORED": 0
+      },
+      "lines": [],
+      "alsoSaid": [],
+      "alsoDid": [],
+      "stats": {
+        "toolCalls": 0,
+        "filesChanged": 0,
+        "testRuns": 0,
+        "compactions": 0,
+        "subagents": 0,
+        "apiCalls": 1,
+        "sentencesScanned": 14
+      }
+    }
+  },
+  "ledger": {
+    "2c707aeb-ba85-44e3-aec6-b50184966e3d": {
+      "writes": 58,
+      "commands": 109,
+      "testRuns": 24,
+      "checks": 15,
+      "git": 0,
+      "network": 22,
+      "integrity": 0,
+      "danger": 6,
+      "filesChanged": 33,
+      "integrityKinds": {},
+      "dangerKinds": {
+        "kill": 1,
+        "rm-rf": 1,
+        "sandbox-disabled": 2,
+        "write-outside-repo": 2
+      }
+    }
+  },
+  "claims": {
+    "2c707aeb-ba85-44e3-aec6-b50184966e3d": []
+  },
+  "cost": {
+    "2c707aeb-ba85-44e3-aec6-b50184966e3d": {
+      "usd": 136.02988,
+      "unverified": false,
+      "cacheHitPct": 97.58
+    }
   }
 }

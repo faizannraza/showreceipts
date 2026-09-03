@@ -3,10 +3,12 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "backgroundTaskId results → background:true, exitCode:null until a notification supplies it (§4.2.5 rule d).",
-    "returnCodeInterpretation results → exitCodeSource:interpreted, exitCode:null, interpretation retained (§4.2.5 rule c).",
+    "backgroundTaskId results \u2192 background:true, exitCode:null until a notification supplies it (\u00a74.2.5 rule d).",
+    "returnCodeInterpretation results \u2192 exitCodeSource:interpreted, exitCode:null, interpretation retained (\u00a74.2.5 rule c).",
     "Notification segment present with a notification finalTrigger (Appendix A: notification-continued turns).",
-    "Async Agent + Workflow subagents (direct + workflow files, §4.2.6)."
+    "Async Agent + Workflow subagents (direct + workflow files, \u00a74.2.6).",
+    "S19 receipt goldens hand-verified: default turn 22 has no scored claims (the only claim is a negated git.commit clause, NOT_SCORED \u2192 ALSO SAID); ALSO DID lists the one unclaimed write (~/Desktop file, outside the repo by design) and 5 API errors.",
+    "S19: cost 277.740642, unverified false, cacheHitPct 97.88; done turns across the session support VERIFIED, UNVERIFIED and NOT_SCORED (expectVerdicts) \u2014 e.g. turn 3 stale-run UNVERIFIEDs after later edits and turn 7 VERIFIED test.counts."
   ],
   "session": {
     "f150468e-ae67-4d6b-a36d-688ae5025a53": {
@@ -1661,5 +1663,80 @@
     "policyVersion": 1,
     "seed": "showreceipts-fixtures-1",
     "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "expectVerdicts": [
+    "VERIFIED",
+    "UNVERIFIED",
+    "NOT_SCORED"
+  ],
+  "receipt": {
+    "f150468e-ae67-4d6b-a36d-688ae5025a53": {
+      "kind": "no-claims",
+      "verdict": "NO_CLAIMS",
+      "turnIndex": 22,
+      "claimsRecognized": 1,
+      "counts": {
+        "VERIFIED": 0,
+        "UNVERIFIED": 0,
+        "CONTRADICTED": 0,
+        "NOT_SCORED": 1
+      },
+      "lines": [],
+      "alsoSaid": [
+        "deliberately outside the repo folder so it can never be committed to your public repository (it contains your candid weakness analysis and u strategy)."
+      ],
+      "alsoDid": [
+        {
+          "text": "1 file changed (~/Desktop/5BfxLM2X/jX0b5H2l.md)"
+        },
+        {
+          "text": "5 API errors during the session"
+        }
+      ],
+      "stats": {
+        "toolCalls": 2,
+        "filesChanged": 1,
+        "testRuns": 0,
+        "compactions": 0,
+        "subagents": 0,
+        "apiCalls": 3,
+        "sentencesScanned": 26
+      }
+    }
+  },
+  "ledger": {
+    "f150468e-ae67-4d6b-a36d-688ae5025a53": {
+      "writes": 230,
+      "commands": 155,
+      "testRuns": 22,
+      "checks": 44,
+      "git": 0,
+      "network": 6,
+      "integrity": 0,
+      "danger": 9,
+      "filesChanged": 90,
+      "integrityKinds": {},
+      "dangerKinds": {
+        "kill": 1,
+        "rm-rf": 6,
+        "write-outside-repo": 2
+      }
+    }
+  },
+  "claims": {
+    "f150468e-ae67-4d6b-a36d-688ae5025a53": [
+      {
+        "kind": "git",
+        "polarity": "negated",
+        "rule": "git.commit"
+      }
+    ]
+  },
+  "cost": {
+    "f150468e-ae67-4d6b-a36d-688ae5025a53": {
+      "usd": 277.740642,
+      "unverified": false,
+      "cacheHitPct": 97.88
+    }
   }
 }

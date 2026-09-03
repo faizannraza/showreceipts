@@ -3,10 +3,12 @@
   "harness": "codex",
   "confidence": "real",
   "verified": [
-    "Rollout 019c45e8: 2 turns, 6 tool calls; token deltas sum to input 12082 (94642−82560 cache) / cacheRead 82560 / output 2343 (§4.3.5, S08 pins).",
-    "Rollout 019c4678: 67 turns (69 user_message events across both rollouts, §0.3), 286 tool calls (write_stdin included).",
-    "27 successful apply_patch + 1 failure (attempted paths kept, never writes); 23 back-filled exits; one -1 → exitCode:null + terminated (§4.3.3–4.3.4).",
-    "IDE wrapper stripped from every user_message; base_instructions / user_instructions / reasoning never retained (§4.3.1–4.3.2)."
+    "Rollout 019c45e8: 2 turns, 6 tool calls; token deltas sum to input 12082 (94642\u221282560 cache) / cacheRead 82560 / output 2343 (\u00a74.3.5, S08 pins).",
+    "Rollout 019c4678: 67 turns (69 user_message events across both rollouts, \u00a70.3), 286 tool calls (write_stdin included).",
+    "27 successful apply_patch + 1 failure (attempted paths kept, never writes); 23 back-filled exits; one -1 \u2192 exitCode:null + terminated (\u00a74.3.3\u20134.3.4).",
+    "IDE wrapper stripped from every user_message; base_instructions / user_instructions / reasoning never retained (\u00a74.3.1\u20134.3.2).",
+    "S19 receipt goldens hand-verified: both default receipts are kind no-claims (the last done turns are short answers); done turns support VERIFIED (file.verb updates with apply_patch writes), UNVERIFIED (no-write-to-path for files created before the fixture window / via opaque scripts) and NOT_SCORED completion markers.",
+    "S19 cost pins recomputed by the engine from token_count deltas at gpt-5.2 rates (alias gpt-5.2-codex \u2192 gpt-5.2): 019c45e8 = 0.068394 (\u00a78.3 golden pin; 94,642 in / 82,560 cached / 2,343 out), 019c4678 = 7.888091; unverified \u2248 true (inferred OpenAI rates), cacheHitPct 87.23 / 96.75."
   ],
   "session": {
     "019c45e8-ac72-76c9-96e4-1a38177c0fb3": {
@@ -3282,5 +3284,107 @@
     "policyVersion": 1,
     "seed": "showreceipts-fixtures-1",
     "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "expectVerdicts": [
+    "VERIFIED",
+    "UNVERIFIED",
+    "NOT_SCORED"
+  ],
+  "receipt": {
+    "019c45e8-ac72-76c9-96e4-1a38177c0fb3": {
+      "kind": "no-claims",
+      "verdict": "NO_CLAIMS",
+      "turnIndex": 1,
+      "claimsRecognized": 0,
+      "counts": {
+        "VERIFIED": 0,
+        "UNVERIFIED": 0,
+        "CONTRADICTED": 0,
+        "NOT_SCORED": 0
+      },
+      "lines": [],
+      "alsoSaid": [],
+      "alsoDid": [],
+      "stats": {
+        "toolCalls": 1,
+        "filesChanged": 0,
+        "testRuns": 0,
+        "compactions": 0,
+        "subagents": 0,
+        "apiCalls": 2,
+        "sentencesScanned": 1
+      }
+    },
+    "019c4678-53b6-71c6-bb5b-d5b24ff14873": {
+      "kind": "no-claims",
+      "verdict": "NO_CLAIMS",
+      "turnIndex": 66,
+      "claimsRecognized": 0,
+      "counts": {
+        "VERIFIED": 0,
+        "UNVERIFIED": 0,
+        "CONTRADICTED": 0,
+        "NOT_SCORED": 0
+      },
+      "lines": [],
+      "alsoSaid": [],
+      "alsoDid": [],
+      "stats": {
+        "toolCalls": 1,
+        "filesChanged": 0,
+        "testRuns": 0,
+        "compactions": 0,
+        "subagents": 0,
+        "apiCalls": 2,
+        "sentencesScanned": 16
+      }
+    }
+  },
+  "ledger": {
+    "019c45e8-ac72-76c9-96e4-1a38177c0fb3": {
+      "writes": 0,
+      "commands": 5,
+      "testRuns": 0,
+      "checks": 0,
+      "git": 0,
+      "network": 0,
+      "integrity": 0,
+      "danger": 0,
+      "filesChanged": 0,
+      "integrityKinds": {},
+      "dangerKinds": {}
+    },
+    "019c4678-53b6-71c6-bb5b-d5b24ff14873": {
+      "writes": 71,
+      "commands": 115,
+      "testRuns": 0,
+      "checks": 0,
+      "git": 0,
+      "network": 1,
+      "integrity": 0,
+      "danger": 3,
+      "filesChanged": 18,
+      "integrityKinds": {},
+      "dangerKinds": {
+        "kill": 2,
+        "rm-rf": 1
+      }
+    }
+  },
+  "claims": {
+    "019c45e8-ac72-76c9-96e4-1a38177c0fb3": [],
+    "019c4678-53b6-71c6-bb5b-d5b24ff14873": []
+  },
+  "cost": {
+    "019c45e8-ac72-76c9-96e4-1a38177c0fb3": {
+      "usd": 0.068394,
+      "unverified": true,
+      "cacheHitPct": 87.23
+    },
+    "019c4678-53b6-71c6-bb5b-d5b24ff14873": {
+      "usd": 7.888091,
+      "unverified": true,
+      "cacheHitPct": 96.75
+    }
   }
 }

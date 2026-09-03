@@ -1,0 +1,32 @@
+{
+  "name": "check (family): the family never ran → UNVERIFIED no-check-run",
+  "row": 6,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "check",
+      "rule": "check.lint",
+      "family": "lint",
+      "sentence": "Lint is clean.",
+      "clause": "lint is clean"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-check-run",
+      "evidence": [
+        "no lint run in log (23:58)"
+      ]
+    }
+  ]
+}

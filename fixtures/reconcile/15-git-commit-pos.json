@@ -1,0 +1,42 @@
+{
+  "name": "git.commit: ok commit after W_all, sha prefix match → VERIFIED",
+  "row": 15,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "git": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T22:30:00.000Z",
+        "op": "commit",
+        "ok": true,
+        "sha": "1fc0c28ab9"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "git",
+      "rule": "git.commit",
+      "op": "commit",
+      "sha": "1fc0c28",
+      "sentence": "Committed as 1fc0c28.",
+      "clause": "committed as 1fc0c28"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "git commit → 1fc0c28 (22:30)"
+      ]
+    }
+  ]
+}

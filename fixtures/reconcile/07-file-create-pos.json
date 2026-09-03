@@ -1,0 +1,42 @@
+{
+  "name": "file create: ok create write to the canon path → VERIFIED",
+  "row": 7,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 30,
+        "at": "2026-03-01T18:05:00.000Z",
+        "path": "/home/u/proj/src/new.ts",
+        "verb": "create",
+        "created": true,
+        "call": {
+          "tool": "Write",
+          "kind": "write"
+        }
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file",
+      "rule": "file.verb",
+      "verb": "create",
+      "subject": "src/new.ts",
+      "explicitVerb": true,
+      "directObject": true,
+      "sentence": "Created src/new.ts.",
+      "clause": "created src/new.ts"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "Write (18:05)"
+      ]
+    }
+  ]
+}

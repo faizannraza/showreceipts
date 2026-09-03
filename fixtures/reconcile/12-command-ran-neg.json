@@ -1,0 +1,44 @@
+{
+  "name": "command.ran with success predicate: all matching runs failed → CONTRADICTED command-failed",
+  "row": 12,
+  "ledger": {
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T21:00:00.000Z",
+        "exitCode": 2,
+        "segments": [
+          {
+            "program": "uv",
+            "argv": [
+              "run",
+              "scripts/bench.py"
+            ],
+            "exitCode": 2
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "command",
+      "rule": "command.ran",
+      "subject": "uv run scripts/bench.py",
+      "successPredicate": true,
+      "sentence": "Ran `uv run scripts/bench.py` successfully.",
+      "clause": "ran `uv run scripts/bench.py` successfully"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "CONTRADICTED",
+      "reason": "command-failed",
+      "evidence": [
+        "uv run scripts/bench.py → exit 2 (21:00)"
+      ]
+    }
+  ]
+}

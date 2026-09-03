@@ -313,3 +313,150 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
 - Multiplier-based `cacheRead` renders as `0.1× input` in the generated
   provenance table; S33 confirms the wording when assembling
   `docs/prices.md`.
+
+## W3 — Reconcile, pipeline (S17–S19)
+
+### S17 — reconciler, explanations, false-done rate
+
+- **§4.8 staleness ignores `WriteFact.metadataOnly` writes (lead-note
+  decision).** A `touch`/`mkdir`/`chmod` between an edit and a test run bumps
+  neither `W` nor `W_all`: metadata operations change no content, so counting
+  them would flip a legitimately VERIFIED `tests pass` to `stale-run` (and a
+  fresh commit to `commit-precedes-edits`) on a no-op. Pinned by the
+  "staleness boundary" block in `test/unit/reconcile/cross.test.ts`. The same
+  boundary also skips docs and the S17 non-executable list
+  (`.md .txt .rst .json .yml .yaml .toml .lock LICENSE*`).
+- `git-op-failed` already existed in §4.8 rows 15–16 and in the S02 `Reason`
+  enum, so no ARCHITECTURE.md patch was needed; positive/negative cases are
+  pinned in fixtures 15/16 and `cross.test.ts`.
+- Evidence strings: `EvidenceRef.label` stays time-free (§4.8 vii);
+  `evidenceStrings()` in `src/reconcile/evidence.ts` appends the `(HH:MM)`
+  clock from `ref.at`, merges same-label refs (`Edit ×3 (17:31, 17:32)`) and
+  then appends the judgement's notes as ` · note` — which reproduces the S17
+  strings (`ruff → exit 1 (23:44) · 2 errors, never re-run`) while keeping
+  `Judgement` JSON free of formatted times.
+- The guarded `no-test-run` uses the session-wide `ledger.opaqueTestCapable`
+  counter (S17 step text) rather than the per-turn `opaqueTestCommands` in
+  the §4.8 row — the more conservative reading (post-final opaque commands
+  also block the contradiction).
+- `file.implemented_in` caps at UNVERIFIED (`no-evidence` + note) per
+  Appendix E; `verify.generic` is never contradicted; a failed write only
+  contradicts with `explicitVerb` (§4.8 row 7).
+- `rate.ts`: excluded ledger sessions (effects-only or `partial` coverage)
+  key their `ledgerIncompleteSessions` count by the session's `primaryModel`
+  × harness × `harnessVersion`; included sessions attribute per turn
+  (dominant model by output tokens). `integritySignals`, `testRunRate` and
+  `cacheHitPct` count each contributing session once per row.
+
+### S19 — Milestone M2: first real receipts; receipt goldens
+
+**Decisions.**
+
+- **"Every `EvidenceRef.seq` resolves to a tool call" is read as "resolves to
+  a known session event".** The §4.8 absence facts deliberately point at the
+  turn's final message (`absenceRef` → `finalSeq`, fallback `seqEnd`), and
+  row 17 attaches the `pr-link` record as context to an UNVERIFIED `git.pr`
+  (`prRefs` still never verify or contradict). The S19 resolution rule —
+  pinned in `test/goldens/receipts.test.ts` and `scripts/dev-receipt.mjs` —
+  therefore accepts: a tool call matched by `toolCallId`+`seq` (or bare
+  `seq`), the receipt turn's final seq, or a `Session.prRefs[].seq`. Under
+  this rule every real and fixture receipt has zero unresolved refs; without
+  the prRef clause exactly one real ref (a `pr-link` context ref on a
+  `no-git-op` judgement) failed, which is how the clause was found.
+- **`expectVerdicts` covers the fixture's done turns, not only the default
+  receipt.** The golden `receipt` section pins the default (last done) turn;
+  the verdict-class assertion runs over `buildTurnReceipts`, because the
+  redaction windows were chosen to keep claim sentences across turns. Two
+  fixtures legitimately list no classes: `2.1.243` (no-turns) and `2.1.251`
+  (its finals carry no claims).
+- **Golden updates run file-by-file.** `readers.test.ts` and
+  `receipts.test.ts` both rewrite `expected.json` (different sections) and
+  vitest runs test files in parallel, so a combined `UPDATE_GOLDENS=1` run
+  over `test/goldens` could interleave the read-modify-write. Update with
+  `npm run goldens:update -- test/goldens/readers.test.ts` then
+  `… -- test/goldens/receipts.test.ts` (plain compare runs are read-only and
+  parallel-safe).
+- **`codex/shell_command` re-dated (step 0)** to `gpt-5.6-terra` and
+  2026-08-15 (rollout path, timestamps, `session_index`, `expected.json`
+  source; reader golden regenerated). Engine-priced pins: 0.020749 at the
+  from-2026-07-30 window, 0.025936 under `--as-of 2026-07-15` — the window
+  switch S24/S26 will assert end-to-end. The two real `gpt-5.2-codex`
+  rollout fixtures stay February 2026 and keep 0.068394 / 7.888091.
+
+**Author run (2026-09-02, `scripts/dev-receipt.mjs`, cache disabled, built
+`dist/`, prices 2026-08-29).** Per frozen file, over all done-turn receipts —
+claims recognized, verdict counts (V/U/C/NS), session cost (API-equivalent
+USD), cache-hit %, and cold wall time of the whole script run:
+
+| file | done turns | claims | V | U | C | NS | cost | hit % | cold |
+|---|---|---|---|---|---|---|---|---|---|
+| `488dd663` (2.1.214→2.1.236) | 114 | 310 | 218 | 43 | 1 | 48 | 314.127548 | 99.34 | 0.88 s |
+| `bceb4d10` (2.1.235) | 37 | 98 | 34 | 33 | 1 | 30 | 849.872297 | 98.44 | 1.46 s |
+| `db935e59` (2.1.241) | 15 | 16 | 3 | 5 | 0 | 8 | 432.388597 | 97.24 | 0.75 s |
+| `019c45e8` (codex 0.98.0) | 2 | 1 | 0 | 1 | 0 | 0 | 0.068394 | 87.23 | 0.22 s |
+| `019c4678` (codex 0.98.0) | 67 | 49 | 10 | 29 | 0 | 10 | 7.888091 | 96.75 | 0.32 s |
+
+Total cold ≈ 3.6 s over 122 MB (< 6 s acceptance). Zero unresolved evidence
+refs on every file under the rule above.
+
+Representative evidence lines (top 3 per file, command text only):
+`488dd663` — `git commit → <sha> (20:13)`,
+`uv run pytest -q → exit ? · 20 passed (20:12)`,
+`uv run mypy src/<proj>/ → exit 0 (20:12)`;
+`bceb4d10` — `no git push in log (07:33)`, `npx eslint . → exit 0 (07:26)`,
+`npx tsc --noEmit → exit 0 (07:26)`;
+`db935e59` — `no test run in log (23:16)`, `git commit (Aug 24 01:37)`,
+`uv run pytest -q → exit ? · 397 passed (Aug 24 01:35)`;
+`019c45e8` — `script ran (05:09) · write not observable`;
+`019c4678` — `no write to src/io/ in log (08:15)` (+2 siblings).
+
+Sanity rules from the step, all verified on the real files: `git.commit`
+claims are VERIFIED with the sha when a `gitOperation` commit fact exists
+(e.g. `<sha>`, `<sha>`); a `pr-link` never verifies or contradicts
+`git.pr` (the one real `git.pr` claim stays UNVERIFIED `no-git-op` with the
+pr-link as a context ref, and `referenced PR #N` renders under ALSO DID);
+both real CONTRADICTED lines print a contrary fact (a `writes-despite-no-change`
+with the Write evidence, and a `file-not-deleted` with the edit evidence);
+the header-only session parses as `kind:'no-turns'` (pinned on the 2.1.243
+fixture); `019c45e8` costs exactly the §8.3 pin 0.068394.
+
+**Observation for the S24 accuracy pass (no code change here).** The one
+real `file-not-deleted` contradiction comes from a possessive delete phrase
+("removed \<file\>'s \<thing\>"): the §4.8 row 9 direct-object regex treats
+the PATH right after the verb as the object, and a possessive is not caught
+by the `from|in` re-typing guard. Defensible from the printed evidence (the
+file was edited, not deleted) but borderline as a reading of the sentence;
+worth a corpus case when rules are next revised.
+
+### W3 integration close (lead)
+
+Wave-gate pass over S17–S19; the validation chain was green before and after
+these changes. Review findings fixed rather than carried:
+
+- **§5.2 ALSO DID order** — `pipeline/receipt.ts` now emits "N scripts may
+  have written files" before failed patches, matching the §5.2 list order
+  (S18 had the two swapped). No golden pins both lines in one window; a unit
+  test now pins the relative order.
+- **In-window PR ref** — the "referenced PR #N" line derives its EvidenceRef
+  from the first *in-window* `prRef` instead of `session.prRefs[0]`, so the
+  ref can never point outside the judgement window.
+- **Warm/cold failed-patch parity** — the failed-patch path is parsed over
+  `truncateBytes(maskSecrets(head), 512)` — the exact §4.9 cache bytes — so a
+  secret-shaped token in a result head can no longer make a warm receipt
+  differ from a cold one. `cache/cache.ts` exports `truncateBytes` and
+  `RESULT_TEXT_CAP` for this.
+- **`--hash-paths` bare tokens (§11.2)** — `util/hashpaths.ts hashStrings`
+  gained an optional `extraTokens` parameter: bare username/home tokens are
+  rewritten to `u:<8 hex>` after the path pass, so a username surviving as a
+  hashed basename (`p:<hex>/<user>`) or inside a URL is caught. The
+  receipt-level pass feeds it the home dir plus its basename when the
+  basename is ≥ 6 chars (§13.4 precedent), keeping the fixtures' `/home/u`
+  inert. S21/S22 import the pass and supply their own tokens; the "never
+  extend" rule now reads "never extend beyond `extraTokens`".
+- S19's real-session evidence excerpts above were genericised (`<sha>`,
+  `src/<proj>/`) per the review checklist.
+
+Carried unchanged (documented deviations, not defects): S17's session-wide
+`opaqueTestCapable` no-test-run guard, `Explanation.row = 24` for echoed
+claims, and evidence notes appended to the last evidence string (renderer
+composition to be confirmed in S20).

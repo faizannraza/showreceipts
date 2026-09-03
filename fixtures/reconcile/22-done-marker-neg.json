@@ -1,0 +1,45 @@
+{
+  "name": "done.marker stays NOT_SCORED beside a scored claim",
+  "row": 22,
+  "ledger": {
+    "testRuns": [
+      {
+        "seq": 40,
+        "at": "2026-03-01T23:41:00.000Z",
+        "exitCode": 0,
+        "parsed": {
+          "passed": 41
+        }
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "completion",
+      "rule": "done.marker",
+      "sentence": "Done.",
+      "clause": "done",
+      "position": 0
+    },
+    {
+      "id": "c2",
+      "position": 1
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "NOT_SCORED",
+      "reason": "not-scored"
+    },
+    {
+      "claimId": "c2",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "pytest → exit 0 · 41 passed (23:41)"
+      ]
+    }
+  ]
+}

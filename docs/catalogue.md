@@ -38,4 +38,4 @@ Fixture rollouts surveyed: 3.
 
 **Versions.** `0.98.0` 2 · `0.148.0` 1
 
-**Models.** `gpt-5.2-codex` 361 · `gpt-5.6-sol` 3
+**Models.** `gpt-5.2-codex` 361 · `gpt-5.6-terra` 3

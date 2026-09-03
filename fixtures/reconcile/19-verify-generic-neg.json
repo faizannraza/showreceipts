@@ -1,0 +1,31 @@
+{
+  "name": "verify.generic: nothing ran after the last write → UNVERIFIED no-run-after-write",
+  "row": 19,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "verification",
+      "rule": "verify.generic",
+      "sentence": "Verified.",
+      "clause": "verified"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-run-after-write",
+      "evidence": [
+        "nothing ran after the last write (23:58)"
+      ]
+    }
+  ]
+}

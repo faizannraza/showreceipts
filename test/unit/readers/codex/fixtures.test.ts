@@ -45,7 +45,7 @@ const r2 = await readFixtureRollout(
 // The synthetic 0.148 shell_command dialect (confidence: synthetic).
 const sc = await readFixtureRollout(
   'codex/shell_command',
-  'sessions/2026/03/01/rollout-2026-03-01T10-00-00-019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b.jsonl',
+  'sessions/2026/08/15/rollout-2026-08-15T10-00-00-019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b.jsonl',
   '019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b',
 );
 
@@ -164,7 +164,7 @@ describe('codex/shell_command (synthetic 0.148 dialect)', () => {
   it('parses the session skeleton and both turns', () => {
     expect(sc.harnessVersion).toBe('0.148.0');
     expect(sc.originator).toBe('codex_cli_rs');
-    expect(sc.models).toEqual(['gpt-5.6-sol']);
+    expect(sc.models).toEqual(['gpt-5.6-terra']); // S19 step 0 re-dated the fixture (gpt-5.6-terra, Aug 2026)
     expect(sc.turns).toHaveLength(2);
     expect(sc.turns.every((t) => t.isDone)).toBe(true);
     expect(sc.turns[0]?.finalText?.startsWith('Added `src/new_module.py`')).toBe(true);

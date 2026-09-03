@@ -1,0 +1,20 @@
+{
+  "name": "negated polarity → NOT_SCORED",
+  "row": 23,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "polarity": "negated",
+      "sentence": "Tests do not pass yet.",
+      "clause": "tests do not pass yet"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "NOT_SCORED",
+      "reason": "not-scored"
+    }
+  ]
+}

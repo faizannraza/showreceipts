@@ -1,0 +1,56 @@
+{
+  "name": "check (tool): last ruff run after W is green → VERIFIED",
+  "row": 5,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "checks": [
+      {
+        "seq": 40,
+        "at": "2026-03-01T23:29:00.000Z",
+        "exitCode": 0,
+        "green": true
+      }
+    ],
+    "commands": [
+      {
+        "seq": 40,
+        "segments": [
+          {
+            "program": "ruff",
+            "argv": [
+              "check",
+              "."
+            ],
+            "family": "lint"
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "check",
+      "rule": "check.lint",
+      "family": "lint",
+      "tool": "ruff",
+      "sentence": "ruff is clean.",
+      "clause": "ruff is clean"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "ruff check . → exit 0 (23:29)"
+      ]
+    }
+  ]
+}

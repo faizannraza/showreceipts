@@ -1,0 +1,45 @@
+{
+  "name": "file update: three Edits to the path → VERIFIED (grouped evidence)",
+  "row": 8,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z",
+        "path": "/home/u/proj/src/wattage/models.py"
+      },
+      {
+        "seq": 21,
+        "at": "2026-03-01T17:31:00.000Z",
+        "path": "/home/u/proj/src/wattage/models.py"
+      },
+      {
+        "seq": 22,
+        "at": "2026-03-01T17:32:00.000Z",
+        "path": "/home/u/proj/src/wattage/models.py"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file",
+      "rule": "file.verb",
+      "verb": "update",
+      "subject": "src/wattage/models.py",
+      "explicitVerb": true,
+      "sentence": "Updated src/wattage/models.py.",
+      "clause": "updated src/wattage/models.py"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "Edit ×3 (17:31, 17:32)"
+      ]
+    }
+  ]
+}

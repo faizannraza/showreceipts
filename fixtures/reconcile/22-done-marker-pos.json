@@ -1,0 +1,21 @@
+{
+  "name": "done.marker: NOT_SCORED, marks a done turn",
+  "row": 22,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "completion",
+      "rule": "done.marker",
+      "sentence": "Done.",
+      "clause": "done"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "NOT_SCORED",
+      "reason": "not-scored"
+    }
+  ]
+}

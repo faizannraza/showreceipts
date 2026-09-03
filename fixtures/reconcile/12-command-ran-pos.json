@@ -1,0 +1,41 @@
+{
+  "name": "command.ran: a matching segment ran → VERIFIED (any exit)",
+  "row": 12,
+  "ledger": {
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T21:00:00.000Z",
+        "segments": [
+          {
+            "program": "uv",
+            "argv": [
+              "run",
+              "scripts/bench.py"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "command",
+      "rule": "command.ran",
+      "subject": "uv run scripts/bench.py",
+      "sentence": "Ran `uv run scripts/bench.py`.",
+      "clause": "ran `uv run scripts/bench.py`"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "uv run scripts/bench.py → exit 0 (21:00)"
+      ]
+    }
+  ]
+}

@@ -20,7 +20,7 @@ import { isRecord, parseJsonSafe, stableStringify } from '../util/json.js';
 import { maskDeep, maskSecrets } from '../util/mask.js';
 
 /** `resultText` cap per tool call inside a cache entry (§4.9). */
-const RESULT_TEXT_CAP = 512;
+export const RESULT_TEXT_CAP = 512;
 /** `finalText` cap per turn inside a cache entry (§4.9). */
 const FINAL_TEXT_CAP = 64 * 1024;
 /** The per-path index the Stop hook uses (`lookupByPath`), beside the entries. */
@@ -95,8 +95,8 @@ export function pathKey(realpath: string, toolVersion: string): string {
   return sha256(`${realpath}\u0000${toolVersion}`);
 }
 
-/** Truncates a string to at most `maxBytes` of UTF-8, cutting on a code-point boundary. */
-function truncateBytes(s: string, maxBytes: number): string {
+/** Truncates a string to at most `maxBytes` of UTF-8, cutting on a code-point boundary (also used by `pipeline/receipt.ts` for warm/cold result-head parity). */
+export function truncateBytes(s: string, maxBytes: number): string {
   const buf = Buffer.from(s, 'utf8');
   if (buf.length <= maxBytes) return s;
   let end = maxBytes;
@@ -153,7 +153,12 @@ export function trimForCache(session: Session): Session {
     call.input = input;
   }
   for (const row of out.usageRows) delete row.inherited;
+  // `planUsagePct` is a logged rate-limit fact (§4.3.5), not a computed
+  // dollar amount, and it cannot be re-derived from `TokenDelta[]` — carry it
+  // across the reset so warm receipts match cold ones (S18).
+  const planUsagePct = session.cost.planUsagePct;
   out.cost = emptyCost();
+  if (planUsagePct !== undefined) out.cost.planUsagePct = planUsagePct;
   return out;
 }
 

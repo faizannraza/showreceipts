@@ -1,0 +1,39 @@
+{
+  "name": "file.count: log shows fewer → UNVERIFIED count-short",
+  "row": 11,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z",
+        "path": "/home/u/proj/src/a.py"
+      },
+      {
+        "seq": 21,
+        "at": "2026-03-01T17:32:00.000Z",
+        "path": "/home/u/proj/src/b.py"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file-count",
+      "rule": "file.count",
+      "count": 5,
+      "sentence": "5 files changed.",
+      "clause": "5 files changed"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "count-short",
+      "evidence": [
+        "2 files changed in log (23:58)"
+      ],
+      "textIncludes": "log shows 2"
+    }
+  ]
+}

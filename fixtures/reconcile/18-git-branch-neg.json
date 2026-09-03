@@ -1,0 +1,25 @@
+{
+  "name": "git.tag: no tag fact → UNVERIFIED no-git-op",
+  "row": 18,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "git",
+      "rule": "git.tag",
+      "op": "tag",
+      "sentence": "Tagged v1.2.0.",
+      "clause": "tagged v1.2.0"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-git-op",
+      "evidence": [
+        "no git tag in log (23:58)"
+      ]
+    }
+  ]
+}

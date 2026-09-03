@@ -1,0 +1,46 @@
+{
+  "name": "verify.with_cmd: the named command ran exit 0 after W → VERIFIED",
+  "row": 20,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T23:30:00.000Z",
+        "segments": [
+          {
+            "program": "pytest",
+            "argv": [
+              "-q"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "verification",
+      "rule": "verify.with_cmd",
+      "subject": "pytest -q",
+      "sentence": "Verified with `pytest -q`.",
+      "clause": "verified with `pytest -q`"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "pytest -q → exit 0 (23:30)"
+      ]
+    }
+  ]
+}

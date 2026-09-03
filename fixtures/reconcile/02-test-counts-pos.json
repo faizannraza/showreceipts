@@ -1,0 +1,42 @@
+{
+  "name": "test.counts: evidence run satisfies the count → VERIFIED",
+  "row": 2,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "testRuns": [
+      {
+        "seq": 40,
+        "at": "2026-03-01T23:41:00.000Z",
+        "command": "uv run pytest",
+        "exitCode": 0,
+        "parsed": {
+          "passed": 41
+        }
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "rule": "test.counts",
+      "count": 41,
+      "sentence": "41 tests passed.",
+      "clause": "41 tests passed"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "uv run pytest → exit 0 · 41 passed (23:41)"
+      ]
+    }
+  ]
+}

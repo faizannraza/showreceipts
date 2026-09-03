@@ -1,0 +1,33 @@
+{
+  "name": "test.ran: runs only in an earlier turn → UNVERIFIED no-evidence",
+  "row": 3,
+  "ledger": {
+    "testRuns": [
+      {
+        "seq": 5,
+        "at": "2026-03-01T16:05:00.000Z",
+        "exitCode": 0
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "test-ran",
+      "rule": "test.ran",
+      "sentence": "Ran the tests.",
+      "clause": "ran the tests"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-evidence",
+      "evidence": [
+        "pytest → exit 0 (16:05)"
+      ],
+      "textIncludes": "last run was in turn 0"
+    }
+  ]
+}

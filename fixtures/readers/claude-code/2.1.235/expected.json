@@ -3,10 +3,12 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "2 model_refusal_fallback records → 2 refusalFallbacks; fallback model (claude-opus-4-8) added to models (§4.2.2 / Appendix A).",
+    "2 model_refusal_fallback records \u2192 2 refusalFallbacks; fallback model (claude-opus-4-8) added to models (\u00a74.2.2 / Appendix A).",
     "18 Bash results without toolUseResult counted in bashWithoutToolUseResult (Appendix A: absent 18 on 2.1.235 subagents).",
-    "The ≥ 1 MiB line parses with 0 badLines (hazard:line>=1MiB present; §4.2.1 byte splitter).",
-    "Interrupt lines with promptId → interrupted turns (§4.2.3 step 6)."
+    "The \u2265 1 MiB line parses with 0 badLines (hazard:line>=1MiB present; \u00a74.2.1 byte splitter).",
+    "Interrupt lines with promptId \u2192 interrupted turns (\u00a74.2.3 step 6).",
+    "S19 receipt goldens hand-verified: default turn 10 VERIFIED \u2014 `379 tests green` matches the subagent vitest run parse (345 passed at Aug 20 23:02 evidence line carries agent:aa76251 and the day-crossing clock); `Done` is the NOT_SCORED completion marker.",
+    "S19: cost 140.541257, unverified false, cacheHitPct 95.31; expectVerdicts VERIFIED + NOT_SCORED (this trimmed window has no unverified/contradicted scored claim)."
   ],
   "session": {
     "57687dd1-8430-4568-a210-4a3d63ce162c": {
@@ -1110,5 +1112,93 @@
     "policyVersion": 1,
     "seed": "showreceipts-fixtures-1",
     "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "expectVerdicts": [
+    "VERIFIED",
+    "NOT_SCORED"
+  ],
+  "receipt": {
+    "57687dd1-8430-4568-a210-4a3d63ce162c": {
+      "kind": "scored",
+      "verdict": "VERIFIED",
+      "turnIndex": 10,
+      "claimsRecognized": 2,
+      "counts": {
+        "VERIFIED": 1,
+        "UNVERIFIED": 0,
+        "CONTRADICTED": 0,
+        "NOT_SCORED": 1
+      },
+      "lines": [
+        {
+          "glyph": "ok",
+          "claim": "379 tests green, 19 committed evidence runs.",
+          "reason": "ok",
+          "evidence": [
+            "npx vitest run \u2192 exit ? \u00b7 345 passed agent:aa76251 (Aug 20 23:02)"
+          ]
+        }
+      ],
+      "alsoSaid": [
+        "Done"
+      ],
+      "alsoDid": [
+        {
+          "text": "1 API error during the session"
+        }
+      ],
+      "stats": {
+        "toolCalls": 6,
+        "filesChanged": 0,
+        "testRuns": 0,
+        "compactions": 0,
+        "subagents": 2,
+        "apiCalls": 9,
+        "sentencesScanned": 5
+      }
+    }
+  },
+  "ledger": {
+    "57687dd1-8430-4568-a210-4a3d63ce162c": {
+      "writes": 46,
+      "commands": 811,
+      "testRuns": 7,
+      "checks": 13,
+      "git": 1,
+      "network": 3,
+      "integrity": 3,
+      "danger": 5,
+      "filesChanged": 29,
+      "integrityKinds": {
+        "test-count-dropped": 1,
+        "test-file-deleted": 2
+      },
+      "dangerKinds": {
+        "destructive-git": 1,
+        "rm-rf": 3,
+        "write-outside-repo": 1
+      }
+    }
+  },
+  "claims": {
+    "57687dd1-8430-4568-a210-4a3d63ce162c": [
+      {
+        "kind": "completion",
+        "polarity": "positive",
+        "rule": "done.marker"
+      },
+      {
+        "kind": "test",
+        "polarity": "positive",
+        "rule": "test.pass"
+      }
+    ]
+  },
+  "cost": {
+    "57687dd1-8430-4568-a210-4a3d63ce162c": {
+      "usd": 140.541257,
+      "unverified": false,
+      "cacheHitPct": 95.31
+    }
   }
 }

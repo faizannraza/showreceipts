@@ -1,0 +1,48 @@
+{
+  "name": "verify.with_cmd: every matching run failed → CONTRADICTED command-failed",
+  "row": 20,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "commands": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T23:30:00.000Z",
+        "exitCode": 2,
+        "segments": [
+          {
+            "program": "pytest",
+            "argv": [
+              "-q"
+            ],
+            "exitCode": 2
+          }
+        ]
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "verification",
+      "rule": "verify.with_cmd",
+      "subject": "pytest -q",
+      "sentence": "Verified with `pytest -q`.",
+      "clause": "verified with `pytest -q`"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "CONTRADICTED",
+      "reason": "command-failed",
+      "evidence": [
+        "pytest -q → exit 2 (23:30)"
+      ]
+    }
+  ]
+}

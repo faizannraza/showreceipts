@@ -3,9 +3,11 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "bridge-session records counted; owner ids (ownerAccountUuid/ownerOrganizationUuid/bridgeSessionId) never copied into the output (§4.2.8).",
-    "Workflow subagents (workflow-subagent agentType) via subagents/workflows/wf_*/ (§4.2.6).",
-    "atis-latch and hook_system_message counted, never claim input (§4.2.8)."
+    "bridge-session records counted; owner ids (ownerAccountUuid/ownerOrganizationUuid/bridgeSessionId) never copied into the output (\u00a74.2.8).",
+    "Workflow subagents (workflow-subagent agentType) via subagents/workflows/wf_*/ (\u00a74.2.6).",
+    "atis-latch and hook_system_message counted, never claim input (\u00a74.2.8).",
+    "S19 receipt goldens hand-verified: turn 1 (default) recognises no claims; ALSO DID surfaces the memory/harness-config writes (warn), the temp-dir write, the inferred registry.npmjs.org contact and the +1 more cap \u2014 matching the danger/write scopes in the ledger section.",
+    "S19: cost 29.164160, unverified false, cacheHitPct 89.02; expectVerdicts empty \u2014 this session's finals genuinely carry no claims (bridge/workflow session)."
   ],
   "session": {
     "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
@@ -363,5 +365,84 @@
     "policyVersion": 1,
     "seed": "showreceipts-fixtures-1",
     "reviewedBy": "Claude (automated privacy audit, 2026-09-02)"
+  },
+  "expectVerdicts": [],
+  "receipt": {
+    "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
+      "kind": "no-claims",
+      "verdict": "NO_CLAIMS",
+      "turnIndex": 1,
+      "claimsRecognized": 0,
+      "counts": {
+        "VERIFIED": 0,
+        "UNVERIFIED": 0,
+        "CONTRADICTED": 0,
+        "NOT_SCORED": 0
+      },
+      "lines": [],
+      "alsoSaid": [],
+      "alsoDid": [
+        {
+          "text": "3 files changed (/tmp/claude/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/scratchpad/design/IDEA.md, .claude/projects/-home-u/memory/dEhxhZne.md, .claude/projects/-home-u/memory/MEMORY.md)"
+        },
+        {
+          "text": "1 file written to temp dirs"
+        },
+        {
+          "text": "2 files written to harness config (.claude/projects/-home-u/memory/dEhxhZne.md, \u2026)",
+          "warn": true
+        },
+        {
+          "text": "/home/u/.claude/projects/-home-u/memory/dEhxhZne.md",
+          "warn": true
+        },
+        {
+          "text": "/home/u/.claude/projects/-home-u/memory/MEMORY.md",
+          "warn": true
+        },
+        {
+          "text": "contacted: registry.npmjs.org (inferred)"
+        },
+        {
+          "text": "+1 more"
+        }
+      ],
+      "stats": {
+        "toolCalls": 22,
+        "filesChanged": 3,
+        "testRuns": 0,
+        "compactions": 0,
+        "subagents": 0,
+        "apiCalls": 11,
+        "sentencesScanned": 3
+      }
+    }
+  },
+  "ledger": {
+    "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
+      "writes": 4,
+      "commands": 50,
+      "testRuns": 0,
+      "checks": 0,
+      "git": 0,
+      "network": 264,
+      "integrity": 0,
+      "danger": 2,
+      "filesChanged": 3,
+      "integrityKinds": {},
+      "dangerKinds": {
+        "write-outside-repo": 2
+      }
+    }
+  },
+  "claims": {
+    "6954d8ef-eedb-4b23-8cdc-17e422453dfa": []
+  },
+  "cost": {
+    "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
+      "usd": 29.16416,
+      "unverified": false,
+      "cacheHitPct": 89.02
+    }
   }
 }

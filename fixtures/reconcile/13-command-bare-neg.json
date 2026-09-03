@@ -1,0 +1,25 @@
+{
+  "name": "command.ran_bare: no segment of the family → UNVERIFIED no-command",
+  "row": 13,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "command",
+      "rule": "command.ran_bare",
+      "subject": "migrations",
+      "sentence": "Ran the migrations.",
+      "clause": "ran the migrations"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "UNVERIFIED",
+      "reason": "no-command",
+      "evidence": [
+        "no matching command in log (23:58)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "name": "check (family): a green lint run after W, no tool named → VERIFIED",
+  "row": 6,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 20,
+        "at": "2026-03-01T17:31:00.000Z"
+      }
+    ],
+    "checks": [
+      {
+        "seq": 40,
+        "at": "2026-03-01T23:29:00.000Z",
+        "tool": "eslint",
+        "exitCode": 0,
+        "green": true
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "check",
+      "rule": "check.lint",
+      "family": "lint",
+      "sentence": "Lint is clean.",
+      "clause": "lint is clean"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "eslint → exit 0 (23:29)"
+      ]
+    }
+  ]
+}

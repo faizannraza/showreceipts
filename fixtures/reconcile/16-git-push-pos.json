@@ -1,0 +1,43 @@
+{
+  "name": "git.push: ok push after the last ok commit → VERIFIED",
+  "row": 16,
+  "ledger": {
+    "git": [
+      {
+        "seq": 50,
+        "at": "2026-03-01T22:30:00.000Z",
+        "op": "commit",
+        "ok": true,
+        "sha": "abc1234"
+      },
+      {
+        "seq": 60,
+        "at": "2026-03-01T22:45:00.000Z",
+        "op": "push",
+        "ok": true,
+        "remote": "origin",
+        "branch": "main"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "git",
+      "rule": "git.push",
+      "op": "push",
+      "sentence": "Pushed.",
+      "clause": "pushed"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "git push → origin/main (22:45)"
+      ]
+    }
+  ]
+}

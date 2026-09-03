@@ -1,0 +1,37 @@
+{
+  "name": "test.ran: a run in the turn, any exit → VERIFIED",
+  "row": 3,
+  "ledger": {
+    "testRuns": [
+      {
+        "seq": 40,
+        "at": "2026-03-01T21:15:00.000Z",
+        "exitCode": 1,
+        "green": false,
+        "conclusive": false,
+        "parsed": {
+          "failed": 2
+        }
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "test-ran",
+      "rule": "test.ran",
+      "sentence": "Ran the tests.",
+      "clause": "ran the tests"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "pytest → exit 1 · 2 failed (21:15)"
+      ]
+    }
+  ]
+}

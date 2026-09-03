@@ -1,0 +1,39 @@
+{
+  "name": "file rename: a rename fact from→to → VERIFIED",
+  "row": 10,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 30,
+        "at": "2026-03-01T18:20:00.000Z",
+        "path": "/home/u/proj/src/renamed.py",
+        "verb": "rename",
+        "fromPath": "/home/u/proj/src/orig.py",
+        "source": "shell-inferred"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "file",
+      "rule": "file.verb",
+      "verb": "rename",
+      "subject": "src/renamed.py",
+      "fromPath": "src/orig.py",
+      "explicitVerb": true,
+      "sentence": "Renamed src/orig.py to src/renamed.py.",
+      "clause": "renamed src/orig.py to src/renamed.py"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "renamed (18:20)"
+      ]
+    }
+  ]
+}

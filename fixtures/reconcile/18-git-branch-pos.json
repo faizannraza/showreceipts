@@ -1,0 +1,36 @@
+{
+  "name": "git.branch: matching branch fact → VERIFIED",
+  "row": 18,
+  "ledger": {
+    "git": [
+      {
+        "seq": 45,
+        "at": "2026-03-01T20:00:00.000Z",
+        "op": "branch",
+        "ok": true,
+        "branch": "fix/x"
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "git",
+      "rule": "git.branch",
+      "op": "branch",
+      "branch": "fix/x",
+      "sentence": "Created branch fix/x.",
+      "clause": "created branch fix/x"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "git branch fix/x (20:00)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "test.added: ok test-file write in the turn → VERIFIED",
+  "row": 4,
+  "ledger": {
+    "writes": [
+      {
+        "seq": 30,
+        "at": "2026-03-01T18:05:00.000Z",
+        "path": "/home/u/proj/tests/test_app.py",
+        "verb": "create",
+        "isTestFile": true,
+        "call": {
+          "tool": "Write",
+          "kind": "write"
+        }
+      }
+    ]
+  },
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "test-added",
+      "rule": "test.added",
+      "sentence": "Added tests.",
+      "clause": "added tests"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "VERIFIED",
+      "reason": "ok",
+      "evidence": [
+        "Write (18:05)"
+      ]
+    }
+  ]
+}

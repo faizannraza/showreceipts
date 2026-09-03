@@ -1,0 +1,20 @@
+{
+  "name": "third-party attribution → NOT_SCORED",
+  "row": 23,
+  "ledger": {},
+  "claims": [
+    {
+      "id": "c1",
+      "attribution": "other",
+      "sentence": "CI verified the tests pass.",
+      "clause": "CI verified the tests pass"
+    }
+  ],
+  "expect": [
+    {
+      "claimId": "c1",
+      "verdict": "NOT_SCORED",
+      "reason": "not-scored"
+    }
+  ]
+}
