@@ -3,11 +3,11 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "2 model_refusal_fallback records \u2192 2 refusalFallbacks; fallback model (claude-opus-4-8) added to models (\u00a74.2.2 / Appendix A).",
+    "2 model_refusal_fallback records → 2 refusalFallbacks; fallback model (claude-opus-4-8) added to models (§4.2.2 / Appendix A).",
     "18 Bash results without toolUseResult counted in bashWithoutToolUseResult (Appendix A: absent 18 on 2.1.235 subagents).",
-    "The \u2265 1 MiB line parses with 0 badLines (hazard:line>=1MiB present; \u00a74.2.1 byte splitter).",
-    "Interrupt lines with promptId \u2192 interrupted turns (\u00a74.2.3 step 6).",
-    "S19 receipt goldens hand-verified: default turn 10 VERIFIED \u2014 `379 tests green` matches the subagent vitest run parse (345 passed at Aug 20 23:02 evidence line carries agent:aa76251 and the day-crossing clock); `Done` is the NOT_SCORED completion marker.",
+    "The ≥ 1 MiB line parses with 0 badLines (hazard:line>=1MiB present; §4.2.1 byte splitter).",
+    "Interrupt lines with promptId → interrupted turns (§4.2.3 step 6).",
+    "S19 receipt goldens hand-verified: default turn 10 VERIFIED — `379 tests green` matches the subagent vitest run parse (345 passed at Aug 20 23:02 evidence line carries agent:aa76251 and the day-crossing clock); `Done` is the NOT_SCORED completion marker.",
     "S19: cost 140.541257, unverified false, cacheHitPct 95.31; expectVerdicts VERIFIED + NOT_SCORED (this trimmed window has no unverified/contradicted scored claim)."
   ],
   "session": {
@@ -1135,7 +1135,7 @@
           "claim": "379 tests green, 19 committed evidence runs.",
           "reason": "ok",
           "evidence": [
-            "npx vitest run \u2192 exit ? \u00b7 345 passed agent:aa76251 (Aug 20 23:02)"
+            "npx vitest run → exit ? · 345 passed agent:aa76251 (Aug 20 23:02)"
           ]
         }
       ],

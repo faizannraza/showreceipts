@@ -1,0 +1,18 @@
+{
+  "hook_event_name": "post_tool_call",
+  "tool_name": "terminal",
+  "tool_input": {
+    "command": "sleep 999"
+  },
+  "session_id": "h-6",
+  "cwd": "/w",
+  "extra": {
+    "tool_call_id": "hc-2",
+    "turn_id": "t1",
+    "result": "killed: exit code 124",
+    "duration_ms": 10000,
+    "status": "error",
+    "error_type": "timeout",
+    "error_message": "command timed out"
+  }
+}

@@ -42,8 +42,14 @@ import { filesChangedEligible } from '../ledger/writes.js';
 import { basename } from '../util/paths.js';
 import { absenceRef, callRef, evidenceLabel, makeRef, writeRefs } from './evidence.js';
 
-/** Version stamp of the reconcile table (folded into `Receipt.rulesVersion` by the pipeline). */
-export const RECONCILE_RULES_VERSION = 'reconcile/1';
+/**
+ * Version stamp of the reconcile table (folded into `Receipt.rulesVersion`
+ * by the pipeline). `reconcile/2` (S35 accuracy gate, §14.3): the row-9
+ * edited-not-deleted and row-21 path-less writes-despite-no-change
+ * contradictions are demoted to UNVERIFIED — both misfired on the
+ * hand-labelled real-session sample (see `docs/accuracy.md`).
+ */
+export const RECONCILE_RULES_VERSION = 'reconcile/2';
 
 /** The note added to every echoed claim (§4.8 row 24). */
 export const ECHO_NOTE = "echoes the user's message";
@@ -608,10 +614,12 @@ function judgeFileDelete(ctx: RowContext): Judgement {
   }
   const edits = pathWrites.filter((w) => w.status === 'ok');
   if (edits.length > 0) {
+    // Demoted in reconcile/2 (S35 accuracy gate): "removed `x.py`'s manual
+    // check" parses as a delete of `x.py` with a direct object, so the
+    // edited-not-deleted contradiction misfired on possessive phrasing.
+    // UNVERIFIED regardless of `directObject` until the extractor can tell
+    // "removed the file" from "removed something inside the file".
     const refs = writeRefs(edits, facts.callById, turn.endedAt);
-    if (claim.directObject === true) {
-      return absenceContradiction(ctx, 'file-not-deleted', refs, 'file was edited, not deleted');
-    }
     return judgement(claim, 'UNVERIFIED', 'file-not-deleted', refs, 'file was edited, not deleted');
   }
   return judgement(claim, 'UNVERIFIED', 'no-evidence', [absenceRef(turn, `nothing about ${subject} in log`)], 'nothing about the path in log');
@@ -989,7 +997,12 @@ function judgeNoChange(ctx: RowContext): Judgement {
       'other files were changed',
     ]);
   }
-  return absenceContradiction(ctx, 'writes-despite-no-change', writeRefs(turnWrites, facts.callById, turn.endedAt), 'writes in this turn despite "no changes"');
+  // Demoted in reconcile/2 (S35 accuracy gate): a path-less no-change marker
+  // can sit in a hypothetical ("type 800 instead — nothing to change
+  // anywhere") that the cue scoping does not catch, so writes in the turn are
+  // not a safe contrary fact. The named-file branch above keeps its
+  // contradiction — "no changes to X" plus a write to X stays positive.
+  return judgement(claim, 'UNVERIFIED', 'writes-despite-no-change', writeRefs(turnWrites, facts.callById, turn.endedAt), 'writes in this turn despite "no changes"');
 }
 
 // ---------------------------------------------------------------------------

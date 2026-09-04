@@ -1,0 +1,6 @@
+{
+  "hook_event_name": "on_session_finalize",
+  "session_id": "h-5",
+  "cwd": "/w",
+  "extra": {}
+}

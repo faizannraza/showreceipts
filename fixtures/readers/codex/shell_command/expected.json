@@ -56,11 +56,11 @@
     "note": "synthetic content, written directly in redacted form"
   },
   "verified": [
-    "Synthetic 0.148 shell_command dialect: exitCodeSource covers harness, backfilled and unknown (\u00a74.3.3).",
-    "apply_patch via exec_command heredoc with Add/Delete/Update+Move; JSON-string outputs; string[] command wrapper collapse; one -1 terminated; sandbox denial \u2192 denied:sandbox-denied (\u00a74.3.3\u20134.3.4).",
-    "S19 receipt goldens hand-verified: default turn 1 \u2014 git.commit VERIFIED with the sha evidence `git commit \u2192 0f1e2d3 (10:01)`; `I did not push` is negated \u2192 ALSO SAID.",
+    "Synthetic 0.148 shell_command dialect: exitCodeSource covers harness, backfilled and unknown (§4.3.3).",
+    "apply_patch via exec_command heredoc with Add/Delete/Update+Move; JSON-string outputs; string[] command wrapper collapse; one -1 terminated; sandbox denial → denied:sandbox-denied (§4.3.3–4.3.4).",
+    "S19 receipt goldens hand-verified: default turn 1 — git.commit VERIFIED with the sha evidence `git commit → 0f1e2d3 (10:01)`; `I did not push` is negated → ALSO SAID.",
     "S19: turn 0 CONTRADICTED last-run-red is defensible from the evidence alone: the claim `all 12 tests pass (vitest)` is judged against the pytest run that followed the apply_patch write (exit 1, `1 failed, 11 passed`), while the green npm test preceded the write (stale); file.verb create/rename VERIFIED from the patch writes, delete + update-of-renamed UNVERIFIED (no-write-to-path on the trimmed paths).",
-    "S19 re-date (step 0): model gpt-5.6-terra, August 2026 timestamps \u2014 cost 0.020749 at the from-2026-07-30 window (2.0/12.0/0.2 per M); --as-of 2026-07-15 reprices at the 2026-07-09..29 window (2.5/15.0/0.25) to 0.025936, pinned in test/goldens/receipts.test.ts; unverified \u2248 true (inferred rates), cacheHitPct 73.47."
+    "S19 re-date (step 0): model gpt-5.6-terra, August 2026 timestamps — cost 0.020749 at the from-2026-07-30 window (2.0/12.0/0.2 per M); --as-of 2026-07-15 reprices at the 2026-07-09..29 window (2.5/15.0/0.25) to 0.025936, pinned in test/goldens/receipts.test.ts; unverified ≈ true (inferred rates), cacheHitPct 73.47."
   ],
   "session": {
     "019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b": {
@@ -295,7 +295,7 @@
           "claim": "Committed as `0f1e2d3` on `main`.",
           "reason": "ok",
           "evidence": [
-            "git commit \u2192 0f1e2d3 (10:01)"
+            "git commit → 0f1e2d3 (10:01)"
           ]
         }
       ],

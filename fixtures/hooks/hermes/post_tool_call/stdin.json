@@ -1,0 +1,17 @@
+{
+  "hook_event_name": "post_tool_call",
+  "tool_name": "terminal",
+  "tool_input": {
+    "command": "pytest -q"
+  },
+  "session_id": "h-1",
+  "cwd": "/w",
+  "extra": {
+    "tool_call_id": "hc-1",
+    "turn_id": "t1",
+    "result": "5 passed",
+    "duration_ms": 900,
+    "status": "success",
+    "model": "hermes-4"
+  }
+}

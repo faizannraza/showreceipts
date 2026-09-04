@@ -1,0 +1,6 @@
+{
+  "sessionId": "cop-5",
+  "cwd": "/w",
+  "hook_event_name": "sessionEnd",
+  "reason": "exit"
+}

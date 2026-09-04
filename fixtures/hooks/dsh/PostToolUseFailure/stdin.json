@@ -1,0 +1,12 @@
+{
+  "session_id": "d-3",
+  "hook_event_name": "PostToolUseFailure",
+  "transcript_path": "/work/dsh/t.jsonl",
+  "cwd": "/w/proj",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "npm test"
+  },
+  "tool_response": "Error: Exit code 2\nnpm ERR! tests failed",
+  "tool_use_id": "tu_10"
+}

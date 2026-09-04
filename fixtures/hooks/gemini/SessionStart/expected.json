@@ -1,0 +1,20 @@
+{
+  "harness": "gemini",
+  "event": "SessionStart",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "gs-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T11:59:58.000Z",
+      "h": "gemini",
+      "e": "session-start",
+      "sid": "gs-1",
+      "cwd": "/w",
+      "transcript": "/w/chats/session.json"
+    }
+  },
+  "classBudgetMs": 1000
+}

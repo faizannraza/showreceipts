@@ -1,0 +1,20 @@
+{
+  "harness": "cursor",
+  "event": "afterAgentResponse",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "ca-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "cursor",
+      "e": "agent-response",
+      "sid": "ca-1",
+      "tid": "g1",
+      "text": "I updated the file."
+    }
+  },
+  "classBudgetMs": 1500
+}

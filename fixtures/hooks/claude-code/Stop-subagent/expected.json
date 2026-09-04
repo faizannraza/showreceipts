@@ -1,0 +1,9 @@
+{
+  "harness": "claude-code",
+  "event": "Stop",
+  "stdout": {},
+  "exit": 0,
+  "ledger": null,
+  "noFiles": true,
+  "classBudgetMs": 20000
+}

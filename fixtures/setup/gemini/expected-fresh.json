@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "name": "showreceipts-start",
+            "type": "command",
+            "command": "\"__H__\" hook gemini SessionStart",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "name": "showreceipts-record",
+            "type": "command",
+            "command": "\"__H__\" hook gemini AfterTool",
+            "timeout": 10000,
+            "description": "records tool effects for receipts"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "name": "showreceipts-stop",
+            "type": "command",
+            "command": "\"__H__\" hook gemini AfterAgent",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "name": "showreceipts-end",
+            "type": "command",
+            "command": "\"__H__\" hook gemini SessionEnd",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}

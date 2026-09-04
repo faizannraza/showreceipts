@@ -1,0 +1,20 @@
+{
+  "harness": "copilot",
+  "event": "sessionStart",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "cop-1",
+    "lines": 2,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "copilot",
+      "e": "prompt",
+      "sid": "cop-1",
+      "cwd": "/w",
+      "text": "fix the bug"
+    }
+  },
+  "classBudgetMs": 1000
+}

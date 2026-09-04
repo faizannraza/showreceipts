@@ -1,0 +1,19 @@
+# >>> showreceipts >>>
+hooks:
+  post_tool_call:
+    - matcher: ".*"
+      command: '"__H__" hook hermes post_tool_call'
+      timeout: 10
+  post_llm_call:
+    - command: '"__H__" hook hermes post_llm_call'
+      timeout: 30
+  on_session_start:
+    - command: '"__H__" hook hermes on_session_start'
+      timeout: 5
+  on_session_end:
+    - command: '"__H__" hook hermes on_session_end'
+      timeout: 10
+  on_session_finalize:
+    - command: '"__H__" hook hermes on_session_finalize'
+      timeout: 5
+# <<< showreceipts <<<

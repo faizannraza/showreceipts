@@ -25,8 +25,17 @@ const WHOLE: readonly RegExp[] = [
   /\bBearer [A-Za-z0-9._-]{20,}/gi,
 ];
 
-/** `key=value` assignments whose key names a credential (§4.9: `(password|passwd|secret|token)=\S+`): the value — a quoted string or everything up to whitespace — is masked, the key kept. */
-const KEY_VALUE = /([A-Za-z0-9_-]*(?:password|passwd|secret|token))=("[^"]*"|'[^']*'|\S+)/gi;
+/**
+ * `key=value` assignments whose key names a credential (§4.9:
+ * `(password|passwd|secret|token)=\S+`): the value — a quoted string or
+ * everything up to whitespace — is masked, the key kept. The key prefix is
+ * bounded (`{0,64}`) so the scan stays linear: an unbounded `*` here
+ * backtracks quadratically on long unbroken alphanumeric runs (minified
+ * code, base64 blobs) — observed at ~150 s for a 300 KiB run — which would
+ * bust the §9 hook budgets. A longer key still matches through its last
+ * ≤ 64 prefix characters, so the value is masked either way.
+ */
+const KEY_VALUE = /([A-Za-z0-9_-]{0,64}(?:password|passwd|secret|token))=("[^"]*"|'[^']*'|\S+)/gi;
 /** A quote/backtick run closing an unquoted value (`curl "…?token=x"`): kept so the surrounding literal stays balanced. */
 const CLOSING_DELIMITERS = /["'`]+$/;
 

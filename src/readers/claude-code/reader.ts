@@ -10,7 +10,7 @@
  * and no `stat` beyond the size check the resume rule needs.
  */
 import { closeSync, openSync, readSync, statSync } from 'node:fs';
-import type { LineSource, Session, SessionRef } from '../../model/types.js';
+import type { LineSource, RawLine, Session, SessionRef } from '../../model/types.js';
 import { sha256 } from '../../util/hash.js';
 import { readJsonl } from '../jsonl.js';
 import { SessionBuilder } from './builder.js';
@@ -45,6 +45,42 @@ export interface ClaudeCodeReadResult {
   tailHash: string;
   /** Builder state for the next incremental read. */
   builderState: string;
+}
+
+/** UTF-8 bytes of U+2028 LINE SEPARATOR (mirrors the `readJsonl` stream counter). */
+const LINE_SEP = Buffer.from([0xe2, 0x80, 0xa8]);
+/** UTF-8 bytes of U+2029 PARAGRAPH SEPARATOR. */
+const PARA_SEP = Buffer.from([0xe2, 0x80, 0xa9]);
+
+/** Occurrences of raw U+2028/U+2029 in `buf`, exactly as `readJsonl` counts them. */
+function countSeparators(buf: Buffer): number {
+  let count = 0;
+  for (const needle of [LINE_SEP, PARA_SEP]) {
+    let at = buf.indexOf(needle);
+    while (at !== -1) {
+      count++;
+      at = buf.indexOf(needle, at + needle.length);
+    }
+  }
+  return count;
+}
+
+/** Bytes `[start, start + length)` of the source; short or failed reads return what was read. */
+function readRange(src: LineSource, start: number, length: number): Buffer {
+  if (length <= 0) return Buffer.alloc(0);
+  if (src.kind === 'text') return Buffer.from(src.text, 'utf8').subarray(start, start + length);
+  try {
+    const fd = openSync(src.path, 'r');
+    try {
+      const buf = Buffer.alloc(length);
+      const read = readSync(fd, buf, 0, length, start);
+      return buf.subarray(0, read);
+    } finally {
+      closeSync(fd);
+    }
+  } catch {
+    return Buffer.alloc(0);
+  }
 }
 
 /**
@@ -106,17 +142,71 @@ export async function readClaudeCodeSession(ref: SessionRef, opts: ClaudeCodeRea
     startOffset,
     parseCountOnly: (type) => type === 'ai-title' && !b.hasTitle(),
   });
+  // One-line delay so the (possibly unterminated) final line can be held
+  // back: `builderState` must describe exactly the complete lines up to
+  // `bytesParsed` — a line boundary by construction (§4.9) — or a later
+  // resume would re-feed the trailing partial line (duplicate uuids,
+  // double-counted bad lines).
+  let pending: RawLine | null = null;
   let step = await gen.next();
   while (!step.done) {
-    b.feed(step.value);
+    if (pending !== null) b.feed(pending);
+    pending = step.value;
     step = await gen.next();
   }
   const summary = step.value;
-  b.noteSummary(summary);
-  const builderState = b.serialize();
+  let builderState: string;
+  if (pending !== null && pending.byteOffset >= summary.bytesParsed) {
+    // Trailing partial line: serialize the resume anchor first, then feed it
+    // so the returned session still reflects the whole file. Its U+2028/29
+    // occurrences (counted stream-level by `readJsonl`) are folded in
+    // separately, on the same side of the boundary as the line itself.
+    const sepPartial = countSeparators(readRange(src, summary.bytesParsed, pending.bytes));
+    b.noteSummary({ lineSeparatorChars: summary.lineSeparatorChars - sepPartial });
+    builderState = b.serialize();
+    b.feed(pending);
+    b.noteSummary({ lineSeparatorChars: sepPartial });
+  } else {
+    if (pending !== null) b.feed(pending);
+    b.noteSummary(summary);
+    builderState = b.serialize();
+  }
   const session = b.finish();
   const inline = b.sidechainSource();
   if (inline !== null) await mergeSubagents(session, inline);
   if (opts.subagents !== undefined) await mergeSubagents(session, opts.subagents);
   return { session, bytesParsed: summary.bytesParsed, tailHash: summary.tailHash, builderState };
+}
+
+/**
+ * The resume anchor a cache entry stores for the Stop path (§4.9, S27b). A
+ * `cache/cache.ts CacheEntry` is structurally assignable to this shape.
+ */
+export interface ResumeAnchor {
+  /** Absolute offset just past the last complete line of the previous parse (always a line boundary). */
+  bytesParsed: number;
+  /** `sha256` of the `min(4096, bytesParsed)` bytes preceding `bytesParsed`. */
+  tailHash: string;
+  /** `SessionBuilder.serialize()` output; absent (an entry from a non-resumable parse) → cold parse. */
+  builderState?: string;
+}
+
+/**
+ * Incremental Stop-path parse (S27b): continues the turn builder, uuid index
+ * and usage-dedupe state from `entry` when the stored `tailHash` still
+ * matches the on-disk bytes at `entry.bytesParsed`; any mismatch (rewrite,
+ * truncation, rotation) or a corrupt/absent `builderState` falls back to a
+ * cold parse. Subagent files (`opts.subagents`) are always rescanned either
+ * way. The appended tail is streamed from the source itself, so the caller
+ * only supplies the anchor from `lookupByPath` — and must `realpath` a hook's
+ * `transcript_path` to the discovery spelling *before* that lookup, or the
+ * resume path will always miss (W1 merge note).
+ */
+export async function resumeSession(ref: SessionRef, entry: ResumeAnchor, opts: ClaudeCodeReadOptions): Promise<ClaudeCodeReadResult> {
+  const { builderState } = entry;
+  if (builderState === undefined) return readClaudeCodeSession(ref, opts);
+  return readClaudeCodeSession(ref, {
+    ...opts,
+    startState: { state: builderState, bytesParsed: entry.bytesParsed, tailHash: entry.tailHash },
+  });
 }

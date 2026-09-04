@@ -3,11 +3,11 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "bridge-session records counted; owner ids (ownerAccountUuid/ownerOrganizationUuid/bridgeSessionId) never copied into the output (\u00a74.2.8).",
-    "Workflow subagents (workflow-subagent agentType) via subagents/workflows/wf_*/ (\u00a74.2.6).",
-    "atis-latch and hook_system_message counted, never claim input (\u00a74.2.8).",
-    "S19 receipt goldens hand-verified: turn 1 (default) recognises no claims; ALSO DID surfaces the memory/harness-config writes (warn), the temp-dir write, the inferred registry.npmjs.org contact and the +1 more cap \u2014 matching the danger/write scopes in the ledger section.",
-    "S19: cost 29.164160, unverified false, cacheHitPct 89.02; expectVerdicts empty \u2014 this session's finals genuinely carry no claims (bridge/workflow session)."
+    "bridge-session records counted; owner ids (ownerAccountUuid/ownerOrganizationUuid/bridgeSessionId) never copied into the output (§4.2.8).",
+    "Workflow subagents (workflow-subagent agentType) via subagents/workflows/wf_*/ (§4.2.6).",
+    "atis-latch and hook_system_message counted, never claim input (§4.2.8).",
+    "S19 receipt goldens hand-verified: turn 1 (default) recognises no claims; ALSO DID surfaces the memory/harness-config writes (warn), the temp-dir write, the inferred registry.npmjs.org contact and the +1 more cap — matching the danger/write scopes in the ledger section.",
+    "S19: cost 29.164160, unverified false, cacheHitPct 89.02; expectVerdicts empty — this session's finals genuinely carry no claims (bridge/workflow session)."
   ],
   "session": {
     "6954d8ef-eedb-4b23-8cdc-17e422453dfa": {
@@ -389,7 +389,7 @@
           "text": "1 file written to temp dirs"
         },
         {
-          "text": "2 files written to harness config (.claude/projects/-home-u/memory/dEhxhZne.md, \u2026)",
+          "text": "2 files written to harness config (.claude/projects/-home-u/memory/dEhxhZne.md, …)",
           "warn": true
         },
         {

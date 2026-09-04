@@ -1,0 +1,5 @@
+{
+  "hook_event_name": "agent_end",
+  "session_id": "ow-2",
+  "message": "All finished."
+}

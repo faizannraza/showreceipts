@@ -1,0 +1,30 @@
+{
+  "harness": "dsh",
+  "event": "PostToolUseFailure",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "d-3",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "dsh",
+      "e": "tool-fail",
+      "sid": "d-3",
+      "cwd": "/w/proj",
+      "exitSource": "parsed",
+      "id": "tu_10",
+      "tool": "Bash",
+      "in": {
+        "command": "npm test"
+      },
+      "error": "Error: Exit code 2\nnpm ERR! tests failed",
+      "failureType": "error",
+      "out": {
+        "exit": 2
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

@@ -1,0 +1,8 @@
+{
+  "conversation_id": "cend-1",
+  "session_id": "cend-1",
+  "hook_event_name": "sessionEnd",
+  "reason": "user_exit",
+  "duration_ms": 100,
+  "final_status": "completed"
+}

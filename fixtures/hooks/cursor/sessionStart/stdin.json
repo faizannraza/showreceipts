@@ -1,0 +1,12 @@
+{
+  "conversation_id": "cs-1",
+  "session_id": "cs-1",
+  "hook_event_name": "sessionStart",
+  "cursor_version": "1.7.2",
+  "model_id": "m-1",
+  "workspace_roots": [
+    "/w/proj"
+  ],
+  "is_background_agent": false,
+  "composer_mode": "agent"
+}

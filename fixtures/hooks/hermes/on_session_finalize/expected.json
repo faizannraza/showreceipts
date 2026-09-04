@@ -1,0 +1,19 @@
+{
+  "harness": "hermes",
+  "event": "on_session_finalize",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "h-5",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "hermes",
+      "e": "session-end",
+      "sid": "h-5",
+      "cwd": "/w"
+    }
+  },
+  "classBudgetMs": 1000
+}

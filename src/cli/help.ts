@@ -71,7 +71,7 @@ const COMMAND_DETAIL: Readonly<Record<CommandName, string>> = {
   export:
     'Prints one session\'s receipt as Markdown (--md) or JSON (--json) for PR descriptions and CI artifacts; --out writes it to a file instead of stdout. Exits 5 when the id is not found or ambiguous.',
   setup:
-    'Detects the harnesses installed on this machine and installs the showreceipts Stop/post-tool hooks in their config files. Idempotent: a backup of every touched file is kept under ~/.showreceipts/backups. --dry-run shows the diff without writing, --remove uninstalls, --restore <backup> rolls back, --strict enables the contradiction nudge, --project and --shared select project-level config files. Exits 3 when a manual step is required (the snippet is printed).',
+    'Detects the harnesses installed on this machine and installs the showreceipts Stop/post-tool hooks in their config files. Idempotent: a backup of every touched file is kept under ~/.showreceipts/backups. --dry-run shows the diff without writing, --remove uninstalls, --restore <backup> rolls back (pass the same --project/--shared scope flags as the setup run that wrote the backup), --strict enables the contradiction nudge, --project and --shared select project-level config files. Exits 3 when a manual step is required (the snippet is printed).',
   hook:
     'Internal entrypoint invoked by harness hooks (showreceipts setup installs it). Reads the event from stdin, records it to the ledger or builds the receipt, and always exits 0 with a JSON object on stdout; unrecognised arguments are ignored.',
   demo: 'Renders bundled synthetic receipts so you can see the output without any session data. Ignores every root on disk, the parse cache and every price override.',
@@ -130,7 +130,7 @@ const FLAG_HELP: Readonly<Record<string, FlagHelp>> = {
   publish: { arg: '[file]', text: 'Write the aggregates-only publish file (default under .showreceipts/)' },
   'dry-run': { text: 'Show what would change without writing' },
   remove: { text: 'Uninstall the showreceipts hooks' },
-  restore: { arg: '<backup>', text: 'Restore a config backup written by setup' },
+  restore: { arg: '<backup>', text: 'Restore a config backup written by setup (use the same scope flags as that run)' },
   strict: {
     text: 'Nudge the agent when its final message is contradicted (Stop hook)',
     textBy: { hook: 'Enable the contradiction nudge for this event' },

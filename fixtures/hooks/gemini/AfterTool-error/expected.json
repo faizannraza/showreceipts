@@ -1,0 +1,31 @@
+{
+  "harness": "gemini",
+  "event": "AfterTool",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "gt-2",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "gemini",
+      "e": "tool-post",
+      "sid": "gt-2",
+      "cwd": "/w",
+      "exitSource": "parsed",
+      "tool": "run_shell_command",
+      "kind": "shell",
+      "in": {
+        "command": "make"
+      },
+      "out": {
+        "text": "boom\nExit Code: 1",
+        "bytes": 17,
+        "exit": 1,
+        "error": true
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

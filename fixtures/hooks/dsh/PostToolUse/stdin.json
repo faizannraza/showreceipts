@@ -1,0 +1,15 @@
+{
+  "session_id": "d-2",
+  "hook_event_name": "PostToolUse",
+  "transcript_path": "/work/dsh/t.jsonl",
+  "cwd": "/w/proj",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "npm test"
+  },
+  "tool_response": {
+    "stdout": "ok",
+    "stderr": ""
+  },
+  "tool_use_id": "tu_9"
+}

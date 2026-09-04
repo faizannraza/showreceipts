@@ -1,0 +1,13 @@
+{
+  "conversation_id": "cf-1",
+  "generation_id": "g1",
+  "hook_event_name": "postToolUseFailure",
+  "tool_name": "Shell",
+  "tool_input": "{\"command\":\"npm test\"}",
+  "tool_use_id": "tc-2",
+  "error_message": "Command failed: exit code 2",
+  "failure_type": "error",
+  "duration": 55,
+  "is_interrupt": false,
+  "cwd": "/w/proj"
+}

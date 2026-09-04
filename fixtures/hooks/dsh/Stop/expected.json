@@ -1,0 +1,26 @@
+{
+  "harness": "dsh",
+  "event": "Stop",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "d-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "dsh",
+      "e": "stop",
+      "sid": "d-1",
+      "cwd": "/w/proj",
+      "status": "completed",
+      "text": "Take a look and let me know."
+    }
+  },
+  "files": [
+    "last-receipt.md",
+    "last-receipt.json"
+  ],
+  "receiptsLog": true,
+  "classBudgetMs": 20000
+}

@@ -1,0 +1,27 @@
+{
+  "harness": "cursor",
+  "event": "subagentStop",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "cu-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "cursor",
+      "e": "subagent-stop",
+      "sid": "cu-1",
+      "agent": {
+        "type": "explore",
+        "status": "completed",
+        "summary": "looked around",
+        "modifiedFiles": [
+          "/w/proj/a.ts"
+        ],
+        "transcript": "/w/t.jsonl"
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

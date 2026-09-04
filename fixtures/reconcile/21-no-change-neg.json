@@ -1,5 +1,5 @@
 {
-  "name": "no-change: an ok write in the turn, no other file claim → CONTRADICTED writes-despite-no-change",
+  "name": "no-change: an ok write in the turn, no other file claim → UNVERIFIED writes-despite-no-change (demoted in reconcile/2, S35)",
   "row": 21,
   "ledger": {
     "writes": [
@@ -21,7 +21,7 @@
   "expect": [
     {
       "claimId": "c1",
-      "verdict": "CONTRADICTED",
+      "verdict": "UNVERIFIED",
       "reason": "writes-despite-no-change",
       "evidence": [
         "Edit (17:31)"

@@ -1,0 +1,6 @@
+{
+  "conversation_id": "ca-1",
+  "generation_id": "g1",
+  "hook_event_name": "afterAgentResponse",
+  "text": "I updated the file."
+}

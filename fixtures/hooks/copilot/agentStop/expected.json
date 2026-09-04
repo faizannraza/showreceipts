@@ -1,0 +1,24 @@
+{
+  "harness": "copilot",
+  "event": "agentStop",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "cop-4",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "copilot",
+      "e": "stop",
+      "sid": "cop-4",
+      "cwd": "/w"
+    }
+  },
+  "files": [
+    "last-receipt.md",
+    "last-receipt.json"
+  ],
+  "receiptsLog": true,
+  "classBudgetMs": 20000
+}

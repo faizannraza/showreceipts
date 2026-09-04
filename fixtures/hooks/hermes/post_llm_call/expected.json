@@ -1,0 +1,28 @@
+{
+  "harness": "hermes",
+  "event": "post_llm_call",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "h-2",
+    "lines": 2,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "hermes",
+      "e": "stop",
+      "sid": "h-2",
+      "tid": "t2",
+      "cwd": "/w",
+      "model": "hermes-4",
+      "status": "completed",
+      "text": "Hello."
+    }
+  },
+  "files": [
+    "last-receipt.md",
+    "last-receipt.json"
+  ],
+  "receiptsLog": true,
+  "classBudgetMs": 20000
+}

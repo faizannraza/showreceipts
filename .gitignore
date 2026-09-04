@@ -3,5 +3,6 @@ dist/
 coverage/
 .showreceipts/
 fixtures/labels/*.jsonl
+fixtures/hooks/generated/
 fixtures/.forbidden.local
 *.tgz

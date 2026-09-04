@@ -1,0 +1,20 @@
+{
+  "harness": "openclaw",
+  "event": "agent_end",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "ow-2",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "openclaw",
+      "e": "stop",
+      "sid": "ow-2",
+      "status": "completed",
+      "text": "All finished."
+    }
+  },
+  "classBudgetMs": 20000
+}

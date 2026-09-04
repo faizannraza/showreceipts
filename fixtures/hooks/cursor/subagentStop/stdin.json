@@ -1,0 +1,11 @@
+{
+  "conversation_id": "cu-1",
+  "hook_event_name": "subagentStop",
+  "subagent_type": "explore",
+  "status": "completed",
+  "summary": "looked around",
+  "modified_files": [
+    "/w/proj/a.ts"
+  ],
+  "agent_transcript_path": "/w/t.jsonl"
+}

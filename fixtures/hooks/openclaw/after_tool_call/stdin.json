@@ -1,0 +1,11 @@
+{
+  "hook_event_name": "after_tool_call",
+  "session_id": "ow-1",
+  "tool_name": "bash",
+  "tool_input": {
+    "command": "ls"
+  },
+  "result": "files",
+  "tool_call_id": "x-1",
+  "cwd": "/w"
+}

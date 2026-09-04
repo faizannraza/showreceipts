@@ -1,0 +1,5 @@
+{
+  "hook_event_name": "session_end",
+  "session_id": "ow-4",
+  "reason": "bye"
+}

@@ -1,0 +1,5 @@
+{
+  "hook_event_name": "session_start",
+  "session_id": "ow-3",
+  "model": "claw-1"
+}

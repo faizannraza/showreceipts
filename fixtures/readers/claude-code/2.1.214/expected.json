@@ -3,14 +3,14 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "Appendix A: 3 compact_boundary in this window \u2192 3 compactions, none splits its turn.",
-    "duplicateUuids > 0 (compaction re-emissions of earlier tool_result lines, \u00a74.2.3 step 2).",
+    "Appendix A: 3 compact_boundary in this window → 3 compactions, none splits its turn.",
+    "duplicateUuids > 0 (compaction re-emissions of earlier tool_result lines, §4.2.3 step 2).",
     "pr-link records present (Appendix A: pr-link written whenever a PR URL is referenced); 16 land in the committed window.",
-    "One fork subagent (fork-context-ref + meta agentType:fork), isFork:true \u2014 Appendix A subagent facts.",
-    "Notification-continued turns: several turns have finalTrigger:notification (the final answers the human prompt, \u00a74.2.3 step 4 / Appendix E).",
-    "Versions 2.1.214\u21922.1.236 both seen (Appendix A: two sessions span two versions).",
-    "S19 receipt goldens hand-verified: default turn 22 verdict VERIFIED \u2014 the one scored claim (verify.with_cmd on `git check-ignore -v u.md`) is backed by the chained exit-0 command at 23:15; the duplicate clause correctly lands once scored and once NOT_SCORED (second trigger attributed/echo-deduped).",
-    "S19: ALSO DID carries the inferred `origin` contact, `referenced PR #5` (prRefs render under ALSO DID and never verify git.pr, \u00a74.8 row 17) and the 3 API errors; ledger counts (155 writes, 387 commands, 43 test runs, 102 checks, 7 git, 57 network, danger kill\u00d72 + rm-rf\u00d71) recounted against the parsed session.",
+    "One fork subagent (fork-context-ref + meta agentType:fork), isFork:true — Appendix A subagent facts.",
+    "Notification-continued turns: several turns have finalTrigger:notification (the final answers the human prompt, §4.2.3 step 4 / Appendix E).",
+    "Versions 2.1.214→2.1.236 both seen (Appendix A: two sessions span two versions).",
+    "S19 receipt goldens hand-verified: default turn 22 verdict VERIFIED — the one scored claim (verify.with_cmd on `git check-ignore -v u.md`) is backed by the chained exit-0 command at 23:15; the duplicate clause correctly lands once scored and once NOT_SCORED (second trigger attributed/echo-deduped).",
+    "S19: ALSO DID carries the inferred `origin` contact, `referenced PR #5` (prRefs render under ALSO DID and never verify git.pr, §4.8 row 17) and the 3 API errors; ledger counts (155 writes, 387 commands, 43 test runs, 102 checks, 7 git, 57 network, danger kill×2 + rm-rf×1) recounted against the parsed session.",
     "S19: cost 73.743480 with prices.golden.json, unverified false (claude-sonnet-5 verified rates), cacheHitPct 98.83; across done turns the fixture supports VERIFIED, UNVERIFIED and NOT_SCORED (expectVerdicts)."
   ],
   "session": {
@@ -1630,7 +1630,7 @@
           "claim": "Confirmed: `origin/main` matches your local `main` at `95f9911`, working tree is clean, and `u.md` remains properly gitignored (won't appear in any future commit either).",
           "reason": "ok",
           "evidence": [
-            "git check-ignore -v u.md \u2192 exit 0 (chained) (23:15)"
+            "git check-ignore -v u.md → exit 0 (chained) (23:15)"
           ]
         }
       ],

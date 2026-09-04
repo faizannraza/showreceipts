@@ -1,0 +1,32 @@
+{
+  "harness": "hermes",
+  "event": "post_tool_call",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "h-6",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "hermes",
+      "e": "tool-fail",
+      "sid": "h-6",
+      "tid": "t1",
+      "cwd": "/w",
+      "exitSource": "parsed",
+      "id": "hc-2",
+      "tool": "terminal",
+      "in": {
+        "command": "sleep 999"
+      },
+      "error": "command timed out",
+      "failureType": "timeout",
+      "durationMs": 10000,
+      "out": {
+        "exit": 124
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

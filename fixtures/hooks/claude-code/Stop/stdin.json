@@ -1,0 +1,10 @@
+{
+  "session_id": "ab12cd34-1111-4222-8333-444455556666",
+  "prompt_id": "p1",
+  "transcript_path": "${FIXTURE_DIR}/transcript.jsonl",
+  "cwd": "/home/u/proj",
+  "permission_mode": "default",
+  "hook_event_name": "Stop",
+  "stop_hook_active": false,
+  "last_assistant_message": "Tests pass."
+}

@@ -1,0 +1,30 @@
+{
+  "harness": "copilot",
+  "event": "postToolUse",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "cop-2",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "copilot",
+      "e": "tool-post",
+      "sid": "cop-2",
+      "cwd": "/w",
+      "exitSource": "parsed",
+      "tool": "bash",
+      "kind": "shell",
+      "in": {
+        "command": "npm test"
+      },
+      "out": {
+        "text": "ok — command finished with exit code 0",
+        "bytes": 40,
+        "exit": 0
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

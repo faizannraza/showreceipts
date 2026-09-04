@@ -771,3 +771,141 @@ Ratified as deviations / rulings (no code change):
   waves and review passes can cite them. Step files S01–S16, S19 and most of
   W5/W6 (beyond S27b/S36) are still missing on disk — the orchestrator
   should recover them before those waves start.
+
+### W5/S32 — live hooks on this machine (M4; author-only verification)
+
+`scripts/verify-hooks-local.mjs` — 68 checks, all PASS (2026-09-04). It only
+reads real files and writes exclusively into `mkdtemp` directories; on any
+machine without the real roots or the frozen files it prints `skipped` and
+exits 0, so the Validate chain stays green on CI.
+
+- **`setup` in a temp HOME over a copy of the real Claude Code user
+  settings.** Dry-run writes nothing (settings byte-identical, no backup, no
+  launcher). The real run's diff adds only the `hooks` key with exactly
+  `Stop` (plus `SessionStart` with `--strict` — both variants exercised in
+  separate temp homes); every pre-existing key is byte-for-byte untouched;
+  the backup lands under the temp `~/.showreceipts/backups/claude-code/`
+  with the original bytes; a second run reports `unchanged`, writes no new
+  backup and leaves the file byte-identical.
+- **Simulated Claude Code `Stop` over the frozen 39.3 MB (37.5 MiB) real
+  transcript**, stdin built read-only from its real last turn via the dist
+  reader (`session_id`, `prompt_id`, real final text): exit 0,
+  `systemMessage` stdout, `last-receipt.{md,json}` written in the temp repo,
+  flush guard matched (no `incompleteAtStop`). Timings on the author's
+  machine (parallel build agents running): cold ≈ 1.4–1.5 s (budget < 5 s),
+  warm ≈ 1.4 s (budget < 1.5 s), warm receipt byte-identical to cold. The
+  warm margin is thin because on a transcript this size loading the cached
+  parse costs nearly as much as the incremental cold parse; both runs sit
+  well inside the 20 s hook budget.
+- **Simulated Codex `Stop` via the `session_id` suffix lookup**
+  (`transcript_path: null`, real `CODEX_HOME`, rollout found under
+  `sessions/**`): cold ≈ 0.34 s, warm ≈ 0.26 s, flush guard matched,
+  receipts byte-identical across runs.
+- **`doctor` over the real roots** with a temp `SHOWRECEIPTS_HOME`: exit 0
+  for both the human and `--json` runs (≈ 7 s first scan of the real trees,
+  ≈ 0.8 s from cache), `problems=0`, `warnings=4` (unverified prices, no
+  hooks installed — expected). `--json` shape (keys only): top level
+  `cache, harnesses, hooks, ledgers, node, prices, problems, roots,
+  warnings`; per-harness rows `badLines, bashWithoutToolUseResult, bytes,
+  emptyProjects, emptySessions, excludedSyntheticLines, found, harness,
+  installedVersion, journals, legacyShapes, lineSeparatorChars,
+  orphanSessionDirs, root, sessions, subagentFiles, unknownCodexPayloads,
+  unknownContentBlocks, unknownRecordTypes, unknownSubtypes,
+  unknownToolShapes, unrecognisedFiles, versions`; hook rows `command,
+  configPath, disabled, harness, installed, otherStopHooks, resolvable,
+  resolvableNote, scope, strict, trusted`.
+- **Real-config invariant, macOS deviation.** BSD `ls` has no
+  `--time-style=full-iso`, so the before/after proof is an lstat metadata
+  snapshot (size + nanosecond mtime; file contents never opened, symlinks
+  not followed) of both real roots — strictly stronger than the planned
+  `ls -la` diff. The whole real Codex root, the real settings file and the
+  frozen transcript's entire project directory are asserted unchanged;
+  changes elsewhere under the real Claude root would be reported separately
+  as live-session activity (a running Claude Code session writes its own
+  files while the script runs), but in the recorded runs nothing at all had
+  changed.
+- **No git.** Temp "repos" are a bare `.git/` directory — the gitroot walk
+  only stats the marker — so the script never invokes git anywhere.
+
+### W5 integration close (lead)
+
+Reviewer minors from S27–S32 (plus the S35 fixture-privacy notes) resolved at
+the wave gate; full chain re-run green (typecheck, build, unit, lint:nonet,
+deps:guard, size, e2e/hooks/setup, `verify-hooks-local`).
+
+- **S27 runtime: exactly-once counter flush + in-process exit seam.** The
+  watchdog/last-resort paths now empty the counter delta as they persist it
+  (`flushCounters`), so a non-terminating injected `exit` can no longer fold
+  the same delta twice via the `finally` flush; `commands/hook.ts` injects a
+  no-op `exit` seam whenever streams are injected, so an in-process caller
+  (vitest worker) can never be terminated by the watchdog or the last-resort
+  handlers. Regression test: `test/unit/hook/runtime.test.ts` (fake clock,
+  handler outliving its budget).
+- **S27 `record.ts` oversize-gap semantics documented.** The final
+  degradation gap's `bytes` is the serialised size of the clamped line that
+  still broke the 256 KiB cap (the only size knowable there), unlike stdin
+  salvage gaps whose `bytes` count the drained stdin — now stated in the
+  `prepareLedgerLine` JSDoc.
+- **S27 `hook.log` growth: tracked, not fixed in W5.** The debug log is
+  append-only and unbounded; a size note in `doctor` or a cap is a W6 item
+  (S33/S36) — deliberately out of hook-path scope (the hook must stay
+  simple and never fail).
+- **S29 Gemini `t` normalised to UTC.** `common()` re-renders a parseable
+  event `timestamp` through its epoch (`new Date(parseIso(s)).toISOString()`)
+  instead of storing the stamp verbatim, so a `±HH:MM` offset can never leak
+  into a ledger `t` (Appendix C declares `t` ISO UTC). Test added.
+- **S29 duplicated regex evaluation removed** in `cursor.ts` (`toolFail`
+  exit-code parse) and `gemini.ts` (`Exit Code:` line): the match is bound
+  once; behaviour unchanged.
+- **S28 `max_tokens` tail is terminal, like `stop_sequence`.** The Claude
+  Code flush guard classifies a tail assistant line with `stop_reason
+  "max_tokens"` as terminal: the transcript is flushed as far as it will
+  ever be for that turn, so the Stop no longer burns 3 × 150 ms re-reads or
+  fabricates `incompleteAtStop` + a stale-ledger note. Like the documented
+  `stop_sequence` deviation, such a final is never eligible (§4.2.3), so the
+  receipt renders as the transcript stands (`no-final`). Test added beside
+  the `stop_sequence` one.
+- **S28 Codex `capStdout` arithmetic.** The truncation budget now subtracts
+  the 3 UTF-8 bytes of the appended `…` (was 1), so the re-serialised answer
+  can never exceed `CODEX_STDOUT_MAX_BYTES`; boundary tests added
+  (`capStdout` exported for them).
+- **S30 `--restore` scope note.** Backups are keyed by harness directory +
+  config basename, and project- and user-scope configs of a harness can
+  share a basename — `--restore` must be run with the same
+  `--project`/`--shared` scope flags as the setup run that wrote the backup.
+  Documented in `setup` help (long text + flag line) rather than changing
+  the backup name format this late; a scope-stamped backup name is a
+  candidate for 0.2.
+- **S30 minified-JSON reformat accepted.** `detectJsonFormat` falls back to
+  two-space multi-line for a single-line config; the merge remains valid,
+  backed up and diff-reported, and §12 only mandates indent/newline
+  detection for multi-line files. No change.
+- **S31 fixture layout deviation accepted.** `fixtures/hooks/` variant cases
+  use `<event>-<variant>` directory names with `${FIXTURE_DIR}`/`${SR_HOME}`
+  placeholders (documented in its README; `expected.json.event` carries the
+  real event name). Conformant enough; not worth a rename churn at the gate.
+- **S31 off-CI budget cushion.** `test/hooks/contract.test.ts` now applies
+  ×2 to the class budgets off CI (CI keeps ×3): observed spawn times sit
+  5–10× under the raw budgets, and the cushion removes the flake risk on a
+  loaded developer machine without weakening the CI gate.
+- **S30/S31 launcher `--version` execution overlap reconciled: kept.** §9
+  designates `test/hooks/launcher.test.ts` as the launcher-execution suite;
+  `test/setup/launcher.test.ts` also runs `--version` once, from a
+  space-containing HOME, as an S30 acceptance criterion. The two exercise
+  different concerns (install-time resolution vs the four execution
+  scenarios); the architecture note is amended here rather than dropping
+  either test.
+- **S32 cosmetics.** `verify-hooks-local.mjs` labels the `size/2^20` figure
+  `MiB` (was `MB`); the thin warm-Stop margin stays flagged for the W6/S36
+  perf pass; the live-session fail-zone deviation stands as documented
+  above.
+- **S35 fixture privacy (rule 7).** The two W5-adjacent `corpus.jsonl` fp
+  pins were re-synthesised so they keep only the misfiring grammatical shape
+  (possessive path + delete verb; hypothetical path-less no-change marker)
+  and share no distinctive multi-word run with the real transcripts; the
+  `nochange.marker` paraphrase in the labelling file dropped its quoted
+  fragment, and `docs/accuracy.md` was re-rendered (`label.mjs --render`,
+  only the two paraphrase lines changed). `npm run accuracy` still 100 %.
+  The CONTRADICTED precision sample remains n=2 (the whole real pool);
+  resampling after more real sessions accumulate stays a pre-1.0 checklist
+  item.

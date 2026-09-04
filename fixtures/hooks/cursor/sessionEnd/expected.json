@@ -1,0 +1,19 @@
+{
+  "harness": "cursor",
+  "event": "sessionEnd",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "cend-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "cursor",
+      "e": "session-end",
+      "sid": "cend-1",
+      "reason": "user_exit"
+    }
+  },
+  "classBudgetMs": 1000
+}

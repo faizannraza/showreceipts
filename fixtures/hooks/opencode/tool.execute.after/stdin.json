@@ -1,0 +1,11 @@
+{
+  "hook_event_name": "tool.execute.after",
+  "tool": "bash",
+  "sessionID": "oc-1",
+  "callID": "call-1",
+  "title": "npm test",
+  "output": "ok",
+  "metadata": {
+    "cwd": "/w"
+  }
+}

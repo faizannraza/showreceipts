@@ -1,0 +1,10 @@
+{
+  "conversation_id": "cm-1",
+  "hook_event_name": "afterMCPExecution",
+  "tool_name": "search_docs",
+  "tool_input": "{\"query\":\"hooks\"}",
+  "mcp_server_name": "docs",
+  "result_json": "{\"stdout\":\"found 3\"}",
+  "duration": 120,
+  "cwd": "/w/proj"
+}

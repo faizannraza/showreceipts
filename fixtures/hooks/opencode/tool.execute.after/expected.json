@@ -1,0 +1,29 @@
+{
+  "harness": "opencode",
+  "event": "tool.execute.after",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "oc-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "opencode",
+      "e": "tool-post",
+      "sid": "oc-1",
+      "cwd": "/w",
+      "id": "call-1",
+      "tool": "bash",
+      "kind": "shell",
+      "in": {
+        "command": "npm test"
+      },
+      "out": {
+        "text": "ok",
+        "bytes": 2
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

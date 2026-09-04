@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`export --md > matches the snapshot and is deterministic across runs 1`] = `
-"**showreceipts** · **NO CLAIMS** · Claude Code 2.1.251 · claude-fable-5 · rules claims/1+reconcile/1 · v0.1.0
+"**showreceipts** · **NO CLAIMS** · Claude Code 2.1.251 · claude-fable-5 · rules claims/2+reconcile/2 · v0.1.0
 
 **receipt #6954d8ef** · /home/u · HEAD · Aug 30 02:47 → 02:59 · 11m · turn 1 · session Aug 29 → Aug 30 (1d)
 

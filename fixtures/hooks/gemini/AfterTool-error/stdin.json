@@ -1,0 +1,15 @@
+{
+  "session_id": "gt-2",
+  "cwd": "/w",
+  "hook_event_name": "AfterTool",
+  "tool_name": "run_shell_command",
+  "tool_input": {
+    "command": "make"
+  },
+  "tool_response": {
+    "llmContent": "boom\nExit Code: 1",
+    "error": {
+      "type": "ToolError"
+    }
+  }
+}

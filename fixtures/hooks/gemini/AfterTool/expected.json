@@ -1,0 +1,30 @@
+{
+  "harness": "gemini",
+  "event": "AfterTool",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "gt-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T11:59:58.000Z",
+      "h": "gemini",
+      "e": "tool-post",
+      "sid": "gt-1",
+      "cwd": "/w",
+      "exitSource": "parsed",
+      "tool": "run_shell_command",
+      "kind": "shell",
+      "in": {
+        "command": "ls -la"
+      },
+      "out": {
+        "text": "total 0\nExit Code: 3",
+        "bytes": 20,
+        "exit": 3
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

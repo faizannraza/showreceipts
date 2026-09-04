@@ -218,6 +218,17 @@ export async function readSessionAtPath(path: string, roots: Roots): Promise<Ses
     const message = err instanceof Error ? err.message : String(err);
     throw new NotFoundError(`cannot read ${path}: ${message}`);
   }
+  return enrichSession(session);
+}
+
+/**
+ * The S18 post-read chain for one already-read session (repo root, ledger
+ * assembly, echo hashes, within-session usage dedupe) — shared by
+ * {@link readSessionAtPath} and the S29 hook stop flow
+ * (`hook/ledger-stop.ts`), so a hook-built session behaves exactly like a
+ * scanned one. Returns its (mutated) argument.
+ */
+export function enrichSession(session: Session): Session {
   const repoRootOf = makeRepoRootResolver();
   session.repoRoot = session.cwd === '' ? null : repoRootOf(session.cwd);
   session.ledger = buildLedger(session, { repoRootOf, tmpRoots: [tmpdir()] });

@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "\"__H__\" hook cursor sessionStart",
+        "type": "command",
+        "timeout": 5
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "\"__H__\" hook cursor postToolUse",
+        "type": "command",
+        "timeout": 10
+      }
+    ],
+    "postToolUseFailure": [
+      {
+        "command": "\"__H__\" hook cursor postToolUseFailure",
+        "type": "command",
+        "timeout": 10
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "\"__H__\" hook cursor afterFileEdit",
+        "type": "command",
+        "timeout": 10
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": "\"__H__\" hook cursor afterMCPExecution",
+        "type": "command",
+        "timeout": 10
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "\"__H__\" hook cursor afterAgentResponse",
+        "type": "command",
+        "timeout": 10
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "\"__H__\" hook cursor subagentStop",
+        "type": "command",
+        "timeout": 10
+      }
+    ],
+    "stop": [
+      {
+        "command": "\"__H__\" hook cursor stop",
+        "type": "command",
+        "timeout": 30,
+        "loop_limit": 2
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "\"__H__\" hook cursor sessionEnd",
+        "type": "command",
+        "timeout": 10
+      }
+    ]
+  }
+}

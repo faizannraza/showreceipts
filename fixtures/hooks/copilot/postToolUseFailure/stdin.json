@@ -1,0 +1,10 @@
+{
+  "session_id": "cop-3",
+  "cwd": "/w",
+  "hook_event_name": "postToolUseFailure",
+  "tool_name": "bash",
+  "tool_args": {
+    "command": "make"
+  },
+  "error": "build failed with exit code 3"
+}

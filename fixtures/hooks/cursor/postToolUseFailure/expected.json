@@ -1,0 +1,32 @@
+{
+  "harness": "cursor",
+  "event": "postToolUseFailure",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "cf-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "cursor",
+      "e": "tool-fail",
+      "sid": "cf-1",
+      "tid": "g1",
+      "cwd": "/w/proj",
+      "exitSource": "parsed",
+      "id": "tc-2",
+      "tool": "Shell",
+      "in": {
+        "command": "npm test"
+      },
+      "error": "Command failed: exit code 2",
+      "failureType": "error",
+      "durationMs": 55,
+      "out": {
+        "exit": 2
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

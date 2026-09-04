@@ -1,5 +1,5 @@
 {
-  "name": "file delete: edits but no delete, direct object → CONTRADICTED file-not-deleted",
+  "name": "file delete: edits but no delete, direct object → UNVERIFIED file-not-deleted (demoted in reconcile/2, S35)",
   "row": 9,
   "ledger": {
     "writes": [
@@ -26,7 +26,7 @@
   "expect": [
     {
       "claimId": "c1",
-      "verdict": "CONTRADICTED",
+      "verdict": "UNVERIFIED",
       "reason": "file-not-deleted",
       "evidence": [
         "Edit (17:31)"

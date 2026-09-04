@@ -1,0 +1,34 @@
+{
+  "harness": "cursor",
+  "event": "afterFileEdit",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "ce-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "cursor",
+      "e": "tool-post",
+      "sid": "ce-1",
+      "cwd": "/w/proj",
+      "tool": "afterFileEdit",
+      "kind": "edit",
+      "in": {
+        "path": "/w/proj/src/a.ts",
+        "edits": [
+          {
+            "old": "a",
+            "new": "b"
+          }
+        ]
+      },
+      "out": {
+        "text": "",
+        "bytes": 0
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

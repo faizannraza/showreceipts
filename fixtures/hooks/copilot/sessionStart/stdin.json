@@ -1,0 +1,7 @@
+{
+  "sessionId": "cop-1",
+  "cwd": "/w",
+  "hook_event_name": "sessionStart",
+  "source": "cli",
+  "initialPrompt": "fix the bug"
+}

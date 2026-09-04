@@ -3,7 +3,7 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "Header-only remote-control session with 0 assistant lines \u2192 kind:no-turns, turns.length===0 (\u00a74.1).",
+    "Header-only remote-control session with 0 assistant lines → kind:no-turns, turns.length===0 (§4.1).",
     "bridge-session records counted, never parsed as transcripts (Appendix A).",
     "S19 receipt goldens hand-verified: the header-only session yields kind no-turns / verdict NO_TURNS with records=13, zero claims, zero ledger facts and cost 0.000000 (no usage rows)."
   ],

@@ -1,0 +1,10 @@
+{
+  "session_id": "sess-1",
+  "prompt_id": "p1",
+  "transcript_path": "/tmp/proj/sess/subagents/agent-ab12.jsonl",
+  "cwd": "/home/u/proj",
+  "hook_event_name": "Stop",
+  "stop_hook_active": false,
+  "last_assistant_message": "Done.",
+  "agent_id": "ab12"
+}

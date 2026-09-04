@@ -1,0 +1,14 @@
+{
+  "conversation_id": "ce-1",
+  "hook_event_name": "afterFileEdit",
+  "file_path": "/w/proj/src/a.ts",
+  "edits": [
+    {
+      "old": "a",
+      "new": "b"
+    }
+  ],
+  "workspace_roots": [
+    "/w/proj"
+  ]
+}

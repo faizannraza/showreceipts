@@ -40,7 +40,7 @@ _evidence from log only_
 `;
 
 exports[`markdown snapshots (S19 goldens) > claude-code/2.1.214 — --hash-paths leaves no home path anywhere (fixed salt, snapshot) 1`] = `
-"**showreceipts** · **VERIFIED (1 claim)** · Claude Code 2.1.214→2.1.236 · claude-sonnet-5 · rules claims/1+reconcile/1 · v0.1.0
+"**showreceipts** · **VERIFIED (1 claim)** · Claude Code 2.1.214→2.1.236 · claude-sonnet-5 · rules claims/2+reconcile/2 · v0.1.0
 
 **receipt #21cf6a82** · . · main · Aug 23 23:15 → 23:15 · &lt;1m · turn 22 · session Jul 18 → Aug 23 (36d)
 
@@ -76,7 +76,7 @@ _evidence from log only_
 `;
 
 exports[`markdown snapshots (S19 goldens) > claude-code/2.1.214 — default receipt 1`] = `
-"**showreceipts** · **VERIFIED (1 claim)** · Claude Code 2.1.214→2.1.236 · claude-sonnet-5 · rules claims/1+reconcile/1 · v0.1.0
+"**showreceipts** · **VERIFIED (1 claim)** · Claude Code 2.1.214→2.1.236 · claude-sonnet-5 · rules claims/2+reconcile/2 · v0.1.0
 
 **receipt #21cf6a82** · /home/u/proj · main · Aug 23 23:15 → 23:15 · &lt;1m · turn 22 · session Jul 18 → Aug 23 (36d)
 
@@ -106,7 +106,7 @@ _evidence from log only_
 `;
 
 exports[`markdown snapshots (S19 goldens) > codex/shell_command — --timeline appends the timeline table 1`] = `
-"**showreceipts** · **VERIFIED (1 claim)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/1+reconcile/1 · v0.1.0
+"**showreceipts** · **VERIFIED (1 claim)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/2+reconcile/2 · v0.1.0
 
 **receipt #9e0f1a2b** · /home/u/proj1 · no branch · Aug 15 10:01 → 10:01 · &lt;1m · turn 1
 
@@ -136,7 +136,7 @@ _evidence from log only_
 `;
 
 exports[`markdown snapshots (S19 goldens) > codex/shell_command — default receipt (VERIFIED commit) 1`] = `
-"**showreceipts** · **VERIFIED (1 claim)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/1+reconcile/1 · v0.1.0
+"**showreceipts** · **VERIFIED (1 claim)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/2+reconcile/2 · v0.1.0
 
 **receipt #9e0f1a2b** · /home/u/proj1 · no branch · Aug 15 10:01 → 10:01 · &lt;1m · turn 1
 
@@ -160,7 +160,7 @@ _evidence from log only_
 `;
 
 exports[`markdown snapshots (S19 goldens) > codex/shell_command — turn 0 (CONTRADICTED test claim), worst-first rows 1`] = `
-"**showreceipts** · **CONTRADICTED (1 of 5 claims)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/1+reconcile/1 · v0.1.0
+"**showreceipts** · **CONTRADICTED (1 of 5 claims)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/2+reconcile/2 · v0.1.0
 
 **receipt #9e0f1a2b** · /home/u/proj1 · no branch · Aug 15 10:00 → 10:01 · &lt;1m · turn 0
 

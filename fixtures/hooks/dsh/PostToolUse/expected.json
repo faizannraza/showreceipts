@@ -1,0 +1,29 @@
+{
+  "harness": "dsh",
+  "event": "PostToolUse",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "d-2",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "dsh",
+      "e": "tool-post",
+      "sid": "d-2",
+      "cwd": "/w/proj",
+      "id": "tu_9",
+      "tool": "Bash",
+      "kind": "shell",
+      "in": {
+        "command": "npm test"
+      },
+      "out": {
+        "text": "ok",
+        "bytes": 2
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

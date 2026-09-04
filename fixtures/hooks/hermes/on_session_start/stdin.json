@@ -1,0 +1,9 @@
+{
+  "hook_event_name": "on_session_start",
+  "session_id": "h-3",
+  "cwd": "/w",
+  "extra": {
+    "model": "hermes-4",
+    "platform": "darwin"
+  }
+}

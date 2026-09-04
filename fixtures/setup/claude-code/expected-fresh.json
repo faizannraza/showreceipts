@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"__H__\" hook claude-code Stop",
+            "timeout": 30,
+            "statusMessage": "showreceipts: building receipt"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "session_id": "gt-1",
+  "cwd": "/w",
+  "timestamp": "2026-08-29T11:59:58.000Z",
+  "hook_event_name": "AfterTool",
+  "tool_name": "run_shell_command",
+  "tool_input": {
+    "command": "ls -la"
+  },
+  "tool_response": {
+    "llmContent": "total 0\nExit Code: 3",
+    "returnDisplay": "ran"
+  }
+}

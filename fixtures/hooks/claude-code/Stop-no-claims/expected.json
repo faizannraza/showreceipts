@@ -1,0 +1,13 @@
+{
+  "harness": "claude-code",
+  "event": "Stop",
+  "stdout": {},
+  "exit": 0,
+  "ledger": null,
+  "files": [
+    "last-receipt.md",
+    "last-receipt.json"
+  ],
+  "receiptsLog": true,
+  "classBudgetMs": 20000
+}

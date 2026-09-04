@@ -1,0 +1,16 @@
+{
+  "conversation_id": "cp-1",
+  "generation_id": "g1",
+  "hook_event_name": "postToolUse",
+  "cursor_version": "1.7.2",
+  "model_id": "m-1",
+  "workspace_roots": [
+    "/w/proj"
+  ],
+  "tool_name": "Shell",
+  "tool_input": "{\"command\":\"npm test\"}",
+  "tool_output": "{\"exitCode\":0,\"stdout\":\"42 passed\"}",
+  "tool_use_id": "tc-1",
+  "cwd": "/w/proj",
+  "duration": 812
+}

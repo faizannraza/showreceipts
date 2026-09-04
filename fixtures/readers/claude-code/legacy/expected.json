@@ -49,9 +49,9 @@
     "note": "synthetic content, written directly in redacted form"
   },
   "verified": [
-    "Synthetic, unverified against real data: Task\u2192Agent and MultiEdit\u2192Edit remaps, type:summary ignored, inline isSidechain chain diverted \u2014 all counted in legacyShapes, never doctor problems (\u00a74.2.9).",
-    "S19 receipt goldens hand-verified: turn 0 \u2014 file.verb VERIFIED by the legacy MultiEdit write to src/app.py, test.pass UNVERIFIED stale-run (the subagent pytest run precedes the edit, so it is stale evidence; correctly not contradicted).",
-    "S19: cost 0.024225 with the legacy wU no-breakdown bucket priced at the 5m rate (unverified \u2248 true, note pinned), cacheHitPct 46.35; expectVerdicts VERIFIED + UNVERIFIED."
+    "Synthetic, unverified against real data: Task→Agent and MultiEdit→Edit remaps, type:summary ignored, inline isSidechain chain diverted — all counted in legacyShapes, never doctor problems (§4.2.9).",
+    "S19 receipt goldens hand-verified: turn 0 — file.verb VERIFIED by the legacy MultiEdit write to src/app.py, test.pass UNVERIFIED stale-run (the subagent pytest run precedes the edit, so it is stale evidence; correctly not contradicted).",
+    "S19: cost 0.024225 with the legacy wU no-breakdown bucket priced at the 5m rate (unverified ≈ true, note pinned), cacheHitPct 46.35; expectVerdicts VERIFIED + UNVERIFIED."
   ],
   "session": {
     "9b1c2d3e-4f50-4a6b-8c7d-0e1f2a3b4c5d": {
@@ -264,7 +264,7 @@
           "claim": "Updated `src/app.py` and the subagent confirmed all 12 tests pass.",
           "reason": "stale-run",
           "evidence": [
-            "pytest -q tests/ \u2192 exit 0 \u00b7 12 passed agent:5a00000 (10:00)"
+            "pytest -q tests/ → exit 0 · 12 passed agent:5a00000 (10:00)"
           ]
         },
         {

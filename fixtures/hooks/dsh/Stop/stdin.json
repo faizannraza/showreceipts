@@ -1,0 +1,7 @@
+{
+  "session_id": "d-1",
+  "hook_event_name": "Stop",
+  "cwd": "/w/proj",
+  "stop_hook_active": false,
+  "last_assistant_message": "Take a look and let me know."
+}

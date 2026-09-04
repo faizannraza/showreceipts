@@ -1,0 +1,7 @@
+{
+  "sessionId": "cop-4",
+  "cwd": "/w",
+  "hook_event_name": "agentStop",
+  "stopReason": "completed",
+  "stop_hook_active": false
+}

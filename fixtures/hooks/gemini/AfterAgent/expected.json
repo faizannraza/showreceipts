@@ -1,0 +1,26 @@
+{
+  "harness": "gemini",
+  "event": "AfterAgent",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "ga-1",
+    "lines": 2,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "gemini",
+      "e": "stop",
+      "sid": "ga-1",
+      "cwd": "/w",
+      "status": "completed",
+      "text": "Hello!"
+    }
+  },
+  "files": [
+    "last-receipt.md",
+    "last-receipt.json"
+  ],
+  "receiptsLog": true,
+  "classBudgetMs": 20000
+}

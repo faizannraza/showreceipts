@@ -1,0 +1,13 @@
+{
+  "sessionId": "cop-2",
+  "cwd": "/w",
+  "hook_event_name": "postToolUse",
+  "toolName": "bash",
+  "toolArgs": {
+    "command": "npm test"
+  },
+  "toolResult": {
+    "resultType": "success",
+    "textResultForLlm": "ok — command finished with exit code 0"
+  }
+}

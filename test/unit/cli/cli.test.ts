@@ -129,6 +129,7 @@ describe('main: dispatch and exit codes', () => {
       if (command === 'report') continue; // implemented in S25; test/unit/commands/report.test.ts covers it
       if (command === 'doctor') continue; // implemented in S25; test/unit/commands/doctor.test.ts covers it
       if (command === 'bench') continue; // implemented in S25; test/unit/commands/bench.test.ts covers it
+      if (command === 'setup') continue; // implemented in S30; test/unit/setup and test/setup cover it
       const r = await run([command]);
       expect(r.code, command).toBe(2);
       expect(r.stdout, command).toBe('');

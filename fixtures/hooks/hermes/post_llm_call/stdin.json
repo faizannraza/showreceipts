@@ -1,0 +1,11 @@
+{
+  "hook_event_name": "post_llm_call",
+  "session_id": "h-2",
+  "cwd": "/w",
+  "extra": {
+    "user_message": "hi there",
+    "assistant_response": "Hello.",
+    "turn_id": "t2",
+    "model": "hermes-4"
+  }
+}

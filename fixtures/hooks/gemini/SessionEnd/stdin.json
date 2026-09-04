@@ -1,0 +1,6 @@
+{
+  "session_id": "ge-1",
+  "cwd": "/w",
+  "hook_event_name": "SessionEnd",
+  "reason": "quit"
+}

@@ -3,12 +3,12 @@
   "harness": "claude-code",
   "confidence": "real",
   "verified": [
-    "backgroundTaskId results \u2192 background:true, exitCode:null until a notification supplies it (\u00a74.2.5 rule d).",
-    "returnCodeInterpretation results \u2192 exitCodeSource:interpreted, exitCode:null, interpretation retained (\u00a74.2.5 rule c).",
+    "backgroundTaskId results → background:true, exitCode:null until a notification supplies it (§4.2.5 rule d).",
+    "returnCodeInterpretation results → exitCodeSource:interpreted, exitCode:null, interpretation retained (§4.2.5 rule c).",
     "Notification segment present with a notification finalTrigger (Appendix A: notification-continued turns).",
-    "Async Agent + Workflow subagents (direct + workflow files, \u00a74.2.6).",
-    "S19 receipt goldens hand-verified: default turn 22 has no scored claims (the only claim is a negated git.commit clause, NOT_SCORED \u2192 ALSO SAID); ALSO DID lists the one unclaimed write (~/Desktop file, outside the repo by design) and 5 API errors.",
-    "S19: cost 277.740642, unverified false, cacheHitPct 97.88; done turns across the session support VERIFIED, UNVERIFIED and NOT_SCORED (expectVerdicts) \u2014 e.g. turn 3 stale-run UNVERIFIEDs after later edits and turn 7 VERIFIED test.counts."
+    "Async Agent + Workflow subagents (direct + workflow files, §4.2.6).",
+    "S19 receipt goldens hand-verified: default turn 22 has no scored claims (the only claim is a negated git.commit clause, NOT_SCORED → ALSO SAID); ALSO DID lists the one unclaimed write (~/Desktop file, outside the repo by design) and 5 API errors.",
+    "S19: cost 277.740642, unverified false, cacheHitPct 97.88; done turns across the session support VERIFIED, UNVERIFIED and NOT_SCORED (expectVerdicts) — e.g. turn 3 stale-run UNVERIFIEDs after later edits and turn 7 VERIFIED test.counts."
   ],
   "session": {
     "f150468e-ae67-4d6b-a36d-688ae5025a53": {

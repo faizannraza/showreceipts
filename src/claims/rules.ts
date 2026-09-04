@@ -8,8 +8,8 @@ import type { Claim, ClaimKind } from '../model/types.js';
 import { blankBackticks } from './text.js';
 import { findPaths, type PathToken } from './paths.js';
 
-/** Version stamp carried by receipts (`Receipt.rulesVersion`). */
-export const RULES_VERSION = 'claims/1';
+/** `Receipt.rulesVersion`. claims/2 = the two S35 §14.3 demotions (grammar unchanged; see reconcile/rules.ts and docs/accuracy.md). */
+export const RULES_VERSION = 'claims/2';
 
 /** Ledger context handed to `fields` for PATH resolution (cases b/d). */
 export interface RuleContext { ledgerPaths: readonly string[]; cwd: string; }

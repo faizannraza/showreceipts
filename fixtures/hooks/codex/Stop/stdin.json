@@ -1,0 +1,11 @@
+{
+  "session_id": "019d1a2b-3c4d-7e5f-8a6b-7c8d9e0f1a2b",
+  "transcript_path": "${FIXTURE_DIR}/rollout.jsonl",
+  "cwd": "/home/u/proj",
+  "hook_event_name": "Stop",
+  "model": "gpt-5.2-codex",
+  "permission_mode": "on-request",
+  "turn_id": "t1",
+  "stop_hook_active": false,
+  "last_assistant_message": "Tests pass."
+}

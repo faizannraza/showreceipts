@@ -1,0 +1,12 @@
+{
+  "hook_event_name": "on_session_end",
+  "session_id": "h-4",
+  "cwd": "/w",
+  "extra": {
+    "completed": 1,
+    "failed": 0,
+    "interrupted": 0,
+    "turn_id": "t9",
+    "model": "hermes-4"
+  }
+}

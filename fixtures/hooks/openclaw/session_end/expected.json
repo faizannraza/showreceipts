@@ -1,0 +1,19 @@
+{
+  "harness": "openclaw",
+  "event": "session_end",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "ow-4",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "openclaw",
+      "e": "session-end",
+      "sid": "ow-4",
+      "reason": "bye"
+    }
+  },
+  "classBudgetMs": 1000
+}

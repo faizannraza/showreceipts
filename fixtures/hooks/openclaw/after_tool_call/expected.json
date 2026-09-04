@@ -1,0 +1,29 @@
+{
+  "harness": "openclaw",
+  "event": "after_tool_call",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "ow-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "openclaw",
+      "e": "tool-post",
+      "sid": "ow-1",
+      "cwd": "/w",
+      "id": "x-1",
+      "tool": "bash",
+      "kind": "shell",
+      "in": {
+        "command": "ls"
+      },
+      "out": {
+        "text": "files",
+        "bytes": 5
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

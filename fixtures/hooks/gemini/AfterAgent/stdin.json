@@ -1,0 +1,8 @@
+{
+  "session_id": "ga-1",
+  "cwd": "/w",
+  "hook_event_name": "AfterAgent",
+  "prompt": "say hi",
+  "prompt_response": "Hello!",
+  "stop_hook_active": false
+}

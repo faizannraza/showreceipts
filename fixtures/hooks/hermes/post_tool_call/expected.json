@@ -1,0 +1,34 @@
+{
+  "harness": "hermes",
+  "event": "post_tool_call",
+  "stdout": {},
+  "exit": 0,
+  "ledger": {
+    "sid": "h-1",
+    "lines": 1,
+    "last": {
+      "v": 1,
+      "t": "2026-08-29T12:00:00.000Z",
+      "h": "hermes",
+      "e": "tool-post",
+      "sid": "h-1",
+      "tid": "t1",
+      "cwd": "/w",
+      "model": "hermes-4",
+      "exitSource": "parsed",
+      "id": "hc-1",
+      "tool": "terminal",
+      "kind": "shell",
+      "in": {
+        "command": "pytest -q"
+      },
+      "out": {
+        "text": "5 passed",
+        "bytes": 8,
+        "exit": 0,
+        "durationMs": 900
+      }
+    }
+  },
+  "classBudgetMs": 1500
+}

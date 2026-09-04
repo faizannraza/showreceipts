@@ -1,0 +1,8 @@
+{
+  "harness": "claude-code",
+  "event": "SessionStart",
+  "stdout": {},
+  "exit": 0,
+  "ledger": null,
+  "classBudgetMs": 1000
+}

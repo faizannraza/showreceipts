@@ -1,0 +1,16 @@
+{
+  "harness": "claude-code",
+  "event": "Stop",
+  "stdout": {
+    "systemMessage": "receipt: 1 contradicted — ${SR_HOME}/last/claude-code/last-receipt.md",
+    "suppressOutput": true
+  },
+  "exit": 0,
+  "ledger": null,
+  "files": [
+    "last-receipt.md",
+    "last-receipt.json"
+  ],
+  "receiptsLog": true,
+  "classBudgetMs": 20000
+}
