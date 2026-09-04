@@ -1,0 +1,194 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`hostile receipt > renders with no raw <, no backtick, no control/bidi bytes, pipes only in tables 1`] = `
+"**showreceipts** · **CONTRADICTED (1 of 3 claims)** · Claude Code 2.1.9 &#124;&#96;&lt;script>alert(1)&lt;/script> · claude-x &#124;&#96;&lt;script>alert(1)&lt;/script> · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #1e60d0ff** · /home/u/proj &#124;&#96;&lt;script>alert(1)&lt;/script> · main &#124;&#96;&lt;script>alert(1)&lt;/script> · Aug 1 10:00 → 11:30 · 1m · turn 1
+
+| | CLAIMED | EVIDENCE |
+| --- | --- | --- |
+| CONTRADICTED | all tests pass &#124;&#96;&lt;script>alert(1)&lt;/script> | pytest -> 2 failed &#124;&#96;&lt;script>alert(1)&lt;/script> (11:03); edited /Users/eve/secret/place.txt &#124;&#96;&lt;script>alert(1)&lt;/script> |
+| VERIFIED | updated src/x.ts | Edit src/x.ts (10:05) |
+| UNVERIFIED | ran the build &#124;&#96;&lt;script>alert(1)&lt;/script> | — |
+
+**ALSO SAID (not scored)**
+
+- ~ I did not touch the docs &#124;&#96;&lt;script>alert(1)&lt;/script>
+
+**ALSO DID (not mentioned)**
+
+- 2 files changed (src/a.ts, &#124;&#96;&lt;script>alert(1)&lt;/script> )
+- **!** 1 file written to home dotfiles (~/.zshrc &#124;&#96;&lt;script>alert(1)&lt;/script> )
+
+_after this message: agent agent- &#124;&#96;&lt;script>alert(1)&lt;/script> ran 3 tool calls (2 files, 1 test run) — not evidence for the claims above_
+
+claims recognized: 4 (of which 1 not scored) · 7 sentences scanned
+12 tool calls · 3 files changed · 1 test run · 1 compaction · 2 subagents
+
+cost $1.23 (API-equivalent) · cache hit 71%
+
+**VERDICT: CONTRADICTED**
+
+**TIMELINE**
+
+| time | tool | summary | exit | files | $ | agent | flags |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 10:05 | Bash &#124;&#96;&lt;script>alert(1)&lt;/script> | pytest -x &#124;&#96;&lt;script>alert(1)&lt;/script> | 1 | /Users/eve/secret/place.txt &#124;&#96;&lt;script>alert(1)&lt;/script> | $0.0042 | agent- &#124;&#96;&lt;script>alert(1)&lt;/script> | test error |
+
+_evidence from log only_
+"
+`;
+
+exports[`markdown snapshots (S19 goldens) > claude-code/2.1.214 — --hash-paths leaves no home path anywhere (fixed salt, snapshot) 1`] = `
+"**showreceipts** · **VERIFIED (1 claim)** · Claude Code 2.1.214→2.1.236 · claude-sonnet-5 · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #21cf6a82** · . · main · Aug 23 23:15 → 23:15 · &lt;1m · turn 22 · session Jul 18 → Aug 23 (36d)
+
+| | CLAIMED | EVIDENCE |
+| --- | --- | --- |
+| VERIFIED | Confirmed: &#96;origin/main&#96; matches your local &#96;main&#96; at &#96;95f9911&#96;, working tree is clean, and &#96;u.md&#96; remains properly gitignored (won't appear in any future commit either). | git check-ignore -v u.md → exit 0 (chained) (23:15) |
+
+**ALSO SAID (not scored)**
+
+- ~ Confirmed: &#96;origin/main&#96; matches your local &#96;main&#96; at &#96;95f9911&#96;, working tree is clean, and &#96;u.md&#96; remains properly gitignored (won't appear in any future commit either).
+
+**ALSO DID (not mentioned)**
+
+- contacted: origin (host unknown) (inferred)
+- referenced PR #5
+- 3 API errors during the session
+
+claims recognized: 2 (of which 1 not scored) · 2 sentences scanned
+1 tool call · 0 files changed · 0 test runs
+
+cost $73.74 (API-equivalent) · cache hit 99%
+
+**VERDICT: VERIFIED**
+
+**TIMELINE**
+
+| time | tool | summary | exit | files | $ | agent | flags |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 23:15 | Bash | cd . git fetch origin -q git log --oneline -1 origin/main git status --short echo "--- gitignore entry check ---" git check-ignore -v u.md | 0 |  | $0.06 |  |  |
+
+_evidence from log only_
+"
+`;
+
+exports[`markdown snapshots (S19 goldens) > claude-code/2.1.214 — default receipt 1`] = `
+"**showreceipts** · **VERIFIED (1 claim)** · Claude Code 2.1.214→2.1.236 · claude-sonnet-5 · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #21cf6a82** · /home/u/proj · main · Aug 23 23:15 → 23:15 · &lt;1m · turn 22 · session Jul 18 → Aug 23 (36d)
+
+| | CLAIMED | EVIDENCE |
+| --- | --- | --- |
+| VERIFIED | Confirmed: &#96;origin/main&#96; matches your local &#96;main&#96; at &#96;95f9911&#96;, working tree is clean, and &#96;u.md&#96; remains properly gitignored (won't appear in any future commit either). | git check-ignore -v u.md → exit 0 (chained) (23:15) |
+
+**ALSO SAID (not scored)**
+
+- ~ Confirmed: &#96;origin/main&#96; matches your local &#96;main&#96; at &#96;95f9911&#96;, working tree is clean, and &#96;u.md&#96; remains properly gitignored (won't appear in any future commit either).
+
+**ALSO DID (not mentioned)**
+
+- contacted: origin (host unknown) (inferred)
+- referenced PR #5
+- 3 API errors during the session
+
+claims recognized: 2 (of which 1 not scored) · 2 sentences scanned
+1 tool call · 0 files changed · 0 test runs
+
+cost $73.74 (API-equivalent) · cache hit 99%
+
+**VERDICT: VERIFIED**
+
+_evidence from log only_
+"
+`;
+
+exports[`markdown snapshots (S19 goldens) > codex/shell_command — --timeline appends the timeline table 1`] = `
+"**showreceipts** · **VERIFIED (1 claim)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #9e0f1a2b** · /home/u/proj1 · no branch · Aug 15 10:01 → 10:01 · &lt;1m · turn 1
+
+| | CLAIMED | EVIDENCE |
+| --- | --- | --- |
+| VERIFIED | Committed as &#96;0f1e2d3&#96; on &#96;main&#96;. | git commit → 0f1e2d3 (10:01) |
+
+**ALSO SAID (not scored)**
+
+- ~ I did not push.
+
+claims recognized: 2 (of which 1 not scored) · 2 sentences scanned
+1 tool call · 0 files changed · 0 test runs
+
+cost ≈$0.02 (API-equivalent) · cache hit 73% · plan usage 4%
+
+**VERDICT: VERIFIED**
+
+**TIMELINE**
+
+| time | tool | summary | exit | files | $ | agent | flags |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 10:01 | shell_command | git commit -am &lt;str:34b> | 0 |  | $0.01 |  | git |
+
+_evidence from log only_
+"
+`;
+
+exports[`markdown snapshots (S19 goldens) > codex/shell_command — default receipt (VERIFIED commit) 1`] = `
+"**showreceipts** · **VERIFIED (1 claim)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #9e0f1a2b** · /home/u/proj1 · no branch · Aug 15 10:01 → 10:01 · &lt;1m · turn 1
+
+| | CLAIMED | EVIDENCE |
+| --- | --- | --- |
+| VERIFIED | Committed as &#96;0f1e2d3&#96; on &#96;main&#96;. | git commit → 0f1e2d3 (10:01) |
+
+**ALSO SAID (not scored)**
+
+- ~ I did not push.
+
+claims recognized: 2 (of which 1 not scored) · 2 sentences scanned
+1 tool call · 0 files changed · 0 test runs
+
+cost ≈$0.02 (API-equivalent) · cache hit 73% · plan usage 4%
+
+**VERDICT: VERIFIED**
+
+_evidence from log only_
+"
+`;
+
+exports[`markdown snapshots (S19 goldens) > codex/shell_command — turn 0 (CONTRADICTED test claim), worst-first rows 1`] = `
+"**showreceipts** · **CONTRADICTED (1 of 5 claims)** · Codex 0.148.0 · gpt-5.6-terra · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #9e0f1a2b** · /home/u/proj1 · no branch · Aug 15 10:00 → 10:01 · &lt;1m · turn 0
+
+| | CLAIMED | EVIDENCE |
+| --- | --- | --- |
+| CONTRADICTED | all 12 tests pass (vitest). | pytest -q tests/ → exit 1 · 1 failed (10:00) |
+| UNVERIFIED | Added &#96;src/new_module.py&#96;, removed &#96;src/old_module.py&#96; and renamed &#96;src/renamed_from.py&#96; to &#96;src/renamed_to.py&#96;. | no write to src/renamed_from.py in log (10:01) |
+| UNVERIFIED | Added &#96;src/new_module.py&#96;, removed &#96;src/old_module.py&#96; and renamed &#96;src/renamed_from.py&#96; to &#96;src/renamed_to.py&#96;. | exec_command (10:00) · write status unknown |
+| VERIFIED | Added &#96;src/new_module.py&#96;, removed &#96;src/old_module.py&#96; and renamed &#96;src/renamed_from.py&#96; to &#96;src/renamed_to.py&#96;. | exec_command (10:00) |
+| VERIFIED | Added &#96;src/new_module.py&#96;, removed &#96;src/old_module.py&#96; and renamed &#96;src/renamed_from.py&#96; to &#96;src/renamed_to.py&#96;. | exec_command (10:00) |
+
+**ALSO SAID (not scored)**
+
+- ~ &#96;pytest -q tests/&#96; has 1 failing test that I left for you.
+
+**ALSO DID (not mentioned)**
+
+- 1 command moved to background (exit unknown)
+- 1 command with unknown exit
+- interactive input sent to a background command (2 writes) · interrupted by Ctrl-C
+
+claims recognized: 6 (of which 1 not scored) · 5 sentences scanned
+10 tool calls · 3 files changed · 2 test runs
+
+cost ≈$0.02 (API-equivalent) · cache hit 73% · plan usage 4%
+
+**VERDICT: CONTRADICTED**
+
+_evidence from log only_
+"
+`;

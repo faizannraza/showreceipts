@@ -1,0 +1,88 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "scored",
+  "id": "c0dec0de-0000-4000-8000-000000000011",
+  "shortId": "c0dec0de",
+  "harness": "codex",
+  "harnessLabel": "Codex",
+  "harnessVersion": "0.98.0",
+  "model": "gpt-5.2-codex",
+  "cwd": "/home/u/proj/cyclone",
+  "branch": null,
+  "startedAt": "2026-02-10T04:56:00.000Z",
+  "endedAt": "2026-02-10T05:09:00.000Z",
+  "durationMs": 780000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "done.",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [
+    {
+      "glyph": "unk",
+      "claim": "created lea_col_drop_preview.ipynb",
+      "evidence": [
+        "python script ran (04:58) · write not observable"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "unk",
+      "claim": "works as expected",
+      "evidence": [
+        "nothing ran after the last write (05:09)"
+      ],
+      "refs": []
+    }
+  ],
+  "alsoSaid": [],
+  "alsoDid": [
+    {
+      "text": "1 script may have written files (python3 heredoc, exit 0)",
+      "refs": []
+    }
+  ],
+  "stats": {
+    "toolCalls": 6,
+    "filesChanged": 0,
+    "testRuns": 0,
+    "compactions": 0,
+    "subagents": 0,
+    "apiCalls": 5,
+    "sentencesScanned": 5
+  },
+  "cost": {
+    "usd": 0.07,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 87,
+    "unverified": true,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": [],
+    "planUsagePct": 1
+  },
+  "verdict": "UNVERIFIED",
+  "counts": {
+    "VERIFIED": 0,
+    "UNVERIFIED": 2,
+    "CONTRADICTED": 0,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": null,
+  "claimsRecognized": 2
+}

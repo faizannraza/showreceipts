@@ -1,0 +1,71 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "no-final",
+  "id": "a0f1a115-0000-4000-8000-000000000003",
+  "shortId": "a0f1a115",
+  "harness": "claude-code",
+  "harnessLabel": "Claude Code",
+  "harnessVersion": "2.1.214",
+  "model": "claude-sonnet-5",
+  "cwd": "/home/u/proj/wattage",
+  "branch": "main",
+  "startedAt": "2026-07-18T17:14:00.000Z",
+  "endedAt": "2026-07-18T23:52:00.000Z",
+  "durationMs": 23880000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [],
+  "alsoSaid": [],
+  "alsoDid": [
+    {
+      "text": "2 files changed (src/a.ts, src/b.ts)",
+      "refs": []
+    }
+  ],
+  "stats": {
+    "toolCalls": 14,
+    "filesChanged": 2,
+    "testRuns": 0,
+    "compactions": 0,
+    "subagents": 0,
+    "apiCalls": 12,
+    "sentencesScanned": 0
+  },
+  "cost": {
+    "usd": 18.42,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 71,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "NO_FINAL",
+  "counts": {
+    "VERIFIED": 0,
+    "UNVERIFIED": 0,
+    "CONTRADICTED": 0,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": 7500000,
+  "claimsRecognized": 0,
+  "finalStopReason": "tool_use"
+}

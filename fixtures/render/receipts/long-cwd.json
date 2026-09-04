@@ -1,0 +1,74 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "scored",
+  "id": "10c9c3d0-0000-4000-8000-000000000008",
+  "shortId": "10c9c3d0",
+  "harness": "claude-code",
+  "harnessLabel": "Claude Code",
+  "harnessVersion": "2.1.214",
+  "model": "claude-sonnet-5",
+  "cwd": "/home/u/deeply-nested-directory-segment-00/deeply-nested-directory-segment-01/deeply-nested-directory-segment-02/deeply-nested-directory-segment-03/deeply-nested-directory-segment-04/deeply-nested-directory-segment-05/deeply-nested-directory-segment-06/deeply-nested-directory-segment-07/deeply-nested-directory-segment-08/deeply-nested-directory-segment-09/deeply-nested-directory-segment-10/deeply-nested-directory-segment-11/wattage",
+  "branch": "main",
+  "startedAt": "2026-07-18T17:14:00.000Z",
+  "endedAt": "2026-07-18T23:52:00.000Z",
+  "durationMs": 23880000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "done.",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [
+    {
+      "glyph": "ok",
+      "claim": "tests pass",
+      "evidence": [
+        "uv run pytest → exit 0 (23:41)"
+      ],
+      "refs": []
+    }
+  ],
+  "alsoSaid": [],
+  "alsoDid": [],
+  "stats": {
+    "toolCalls": 212,
+    "filesChanged": 31,
+    "testRuns": 4,
+    "compactions": 1,
+    "subagents": 0,
+    "apiCalls": 212,
+    "sentencesScanned": 9
+  },
+  "cost": {
+    "usd": 18.42,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 71,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "VERIFIED",
+  "counts": {
+    "VERIFIED": 1,
+    "UNVERIFIED": 0,
+    "CONTRADICTED": 0,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": 7500000,
+  "claimsRecognized": 1
+}

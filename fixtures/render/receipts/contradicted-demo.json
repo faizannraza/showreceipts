@@ -1,0 +1,115 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "scored",
+  "id": "0badf00d-0000-4000-8000-000000000001",
+  "shortId": "0badf00d",
+  "harness": "claude-code",
+  "harnessLabel": "Claude Code",
+  "harnessVersion": "2.1.214",
+  "model": "claude-sonnet-5",
+  "cwd": "/home/u/proj/wattage",
+  "branch": "main",
+  "startedAt": "2026-07-18T17:14:00.000Z",
+  "endedAt": "2026-07-18T23:52:00.000Z",
+  "durationMs": 23880000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "done.",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [
+    {
+      "glyph": "ok",
+      "claim": "updated src/wattage/models.py",
+      "evidence": [
+        "Edit ×3 (17:31, 17:32)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "created tests/test_cli.py",
+      "evidence": [
+        "Write (18:05)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "tests pass",
+      "evidence": [
+        "uv run pytest → exit 0 · 41 passed (23:41)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "bad",
+      "claim": "lint is clean",
+      "evidence": [
+        "ruff → exit 1 (23:44) · 2 errors, never re-run"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "unk",
+      "claim": "committed the changes",
+      "evidence": [
+        "no git commit in log"
+      ],
+      "refs": []
+    }
+  ],
+  "alsoSaid": [],
+  "alsoDid": [
+    {
+      "text": "edited tests/test_normalize.py after last green run (not re-run)",
+      "refs": []
+    },
+    {
+      "text": "3 files written to temp dirs",
+      "refs": []
+    }
+  ],
+  "stats": {
+    "toolCalls": 212,
+    "filesChanged": 31,
+    "testRuns": 4,
+    "compactions": 1,
+    "subagents": 0,
+    "apiCalls": 212,
+    "sentencesScanned": 9
+  },
+  "cost": {
+    "usd": 18.42,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 71,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "CONTRADICTED",
+  "counts": {
+    "VERIFIED": 3,
+    "UNVERIFIED": 1,
+    "CONTRADICTED": 1,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": 7500000,
+  "claimsRecognized": 5
+}

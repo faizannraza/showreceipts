@@ -1,0 +1,90 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "scored",
+  "id": "de7ec7ed-0000-4000-8000-000000000006",
+  "shortId": "de7ec7ed",
+  "harness": "claude-code",
+  "harnessLabel": "Claude Code",
+  "harnessVersion": "2.1.9\u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r",
+  "model": "claude\u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r-x",
+  "cwd": "/home/u/pr\u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\roj/evil",
+  "branch": "ma\u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\rin",
+  "startedAt": "2026-07-18T17:14:00.000Z",
+  "endedAt": "2026-07-18T23:52:00.000Z",
+  "durationMs": 23880000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "done.",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [
+    {
+      "glyph": "bad",
+      "claim": "all tests pass \u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r really",
+      "evidence": [
+        "pytest → 2 failed \u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r (11:03)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/\u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r/x.ts",
+      "evidence": [
+        "Edit (10:05) \u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r"
+      ],
+      "refs": []
+    }
+  ],
+  "alsoSaid": [
+    "nothing else was touched \u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r"
+  ],
+  "alsoDid": [
+    {
+      "text": "1 file written to home dotfiles (~/.zshrc\u001b[31;1m\u001b]52;c;ZXZpbA==\u0007‮ \u00002J\r)",
+      "warn": true,
+      "refs": []
+    }
+  ],
+  "stats": {
+    "toolCalls": 212,
+    "filesChanged": 31,
+    "testRuns": 4,
+    "compactions": 1,
+    "subagents": 0,
+    "apiCalls": 212,
+    "sentencesScanned": 9
+  },
+  "cost": {
+    "usd": 18.42,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 71,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "CONTRADICTED",
+  "counts": {
+    "VERIFIED": 1,
+    "UNVERIFIED": 0,
+    "CONTRADICTED": 1,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": 7500000,
+  "claimsRecognized": 2
+}

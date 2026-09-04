@@ -1,0 +1,18 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #c0dec0de · Codex 0.98.0 · gpt-5.2-codex                   │
+  │  ~/proj/cyclone · no branch · Feb 10 04:56 → 05:09 · 13m             │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ? Created lea_col_drop_preview.ipynb.   python script ran (04:58)   │
+  │                                          write not observable        │
+  │  ? It works as expected.                 nothing ran after the last  │
+  │                                          write (05:09)               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 1 command moved to background (exit unknown)                      │
+  │  · 1 script may have written files (python3 heredoc, exit unknown)   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  6 tool calls · 0 files changed · 0 test runs                        │
+  │  cost ≈$0.07 (API-equivalent) · cache hit 87% · plan usage 1%        │
+  │  VERDICT: 2 UNVERIFIED                                               │
+  └──────────────────────────────────────────────────────────────────────┘

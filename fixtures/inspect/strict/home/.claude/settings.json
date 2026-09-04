@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook claude-code Stop --strict", "timeout": 30 } ] }
+    ],
+    "SessionStart": [
+      { "matcher": "startup|resume", "hooks": [ { "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook claude-code SessionStart", "timeout": 5 } ] }
+    ]
+  }
+}

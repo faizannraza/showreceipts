@@ -1,0 +1,33 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #20c1a1e5 · Claude Code 2.1.251 · claude-fable-5           │
+  │  ~/proj/api · main · Jun 2 09:00 → 10:00 · 1h 00m                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ Updated `src/api/m1.ts`.              Edit (09:03)                │
+  │  ✓ Updated `src/api/m2.ts`.              Edit (09:04)                │
+  │  ✓ Updated `src/api/m3.ts`.              Edit (09:05)                │
+  │  ✓ Updated `src/api/m4.ts`.              Edit (09:06)                │
+  │  ✓ Updated `src/api/m5.ts`.              Edit (09:07)                │
+  │  ✓ Updated `src/api/m6.ts`.              Edit (09:08)                │
+  │  ✓ Updated `src/api/m7.ts`.              Edit (09:09)                │
+  │  ✓ Updated `src/api/m8.ts`.              Edit (09:10)                │
+  │  ✓ Updated `src/api/m9.ts`.              Edit (09:11)                │
+  │  ✓ Updated `src/api/m10.ts`.             Edit (09:12)                │
+  │  ✓ Updated `src/api/m11.ts`.             Edit (09:13)                │
+  │  ✓ Updated `src/api/m12.ts`.             Edit (09:14)                │
+  │  ✓ Updated `src/api/m13.ts`.             Edit (09:15)                │
+  │  ✓ Updated `src/api/m14.ts`.             Edit (09:16)                │
+  │  ✓ Updated `src/api/m15.ts`.             Edit (09:17)                │
+  │  ✓ Updated `src/api/m16.ts`.             Edit (09:18)                │
+  │  ✓ Updated `src/api/m17.ts`.             Edit (09:19)                │
+  │  ✓ Updated `src/api/m18.ts`.             Edit (09:20)                │
+  │  ✓ Updated `src/api/m19.ts`.             Edit (09:21)                │
+  │  ✓ Updated `src/api/m20.ts`.             Edit (09:22)                │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ I haven't run the tests yet.                                      │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  20 tool calls · 20 files changed · 0 test runs                      │
+  │  cost $0.0073 (API-equivalent) · cache hit 0%                        │
+  │  VERDICT: 20 VERIFIED                                                │
+  └──────────────────────────────────────────────────────────────────────┘

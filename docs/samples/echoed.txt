@@ -1,0 +1,17 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #ec80ed00 · Claude Code 2.1.234 · claude-sonnet-5          │
+  │  ~/proj/export · main · Jun 7 11:00 → 11:15 · 15m                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ? The integration tests pass on the s…  uv run pytest -q → exit 1   │
+  │                                          1 failed (11:05) echoes t…  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ I haven't re-run the tests.                                       │
+  │  ALSO DID (not mentioned)                                            │
+  │  · 1 file changed (src/export.py)                                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  cost $0.0002 (API-equivalent) · cache hit 0%                        │
+  │  VERDICT: 1 UNVERIFIED                                               │
+  └──────────────────────────────────────────────────────────────────────┘

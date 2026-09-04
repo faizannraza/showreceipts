@@ -1,0 +1,16 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #18e40664 · Gemini CLI · unknown · hook-captured           │
+  │  ~/proj/queue · no branch · Apr 12 09:00 → 09:19 · 19m               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ Updated `src/app.py` and the tests …  replace (09:00)             │
+  │  ✓ Updated `src/app.py` and the tests …  pytest -q → exit 0          │
+  │                                          2 passed (09:01)            │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ I didn't run the linter.                                          │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  cost n/a (hook-captured)                                            │
+  │  VERDICT: 2 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘

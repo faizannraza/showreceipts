@@ -1,0 +1,189 @@
+{
+  "card": {
+    "id": "deadbeef-1111-4222-8333-444455556666",
+    "shortId": "deadbeef",
+    "harness": "claude-code",
+    "harnessLabel": "Claude Code",
+    "harnessVersion": "2.1.240",
+    "model": "claude-x \"><svg onload=alert(1)> <script",
+    "cwd": "/Users/eve/proj-\"><svg onload=alert(1)>-<!--",
+    "title": "hostile title \"><svg onload=alert(1)> </script --> <!",
+    "startedAt": "2026-08-01T10:00:00.000Z",
+    "endedAt": "2026-08-01T11:30:00.000Z",
+    "turns": 2,
+    "doneTurns": 1,
+    "claims": 3,
+    "verdict": "CONTRADICTED",
+    "costUsd": 1.23,
+    "unverified": false,
+    "kind": "scored"
+  },
+  "receipt": {
+    "schema": "showreceipts.receipt/1",
+    "toolVersion": "0.1.0",
+    "rulesVersion": "claims/1+reconcile/1",
+    "pricesVersion": "2026-08-01",
+    "kind": "scored",
+    "id": "deadbeef-1111-4222-8333-444455556666",
+    "shortId": "deadbeef",
+    "harness": "claude-code",
+    "harnessLabel": "Claude Code",
+    "harnessVersion": "2.1.240",
+    "model": "claude-x \"><svg onload=alert(1)> <script",
+    "cwd": "/Users/eve/proj-\"><svg onload=alert(1)>-<!--",
+    "branch": "feat/\"><svg onload=alert(1)>--> <script>",
+    "startedAt": "2026-08-01T10:00:00.000Z",
+    "endedAt": "2026-08-01T11:30:00.000Z",
+    "durationMs": 5400000,
+    "source": "transcript",
+    "turnIndex": 1,
+    "finalTrigger": "human",
+    "turnsWithClaims": [1],
+    "finalText": "All done! <!-- --> <script </script <! \u0000 NUL and \u2028 separator survive only escaped. Also javascript:alert(1) stays inert.",
+    "finalTextSource": "transcript",
+    "claims": [
+      {
+        "id": "c-1",
+        "kind": "test",
+        "polarity": "positive",
+        "attribution": "agent",
+        "rule": "tests-pass",
+        "sentence": "all 12 tests pass <!-- --> <script </script <! \u2028",
+        "clause": "all 12 tests pass <!-- --> <script </script <! \u2028",
+        "position": 0,
+        "echoed": false
+      },
+      {
+        "id": "c-2",
+        "kind": "file",
+        "polarity": "positive",
+        "attribution": "agent",
+        "rule": "file-updated",
+        "subject": "src/\u0000evil<!--.ts",
+        "sentence": "updated src/\u0000evil<!--.ts",
+        "clause": "updated src/\u0000evil<!--.ts",
+        "position": 1,
+        "echoed": false
+      }
+    ],
+    "judgements": [
+      {
+        "claimId": "c-1",
+        "verdict": "CONTRADICTED",
+        "reason": "last-run-red",
+        "evidence": [
+          { "seq": 10, "toolCallId": "t-10", "label": "pytest -q \"><svg onload=alert(1)> -> exit 1", "at": "2026-08-01T10:05:00.000Z" }
+        ],
+        "text": "last test run was red <!--",
+        "notes": []
+      },
+      {
+        "claimId": "c-2",
+        "verdict": "VERIFIED",
+        "reason": "ok",
+        "evidence": [
+          { "seq": 12, "toolCallId": "t-12", "label": "Edit <script </script", "at": "2026-08-01T10:07:00.000Z" }
+        ],
+        "text": "write observed",
+        "notes": []
+      }
+    ],
+    "lines": [
+      {
+        "glyph": "bad",
+        "claim": "all 12 tests pass <!-- --> <script </script <! \u2028",
+        "evidence": ["pytest -q \"><svg onload=alert(1)> -> exit 1 · 2 failed (10:05)"],
+        "refs": [
+          { "seq": 10, "toolCallId": "t-10", "label": "pytest \"><svg onload=alert(1)>", "at": "2026-08-01T10:05:00.000Z" }
+        ]
+      },
+      {
+        "glyph": "ok",
+        "claim": "updated src/\u0000evil<!--.ts",
+        "evidence": ["Edit src/\u0000evil<!--.ts (10:07)"],
+        "refs": [
+          { "seq": 12, "toolCallId": "t-12", "label": "write", "at": "2026-08-01T10:07:00.000Z" }
+        ]
+      }
+    ],
+    "alsoSaid": ["I never touched the docs <!-- --> <script </script <!"],
+    "alsoDid": [
+      {
+        "text": "ran command: rm -rf \"><svg onload=alert(1)> <!-- --> <script </script <! \u0000 \u2028",
+        "warn": true,
+        "refs": [{ "seq": 10, "label": "danger", "at": "2026-08-01T10:05:00.000Z" }]
+      },
+      {
+        "text": "referenced PR #6 (javascript:alert(1))",
+        "refs": [{ "seq": 14, "label": "pr-link javascript:alert(1)", "at": "2026-08-01T10:09:00.000Z" }]
+      }
+    ],
+    "stats": {
+      "toolCalls": 3,
+      "filesChanged": 1,
+      "testRuns": 1,
+      "compactions": 0,
+      "subagents": 0,
+      "apiCalls": 4,
+      "sentencesScanned": 5
+    },
+    "cost": {
+      "usd": 1.23,
+      "apiCalls": 4,
+      "input": 100,
+      "cacheRead": 0,
+      "cacheWrite5m": 0,
+      "cacheWrite1h": 0,
+      "cacheWriteOther": 0,
+      "output": 50,
+      "cacheHitPct": 50,
+      "unverified": false,
+      "unpriced": [],
+      "apiEquivalent": true,
+      "pricesVersion": "2026-08-01",
+      "notes": []
+    },
+    "verdict": "CONTRADICTED",
+    "counts": { "VERIFIED": 1, "UNVERIFIED": 0, "CONTRADICTED": 1, "NOT_SCORED": 0 },
+    "turnActiveMs": 65000,
+    "claimsRecognized": 2
+  },
+  "timeline": [
+    {
+      "seq": 10,
+      "at": "2026-08-01T10:05:00.000Z",
+      "tool": "Bash",
+      "kind": "shell",
+      "summary": "pytest -q \"><svg onload=alert(1)> <!-- --> <script </script <! \u0000 \u2028",
+      "exit": 1,
+      "files": ["/Users/eve/proj/tests/\u0000case<!--.py"],
+      "usd": 0.0042,
+      "agentId": null,
+      "flags": ["test", "error"]
+    },
+    {
+      "seq": 12,
+      "at": "2026-08-01T10:07:00.000Z",
+      "tool": "Edit",
+      "kind": "edit",
+      "summary": "src/\u0000evil<!--.ts",
+      "exit": null,
+      "files": ["/Users/eve/proj/src/\u0000evil<!--.ts"],
+      "usd": null,
+      "agentId": null,
+      "flags": ["write"]
+    },
+    {
+      "seq": 14,
+      "at": "2026-08-01T10:09:00.000Z",
+      "tool": "WebFetch",
+      "kind": "fetch",
+      "summary": "javascript:alert(1)",
+      "exit": null,
+      "files": [],
+      "usd": null,
+      "agentId": null,
+      "flags": []
+    }
+  ]
+}

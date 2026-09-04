@@ -354,6 +354,15 @@ describe('privacy scan of every committed fixture file', () => {
     }
     expect(offenders).toEqual([]);
   });
+
+  it('the forbidden-hash scan reaches the demo generator (S23a)', () => {
+    // The scenarios ship inside the package; a real id, path or sentence
+    // pasted into `src/demo` must fail the scan above, so pin its coverage.
+    const files = walkFiles(join(ROOT, 'src')).map((p) => relative(ROOT, p));
+    for (const name of ['src/demo/dsl.ts', 'src/demo/gen.ts', 'src/demo/prng.ts', 'src/demo/scenarios.ts']) {
+      expect(files, name).toContain(name);
+    }
+  });
 });
 
 describe('shape guarantees the plan pins per fixture', () => {

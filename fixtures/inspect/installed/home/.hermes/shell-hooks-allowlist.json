@@ -1,0 +1,7 @@
+[
+  { "event": "post_tool_call", "command": "/home/u/.showreceipts/bin/showreceipts-hook hook hermes post_tool_call" },
+  { "event": "post_llm_call", "command": "/home/u/.showreceipts/bin/showreceipts-hook hook hermes post_llm_call" },
+  { "event": "on_session_start", "command": "/home/u/.showreceipts/bin/showreceipts-hook hook hermes on_session_start" },
+  { "event": "on_session_end", "command": "/home/u/.showreceipts/bin/showreceipts-hook hook hermes on_session_end" },
+  { "event": "on_session_finalize", "command": "/home/u/.showreceipts/bin/showreceipts-hook hook hermes on_session_finalize" }
+]

@@ -1,0 +1,87 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "scored",
+  "id": "3adf00d5-0000-4000-8000-000000000010",
+  "shortId": "3adf00d5",
+  "harness": "claude-code",
+  "harnessLabel": "Claude Code",
+  "harnessVersion": "2.1.241",
+  "model": "claude-fable-5",
+  "cwd": "/home/u/proj/wattage",
+  "branch": "main",
+  "startedAt": "2026-08-23T23:15:00.000Z",
+  "endedAt": "2026-08-24T01:38:00.000Z",
+  "durationMs": 8580000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "done.",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [
+    {
+      "glyph": "ok",
+      "claim": "339 tests pass",
+      "evidence": [
+        "uv run pytest -q → exit 0 · 339 passed (23:29)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "committed (1fc0c28)",
+      "evidence": [
+        "git commit → 1fc0c28 (Aug 24 01:12)"
+      ],
+      "refs": []
+    }
+  ],
+  "alsoSaid": [],
+  "alsoDid": [],
+  "stats": {
+    "toolCalls": 418,
+    "filesChanged": 87,
+    "testRuns": 9,
+    "compactions": 0,
+    "subagents": 12,
+    "apiCalls": 380,
+    "sentencesScanned": 6
+  },
+  "cost": {
+    "usd": 41.07,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 84,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "VERIFIED",
+  "counts": {
+    "VERIFIED": 2,
+    "UNVERIFIED": 0,
+    "CONTRADICTED": 0,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": 8580000,
+  "claimsRecognized": 2,
+  "sessionSpan": {
+    "from": "2026-07-18T09:00:00.000Z",
+    "to": "2026-08-23T21:00:00.000Z",
+    "days": 36
+  }
+}

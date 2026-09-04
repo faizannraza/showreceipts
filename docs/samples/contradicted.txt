@@ -1,0 +1,22 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #0badf00d · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/proj/wattage · main · Jul 18 17:14 → 23:52 · 2h 05m               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✗ Lint is clean.                        ruff check . → exit 1       │
+  │                                          (23:44) · never re-run      │
+  │  ? Committed the changes.                no git commit in log        │
+  │                                          (23:52)                     │
+  │  ✓ Updated `src/wattage/models.py`.      Edit ×3 (17:31, 17:32)      │
+  │  ✓ Created `tests/test_cli.py`.          Write (18:05)               │
+  │  ✓ All 41 tests pass.                    uv run pytest -q → exit 0   │
+  │                                          41 passed (23:41)           │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 29 more files changed (src/wattage/, /tmp/demo-scratch/, tests/)  │
+  │  · 3 files written to temp dirs                                      │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 1 CONTRADICTED · 1 UNVERIFIED · 3 VERIFIED                 │
+  └──────────────────────────────────────────────────────────────────────┘

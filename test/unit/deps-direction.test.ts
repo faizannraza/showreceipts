@@ -33,6 +33,8 @@ type Layer =
   | 'render'
   | 'hook'
   | 'setup'
+  | 'bench'
+  | 'doctor'
   | 'commands'
   | 'cli';
 
@@ -51,6 +53,11 @@ const RANK: Readonly<Record<Layer, number>> = {
   render: 7,
   hook: 7,
   setup: 7,
+  // S25: `bench/*` (publish rows + Appendix D validator) and `doctor/*`
+  // (collect + problems) sit beside render/hook/setup — imported by
+  // `commands/*`, importing pipeline and below only.
+  bench: 7,
+  doctor: 7,
   commands: 8,
   cli: 9,
 };

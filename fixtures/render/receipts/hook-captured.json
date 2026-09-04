@@ -1,0 +1,73 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "no-claims",
+  "id": "0cafe000-0000-4000-8000-000000000005",
+  "shortId": "0cafe000",
+  "harness": "cursor",
+  "harnessLabel": "Cursor",
+  "harnessVersion": "1.9.2",
+  "model": "gpt-5.6-terra",
+  "cwd": "/home/u/proj/api",
+  "branch": null,
+  "startedAt": "2026-08-29T10:02:00.000Z",
+  "endedAt": "2026-08-29T10:11:00.000Z",
+  "durationMs": 540000,
+  "source": "ledger",
+  "turnIndex": 0,
+  "finalTrigger": "human",
+  "turnsWithClaims": [],
+  "finalText": "Refactored the routes. Added a db helper. Cleaned imports. Ready.",
+  "finalTextSource": "stop-hook",
+  "claims": [],
+  "judgements": [],
+  "lines": [],
+  "alsoSaid": [],
+  "alsoDid": [
+    {
+      "text": "2 files changed (src/routes.ts, src/db.ts)",
+      "refs": []
+    },
+    {
+      "text": "npm test → exit 0 · 12 passed (10:09)",
+      "refs": []
+    }
+  ],
+  "stats": {
+    "toolCalls": 9,
+    "filesChanged": 2,
+    "testRuns": 1,
+    "compactions": 0,
+    "subagents": 0,
+    "apiCalls": 0,
+    "sentencesScanned": 4
+  },
+  "cost": {
+    "usd": null,
+    "apiCalls": 0,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": null,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "NO_CLAIMS",
+  "counts": {
+    "VERIFIED": 0,
+    "UNVERIFIED": 0,
+    "CONTRADICTED": 0,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": null,
+  "claimsRecognized": 0,
+  "ledgerCoverage": "all-tools"
+}

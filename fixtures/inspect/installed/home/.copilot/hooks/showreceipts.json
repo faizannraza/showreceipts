@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [ { "type": "command", "bash": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook copilot sessionStart", "powershell": "\"/home/u/.showreceipts/bin/showreceipts-hook.cmd\" hook copilot sessionStart", "timeoutSec": 5 } ],
+    "postToolUse": [ { "type": "command", "bash": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook copilot postToolUse", "timeoutSec": 10 } ],
+    "postToolUseFailure": [ { "type": "command", "bash": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook copilot postToolUseFailure", "timeoutSec": 10 } ],
+    "agentStop": [ { "type": "command", "bash": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook copilot agentStop", "timeoutSec": 30 } ],
+    "sessionEnd": [ { "type": "command", "bash": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook copilot sessionEnd", "timeoutSec": 5 } ]
+  }
+}

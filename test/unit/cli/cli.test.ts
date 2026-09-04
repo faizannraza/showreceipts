@@ -5,6 +5,7 @@ import { createContext, resolveNow, type CommandContext } from '../../../src/cli
 import { commandHelp, HELP_TEXT, usageFooter } from '../../../src/cli/help.js';
 import { main, type MainOptions } from '../../../src/cli.js';
 import { TOOL_VERSION } from '../../../src/version.js';
+import { makeTempDir } from '../../helpers/tmp.js';
 
 class MemoryStream extends Writable {
   private readonly chunks: string[] = [];
@@ -121,8 +122,14 @@ describe('main: dispatch and exit codes', () => {
   it('every stub but hook exits 2 with its "not implemented yet" line', async () => {
     for (const command of COMMANDS) {
       if (command === 'hook') continue;
-      const argv = command === 'session' || command === 'export' ? [command, 'latest'] : [command];
-      const r = await run(argv);
+      if (command === 'export') continue; // implemented in S21; its own tests and the W4 e2e cover it
+      if (command === 'demo') continue; // implemented in S23b; test/render/demo.test.ts covers it
+      if (command === 'audit') continue; // implemented in S24; test/unit/commands/audit.test.ts covers it
+      if (command === 'session') continue; // implemented in S24; test/unit/commands/session.test.ts covers it
+      if (command === 'report') continue; // implemented in S25; test/unit/commands/report.test.ts covers it
+      if (command === 'doctor') continue; // implemented in S25; test/unit/commands/doctor.test.ts covers it
+      if (command === 'bench') continue; // implemented in S25; test/unit/commands/bench.test.ts covers it
+      const r = await run([command]);
       expect(r.code, command).toBe(2);
       expect(r.stdout, command).toBe('');
       expect(r.stderr, command).toBe(`showreceipts ${command}: not implemented yet\n`);
@@ -130,9 +137,12 @@ describe('main: dispatch and exit codes', () => {
   });
 
   it('the default command is audit', async () => {
-    const r = await run([]);
-    expect(r.code).toBe(2);
-    expect(r.stderr).toBe('showreceipts audit: not implemented yet\n');
+    // audit is real since S24: give it an empty temp HOME so it scans nothing
+    // (env {} would fall back to the developer's real home directory).
+    const home = makeTempDir('showreceipts-cli-home-');
+    const r = await run([], { env: { HOME: home } });
+    expect(r.code).toBe(0);
+    expect(r.stdout).toContain('no sessions found');
   });
 
   it('hook prints {} and exits 0', async () => {

@@ -1,0 +1,13 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #0cafe000 · Cursor 1.9.2 · gpt-5.6-terra · hook-captured   │
+  │  ~/proj/api · no branch · Aug 29 10:02 → 10:11 · 9m                  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  no claims recognized in the final message (0 claims · 4 sentences)  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 2 files changed (src/routes.ts, src/db.ts)                        │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  9 tool calls · 2 files changed · 1 test run                         │
+  │  cost n/a (hook-captured)                                            │
+  │  VERDICT: NO CLAIMS                                                  │
+  └──────────────────────────────────────────────────────────────────────┘

@@ -691,6 +691,7 @@ export function buildReceipt(session: Session, opts: ReceiptOptions): Receipt {
     receipt.kind = 'no-turns';
     receipt.verdict = 'NO_TURNS';
     receipt.records = session.records;
+    receipt.slashCommands = session.diagnostics.localCommandPrompts;
     return finishReceipt(receipt, session, null, opts);
   }
 
@@ -711,6 +712,7 @@ export function buildReceipt(session: Session, opts: ReceiptOptions): Receipt {
   if (!turn.isDone || turn.finalText === null) {
     receipt.kind = 'no-final';
     receipt.verdict = 'NO_FINAL';
+    receipt.finalStopReason = turn.finalStopReason;
     receipt.alsoDid = capAlsoDid(alsoDidEntries(session, window, [], session.cwd, opts.homeDir));
     receipt.stats = statsOf(session, window, 0);
     return finishReceipt(receipt, session, turn, opts);

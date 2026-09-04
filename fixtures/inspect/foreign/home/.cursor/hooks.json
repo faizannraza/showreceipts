@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "hooks": {
+    "stop": [ { "command": "/home/u/bin/cursor-notify --done", "type": "command", "timeout": 10 } ]
+  }
+}

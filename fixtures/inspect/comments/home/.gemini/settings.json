@@ -1,0 +1,8 @@
+{
+  /* gemini allows comments in its settings */
+  "hooks": {
+    "AfterAgent": [
+      { "matcher": "", "hooks": [ { "name": "showreceipts-stop", "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook gemini AfterAgent", "timeout": 30000 } ] }
+    ]
+  }
+}

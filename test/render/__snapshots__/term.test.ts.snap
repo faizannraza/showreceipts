@@ -1,0 +1,619 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > cjk-path @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #c0dec1c0 - Claude Code 2.1.214                 |
+|  claude-sonnet-5 - ~/项目/受け取り - main                |
+|  Jul 18 17:14 -> 23:52 - 2h 05m                          |
++----------------------------------------------------------+
+|  + updated src/日本語のファイル名がとても長いです.md     |
+|      Edit x2 (17:31)                                     |
+|  + created docs/收据.md                                  |
+|      Write (18:05)                                       |
++----------------------------------------------------------+
+|  212 tool calls - 31 files changed - 4 test runs         |
+|    - 1 compaction                                        |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: 2 VERIFIED                                     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > cjk-path @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #c0dec1c0 · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/项目/受け取り · main · Jul 18 17:14 → 23:52 · 2h 05m              │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ updated …ァイル名がとても長いです.md  Edit ×2 (17:31)             │
+  │  ✓ created docs/收据.md                  Write (18:05)               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 2 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > codex-plan-usage @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #c0dec0de - Codex 0.98.0 - gpt-5.2-codex        |
+|  ~/proj/cyclone - no branch - Feb 10 04:56 -> 05:09 - 13m|
++----------------------------------------------------------+
+|  ? created lea_col_drop_preview.ipynb                    |
+|      python script ran (04:58) - write not observable    |
+|  ? works as expected                                     |
+|      nothing ran after the last write (05:09)            |
++----------------------------------------------------------+
+|  ALSO DID (not mentioned)                                |
+|  - 1 script may have written files (python3 heredoc, exit|
+|    0)                                                    |
++----------------------------------------------------------+
+|  6 tool calls - 0 files changed - 0 test runs            |
+|  cost ~$0.07 (API-equivalent) - cache hit 87%            |
+|    - plan usage 1%                                       |
+|  VERDICT: 2 UNVERIFIED                                   |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > codex-plan-usage @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #c0dec0de · Codex 0.98.0 · gpt-5.2-codex                   │
+  │  ~/proj/cyclone · no branch · Feb 10 04:56 → 05:09 · 13m             │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ? created lea_col_drop_preview.ipynb    python script ran (04:58)   │
+  │                                          write not observable        │
+  │  ? works as expected                     nothing ran after the last  │
+  │                                          write (05:09)               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 1 script may have written files (python3 heredoc, exit 0)         │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  6 tool calls · 0 files changed · 0 test runs                        │
+  │  cost ≈$0.07 (API-equivalent) · cache hit 87% · plan usage 1%        │
+  │  VERDICT: 2 UNVERIFIED                                               │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > contradicted-demo @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #0badf00d - Claude Code 2.1.214                 |
+|  claude-sonnet-5 - ~/proj/wattage - main                 |
+|  Jul 18 17:14 -> 23:52 - 2h 05m                          |
++----------------------------------------------------------+
+|  + updated src/wattage/models.py                         |
+|      Edit x3 (17:31, 17:32)                              |
+|  + created tests/test_cli.py                             |
+|      Write (18:05)                                       |
+|  + tests pass                                            |
+|      uv run pytest -> exit 0 - 41 passed (23:41)         |
+|  x lint is clean                                         |
+|      ruff -> exit 1 (23:44) - 2 errors, never re-run     |
+|  ? committed the changes                                 |
+|      no git commit in log                                |
++----------------------------------------------------------+
+|  ALSO DID (not mentioned)                                |
+|  - edited tests/test_normalize.py after last green run   |
+|    (not re-run)                                          |
+|  - 3 files written to temp dirs                          |
++----------------------------------------------------------+
+|  212 tool calls - 31 files changed - 4 test runs         |
+|    - 1 compaction                                        |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: 1 CONTRADICTED - 1 UNVERIFIED - 3 VERIFIED     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > contradicted-demo @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #0badf00d · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/proj/wattage · main · Jul 18 17:14 → 23:52 · 2h 05m               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ updated src/wattage/models.py         Edit ×3 (17:31, 17:32)      │
+  │  ✓ created tests/test_cli.py             Write (18:05)               │
+  │  ✓ tests pass                            uv run pytest → exit 0      │
+  │                                          41 passed (23:41)           │
+  │  ✗ lint is clean                         ruff → exit 1 (23:44)       │
+  │                                          2 errors, never re-run      │
+  │  ? committed the changes                 no git commit in log        │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · edited tests/test_normalize.py after last green run (not re-run)  │
+  │  · 3 files written to temp dirs                                      │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 1 CONTRADICTED · 1 UNVERIFIED · 3 VERIFIED                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > golden claude-code/2.1.214 @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #21cf6a82 - Claude Code 2.1.214→2.1.236         |
+|  claude-sonnet-5 - ~/proj - main - Aug 23 23:15 -> 23:15 |
+|  <1m - session Jul 18 -> Aug 23 (36d)                    |
++----------------------------------------------------------+
+|  + Confirmed: \`origin/main\` matches your local \`main\` ...|
+|      git check-ignore -v u.md -> exit 0 (chained) (23:15)|
++----------------------------------------------------------+
+|  ALSO SAID (not scored)                                  |
+|  ~ Confirmed: \`origin/main\` matches your local \`main\` at |
+|    \`95f9911\`, working tree is clean, and \`u.md\` remain...|
+|  ALSO DID (not mentioned)                                |
+|  - contacted: origin (host unknown) (inferred)           |
+|  - referenced PR #5                                      |
+|  - 3 API errors during the session                       |
++----------------------------------------------------------+
+|  1 tool call - 0 files changed - 0 test runs             |
+|  cost $73.74 (API-equivalent) - cache hit 99%            |
+|  VERDICT: 1 VERIFIED                                     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > golden claude-code/2.1.214 @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #21cf6a82 · Claude Code 2.1.214→2.1.236 · claude-sonnet-5  │
+  │  ~/proj · main · Aug 23 23:15 → 23:15 · <1m                          │
+  │    · session Jul 18 → Aug 23 (36d)                                   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ Confirmed: \`origin/main\` matches yo…  git check-ignore -v u.md →  │
+  │                                          exit 0 (chained) (23:15)    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ Confirmed: \`origin/main\` matches your local \`main\` at \`95f9911\`,  │
+  │    working tree is clean, and \`u.md\` remains properly gitignored (…  │
+  │  ALSO DID (not mentioned)                                            │
+  │  · contacted: origin (host unknown) (inferred)                       │
+  │  · referenced PR #5                                                  │
+  │  · 3 API errors during the session                                   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  1 tool call · 0 files changed · 0 test runs                         │
+  │  cost $73.74 (API-equivalent) · cache hit 99%                        │
+  │  VERDICT: 1 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > golden claude-code/2.1.214 @80 unicode 1`] = `
+"  ┌────────────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #21cf6a82 · Claude Code 2.1.214→2.1.236 · claude-sonnet-5        │
+  │  ~/proj · main · Aug 23 23:15 → 23:15 · <1m                                │
+  │    · session Jul 18 → Aug 23 (36d)                                         │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                     EVIDENCE                      │
+  │  ✓ Confirmed: \`origin/main\` matches your l…  git check-ignore -v u.md →    │
+  │                                              exit 0 (chained) (23:15)      │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                                    │
+  │  ~ Confirmed: \`origin/main\` matches your local \`main\` at \`95f9911\`,        │
+  │    working tree is clean, and \`u.md\` remains properly gitignored (won't …  │
+  │  ALSO DID (not mentioned)                                                  │
+  │  · contacted: origin (host unknown) (inferred)                             │
+  │  · referenced PR #5                                                        │
+  │  · 3 API errors during the session                                         │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  1 tool call · 0 files changed · 0 test runs                               │
+  │  cost $73.74 (API-equivalent) · cache hit 99%                              │
+  │  VERDICT: 1 VERIFIED                                                       │
+  └────────────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > golden codex/shell_command @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #9e0f1a2b - Codex 0.148.0 - gpt-5.6-terra       |
+|  ~/proj1 - no branch - Aug 15 10:01 -> 10:01 - <1m       |
++----------------------------------------------------------+
+|  + Committed as \`0f1e2d3\` on \`main\`.                     |
+|      git commit -> 0f1e2d3 (10:01)                       |
++----------------------------------------------------------+
+|  ALSO SAID (not scored)                                  |
+|  ~ I did not push.                                       |
++----------------------------------------------------------+
+|  1 tool call - 0 files changed - 0 test runs             |
+|  cost ~$0.02 (API-equivalent) - cache hit 73%            |
+|    - plan usage 4%                                       |
+|  VERDICT: 1 VERIFIED                                     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > golden codex/shell_command @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #9e0f1a2b · Codex 0.148.0 · gpt-5.6-terra                  │
+  │  ~/proj1 · no branch · Aug 15 10:01 → 10:01 · <1m                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ Committed as \`0f1e2d3\` on \`main\`.     git commit → 0f1e2d3        │
+  │                                          (10:01)                     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ I did not push.                                                   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  1 tool call · 0 files changed · 0 test runs                         │
+  │  cost ≈$0.02 (API-equivalent) · cache hit 73% · plan usage 4%        │
+  │  VERDICT: 1 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > golden codex/shell_command @80 unicode 1`] = `
+"  ┌────────────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #9e0f1a2b · Codex 0.148.0 · gpt-5.6-terra                        │
+  │  ~/proj1 · no branch · Aug 15 10:01 → 10:01 · <1m                          │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                     EVIDENCE                      │
+  │  ✓ Committed as \`0f1e2d3\` on \`main\`.         git commit → 0f1e2d3 (10:01)  │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                                    │
+  │  ~ I did not push.                                                         │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  1 tool call · 0 files changed · 0 test runs                               │
+  │  cost ≈$0.02 (API-equivalent) · cache hit 73% · plan usage 4%              │
+  │  VERDICT: 1 VERIFIED                                                       │
+  └────────────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > hook-captured @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #0cafe000 - Cursor 1.9.2 - gpt-5.6-terra        |
+|  hook-captured - ~/proj/api - no branch                  |
+|  Aug 29 10:02 -> 10:11 - 9m                              |
++----------------------------------------------------------+
+|  no claims recognized in the final message (0 claims - 4 |
+|  sentences)                                              |
++----------------------------------------------------------+
+|  ALSO DID (not mentioned)                                |
+|  - 2 files changed (src/routes.ts, src/db.ts)            |
+|  - npm test -> exit 0 - 12 passed (10:09)                |
++----------------------------------------------------------+
+|  9 tool calls - 2 files changed - 1 test run             |
+|  cost n/a (hook-captured)                                |
+|  VERDICT: NO CLAIMS                                      |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > hook-captured @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #0cafe000 · Cursor 1.9.2 · gpt-5.6-terra · hook-captured   │
+  │  ~/proj/api · no branch · Aug 29 10:02 → 10:11 · 9m                  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  no claims recognized in the final message (0 claims · 4 sentences)  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 2 files changed (src/routes.ts, src/db.ts)                        │
+  │  · npm test → exit 0 · 12 passed (10:09)                             │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  9 tool calls · 2 files changed · 1 test run                         │
+  │  cost n/a (hook-captured)                                            │
+  │  VERDICT: NO CLAIMS                                                  │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > hostile @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #de7ec7ed - Claude Code 2.1.9 - claude-x        |
+|  ~/proj/evil - main - Jul 18 17:14 -> 23:52 - 2h 05m     |
++----------------------------------------------------------+
+|  x all tests pass really                                 |
+|      pytest -> 2 failed (11:03)                          |
+|  + updated src//x.ts                                     |
+|      Edit (10:05)                                        |
++----------------------------------------------------------+
+|  ALSO SAID (not scored)                                  |
+|  ~ nothing else was touched                              |
+|  ALSO DID (not mentioned)                                |
+|  ! 1 file written to home dotfiles (~/.zshrc)            |
++----------------------------------------------------------+
+|  212 tool calls - 31 files changed - 4 test runs         |
+|    - 1 compaction                                        |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: 1 CONTRADICTED - 1 VERIFIED                    |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > hostile @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #de7ec7ed · Claude Code 2.1.9 · claude-x                   │
+  │  ~/proj/evil · main · Jul 18 17:14 → 23:52 · 2h 05m                  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✗ all tests pass really                 pytest → 2 failed (11:03)   │
+  │  ✓ updated src//x.ts                     Edit (10:05)                │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ nothing else was touched                                          │
+  │  ALSO DID (not mentioned)                                            │
+  │  ! 1 file written to home dotfiles (~/.zshrc)                        │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 1 CONTRADICTED · 1 VERIFIED                                │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > long-cwd @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #10c9c3d0 - Claude Code 2.1.214                 |
+|  claude-sonnet-5                                         |
+|  ~/deeply-nested-directory-segment-00/deeply-nested-di...|
+|  main - Jul 18 17:14 -> 23:52 - 2h 05m                   |
++----------------------------------------------------------+
+|  + tests pass                                            |
+|      uv run pytest -> exit 0 (23:41)                     |
++----------------------------------------------------------+
+|  212 tool calls - 31 files changed - 4 test runs         |
+|    - 1 compaction                                        |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: 1 VERIFIED                                     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > long-cwd @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #10c9c3d0 · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/deeply-nested-di…/wattage · main · Jul 18 17:14 → 23:52 · 2h 05m  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ tests pass                            uv run pytest → exit 0      │
+  │                                          (23:41)                     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 1 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > long-header @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #10093ead - Claude Code 2.1.214                 |
+|  claude-experimental-preview-with-an-unusually-long-mo...|
+|  ~/deeply-nested-directory-segment-00/deeply-nested-di...|
+|  feature/extremely-long-branch-name-9999                 |
+|  Jul 18 17:14 -> 23:52 - 2h 05m                          |
++----------------------------------------------------------+
+|  + tests pass                                            |
+|      uv run pytest -> exit 0 (23:41)                     |
++----------------------------------------------------------+
+|  ALSO DID (not mentioned)                                |
+|  - edited tests/test_normalize.py after last green run   |
+|    (not re-run)                                          |
++----------------------------------------------------------+
+|  212 tool calls - 31 files changed - 4 test runs         |
+|    - 1 compaction                                        |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: 1 VERIFIED                                     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > long-header @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #10093ead · Claude Code 2.1.214 · …-long-model-id          │
+  │  ~/de…/wattage · feature/extremel… · Jul 18 17:14 → 23:52 · 2h 05m   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ tests pass                            uv run pytest → exit 0      │
+  │                                          (23:41)                     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · edited tests/test_normalize.py after last green run (not re-run)  │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 1 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > multi-day @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #3adf00d5 - Claude Code 2.1.241 - claude-fable-5|
+|  ~/proj/wattage - main - Aug 23 23:15 -> Aug 24 01:38    |
+|  2h 23m - session Jul 18 -> Aug 23 (36d)                 |
++----------------------------------------------------------+
+|  + 339 tests pass                                        |
+|      uv run pytest -q -> exit 0 - 339 passed (23:29)     |
+|  + committed (1fc0c28)                                   |
+|      git commit -> 1fc0c28 (Aug 24 01:12)                |
++----------------------------------------------------------+
+|  418 tool calls - 87 files changed - 9 test runs         |
+|    - 12 subagents                                        |
+|  cost $41.07 (API-equivalent) - cache hit 84%            |
+|  VERDICT: 2 VERIFIED                                     |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > multi-day @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #3adf00d5 · Claude Code 2.1.241 · claude-fable-5           │
+  │  ~/pr…/wattage · main · Aug 23 23:15 → Aug 24 01:38 · 2h 23m         │
+  │    · session Jul 18 → Aug 23 (36d)                                   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ 339 tests pass                        uv run pytest -q → exit 0   │
+  │                                          339 passed (23:29)          │
+  │  ✓ committed (1fc0c28)                   git commit → 1fc0c28 (Aug   │
+  │                                          24 01:12)                   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  418 tool calls · 87 files changed · 9 test runs · 12 subagents      │
+  │  cost $41.07 (API-equivalent) · cache hit 84%                        │
+  │  VERDICT: 2 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > no-final @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #a0f1a115 - Claude Code 2.1.214                 |
+|  claude-sonnet-5 - ~/proj/wattage - main                 |
+|  Jul 18 17:14 -> 23:52 - 2h 05m                          |
++----------------------------------------------------------+
+|  turn ended without a final message (stop_reason:        |
+|  tool_use)                                               |
++----------------------------------------------------------+
+|  ALSO DID (not mentioned)                                |
+|  - 2 files changed (src/a.ts, src/b.ts)                  |
++----------------------------------------------------------+
+|  14 tool calls - 2 files changed - 0 test runs           |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: NO FINAL MESSAGE                               |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > no-final @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #a0f1a115 · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/proj/wattage · main · Jul 18 17:14 → 23:52 · 2h 05m               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  turn ended without a final message (stop_reason: tool_use)          │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 2 files changed (src/a.ts, src/b.ts)                              │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  14 tool calls · 2 files changed · 0 test runs                       │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: NO FINAL MESSAGE                                           │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > no-turns @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #b0704205 - Claude Code 2.1.214                 |
+|  claude-sonnet-5 - ~/proj/wattage - main                 |
+|  Jul 18 17:14 -> 23:52                                   |
++----------------------------------------------------------+
+|  no assistant turns in this session (12 records, 6 slash |
+|  commands)                                               |
++----------------------------------------------------------+
+|  0 tool calls - 0 files changed                          |
+|  VERDICT: --                                             |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > no-turns @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #b0704205 · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/proj/wattage · main · Jul 18 17:14 → 23:52                        │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  no assistant turns in this session (12 records, 6 slash commands)   │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  0 tool calls · 0 files changed                                      │
+  │  VERDICT: —                                                          │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > twenty-claims @60 ascii 1`] = `
+"+----------------------------------------------------------+
+|  RECEIPT #20c1a1d5 - Claude Code 2.1.214                 |
+|  claude-sonnet-5 - ~/proj/wattage - main                 |
+|  Jul 18 17:14 -> 23:52 - 2h 05m                          |
++----------------------------------------------------------+
+|  + updated src/module-00.ts                              |
+|      Edit (17:10)                                        |
+|  + updated src/module-01.ts                              |
+|      Edit (17:11)                                        |
+|  + updated src/module-02.ts                              |
+|      Edit (17:12)                                        |
+|  + updated src/module-03.ts                              |
+|      Edit (17:13)                                        |
+|  + updated src/module-04.ts                              |
+|      Edit (17:14)                                        |
+|  + updated src/module-05.ts                              |
+|      Edit (17:15)                                        |
+|  + updated src/module-06.ts                              |
+|      Edit (17:16)                                        |
+|  + updated src/module-07.ts                              |
+|      Edit (17:17)                                        |
+|  + updated src/module-08.ts                              |
+|      Edit (17:18)                                        |
+|  + updated src/module-09.ts                              |
+|      Edit (17:19)                                        |
+|  + updated src/module-10.ts                              |
+|      Edit (17:20)                                        |
+|  + updated src/module-11.ts                              |
+|      Edit (17:21)                                        |
+|  + updated src/module-12.ts                              |
+|      Edit (17:22)                                        |
+|  + updated src/module-13.ts                              |
+|      Edit (17:23)                                        |
+|  + updated src/module-14.ts                              |
+|      Edit (17:24)                                        |
+|  + updated src/module-15.ts                              |
+|      Edit (17:25)                                        |
+|  + updated src/module-16.ts                              |
+|      Edit (17:26)                                        |
+|  + updated src/module-17.ts                              |
+|      Edit (17:27)                                        |
+|  + updated src/module-18.ts                              |
+|      Edit (17:28)                                        |
+|  + updated src/module-19.ts                              |
+|      Edit (17:29)                                        |
++----------------------------------------------------------+
+|  ALSO SAID (not scored)                                  |
+|  ~ the docs were already current                         |
++----------------------------------------------------------+
+|  212 tool calls - 31 files changed - 4 test runs         |
+|    - 1 compaction                                        |
+|  cost $18.42 (API-equivalent) - cache hit 71%            |
+|  VERDICT: 20 VERIFIED                                    |
++----------------------------------------------------------+
+"
+`;
+
+exports[`committed snapshots (74 unicode · 60 ascii; goldens also at 80) > twenty-claims @74 unicode 1`] = `
+"  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #20c1a1d5 · Claude Code 2.1.214 · claude-sonnet-5          │
+  │  ~/proj/wattage · main · Jul 18 17:14 → 23:52 · 2h 05m               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ updated src/module-00.ts              Edit (17:10)                │
+  │  ✓ updated src/module-01.ts              Edit (17:11)                │
+  │  ✓ updated src/module-02.ts              Edit (17:12)                │
+  │  ✓ updated src/module-03.ts              Edit (17:13)                │
+  │  ✓ updated src/module-04.ts              Edit (17:14)                │
+  │  ✓ updated src/module-05.ts              Edit (17:15)                │
+  │  ✓ updated src/module-06.ts              Edit (17:16)                │
+  │  ✓ updated src/module-07.ts              Edit (17:17)                │
+  │  ✓ updated src/module-08.ts              Edit (17:18)                │
+  │  ✓ updated src/module-09.ts              Edit (17:19)                │
+  │  ✓ updated src/module-10.ts              Edit (17:20)                │
+  │  ✓ updated src/module-11.ts              Edit (17:21)                │
+  │  ✓ updated src/module-12.ts              Edit (17:22)                │
+  │  ✓ updated src/module-13.ts              Edit (17:23)                │
+  │  ✓ updated src/module-14.ts              Edit (17:24)                │
+  │  ✓ updated src/module-15.ts              Edit (17:25)                │
+  │  ✓ updated src/module-16.ts              Edit (17:26)                │
+  │  ✓ updated src/module-17.ts              Edit (17:27)                │
+  │  ✓ updated src/module-18.ts              Edit (17:28)                │
+  │  ✓ updated src/module-19.ts              Edit (17:29)                │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ the docs were already current                                     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
+  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
+  │  VERDICT: 20 VERIFIED                                                │
+  └──────────────────────────────────────────────────────────────────────┘
+"
+`;

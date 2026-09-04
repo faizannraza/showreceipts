@@ -572,6 +572,11 @@ export interface Receipt {
   hashPaths?: boolean;
   /** `no-turns` receipts: "12 records, 6 slash commands" (slash commands = `Diagnostics.localCommandPrompts`). */
   records?: number;
+  // --- additions (S20) ---
+  /** `no-turns` receipts: the slash-command count of the "(12 records, 6 slash commands)" text (§10.1). */
+  slashCommands?: number;
+  /** `no-final` receipts: the chosen final's `stop_reason` for "(stop_reason: tool_use)" (§10.1). */
+  finalStopReason?: string | null;
 }
 
 export interface TimelineEntry {
@@ -975,6 +980,8 @@ export interface DoctorHookReport {
   strict: boolean;
   trusted: true | false | 'unknown';
   trustNote?: string;
+  /** False when the config file exists but fails strict JSON parsing (comment-bearing or broken) — S23c `setup/inspect.ts`. */
+  configReadable?: boolean;
 }
 
 /** `doctor --json` (§12.3). */

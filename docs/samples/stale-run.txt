@@ -1,0 +1,18 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #57a1e000 · Claude Code 2.1.236 · claude-sonnet-5          │
+  │  ~/proj/cache · main · Jun 6 10:00 → 10:10 · 10m                     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ? Tests pass.                           uv run pytest -q → exit 0   │
+  │                                          9 passed (10:03)            │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ Nothing is committed yet.                                         │
+  │  ALSO DID (not mentioned)                                            │
+  │  · 1 file changed (src/core.py)                                      │
+  │  · 1 API error during the session                                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  cost $0.0002 (API-equivalent) · cache hit 0%                        │
+  │  VERDICT: 1 UNVERIFIED                                               │
+  └──────────────────────────────────────────────────────────────────────┘

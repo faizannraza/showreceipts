@@ -1,0 +1,18 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #da700000 · Claude Code 2.1.241 · claude-fable-5           │
+  │  ~/pr…/migrate · main · Jul 3 22:00 → Jul 5 23:40 · 3h 20m           │
+  │    · session Jul 3 → Jul 5 (2d)                                      │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ All 5 tests pass.                     uv run pytest -q → exit 0   │
+  │                                          5 passed (Jul 5 22:20)      │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                              │
+  │  ~ I did not commit anything.                                        │
+  │  ALSO DID (not mentioned)                                            │
+  │  · 1 file changed (src/stages.py)                                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  cost $0.0010 (API-equivalent) · cache hit 0%                        │
+  │  VERDICT: 1 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘

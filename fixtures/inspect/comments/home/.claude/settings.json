@@ -1,0 +1,8 @@
+{
+  // showreceipts stop hook (comments make this invalid strict JSON)
+  "hooks": {
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook claude-code Stop", "timeout": 30 } ] }
+    ]
+  }
+}

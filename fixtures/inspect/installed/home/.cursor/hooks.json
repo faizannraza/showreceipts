@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor sessionStart", "type": "command", "timeout": 5 } ],
+    "postToolUse": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor postToolUse", "type": "command", "timeout": 10 } ],
+    "postToolUseFailure": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor postToolUseFailure", "type": "command", "timeout": 10 } ],
+    "afterFileEdit": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor afterFileEdit", "type": "command", "timeout": 10 } ],
+    "afterAgentResponse": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor afterAgentResponse", "type": "command", "timeout": 10 } ],
+    "stop": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor stop", "type": "command", "timeout": 30, "loop_limit": 2 } ],
+    "sessionEnd": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor sessionEnd", "type": "command", "timeout": 10 } ]
+  }
+}

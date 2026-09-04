@@ -85,6 +85,8 @@ interface FlagHelp {
   readonly arg?: string;
   readonly text: string;
   readonly textBy?: Readonly<Partial<Record<CommandName, string>>>;
+  /** Per-command argument override; `''` drops the argument for that command. */
+  readonly argBy?: Readonly<Partial<Record<CommandName, string>>>;
 }
 
 const FLAG_HELP: Readonly<Record<string, FlagHelp>> = {
@@ -111,7 +113,13 @@ const FLAG_HELP: Readonly<Record<string, FlagHelp>> = {
   'no-cache': { text: 'Ignore the parse cache' },
   'as-of': { arg: '<date>', text: "Price everything at that date's rates (YYYY-MM-DD)" },
   prices: { arg: '<file>', text: 'Override prices.json' },
-  'hash-paths': { arg: '[=both]', text: 'Replace absolute paths with hashes (=both keeps a toggle)' },
+  'hash-paths': {
+    arg: '[=both]',
+    text: 'Replace absolute paths with hashes (=both keeps a toggle)',
+    // §12.1: only `report` takes `=both` (the HTML toggle); `export` hashes unconditionally.
+    argBy: { export: '' },
+    textBy: { export: 'Replace absolute paths with hashes' },
+  },
   turn: { arg: '<n>', text: 'Receipt for turn N instead of the last done turn' },
   'explain-claim': { text: 'Show how each claim was recognised and judged' },
   timeline: { text: 'Include the evidence timeline' },
@@ -159,7 +167,8 @@ function wrap(text: string, width: number, indent = 0): string[] {
 
 function formatFlag(spec: FlagSpec, command: CommandName): string {
   const help = FLAG_HELP[spec.name];
-  const left = help?.arg ? `--${spec.name} ${help.arg}` : `--${spec.name}`;
+  const arg = help?.argBy?.[command] ?? help?.arg;
+  const left = arg !== undefined && arg !== '' ? `--${spec.name} ${arg}` : `--${spec.name}`;
   const text = help?.textBy?.[command] ?? help?.text ?? '';
   return `  ${left.padEnd(24)} ${text}`.trimEnd();
 }

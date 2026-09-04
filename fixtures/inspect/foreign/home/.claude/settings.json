@@ -1,0 +1,8 @@
+{
+  "disableAllHooks": true,
+  "hooks": {
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "/home/u/bin/session-logger.sh --on-stop", "timeout": 10 } ] }
+    ]
+  }
+}

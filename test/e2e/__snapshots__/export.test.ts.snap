@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`export --md > matches the snapshot and is deterministic across runs 1`] = `
+"**showreceipts** · **NO CLAIMS** · Claude Code 2.1.251 · claude-fable-5 · rules claims/1+reconcile/1 · v0.1.0
+
+**receipt #6954d8ef** · /home/u · HEAD · Aug 30 02:47 → 02:59 · 11m · turn 1 · session Aug 29 → Aug 30 (1d)
+
+no claims recognized in the final message (0 claims · 3 sentences)
+
+**ALSO DID (not mentioned)**
+
+- 3 files changed (/tmp/claude/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/scratchpad/design/IDEA.md, .claude/projects/-home-u/memory/dEhxhZne.md, .claude/projects/-home-u/memory/MEMORY.md)
+- 1 file written to temp dirs
+- **!** 2 files written to harness config (.claude/projects/-home-u/memory/dEhxhZne.md, …)
+- **!** /home/u/.claude/projects/-home-u/memory/dEhxhZne.md
+- **!** /home/u/.claude/projects/-home-u/memory/MEMORY.md
+- contacted: registry.npmjs.org (inferred)
+- +1 more
+
+claims recognized: 0 (of which 0 not scored) · 3 sentences scanned
+22 tool calls · 3 files changed · 0 test runs
+
+cost $29.16 (API-equivalent) · cache hit 89%
+
+**VERDICT: NO CLAIMS**
+
+_evidence from log only_
+"
+`;

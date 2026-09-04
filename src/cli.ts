@@ -65,6 +65,19 @@ async function dispatch(
   return module.run(ctx);
 }
 
+/**
+ * Usage errors come from two places: this layer's `UsageError` (argv parsing)
+ * and lower layers that must not import the cli layer at runtime (§0.5) —
+ * `commands/common.ts` and `render/box.ts` raise their own classes carrying
+ * `name: 'UsageError'` and `exitCode: 2`. Duck-typing keeps the §12.2 exit-2
+ * contract without an upward import (S23c).
+ */
+function isUsageShaped(err: unknown): err is UsageError {
+  if (err instanceof UsageError) return true;
+  if (!(err instanceof Error)) return false;
+  return err.name === 'UsageError' && (err as { exitCode?: unknown }).exitCode === 2;
+}
+
 function reportFailure(err: unknown, argv: readonly string[], stdout: NodeJS.WritableStream, stderr: NodeJS.WritableStream): number {
   if (peekCommand(argv).command === 'hook') {
     // §9: the hook never blocks a tool. Whatever failed, answer with an empty
@@ -76,7 +89,7 @@ function reportFailure(err: unknown, argv: readonly string[], stdout: NodeJS.Wri
     }
     return 0;
   }
-  if (err instanceof UsageError) {
+  if (isUsageShaped(err)) {
     stderr.write(`showreceipts: ${err.message}\n${usageFooter(err.command)}\n`);
     return 2;
   }
@@ -95,6 +108,21 @@ function swallowStreamErrors(stream: NodeJS.WritableStream): void {
 }
 
 /**
+ * §12.2 / S23c decision: for non-hook commands an interrupted pipe
+ * (`showreceipts audit | head`) is not a failure. The EPIPE arrives as an
+ * asynchronous `'error'` event once the reader closes; unhandled it would
+ * crash the process with exit 1 and a stack trace after the command already
+ * produced its exit code. Only EPIPE is swallowed — any other stream error
+ * still surfaces. Injected test sinks without an `on` method are left alone.
+ */
+function swallowEpipe(stream: NodeJS.WritableStream): void {
+  if (typeof (stream as { on?: unknown }).on !== 'function') return;
+  stream.on('error', (err: NodeJS.ErrnoException) => {
+    if (err?.code !== 'EPIPE') throw err;
+  });
+}
+
+/**
  * Runs the CLI and returns its exit code. Called with no overrides (from
  * `bin/showreceipts.js` or `node dist/cli.js`) it uses the real process
  * streams and sets `process.exitCode`; with overrides it is a pure in-process
@@ -105,6 +133,7 @@ export async function main(argv: readonly string[], overrides?: MainOptions): Pr
   const stdout = ctxOverrides.stdout ?? process.stdout;
   const stderr = ctxOverrides.stderr ?? process.stderr;
   if (peekCommand(argv).command === 'hook') swallowStreamErrors(stdout);
+  else swallowEpipe(stdout);
   let code: number;
   try {
     code = await dispatch(argv, ctxOverrides, loaders ?? {}, stdout);

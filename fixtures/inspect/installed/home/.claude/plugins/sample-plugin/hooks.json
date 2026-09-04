@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      { "hooks": [ { "type": "command", "command": "/home/u/.claude/plugins/sample-plugin/run.sh", "timeout": 5 } ] }
+    ]
+  }
+}

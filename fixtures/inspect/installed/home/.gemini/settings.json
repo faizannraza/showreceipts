@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      { "matcher": "", "hooks": [ { "name": "showreceipts-start", "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook gemini SessionStart", "timeout": 5000 } ] }
+    ],
+    "AfterTool": [
+      { "matcher": "", "hooks": [ { "name": "showreceipts-record", "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook gemini AfterTool", "timeout": 10000 } ] }
+    ],
+    "AfterAgent": [
+      { "matcher": "", "hooks": [ { "name": "showreceipts-stop", "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook gemini AfterAgent", "timeout": 30000 } ] }
+    ],
+    "SessionEnd": [
+      { "matcher": "", "hooks": [ { "name": "showreceipts-end", "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook gemini SessionEnd", "timeout": 5000 } ] }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #00decaf0 · Claude Code 2.1.241 · claude-fable-5           │
+  │  ~/proj/wattage · main · Aug 23 23:15 → Aug 24 01:38 · 2h 22m        │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                 EVIDENCE                    │
+  │  ✓ All 339 tests pass.                   uv run pytest -q → exit 0   │
+  │                                          339 passed (23:29)          │
+  │  ✓ Ruff clean.                           ruff check . → exit 0       │
+  │                                          (23:29)                     │
+  │  ✓ Mypy --strict clean.                  mypy --strict src → exit 0  │
+  │                                          (23:29)                     │
+  │  ✓ Committed the changes as `1fc0c28`.   git commit → 1fc0c28        │
+  │                                          (23:31)                     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                            │
+  │  · 87 files changed (src/wattage/adapters/)                          │
+  │  · contacted: pypi.org, api.github.com (inferred)                    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  418 tool calls · 87 files changed · 9 test runs · 12 subagents      │
+  │  cost $41.07 (API-equivalent) · cache hit 84%                        │
+  │  VERDICT: 4 VERIFIED                                                 │
+  └──────────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`80-column full audit screen (fixture tree) > header + session table + rate table + latest receipt, snapshotted 1`] = `
+"showreceipts 0.1.0 · scanned 2 sessions · Claude Code 1 · Codex 1
+  · Jul 18 – Aug 23
+
+ID        HARNESS             MODEL            DATE    CLAIMS  VERDICT  COST
+21cf6a82  cc 2.1.214→2.1.236  claude-sonnet-5  Aug 23  45      UNVER    $73.74
+9e0f1a2b  codex 0.148.0       gpt-5.6-terra    Aug 15  8       CONTRA   ≈$0.02
+
+claude-sonnet-5 · Claude Code 2.1.214  —  (0 of 7)
+claude-sonnet-5 · Claude Code 2.1.236  —  (0 of 3)
+gpt-5.6-terra · Codex 0.148.0  —  (1 of 2)
+claude-fable-5 · Claude Code 2.1.214  —  (0 of 1)
+claude-opus-4-8 · Claude Code 2.1.214  —  (0 of 1)
+
+  ┌────────────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #21cf6a82 · Claude Code 2.1.214→2.1.236 · claude-sonnet-5        │
+  │  ~/proj · main · Aug 23 23:15 → 23:15 · <1m                                │
+  │    · session Jul 18 → Aug 23 (36d)                                         │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  CLAIMED                                     EVIDENCE                      │
+  │  ✓ Confirmed: \`origin/main\` matches your l…  git check-ignore -v u.md →    │
+  │                                              exit 0 (chained) (23:15)      │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  ALSO SAID (not scored)                                                    │
+  │  ~ Confirmed: \`origin/main\` matches your local \`main\` at \`95f9911\`,        │
+  │    working tree is clean, and \`u.md\` remains properly gitignored (won't …  │
+  │  ALSO DID (not mentioned)                                                  │
+  │  · contacted: origin (host unknown) (inferred)                             │
+  │  · referenced PR #5                                                        │
+  │  · 3 API errors during the session                                         │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  1 tool call · 0 files changed · 0 test runs                               │
+  │  cost $73.74 (API-equivalent) · cache hit 99%                              │
+  │  VERDICT: 1 VERIFIED                                                       │
+  └────────────────────────────────────────────────────────────────────────────┘
+
+report → .showreceipts/report.html     setup → npx showreceipts setup"
+`;
+
+exports[`doctor renderer > renders roots, harnesses, hooks, ledgers, prices, cache, warnings and problems 1`] = `
+[
+  "node v26.0.0 darwin",
+  "",
+  "roots",
+  "  showreceipts  /home/u/.showreceipts",
+  "  claude        /home/u/.claude",
+  "  codex         /home/u/.codex",
+  "  home          /home/u",
+  "",
+  "harnesses",
+  "  claude-code /home/u/.claude · 37 sessions · 12.0 MB · versions 2.1.214, 2.1.251 · installed 2.1.251 · 2 bad lines",
+  "  codex       /home/u/.codex · not found",
+  "",
+  "hooks",
+  "  claude-code (user) /home/u/.claude/settings.json · installed",
+  "",
+  "ledgers",
+  "  5 sessions · 1 partial · 0 gaps · stdin overflow 0 · stop budget exceeded 0",
+  "",
+  "prices",
+  "  version 2026-08-29",
+  "  ! unverified rates in use",
+  "  ! unpriced: mystery-model-1",
+  "",
+  "cache",
+  "  41 entries · 1.0 MB",
+  "",
+  "warnings",
+  "  ! claude-code 2.1.260 has no fixture",
+  "",
+  "problems",
+  "  ✗ unreadable root: /home/u/.claude/projects/locked",
+]
+`;
+
+exports[`timeline renderer > wide mode: one row per entry under the header, every line fitting 1`] = `
+[
+  "TIME         TOOL  SUMMARY                                         EXIT  FILES  $        AGENT",
+  "10:05        Bash  uv run pytest -q                                0            $0.0042",
+  "10:06        Edit  /home/u/proj/src/x.ts                                 x.ts",
+  "Aug 2 09:00  Bash  ! rm -rf /tmp/scratch                           1                     a:a271fd7",
+]
+`;

@@ -1,0 +1,116 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`the audit screen (text) > matches the 80-column snapshot with no temp path leaked (home shown as ~) 1`] = `
+"showreceipts 0.1.0 · scanned 9 sessions · Claude Code 6 · Codex 3
+  · Feb 10 – Aug 30
+
+ID      HARNESS             MODEL            DATE    CLAIMS  VERDICT  COST
+695…ef  cc 2.1.251          claude-fable-5   Aug 30  0       NONE     $29.16
+1f5…70  cc 2.1.243          unknown          Aug 29  0       —        n/a
+2c7…eb  cc 2.1.241          claude-fable-5   Aug 29  8       UNVER    $136.03
+21c…82  cc 2.1.214→2.1.236  claude-sonnet-5  Aug 23  45      UNVER    $73.74
+576…d1  cc 2.1.235          claude-fable-5   Aug 21  4       OK       $140.54
+f15…8e  cc 2.1.215→2.1.233  claude-fable-5   Aug 18  52      UNVER    $277.74
+9e0…2b  codex 0.148.0       gpt-5.6-terra    Aug 15  8       CONTRA   ≈$0.02
+4ff…73  codex 0.98.0        gpt-5.2-codex    Feb 11  26      UNVER    ≈$7.89
+177…b3  codex 0.98.0        gpt-5.2-codex    Feb 10  1       UNVER    ≈$0.07
+
+  ┌────────────────────────────────────────────────────────────────────────────┐
+  │  RECEIPT  #6954d8ef · Claude Code 2.1.251 · claude-fable-5                 │
+  │  ~ · HEAD · Aug 30 02:47 → 02:59 · 11m                                     │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  no claims recognized in the final message (0 claims · 3 sentences)        │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  ALSO DID (not mentioned)                                                  │
+  │  · 3 files changed                                                         │
+  │    (/tmp/claude/-home-u/6954d8ef-eedb-4b23-8cdc-17e422453dfa/scratchpad/…  │
+  │  · 1 file written to temp dirs                                             │
+  │  ! 2 files written to harness config                                       │
+  │    (.claude/projects/-home-u/memory/dEhxhZne.md, …)                        │
+  │  ! /home/u/.claude/projects/-home-u/memory/dEhxhZne.md                     │
+  │  ! /home/u/.claude/projects/-home-u/memory/MEMORY.md                       │
+  │  · contacted: registry.npmjs.org (inferred)                                │
+  │  · +1 more                                                                 │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │  22 tool calls · 3 files changed · 0 test runs                             │
+  │  cost $29.16 (API-equivalent) · cache hit 89%                              │
+  │  VERDICT: NO CLAIMS                                                        │
+  └────────────────────────────────────────────────────────────────────────────┘
+
+claude-fable-5 · Claude Code 2.1.215
+    0/13 done turns contradicted (0%) · 7 unverified
+gpt-5.2-codex · Codex 0.98.0  0/10 done turns contradicted (0%) · 8 unverified
+claude-sonnet-5 · Claude Code 2.1.214  —  (0 of 7)
+claude-fable-5 · Claude Code 2.1.241  —  (0 of 3)
+claude-sonnet-5 · Claude Code 2.1.236  —  (0 of 3)
+claude-opus-5 · Claude Code 2.1.235  —  (0 of 2)
+gpt-5.6-terra · Codex 0.148.0  —  (1 of 2)
+claude-fable-5 · Claude Code 2.1.214  —  (0 of 1)
+claude-opus-4-8 · Claude Code 2.1.214  —  (0 of 1)
+claude-fable-5 · Claude Code 2.1.233  —  (0 of 0)
+claude-fable-5 · Claude Code 2.1.235  —  (0 of 0)
+claude-fable-5 · Claude Code 2.1.251  —  (0 of 0)
+claude-opus-4-8 · Claude Code 2.1.235  —  (0 of 0)
+
+report → .showreceipts/report.html     setup → npx showreceipts setup
+"
+`;
+
+exports[`the audit screen (text) > renders narrow mode within --width 60 1`] = `
+"showreceipts 0.1.0 · scanned 9 sessions · Claude Code 6
+  · Codex 3 · Feb 10 – Aug 30
+
+ID      HARNESS   MODEL     DATE    CLAIMS  VERDICT  COST
+695…ef  cc 2.1.…  claude-…  Aug 30  0       NONE     $29.16
+1f5…70  cc 2.1.…  unknown   Aug 29  0       —        n/a
+2c7…eb  cc 2.1.…  claude-…  Aug 29  8       UNVER    $136.03
+21c…82  cc 2.1.…  claude-…  Aug 23  45      UNVER    $73.74
+576…d1  cc 2.1.…  claude-…  Aug 21  4       OK       $140.54
+f15…8e  cc 2.1.…  claude-…  Aug 18  52      UNVER    $277.74
+9e0…2b  codex 0…  gpt-5.6…  Aug 15  8       CONTRA   ≈$0.02
+4ff…73  codex 0…  gpt-5.2…  Feb 11  26      UNVER    ≈$7.89
+177…b3  codex 0…  gpt-5.2…  Feb 10  1       UNVER    ≈$0.07
+
+┌──────────────────────────────────────────────────────────┐
+│  RECEIPT #6954d8ef · Claude Code 2.1.251 · claude-fable-5│
+│  ~ · HEAD · Aug 30 02:47 → 02:59 · 11m                   │
+├──────────────────────────────────────────────────────────┤
+│  no claims recognized in the final message (0 claims · 3 │
+│  sentences)                                              │
+├──────────────────────────────────────────────────────────┤
+│  ALSO DID (not mentioned)                                │
+│  · 3 files changed                                       │
+│    (/tmp/claude/-home-u/6954d8ef-eedb-4b23-8cdc-17e42245…│
+│  · 1 file written to temp dirs                           │
+│  ! 2 files written to harness config                     │
+│    (.claude/projects/-home-u/memory/dEhxhZne.md, …)      │
+│  ! /home/u/.claude/projects/-home-u/memory/dEhxhZne.md   │
+│  ! /home/u/.claude/projects/-home-u/memory/MEMORY.md     │
+│  · contacted: registry.npmjs.org (inferred)              │
+│  · +1 more                                               │
+├──────────────────────────────────────────────────────────┤
+│  22 tool calls · 3 files changed · 0 test runs           │
+│  cost $29.16 (API-equivalent) · cache hit 89%            │
+│  VERDICT: NO CLAIMS                                      │
+└──────────────────────────────────────────────────────────┘
+
+claude-fable-5 · Claude Code 2.1.215
+    0/13 done turns contradicted (0%) · 7 unverified
+gpt-5.2-codex · Codex 0.98.0
+    0/10 done turns contradicted (0%) · 8 unverified
+claude-sonnet-5 · Claude Code 2.1.214  —  (0 of 7)
+claude-fable-5 · Claude Code 2.1.241  —  (0 of 3)
+claude-sonnet-5 · Claude Code 2.1.236  —  (0 of 3)
+claude-opus-5 · Claude Code 2.1.235  —  (0 of 2)
+gpt-5.6-terra · Codex 0.148.0  —  (1 of 2)
+claude-fable-5 · Claude Code 2.1.214  —  (0 of 1)
+claude-opus-4-8 · Claude Code 2.1.214  —  (0 of 1)
+claude-fable-5 · Claude Code 2.1.233  —  (0 of 0)
+claude-fable-5 · Claude Code 2.1.235  —  (0 of 0)
+claude-fable-5 · Claude Code 2.1.251  —  (0 of 0)
+claude-opus-4-8 · Claude Code 2.1.235  —  (0 of 0)
+
+report → .showreceipts/report.html
+setup → npx showreceipts setup
+"
+`;

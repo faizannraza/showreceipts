@@ -460,3 +460,314 @@ Carried unchanged (documented deviations, not defects): S17's session-wide
 `opaqueTestCapable` no-test-run guard, `Explanation.row = 24` for echoed
 claims, and evidence notes appended to the last evidence string (renderer
 composition to be confirmed in S20).
+
+### W4/S22 — HTML report; npm size limits raised (lead note)
+
+**Size limits.** The npm tarball stood at 198.5/200 KB before this wave's
+render assets. Per the post-W3 lead note, `scripts/size.mjs` limits are
+raised rather than compromising the report: tarball 200 KB → **300 KB**,
+unpacked 600 KB → **900 KB** (measured after S22: 242.9 KB / 875.8 KB with
+the W4 renderers in `dist/`). Keep minifying sensibly first; the limits are
+still hard gates under `--strict`.
+
+**S22 shape decisions (renderer-local, no architecture change).**
+- The `#data` block is one JSON object `{mode, payload, hashed?}` so `both`
+  embeds two payloads while the document keeps exactly three `<script>`s.
+- `--hash-paths` over a multi-session payload hashes each card/receipt/
+  timeline against its own session cwd (rate rows against none), via the
+  imported S18 `hashStrings` with `extraTokens` — never extended.
+- Budget stage 2 marks hidden runs with in-band positional gap rows
+  (`+N hidden`, flag `gap`) so the app can band them without a payload-type
+  extension; per-session totals also come back as `BudgetReport.hiddenRows`.
+- A degradation stage is recorded in `BudgetReport.degraded` only when it
+  actually changed the payload; `overCap` stays true when even stage 3
+  cannot get under 16 MB (the renderer/CLI warns, nothing is silently cut
+  beyond the three stages).
+
+### W4/S22 — review fixes (post-review pass)
+
+- **§11.4/§11.2 completed, not deviated.** `report.js` now implements the
+  full shortcut set (`o`, `/`, `t`, `h`, `[`, `]`, `e` alongside
+  j/k/arrows/Enter/Esc/`?`), the §11.2 model / project / date-range /
+  text-search filters (regex-validated router keys `fm`/`fp`/`d1`/`d2`/`q`;
+  search covers title, cwd, model and the receipt's claim texts), the header
+  scanned range + per-harness counts, and the §11.2 footer privacy note.
+  The shortcuts on/off switch moved from the header into the `?` sheet per
+  §11.4; a header `?` button opens the sheet by pointer, so the switch stays
+  reachable with shortcuts off — and with them off, `?` no longer fires
+  (only Esc still closes the open sheet, as a dialog escape rather than a
+  WCAG 2.1.4 single-character shortcut).
+- **Remaining §11.2 naming deviation (recorded).** Router keys are the S22
+  `fh`/`fv`/`fm`/`fp`/`tf`/`q`/`d1`/`d2` set, not the `#h=…&v=…` example
+  names of §11.2; "project" is the last path segment of the session cwd.
+- **Export JSON (§11.2).** Now the specified
+  `data:application/json;charset=utf-8` href with a per-session filename:
+  `receipt-<shortId>.json` exporting the open session's receipt, or
+  `receipt-all.json` exporting the whole payload from the overview. The
+  (large) href is built lazily in the click handler so renders stay cheap.
+- **§11.3 palette (recorded deviation).** The token vocabulary and several
+  values differ from §11.3 (`ink`/`line`/`sel`/`pillInk`/`card` vs
+  `fg`/`rule`/`row-hover`/`pill-bg`; bg `#f2efe9` vs `#f4f2ec`; accent
+  `#0b57d0` vs `#0969da`; verdict pills are colour-filled with a
+  white/near-black label instead of `--pill-bg`). The §11.3 scaffolding
+  (light on bare `:root`, dark under the guarded media query AND
+  `[data-theme="dark"]`) is exact, and `test/render/html-contrast.test.ts`
+  now iterates the full §11.3-equivalent surface matrix —
+  ink/muted/accent/ok/bad/unk over bg/card/paper/band/sel, both palettes —
+  at ≥ 4.5:1 (stronger than the §11.3 floor, which allows 3:1 for
+  glyph-only colours), plus the pill labels and the focus ring at ≥ 3:1.
+- **`finalText` caps (§11.1).** The 16 KB `--full` cap is now inclusive of
+  the appended ellipsis (truncate to 16 384 − 3 bytes, then `…`), and the
+  600-char brief form carries the §11.1 trailer
+  `…show full in session <shortId>`.
+- **Open for the lead at the W4 gate (no unilateral change made).** Unpacked
+  dist now warns just over the 900 KB cap (parallel W4 steps landed after
+  the S22 measurement; this pass adds ~4 KB of report.js) — raise the cap or
+  minify/trim dist before `--strict`. The pre-existing `src/` 12 000-line
+  budget warning (~25k lines) also needs a ruling.
+
+### W4/S23b — demo command, §10.2 sample reconciliation, SVG
+
+**Reconciliation protocol.** The four §10.2 samples and the 60-column ASCII
+sample are now the byte-exact output of
+`demo --width 74 --tz utc --no-color --unicode` (narrow:
+`--width 60 --ascii --no-color`) over the S23a scenarios, pinned in
+`fixtures/render/samples-spec/*.txt`. The pins are written only under
+`UPDATE_SAMPLES_SPEC=1` (one reconciliation pass), never by `UPDATE_GOLDENS`,
+so renderer drift fails `test/render/demo.test.ts` even after a golden
+refresh; regenerating them requires a new recorded decision here. No sample
+text was hand-edited — every §10.2 change traces to a decision below.
+
+- **(a) No ALSO SAID on the spec samples** — as planned: the four spec
+  finals carry no negated, deferred, excluded or third-party clause; every
+  other scenario's final has ≥ 1 negated claim (§14.1 patched).
+- **(b) Stats zero items** — `0 test runs` stays alongside tool calls and
+  files changed (§10.1 patched; S20 already implements it).
+- **(c) Evidence clocks** — every evidence string carries `(HH:MM)` (S17)
+  and wraps instead of dropping the time. At `E = 26` the long labels wrap,
+  so §10.2 shows `ruff check . → exit 0` / `(23:29)` and
+  `git commit → 1fc0c28` / `(23:31)` as two-line evidence cells rather than
+  the plan's single-line guesses; `no git commit in log` gained `(23:52)`.
+- **(d) Narrow header re-flow and ALSO DID continuation** — exactly the S20
+  implementation; the 60-column sample is regenerated from it.
+- **(e) Worst-first sample order** — §10.1's worst-first CLAIMED rule wins
+  over the old §10.2 sample's ✓-first ordering; sample 1 now leads with
+  `✗ Lint is clean.`.
+- **(f) Claims render the extracted clause verbatim** — capitalised
+  sentences with backticks and trailing periods
+  (`✓ Updated `src/wattage/models.py`.`), not the old sample's normalised
+  lower-case forms. The contradicted final was split into one sentence per
+  claim (scenario tuning) so each file claim carries its own path.
+- **(g) Evidence labels are the full segment text** — `ruff check . → exit 1`,
+  `uv run pytest -q → exit 0`, `mypy --strict src → exit 0`; the old
+  sample's short forms (`ruff`, `uv run pytest`, `mypy`) do not exist in the
+  frozen S17 engine.
+- **(h) Session-span token only from 2 day boundaries** — the all-VERIFIED
+  overnight sample rendered ` · session Aug 23 → Aug 24 (1d)`, forcing a cwd
+  shrink, though its end clock already names the day. `render/term.ts` now
+  omits the token when `sessionSpan.days < 2` (§10.1 patched); the receipt
+  JSON keeps `sessionSpan` unchanged.
+- **(i) ALSO DID lines are the pipeline's real lines** — sample 1:
+  `· 29 more files changed (src/wattage/, /tmp/demo-scratch/, tests/)` (the
+  old "edited tests/test_normalize.py after last green run" bullet was
+  untrue of the scenario: the test edit sits between green runs, so pytest
+  stays VERIFIED); sample 2: `· 87 files changed (src/wattage/adapters/)`
+  (no file claims, so nothing is "more"); sample 4 drops the `npm test`
+  bullet (S18 lists unmentioned files, not unmentioned test runs).
+- **(j) Codex scenario tuning** — the notebook heredoc runs detached
+  (`exit: null`): with every other command inspection-free, frozen row 19
+  yields `no-run-after-write`, so the receipt is `2 UNVERIFIED` as specced
+  (a green heredoc would have VERIFIED "works as expected"). ALSO DID gains
+  the reader's `· 1 command moved to background (exit unknown)` line. The
+  §10.2 project is `~/proj/cyclone` (the S23a rename — the old name is on
+  the fixtures' forbidden list), and the final's first sentence is
+  `Created lea_col_drop_preview.ipynb.` so the claim fits the 36-column
+  budget untruncated.
+- **(k) Ruff tail tuning** — the red ruff output carries no
+  `Found N errors.` summary line, so the check-red note is `never re-run`
+  and the evidence fits its two lines; with the summary, line 2 truncated to
+  `(23:44) Found 2 errors., …`.
+- **(l) Durations tuned to the sample clocks** — codex `durationMin: 13.1`
+  renders `04:56 → 05:09 · 13m`; cursor ledger `durationMin: 10` (stop event
+  at −0.02 min) renders `10:02 → 10:11 · 9m`.
+- **`demo` defaults (S23b).** `--tz` defaults to `utc` for `demo` (the
+  global flag default stays `local`); the cache and user price overrides are
+  never touched; `homeDir` is fixed at `/home/u`; render options resolve
+  through S20 `resolveCols`/`decideUnicode`/`colorEnabled`; `--json` emits
+  the receipts as one `stableStringify` array; hidden `--svg FILE` writes
+  the first scenario's SVG. `demo` reads `process.platform` directly for the
+  unicode default — the command context carries no platform seam (S23c/S24
+  may rewire through `commands/common.ts`).
+- **SVG (S23b).** Deterministic dark-paper document: paper `#12161c`, ink
+  `#e6edf3`, ok `#3fb950`, bad `#f85149`, unk/warn `#d29922`, dim `#8b949e`;
+  font-size 14 with `cw = 8.4`; one
+  `<text xml:space="preserve" textLength lengthAdjust="spacingAndGlyphs">`
+  per line; `<tspan fill>` runs parsed from the S20 SGR paint; only
+  `svg|rect|g|text|tspan` elements, no scripts, links or external
+  references (golden + hygiene tests in `test/render/svg.test.ts`).
+
+### W4/S23c — command plumbing, hook inspection, JSON schema
+
+- **`resolvable` is a static check, not a launcher run (§9 deviation,
+  ARCHITECTURE patched).** `setup/inspect.ts` verifies the
+  `~/.showreceipts/bin/launcher.json` sidecar (parses; `node`/`cli`/
+  `launcher` paths exist; launcher executable) and never spawns —
+  `child_process` stays confined to `commands/report.ts` (§13.4). Every
+  hooks row carries `resolvableNote: 'static check; the harness process
+  PATH may differ'`; the real `--version` run happens only in S31's
+  launcher test. §9 and §12.3 were patched accordingly.
+- **`DoctorHookReport.configReadable?`** (optional, S02 type extended): a
+  config file that exists but fails strict JSON parsing is reported with
+  `configReadable:false` and inspected best-effort through a comment-stripped
+  parse (Gemini legitimately allows comments); it is never rewritten.
+  Uninstalled harnesses still get a user-scope row (`installed:false`,
+  `resolvable:null`) so `doctor` can say "not installed" per harness.
+- **Usage errors below the cli layer.** §0.5 allows `commands → cli/args`
+  only as a type-only import, so `commands/common.ts` cannot throw the
+  argv `UsageError` class. It throws its own `CommandUsageError`
+  (`name:'UsageError'`, `exitCode:2`, optional `command`), and
+  `cli.ts reportFailure` now duck-types on `name === 'UsageError' &&
+  exitCode === 2` (covers `render/box.ts`'s class too). Exit-2 semantics are
+  unchanged for argv errors.
+- **Non-hook EPIPE exit code (deferred decision resolved).** An interrupted
+  pipe (`showreceipts audit | head`) is not a failure: `main` attaches an
+  stdout `'error'` listener for non-hook commands that swallows EPIPE only,
+  so the exit code stays whatever the command returned; any other stream
+  error still surfaces. S26's e2e pins the behaviour end-to-end.
+- **`--until` day semantics.** A `YYYY-MM-DD` value names its whole day: the
+  boundary is the following UTC midnight (exclusive); `Nd` counts back from
+  `ctx.now` with no bump. `LoadOptions` has no `until` — commands apply
+  `Prepared.untilMs` after loading.
+- **`SHOWRECEIPTS_NO_CACHE`**: any non-empty value except `0` disables the
+  cache (the docs say `=1`; `=true` should not silently enable caching).
+- **Platform seam.** `prepare(ctx, {platform})` defaults to
+  `process.platform` (the context carries no platform, per the S23b note);
+  it steers only the unicode default. `demo` keeps its own direct read.
+- **Progress line.** `scanning … <done>/<total> sessions` on stderr, armed
+  after 500 ms, repainted per session, cleared with CR + spaces before any
+  output; no-op off-TTY and under `--json` (the S36 perf step reuses it).
+- **Home price override is non-fatal (§8.1).** An invalid
+  `~/.showreceipts/prices.json` adds one `Prepared.priceNotes` line
+  ("… — override ignored"); an invalid or unreadable `--prices` file throws
+  `PriceTableError` → exit 1.
+- **Schema grammar.** `docs/receipt-schema.md` encodes §12.3 as
+  ```schema-fenced JSON whose string values are annotations
+  (`string|null`, `enum(a|b)`, `record(T)`, `const:X`, `[T]`, `Key?`,
+  capitalised references). `test/helpers/schema.ts` validates structurally
+  (required keys, primitive types, enum members); extra keys are tolerated
+  so the schemas name the guaranteed surface. The schema self-tests live in
+  `test/unit/helpers/schema.test.ts` (a file the step list did not name) and
+  include validating `demo --json` receipts against the `Receipt` block.
+- **`commands/help.ts` owns the shared §12.4 option table** going forward
+  (the cli layer may import commands, never the reverse);
+  `test/unit/commands/help.test.ts` pins its rows against `cli/args.ts`
+  `FLAG_SPECS` and the S01 renderer so the copies cannot drift.
+- **`fixtures/inspect/**` is fully synthetic** (every path under `/home/u`,
+  `__ROOT__` placeholders for the launcher sidecar); the standing
+  fixtures-privacy scan covers `src/` and `test/` by hash, and the new tree
+  adds no real identifier.
+
+### W4 integration close (lead)
+
+Wave-gate M3 pass over S20–S26. The full chain (typecheck, build,
+unit/golden/render/fuzz suite, e2e, lint:nonet, deps:guard, size) was green
+before and after these changes; review findings were fixed where cheap and
+safe, and recorded here where a deviation is the better engineering call.
+
+Fixed at the gate (code):
+
+- **Session prefix matching covers the transcript filename (§4.1).**
+  `pipeline/resolve-session.ts resolveId` now also matches a prefix of the
+  transcript file name (case-insensitive), and a bare `*.jsonl` selector that
+  names no file on disk falls back to id/filename matching instead of failing
+  as a path — so `session rollout-2026…` resolves a Codex session, as §4.1
+  promises. `session`/`export` share the resolver; tests added.
+- **`report.js` conforms to the §11.2/§11.4 storage keys and §4.1 short
+  ids.** The localStorage keys are the architecture's `showreceipts.theme` /
+  `showreceipts.keys` (were `sr-theme`/`sr-keys`, an S22 naming deviation no
+  longer worth carrying), and the router's `s` regex is `{8,12}` (shortIds
+  are 8 hex, widened to 12 on collision — `{8,16}` was looser than anything
+  the tool emits).
+- **Timeline last-green band survives flag filters.** The `· after last
+  green run ·` band was silently dropped when a timeline flag filter (e.g.
+  `tf=write`) hid the last green test row, because the band was appended
+  inside the same callback that early-returns on filtered rows; it is now
+  appended on the filtered branch too (source-pinned in
+  `test/render/report-js.test.ts`).
+- **`export --help` matches §12.1.** The options row read
+  `--hash-paths [=both]`; `=both` (the HTML toggle) belongs to `report`
+  only. The argv layer still tolerates `--hash-paths=both` for `export`
+  (treated as plain `true`) so nothing written against the old help breaks.
+- **Appendix D "at most one `/`" enforced literally.** `bench/validate.ts
+  checkString` refused a slash only outside `schema`/`generator.rulesVersion`;
+  a second slash *inside* those two paths now also refuses (unreachable via
+  the compile-time constants today — hardening only). The command-level
+  refusal wiring (validate → `bench --publish refused: <rule>` on stderr →
+  exit 1, nothing written) gained a direct test: a home directory literally
+  named `showreceipts` makes the username scan hit the payload's own
+  `schema` string.
+- **Demo DSL cleanup (S23a review).** The inert `Scenario.hosts` field is
+  gone (the pip/gh commands already carry the hosts, with comments); the
+  no-op `.replace('T', 'T')` in the Codex rollout stamp is deleted with a
+  comment that the demo stamp is UTC by design; the §10.2 sample-3 test now
+  pins `counts.UNVERIFIED` to exactly 2 (decision (j) restructured the
+  scenario, so S23a's documented relaxation is no longer needed).
+- **e2e diagnosability (S26 review).** `cache.test.ts`'s cold run is a lazy
+  memo and `pack.test.ts`'s global install moved into `beforeAll`, so a
+  spawn failure attributes to a named test or hook instead of file
+  collection (and dependent pack tests skip instead of crashing on an unset
+  `cli`); `version.test.ts`'s title now says what it asserts (the 80 ms
+  median is a recorded soft budget with a ×3 pathology ceiling; the hard
+  perf gates are S36's). `report.test.ts` keeps its describe-scope runs —
+  same class, but a failure there is a clearly attributed collection error,
+  not a crash.
+
+Ratified as deviations / rulings (no code change):
+
+- **The boxed receipt omits the `claims recognized: N (of which M not
+  scored)` line.** §5.3/§12.3 say "always printed"; the byte-pinned §10.2
+  samples show no such line, and S20 followed the samples. Ruling: the
+  guarantee holds on the JSON surface (`claimsRecognized`, `notScored`,
+  `sentencesScanned` are always in the Receipt) and in the `no-claims`
+  kind's body text; read §5.3's "always printed" as "always present in the
+  receipt data".
+- **Invalid `--turn N` is exit 2 (usage error), not 5.** §12.2's exit-5 row
+  covers session *resolution* only; a turn index outside the session is a
+  usage error. `session` and `export` behave identically (e2e-pinned).
+- **The report CSP directive list is shorter than §11.1 and strictly
+  tighter.** The emitted policy is `default-src 'none'` + hashed
+  `script-src`/`style-src` + `base-uri 'none'`/`form-action 'none'`;
+  §11.1's `object-src 'none'` is subsumed by `default-src 'none'`, and
+  `img-src data:` would *loosen* the policy for images the report never
+  embeds. Deliberate; do not add them.
+- **Progress-line `isTTY` means stdout.** The S23c `scanning …` line is
+  suppressed whenever stdout is piped (which also protects redirected
+  output); a piped-stdout/interactive-stderr run shows no progress line by
+  design.
+- **`bench --month` mtime prefilter.** A transcript restored with an mtime
+  older than its content dates is excluded from a published month (the
+  prefilter is month start − 1 day). Accepted for v1: the fixture
+  materialiser guarantees mtime == endedAt and real trees satisfy it
+  naturally; revisit only on a real report.
+- **The S24 acceptance header count is stale; the code is right.** Over the
+  fixture tree the audit header reads `Claude Code 6 · Codex 3` under
+  `--since 2026-01-01` (the legacy 2025-09-01 Claude Code fixture sits
+  outside the window) and `7 · 3` under `--all`; both are pinned. S37's DoD
+  pass should read the S24 acceptance line accordingly.
+- **Hermes `configReadable` stays `true` for unscannable YAML** (S23c
+  review): the light line-scan reports "no hooks" rather than "unreadable";
+  distinguishing the two is a possible W5 `doctor` refinement, not a §9
+  requirement.
+- **Size budgets carried to S36** (warn-only today): `src/` 28,441 lines vs
+  the plan's 12,000 (§2's own ceiling is 14,000 — also exceeded; the
+  mandated JSDoc/test density was priced into neither number) and unpacked
+  1,023.4 KB vs 900 KB. Ruling: keep the warnings and do not raise caps
+  piecemeal mid-build; S36 must minify/trim `dist/` first and re-set both
+  budgets with a recorded justification before `--strict` becomes the hard
+  gate.
+- **Missing step files restored.** `steps/S23b.md`, `S23c.md`, `S24.md` and
+  `S25.md` were re-extracted from the recovery capture
+  (`scratchpad/s24-recovered.txt`) into the design steps directory so later
+  waves and review passes can cite them. Step files S01–S16, S19 and most of
+  W5/W6 (beyond S27b/S36) are still missing on disk — the orchestrator
+  should recover them before those waves start.

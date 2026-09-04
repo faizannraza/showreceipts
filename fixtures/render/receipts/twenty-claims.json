@@ -1,0 +1,228 @@
+{
+  "schema": "showreceipts.receipt/1",
+  "toolVersion": "0.1.0",
+  "rulesVersion": "claims/1+reconcile/1",
+  "pricesVersion": "2026-08-29",
+  "kind": "scored",
+  "id": "20c1a1d5-0000-4000-8000-000000000002",
+  "shortId": "20c1a1d5",
+  "harness": "claude-code",
+  "harnessLabel": "Claude Code",
+  "harnessVersion": "2.1.214",
+  "model": "claude-sonnet-5",
+  "cwd": "/home/u/proj/wattage",
+  "branch": "main",
+  "startedAt": "2026-07-18T17:14:00.000Z",
+  "endedAt": "2026-07-18T23:52:00.000Z",
+  "durationMs": 23880000,
+  "source": "transcript",
+  "turnIndex": 2,
+  "finalTrigger": "human",
+  "turnsWithClaims": [
+    2
+  ],
+  "finalText": "done.",
+  "finalTextSource": "transcript",
+  "claims": [],
+  "judgements": [],
+  "lines": [
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-00.ts",
+      "evidence": [
+        "Edit (17:10)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-01.ts",
+      "evidence": [
+        "Edit (17:11)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-02.ts",
+      "evidence": [
+        "Edit (17:12)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-03.ts",
+      "evidence": [
+        "Edit (17:13)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-04.ts",
+      "evidence": [
+        "Edit (17:14)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-05.ts",
+      "evidence": [
+        "Edit (17:15)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-06.ts",
+      "evidence": [
+        "Edit (17:16)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-07.ts",
+      "evidence": [
+        "Edit (17:17)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-08.ts",
+      "evidence": [
+        "Edit (17:18)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-09.ts",
+      "evidence": [
+        "Edit (17:19)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-10.ts",
+      "evidence": [
+        "Edit (17:20)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-11.ts",
+      "evidence": [
+        "Edit (17:21)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-12.ts",
+      "evidence": [
+        "Edit (17:22)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-13.ts",
+      "evidence": [
+        "Edit (17:23)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-14.ts",
+      "evidence": [
+        "Edit (17:24)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-15.ts",
+      "evidence": [
+        "Edit (17:25)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-16.ts",
+      "evidence": [
+        "Edit (17:26)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-17.ts",
+      "evidence": [
+        "Edit (17:27)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-18.ts",
+      "evidence": [
+        "Edit (17:28)"
+      ],
+      "refs": []
+    },
+    {
+      "glyph": "ok",
+      "claim": "updated src/module-19.ts",
+      "evidence": [
+        "Edit (17:29)"
+      ],
+      "refs": []
+    }
+  ],
+  "alsoSaid": [
+    "the docs were already current"
+  ],
+  "alsoDid": [],
+  "stats": {
+    "toolCalls": 212,
+    "filesChanged": 31,
+    "testRuns": 4,
+    "compactions": 1,
+    "subagents": 0,
+    "apiCalls": 212,
+    "sentencesScanned": 9
+  },
+  "cost": {
+    "usd": 18.42,
+    "apiCalls": 212,
+    "input": 1000,
+    "cacheRead": 5000,
+    "cacheWrite5m": 100,
+    "cacheWrite1h": 0,
+    "cacheWriteOther": 0,
+    "output": 900,
+    "cacheHitPct": 71,
+    "unverified": false,
+    "unpriced": [],
+    "apiEquivalent": true,
+    "pricesVersion": "2026-08-29",
+    "notes": []
+  },
+  "verdict": "VERIFIED",
+  "counts": {
+    "VERIFIED": 20,
+    "UNVERIFIED": 0,
+    "CONTRADICTED": 0,
+    "NOT_SCORED": 0
+  },
+  "turnActiveMs": 7500000,
+  "claimsRecognized": 20
+}

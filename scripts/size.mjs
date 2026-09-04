@@ -18,8 +18,12 @@ const LINE_BUDGETS = [
   ['src/render/report.js', 900],
 ];
 const SRC_TOTAL_LINES = 12000;
-const TARBALL_BYTES = 200 * 1024;
-const UNPACKED_BYTES = 600 * 1024;
+// W4/S22 lead decision: the npm tarball sat at 198.5/200 KB before the W4
+// render assets; the report (report.js + html renderer) is not to be
+// compromised for the limit, so the caps are 300 KB / 900 KB unpacked
+// (recorded in docs/decisions.md, W4/S22).
+const TARBALL_BYTES = 300 * 1024;
+const UNPACKED_BYTES = 900 * 1024;
 const ALLOWED_TOP_LEVEL = ['bin/', 'dist/', 'README.md', 'LICENSE', 'package.json'];
 
 const problems = [];

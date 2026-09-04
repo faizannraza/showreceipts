@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "hooks": {
+    "agentStop": [ { "type": "command", "bash": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook copilot agentStop", "timeoutSec": 30 } ]
+  }
+}

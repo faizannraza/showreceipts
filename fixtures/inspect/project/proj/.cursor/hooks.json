@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "hooks": {
+    "stop": [ { "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook cursor stop", "type": "command", "timeout": 30, "loop_limit": 2 } ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "\"/home/u/.showreceipts/bin/showreceipts-hook\" hook claude-code Stop", "timeout": 30, "statusMessage": "showreceipts: building receipt" }
+        ]
+      }
+    ]
+  }
+}
