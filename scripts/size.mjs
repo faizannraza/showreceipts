@@ -1,5 +1,5 @@
 // Size gates: source line budgets (PLAN §0.3) and `npm pack --dry-run --json`
-// checks (tarball ≤ 200 KB, unpacked ≤ 600 KB, no *.map / *.d.ts / test files,
+// checks (tarball ≤ 300 KB, unpacked ≤ 1 MiB — history below, no *.map / *.d.ts / test files,
 // only bin/, dist/, README.md, LICENSE, package.json; once they exist,
 // dist/cost/prices.json and dist/demo/** must ship). `--strict` makes every
 // check fatal; the default only warns (S36 makes strict the default under CI).
@@ -9,7 +9,9 @@ import { join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const strict = process.argv.includes('--strict');
+// S36: strict is the default under CI (any non-empty CI value except 'false').
+const ci = process.env.CI !== undefined && process.env.CI !== '' && process.env.CI !== 'false';
+const strict = process.argv.includes('--strict') || ci;
 
 const LINE_BUDGETS = [
   ['src/claims/rules.ts', 300],
@@ -17,13 +19,21 @@ const LINE_BUDGETS = [
   ['src/render/term.ts', 500],
   ['src/render/report.js', 900],
 ];
-const SRC_TOTAL_LINES = 12000;
+// S36/S37 lead-note decision (docs/decisions.md, "S36 perf numbers"): the
+// plan's 12,000-line src/ budget predates W4–W6 (renderers, nine hook
+// dialects, nine setup writers); measured 34,174 lines at the v0.1.0 gate.
+// 36,000 is a hard regression stop, not a target.
+const SRC_TOTAL_LINES = 36000;
 // W4/S22 lead decision: the npm tarball sat at 198.5/200 KB before the W4
 // render assets; the report (report.js + html renderer) is not to be
-// compromised for the limit, so the caps are 300 KB / 900 KB unpacked
-// (recorded in docs/decisions.md, W4/S22).
+// compromised for the limit, so the caps were raised from the original
+// 200/600 KB to 300 KB tarball / 900 KB unpacked (docs/decisions.md, W4/S22
+// — that decision supersedes the 200 KB figure still quoted by the plan's
+// definition of done). S36 measured 245.8 KB / 990.8 KB after stripping
+// comments from dist (tsc removeComments), and raised only the unpacked cap
+// to 1 MiB; the 300 KB tarball gate stands.
 const TARBALL_BYTES = 300 * 1024;
-const UNPACKED_BYTES = 900 * 1024;
+const UNPACKED_BYTES = 1024 * 1024;
 const ALLOWED_TOP_LEVEL = ['bin/', 'dist/', 'README.md', 'LICENSE', 'package.json'];
 
 const problems = [];

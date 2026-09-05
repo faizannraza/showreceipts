@@ -1,0 +1,111 @@
+# Release (S34; ARCHITECTURE §15). Runs on `v*` tags only. Publishes to npm
+# through OIDC trusted publishing — there is no npm token secret anywhere in
+# this repository — then creates the GitHub release with the CHANGELOG section
+# as notes and the committed render assets attached.
+#
+# One-time bootstrap (before the first tagged release ever works): the author
+# publishes 0.1.0 manually and runs `npm trust`; see docs/release.md.
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write # OIDC for npm trusted publishing (provenance attaches automatically)
+  contents: write # create the GitHub release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+
+      - name: Update npm (trusted publishing needs npm >= 11.10)
+        run: |
+          npm install -g npm@^11.10
+          npm --version
+
+      - name: Tag matches package.json and src/version.ts
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          SRC="$(node -e "const m = /TOOL_VERSION\s*=\s*'([^']+)'/.exec(require('node:fs').readFileSync('src/version.ts', 'utf8')); if (!m) process.exit(1); console.log(m[1]);")"
+          echo "tag=${VERSION} package.json=${PKG} src/version.ts=${SRC}"
+          if [ "${VERSION}" != "${PKG}" ] || [ "${VERSION}" != "${SRC}" ]; then
+            echo "::error::tag v${VERSION} does not match package.json (${PKG}) / src/version.ts (${SRC})"
+            exit 1
+          fi
+
+      - name: CHANGELOG section present (and extracted as release notes)
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          HEADING="$(awk -v ver="${VERSION}" '/^## / { if (substr($0, 4, length(ver)) == ver) { c = substr($0, 4 + length(ver), 1); if (c == "" || c == " ") { print; exit } } }' CHANGELOG.md)"
+          if [ -z "${HEADING}" ]; then
+            echo "::error::CHANGELOG.md has no \"## ${VERSION}\" section"
+            exit 1
+          fi
+          case "${HEADING}" in
+            *nreleased*)
+              echo "::error::CHANGELOG section still says (unreleased); retitle it with the release date: ${HEADING}"
+              exit 1
+              ;;
+          esac
+          awk -v ver="${VERSION}" '
+            /^## / { if (on) exit; if (substr($0, 4, length(ver)) == ver) { c = substr($0, 4 + length(ver), 1); if (c == "" || c == " ") { on = 1; next } } }
+            on { print }
+          ' CHANGELOG.md > "${RUNNER_TEMP}/release-notes.md"
+          if ! grep -q '[^[:space:]]' "${RUNNER_TEMP}/release-notes.md"; then
+            echo "::error::CHANGELOG section for ${VERSION} is empty"
+            exit 1
+          fi
+
+      - name: Version must not already be on npm
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          # `npm view` must fail (404): a published version is immutable, so a
+          # re-run of a failed release needs a new patch version, not a force.
+          if npm view "showreceipts@${VERSION}" version; then
+            echo "::error::showreceipts@${VERSION} is already published on npm"
+            exit 1
+          fi
+          echo "showreceipts@${VERSION} is not on the registry yet — proceeding"
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+      - run: npm run lint:nonet
+      - run: npm run deps:guard
+
+      - name: Tarball size gate (npm pack --dry-run --json)
+        # Hard caps live in scripts/size.mjs: tarball <= 300 KB, unpacked
+        # <= 1 MiB (raised from 200/600 KB in docs/decisions.md W4/S22,
+        # then to 1 MiB unpacked by S36 after stripping dist comments),
+        # only bin/ dist/ README.md LICENSE package.json in the tarball.
+        run: node scripts/size.mjs --strict
+
+      - name: Release assets are committed
+        run: |
+          test -f docs/receipt.svg || { echo "::error::docs/receipt.svg is missing (regenerate it; see docs/release.md)"; exit 1; }
+          test -f docs/report.png || { echo "::error::docs/report.png is missing (produced manually on the author's machine; see docs/release.md)"; exit 1; }
+
+      - name: Publish to npm (OIDC trusted publishing)
+        run: npm publish --access public
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --verify-tag \
+            --title "showreceipts ${GITHUB_REF_NAME#v}" \
+            --notes-file "${RUNNER_TEMP}/release-notes.md" \
+            "docs/receipt.svg#Demo receipt (SVG)" \
+            "docs/report.png#HTML report screenshot"

@@ -225,6 +225,47 @@ interface AliasResult {
   aliased: boolean;
 }
 
+/** One memoised row lookup: the normalised id plus the alias-followed row (`null` = not in the table). */
+interface LookupHit {
+  norm: { id: string; unpriced?: string };
+  followed: AliasResult | null;
+}
+
+/**
+ * Per-table memo of the §8.1 row scan (S36): exact → prefix → regex → alias
+ * chain is pure over the table, and `matchRow` walks every row (regex rows
+ * recompiled per probe), so repeating it per usage attempt dominated the
+ * warm `audit` profile. Keyed by table object identity — a different
+ * `--prices` table is a different key — and holding only rows/ids, never
+ * dollars.
+ */
+const LOOKUPS = new WeakMap<PriceTable, Map<string, LookupHit>>();
+
+/** The memoised normalise + match + alias-follow of one raw model id against one table. */
+function lookupModel(model: string, table: PriceTable): LookupHit {
+  let memo = LOOKUPS.get(table);
+  if (memo === undefined) {
+    memo = new Map();
+    LOOKUPS.set(table, memo);
+  }
+  const cached = memo.get(model);
+  if (cached !== undefined) return cached;
+  const norm = normalizeModelId(model);
+  let followed: AliasResult | null = null;
+  if (norm.unpriced === undefined) {
+    let matched = matchRow(norm.id, table);
+    if (matched === null) {
+      // Fallback for exact-match rows with first-party dated variants (§8.1).
+      const dated = /-\d{8}$/.exec(norm.id);
+      if (dated !== null) matched = matchRow(norm.id.slice(0, dated.index), table);
+    }
+    if (matched !== null) followed = followAlias(matched, table);
+  }
+  const hit: LookupHit = { norm, followed };
+  memo.set(model, hit);
+  return hit;
+}
+
 /**
  * Follows an `aliasOf` chain (max depth 3, cycles rejected). A regex row's
  * target may substitute `$1`… from the id match. Returns `null` when a
@@ -331,19 +372,13 @@ function worse(a: Confidence, b: Confidence): Confidence {
  * call's own UTC time, then speed, service-tier and tier rules. Throws
  * {@link PriceTableError} on an alias cycle or over-deep chain; every other
  * failure returns an `unpriced` meta (never a throw — `doctor` lists them).
+ * The row lookup is memoised per table object ({@link lookupModel}); the
+ * window/speed/tier arithmetic still runs per call.
  */
 export function resolveRates(model: string, tsMs: number | null, opts: ResolveOpts): ResolvedRates {
-  const norm = normalizeModelId(model);
-  if (norm.unpriced !== undefined) return unpricedResult(norm.id, norm.unpriced);
   const table = opts.table;
-  let matched = matchRow(norm.id, table);
-  if (matched === null) {
-    // Fallback for exact-match rows with first-party dated variants (§8.1).
-    const dated = /-\d{8}$/.exec(norm.id);
-    if (dated !== null) matched = matchRow(norm.id.slice(0, dated.index), table);
-  }
-  if (matched === null) return unpricedResult(norm.id, 'not in the price table');
-  const followed = followAlias(matched, table);
+  const { norm, followed } = lookupModel(model, table);
+  if (norm.unpriced !== undefined) return unpricedResult(norm.id, norm.unpriced);
   if (followed === null) return unpricedResult(norm.id, 'not in the price table');
   const row = followed.row;
   const aliasOf = followed.aliasTarget ?? undefined;

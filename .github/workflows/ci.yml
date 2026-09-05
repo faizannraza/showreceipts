@@ -1,23 +1,105 @@
-# CI skeleton (S01). The full matrix, coverage, e2e, size gate, pack smoke and
-# perf jobs land in S34.
+# CI (S34; ARCHITECTURE §15). Full test matrix plus three guard jobs:
+#   test       node 20/22/24 × ubuntu/macos are required; node 26 and
+#              windows-latest are best-effort (continue-on-error) and can
+#              never block a merge.
+#   deps-guard zero-runtime-dependency / files / version-sync contract.
+#   pack-smoke npm pack → offline global install → run the installed CLI.
+#   perf       soft perf budgets (S36 suites), ubuntu only, never blocking.
+# The only network use in any job is `npm ci` / setup-node's cache; tests run
+# under the netguard and the pack-smoke install is `--offline`.
 name: ci
 
 on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
+    name: test (${{ matrix.os }}, node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [20, 22, 24]
+        experimental: [false]
+        include:
+          # Node 26 is newer than the pinned @types/node 20 target: best-effort.
+          - os: ubuntu-latest
+            node: 26
+            experimental: true
+          - os: macos-latest
+            node: 26
+            experimental: true
+          # Windows is best-effort ("macOS/Linux; Windows best-effort").
+          - os: windows-latest
+            node: 24
+            experimental: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test -- --coverage
+      - run: npm run test:e2e
+      - run: npm run lint:nonet
+      # Strict under CI: scripts/size.mjs (S36) makes every check fatal when CI is set.
+      - run: npm run size
+      - run: node scripts/survey-fixtures.mjs --check
+      - run: node scripts/catalogue.mjs --check
+      - run: node scripts/gen-docs.mjs --check
+      - run: npm run accuracy
+
+  deps-guard:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
+      # No `npm ci`: the guard only reads package.json, package-lock.json and
+      # src/version.ts, so the job runs with zero installs.
+      - run: npm run deps:guard
+
+  pack-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run typecheck
-      - run: npm run build
-      - run: npm test
-      - run: npm run lint:nonet
-      - run: npm run deps:guard
+      # Packs (prepack builds), asserts the tarball manifest, installs the
+      # tarball globally into a temp prefix with --offline, then runs
+      # `showreceipts demo|doctor --json|--version` from an empty cwd with
+      # empty SHOWRECEIPTS_HOME / CLAUDE_CONFIG_DIR / CODEX_HOME.
+      - run: node scripts/pack-smoke.mjs
+
+  perf:
+    # Soft perf gate: numbers are recorded, regressions never block a merge.
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:perf
+        env:
+          SHOWRECEIPTS_PERF: '1'
+          SHOWRECEIPTS_PERF_TOLERANCE: '3'

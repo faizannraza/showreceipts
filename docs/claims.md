@@ -1,111 +1,38 @@
-# showreceipts
+# What counts as a claim
 
-Your coding agent said "done". Show receipts.
+showreceipts never asks a model what the agent meant. Claim extraction is a
+versioned rule grammar (`src/claims/rules.ts`, currently `claims/2`) applied
+to the **final message of a turn only** — the message the agent ends on when
+it says it's done. The rules are deterministic regexes over sentences; the
+same final message always yields the same claims, on every machine.
 
-![A showreceipts terminal receipt, rendered from the bundled demo scenario](docs/receipt.svg)
+Recall is intentionally limited: the receipt prints "N claims recognized" and
+never implies it scored every assertion. How well the grammar covers what a
+human reader would call a claim — and how often the verdicts are right — is
+measured in [`accuracy.md`](accuracy.md).
 
-*That receipt is the bundled **demo scenario** (`npx showreceipts demo`) — synthetic data, not a real session. Yours will look like this, built from your own logs.*
+## Polarity, hedges and scoping
 
-Coding agents write a detailed log of everything they do — every command, every
-edit, every exit code — and then summarise their own work in prose. The two
-don't always agree. `showreceipts` reads the session logs your agents already
-leave on disk and prints, for every session, a receipt: what the agent
-**claimed** in its final message versus what its **own tool log proves** — the
-files it actually changed, the commands it actually ran, the tests it actually
-passed (or never ran), what the session cost — plus your personal
-**false-done rate** across sessions.
+Before any rule fires, every sentence passes through the cue pass. These cues
+apply to **every** rule:
 
-Offline, deterministic, read-only over the logs, zero runtime dependencies, no
-API key, no LLM anywhere in the loop. Nothing leaves this machine.
+- **Negation** — "the tests *don't* pass", "I *didn't* run the linter" —
+  flips or defers the claim; a negated success is never scored as a success.
+- **Hedges** — "should pass", "probably works", "I believe this fixes it" —
+  are not claims of fact and are never scored.
+- **Deferral / instruction** — "you should run `npm test`", "To deploy: …",
+  "run the migration before merging" — is advice about the future, not a
+  claim about what happened. Never scored.
+- **Attribution** — "the reviewer says lint is clean", "CI reports green" —
+  is somebody else's claim. Recognised, marked `NOT_SCORED`.
+- **Temporal scoping** — future tense and conditional clauses ("this will
+  fix", "once the cache is warm") defer the claim.
 
-## Sixty seconds
+## The rule table
 
-```sh
-npx showreceipts         # audit every agent session already on disk
-npx showreceipts setup   # live receipts at the end of every agent turn
-```
-
-The first command needs no configuration: it finds Claude Code and Codex
-sessions under their default directories, scans the last 90 days (`--since`,
-`--all` to widen) and prints a summary table, the latest receipt and your
-false-done rate. The second installs a Stop hook in every harness it finds —
-idempotent, with backups, previewable with `--dry-run` — so a receipt lands in
-`.showreceipts/last-receipt.md` the moment an agent claims it's done.
-
-A note on `npx`: it adds roughly 0.3–0.6 s of npm overhead on every run
-(measured 0.33–1.18 s here). `npm i -g showreceipts` removes it, and `setup`
-recommends the global install for hooks.
-
-## What a receipt looks like
-
-`showreceipts demo` renders bundled synthetic scenarios so you can see the
-output before pointing it at real data. This is the first one (the same
-scenario as the SVG above — again, a demo, not a real session):
-
-<!-- gen:demo-sample -->
-```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │  RECEIPT  #0badf00d · Claude Code 2.1.214 · claude-sonnet-5          │
-  │  ~/proj/wattage · main · Jul 18 17:14 → 23:52 · 2h 05m               │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │  CLAIMED                                 EVIDENCE                    │
-  │  ✗ Lint is clean.                        ruff check . → exit 1       │
-  │                                          (23:44) · never re-run      │
-  │  ? Committed the changes.                no git commit in log        │
-  │                                          (23:52)                     │
-  │  ✓ Updated `src/wattage/models.py`.      Edit ×3 (17:31, 17:32)      │
-  │  ✓ Created `tests/test_cli.py`.          Write (18:05)               │
-  │  ✓ All 41 tests pass.                    uv run pytest -q → exit 0   │
-  │                                          41 passed (23:41)           │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │  ALSO DID (not mentioned)                                            │
-  │  · 29 more files changed (src/wattage/, /tmp/demo-scratch/, tests/)  │
-  │  · 3 files written to temp dirs                                      │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │  212 tool calls · 31 files changed · 4 test runs · 1 compaction      │
-  │  cost $18.42 (API-equivalent) · cache hit 71%                        │
-  │  VERDICT: 1 CONTRADICTED · 1 UNVERIFIED · 3 VERIFIED                 │
-  └──────────────────────────────────────────────────────────────────────┘
-```
-<!-- /gen -->
-
-Worst news first: contradicted claims at the top, each with the evidence the
-verdict rests on and a timestamp. Below the claims: what the agent did but
-never mentioned, the session stats, the cost line and the verdict. All the
-demo scenarios — verified, unverified, stale test runs, weakened tests, a
-refusal fallback, hook-captured ledgers — are frozen byte-for-byte in
-[`docs/samples/`](docs/samples/contradicted.txt).
-
-## Your false-done rate
-
-The audit ends with a table like:
-
-```text
-claude-sonnet-5 · claude-code 2.1.214    3/29 done turns contradicted (10%) · 7 unverified
-```
-
-It counts **done turns**, not claims: turns where the agent ended with a final
-message containing at least one scored claim or a completion marker. A done
-turn is *contradicted* when any scored claim in it is contradicted by the tool
-log, *unverified* when nothing conclusive was found for at least one claim,
-*clean* when every scored claim is verified. Rates are grouped per model ×
-harness × version, and the percentage is hidden below 10 done turns — a small
-denominator makes a misleading number.
-
-Absence is never contradiction: a claim only gets `CONTRADICTED` on positive
-contrary evidence (a red exit code after the claim, a file the log never
-touched). How often the verdicts are right is measured, not asserted — the
-hand-labelled precision numbers are in [`docs/accuracy.md`](docs/accuracy.md).
-
-## What counts as a claim
-
-Claim extraction is a versioned, deterministic rule grammar — no LLM, no
-heuristic scoring — applied to the agent's final message only. Negated,
-hedged, deferred and quoted-instruction sentences are never scored;
-third-party attributions are recognised but not scored. The receipt always
-prints "N claims recognized" and never implies it scored every sentence.
-The full grammar (this table is generated from `src/claims/rules.ts` and is
-the same one the tool executes):
+Generated from `src/claims/rules.ts` by `scripts/gen-claims-doc.mjs`; this is
+byte-for-byte the grammar the tool executes, not documentation that can
+drift. Rules are tried in table order; one sentence can yield several claims.
 
 <!-- gen:claims-table -->
 ## Claim rules (`claims/2`)
@@ -147,83 +74,51 @@ attribution, scoping and temporal cues (§4.7 step 5) apply to every rule.
 
 <!-- /gen -->
 
-Worked examples, polarity rules and `--explain-claim` are in
-[`docs/claims.md`](docs/claims.md).
+## Worked examples
 
-## Which agents are covered
+| final-message sentence | what the extractor sees |
+|---|---|
+| "All 64 tests still green, ruff/mypy clean." | a test claim `{count: 64}` plus two check claims (`lint`/`ruff`, `type`/`mypy`) |
+| "Created `src/routes/health.ts` and updated the router." | one file claim per explicit path; "the router" has no path and stays a weaker claim |
+| "Committed as `1ffc965`." | a git commit claim `{sha}` — reconciled against the tool log's git facts |
+| "I didn't run the full suite." | negated test-ran — an honest admission, never scored against the agent |
+| "You should run `npm test` before merging." | deferral — not a claim, not scored |
+| "CI says everything passes." | attribution — recognised, `NOT_SCORED` |
 
-<!-- gen:coverage-matrix -->
-| harness | receipts from | hook events | exit codes | final message | strict nudge |
-|---|---|---|---|---|---|
-| Claude Code | transcripts on disk (`~/.claude/projects`) | `Stop` · `SessionStart` · `PostToolUse` · `PostToolUseFailure` | parsed from `toolUseResult` | transcript final message | yes |
-| Codex CLI | rollouts on disk (`~/.codex/sessions`) | `Stop` | parsed from output headers | rollout `agent_message` | yes |
-| Cursor | hook-captured ledger | `sessionStart` · `postToolUse` · `postToolUseFailure` · `afterFileEdit` · `afterMCPExecution` · `afterAgentResponse` · `subagentStop` · `stop` · `sessionEnd` | harness (`tool_output.exitCode`) | `afterAgentResponse.text` | yes |
-| Gemini CLI | hook-captured ledger | `SessionStart` · `AfterTool` · `AfterAgent` · `SessionEnd` | parsed (`Exit Code:` in `llmContent`) | `AfterAgent.prompt_response` | experimental |
-| Copilot CLI | hook-captured ledger | `sessionStart` · `postToolUse` · `postToolUseFailure` · `agentStop` · `sessionEnd` | parsed (`exit code N` in `textResultForLlm`) | transcript at `agentStop.transcriptPath` (best-effort) | no (v1) |
-| Hermes | hook-captured ledger | `post_tool_call` · `post_llm_call` · `on_session_start` · `on_session_end` · `on_session_finalize` | parsed (`extra.status` / returncode) | `post_llm_call.assistant_response` | no (v1) |
-| dsh | hook-captured ledger (opt-in) | `Stop` · `SessionStart` · `PostToolUse` · `PostToolUseFailure` | parsed (`Exit code N`) | Stop `last_assistant_message` | as Claude Code (unverified) |
-| OpenCode | plugin template (roadmap) | `tool.execute.after` · `session.idle` | — | — | no |
-| OpenClaw | plugin template (roadmap) | `after_tool_call` · `agent_end` · `session_start` · `session_end` | — | — | no |
+The complete example corpus (hundreds of labelled sentences, including every
+false positive ever found in the wild) lives in
+`fixtures/claims/corpus.jsonl`; CI asserts 100 % of it passes.
 
-Generated by `scripts/gen-docs.mjs` from the dialect registry (`src/hook/dialects/index.ts`); the source columns follow ARCHITECTURE §9. Transcript harnesses are audited from their own files on disk even with no hook installed; ledger harnesses need `showreceipts setup` first.
-<!-- /gen -->
+## Verdicts
 
-Per-harness setup notes (Codex hook trust, Hermes consent, Gemini config
-quirks, Cursor exit codes, Copilot final-text limits) are in
-[`docs/harnesses.md`](docs/harnesses.md).
+Every scored claim is reconciled against the session's tool ledger:
 
-## Privacy
+- **VERIFIED** — positive evidence found; the receipt cites it (command, exit
+  code, timestamp).
+- **CONTRADICTED** — positive *contrary* evidence found: the last relevant
+  run was red, the claimed file never appears in any write record, the claimed
+  commit isn't in the log. Absence alone is never contradiction — the one
+  guarded exception is "tests pass" in a session where no test-capable
+  command ran at all.
+- **UNVERIFIED** — nothing conclusive either way. This includes evidence that
+  is invisible on purpose: files written by scripts the agent ran
+  (`write-not-observable`), persisted tool outputs (never opened), incomplete
+  ledgers (`ledger-incomplete`).
+- **NOT_SCORED** — recognised but excluded by a cue (attribution, hedge,
+  deferral).
 
-Nothing leaves this machine. There is no network code path in the package —
-no `http`, no `fetch`, no telemetry, enforced by a lint over the built output
-and a test-time network guard — and the readers are strictly read-only over
-the harness logs.
+The session verdict is the worst claim's verdict. Everything the agent did
+but never mentioned lands in ALSO DID, separately.
 
-What is read: Claude Code transcripts, Codex rollouts, showreceipts' own
-hook-captured ledgers, and (for `setup`/`doctor` only) the harness config
-files. Never read: persisted tool outputs (`tool-results/`), background task
-files (`tasks/`), `auth.json`, `.env`, git internals. What is written: only
-`.showreceipts/` in your repos and `~/.showreceipts/` — receipts, the parse
-cache, ledgers, backups — all `0600`/`0700`, atomic and masked.
-`report --hash-paths` replaces every path with a hash so reports can be
-shared; `bench --publish` writes aggregates only (no paths, ids, prompts or
-day-precision dates) and never sends anything anywhere. The full tables —
-every path read, every file written, every field of the publish payload — are
-in [`docs/privacy.md`](docs/privacy.md).
+## `--explain-claim`
 
-## What the cost line means
+```sh
+showreceipts session latest --explain-claim
+```
 
-`cost $18.42 (API-equivalent) · cache hit 71%` prices the token usage the
-harness itself logged against a dated price table
-([`docs/prices.md`](docs/prices.md), provenance on every row). It is what the
-session *would have cost* at API list prices — subscription users pay their
-plan, not this number. It covers only the API calls present in the transcript:
-WebFetch/WebSearch sub-requests, compaction and title generation are not
-logged by the harnesses and not counted. `≈` marks estimates; unpriced models
-are listed, never guessed.
-
-## Platforms
-
-macOS and Linux are the supported platforms; Windows is best-effort (the CI
-job is non-blocking). Node ≥ 20 — Node 20 reached end of life in April 2026,
-but it stays supported here until showreceipts 1.0.
-
-## The rest of the docs
-
-- [`docs/accuracy.md`](docs/accuracy.md) — measured verdict precision and coverage over hand-labelled real sessions, plus known misfires.
-- [`docs/claims.md`](docs/claims.md) — the claim grammar, polarity, worked examples, `--explain-claim`.
-- [`docs/harnesses.md`](docs/harnesses.md) — the coverage matrix with per-harness setup notes.
-- [`docs/privacy.md`](docs/privacy.md) — everything read, everything written, the publish payload, threat notes.
-- [`docs/prices.md`](docs/prices.md) — the price table with provenance columns.
-- [`docs/ledger-format.md`](docs/ledger-format.md) — the hook-captured ledger format.
-- [`docs/receipt-schema.md`](docs/receipt-schema.md) — the `--json` output schemas.
-- [`docs/catalogue.md`](docs/catalogue.md) — the record catalogue generated from the test fixtures.
-- [`docs/release.md`](docs/release.md) — how releases are built and published.
-- [`INSTALL_FOR_AGENTS.md`](INSTALL_FOR_AGENTS.md) — a bootstrap you can paste into a coding agent, with a verify gate.
-- [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md), [`CHANGELOG.md`](CHANGELOG.md).
-
-A 30-second GIF of the demo lives at `docs/demo.gif` after each release; it is
-produced manually with [vhs](https://github.com/charmbracelet/vhs) from the
-committed `demo.tape`.
-
-MIT. Source: <https://github.com/faizannraza/showreceipts>.
+prints, for every sentence of the final message, which rule fired (or why
+none did), the cues that applied, the extracted fields, and the evidence the
+verdict rests on. When a verdict looks wrong, this is the first thing to
+run — and the output is exactly what a rule contribution needs (see
+[`../CONTRIBUTING.md`](../CONTRIBUTING.md): new rules require corpus entries
+and a `claims/N` bump).

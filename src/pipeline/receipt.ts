@@ -165,8 +165,17 @@ function usesDeltas(session: Session): boolean {
   return session.harness === 'codex' || session.tokenDeltas.length > 0;
 }
 
-/** Session-level cost for the receipt cost line (§8.3; never stored in the cache). */
-export function sessionCost(session: Session, opts: ReceiptOptions): Cost {
+/**
+ * Per-run memo of the session-level cost (S36): `buildTurnReceipts` builds a
+ * receipt per done turn and every receipt prices the whole session, which
+ * made the warm `audit` path quadratic in usage rows. Keyed by session and
+ * table object identity plus `--as-of`, so `--prices`/`--as-of` always
+ * recompute; in-memory only — dollars are never stored in the parse cache.
+ */
+const SESSION_COSTS = new WeakMap<Session, WeakMap<PriceTable, Map<string, Cost>>>();
+
+/** The uncached §8.3 session-level pricing behind {@link sessionCost}. */
+function computeSessionCost(session: Session, opts: ReceiptOptions): Cost {
   if (session.source === 'ledger') return hookCost(opts.prices.version);
   const shared: CostOpts = {
     table: opts.prices,
@@ -181,9 +190,46 @@ export function sessionCost(session: Session, opts: ReceiptOptions): Cost {
   return priceClaudeCode(session.usageRows, shared);
 }
 
-/** Stamps `Turn.costUsd` on every turn (Codex by `TokenDelta.turnIndex`; Claude Code by row seq). */
+/**
+ * Session-level cost for the receipt cost line (§8.3; never stored in the
+ * cache). Memoised per (session, price-table object, `--as-of`) within a
+ * run; callers receive a fresh copy they may mutate.
+ */
+export function sessionCost(session: Session, opts: ReceiptOptions): Cost {
+  let byTable = SESSION_COSTS.get(session);
+  if (byTable === undefined) {
+    byTable = new WeakMap();
+    SESSION_COSTS.set(session, byTable);
+  }
+  let byAsOf = byTable.get(opts.prices);
+  if (byAsOf === undefined) {
+    byAsOf = new Map();
+    byTable.set(opts.prices, byAsOf);
+  }
+  const asOfKey = opts.asOf ?? '';
+  let cost = byAsOf.get(asOfKey);
+  if (cost === undefined) {
+    cost = computeSessionCost(session, opts);
+    byAsOf.set(asOfKey, cost);
+  }
+  return { ...cost, unpriced: [...cost.unpriced], notes: [...cost.notes] };
+}
+
+/** The last (table, `--as-of`) pair {@link stampTurnCosts} stamped a session with (S36: skip repeat stamps). */
+const TURN_COSTS_STAMPED = new WeakMap<Session, { table: PriceTable; asOf: string }>();
+
+/**
+ * Stamps `Turn.costUsd` on every turn (Codex by `TokenDelta.turnIndex`;
+ * Claude Code by row seq). Stamping is idempotent for one (table, `--as-of`)
+ * pair, so a repeat call with the pair that produced the current stamps is
+ * skipped (S36 — `buildTurnReceipts` calls this once per done turn); a
+ * different table or `--as-of` restamps.
+ */
 export function stampTurnCosts(session: Session, opts: ReceiptOptions): void {
   if (session.source === 'ledger') return;
+  const last = TURN_COSTS_STAMPED.get(session);
+  if (last !== undefined && last.table === opts.prices && last.asOf === (opts.asOf ?? '')) return;
+  TURN_COSTS_STAMPED.set(session, { table: opts.prices, asOf: opts.asOf ?? '' });
   const costOpts: CostOpts = { table: opts.prices, asOf: opts.asOf };
   if (usesDeltas(session)) {
     const byTurn = new Map<number, Session['tokenDeltas']>();
