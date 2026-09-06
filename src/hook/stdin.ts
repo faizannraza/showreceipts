@@ -14,7 +14,7 @@ export const STDIN_MAX_BYTES = 32 * 1024 * 1024;
 /** How much of the head is kept for regex salvage on overflow/unparsable payloads. */
 export const SALVAGE_HEAD_BYTES = 64 * 1024;
 const CHUNK_BYTES = 64 * 1024;
-const EAGAIN_RETRIES = 500;
+const EAGAIN_RETRIES = 2500; // ×2 ms ≈ 5 s of patience per single stall (slow CI runners)
 
 /** Fields regex-salvaged from the first 64 KiB of an overflowed or unparsable payload (§9). */
 export interface StdinSalvage {
@@ -154,6 +154,13 @@ export function readStdin(options: ReadStdinOptions = {}): StdinRead {
     }
     if (read <= 0) break;
     total += read;
+    // Progress resets the EAGAIN patience: the retry budget bounds one
+    // silent STALL, never the whole drain. A slow writer feeding 33 MiB
+    // through a pipe (macOS CI under load) stalls many times; counting
+    // those stalls cumulatively ended the drain early, the process exited,
+    // and the still-writing harness took an EPIPE — the exact failure the
+    // §9 contract forbids.
+    retries = 0;
     if (kept < maxBytes) {
       chunks.push(Buffer.from(scratch.subarray(0, read)));
       kept += read;

@@ -14,7 +14,7 @@
  */
 import type { DoctorHarnessReport, DoctorHookReport, DoctorReport } from '../model/types.js';
 import { paint } from '../util/ansi.js';
-import { displayPath } from '../util/paths.js';
+import { DEFAULT_TMP_ROOTS, displayPath } from '../util/paths.js';
 import { sanitizeForCell } from '../util/sanitize.js';
 import { displayWidth, padEnd, truncateToWidth, wrapToWidth } from '../util/width.js';
 import { middleTruncatePath } from './box.js';
@@ -73,6 +73,21 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
   const sep = g.unicode ? ' · ' : ' - ';
   const tlx = (s: string): string => (g.unicode ? s : transliterate(s));
   const home = report.roots.userHome;
+  /**
+   * Home first (`~/…`), then a temp-root prefix (`(tmp)/…`), then raw. The
+   * roots section used to print raw absolute paths: harmless on a laptop,
+   * but a doctor screen shared with `--home-dir` masking leaked the real
+   * temp-tree path on Linux (short `/tmp/…` paths survived the width
+   * truncation that hid the same leak under macOS's long `/var/folders/…`).
+   */
+  const maskPath = (path: string): string => {
+    const homed = displayPath(path, home);
+    if (homed !== path) return homed;
+    for (const root of DEFAULT_TMP_ROOTS) {
+      if (path === root || path.startsWith(`${root}/`)) return `(tmp)${path.slice(root.length)}`;
+    }
+    return path;
+  };
   const out: string[] = [];
   const push = (line: string): void => {
     out.push(displayWidth(line) > budget ? truncateToWidth(line, budget, g.ellipsis) : line);
@@ -81,7 +96,7 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
   const statusRow = (label: string, labelW: number, status: readonly string[], path: string): string => {
     const prefix = `  ${padEnd(label, labelW)} ${tlx(status.join(sep))}${tlx(sep)}`;
     const room = budget - displayWidth(prefix);
-    const display = sanitizeForCell(displayPath(path, home));
+    const display = sanitizeForCell(maskPath(path));
     const fitted = displayWidth(display) <= room ? display : middleTruncatePath(display, Math.max(16, room), g.ellipsis);
     return `${prefix}${fitted}`;
   };
@@ -101,7 +116,7 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
     ['codex', report.roots.codexHome],
     ['home', report.roots.userHome],
   ];
-  for (const [name, path] of roots) push(`  ${padEnd(name, 13)} ${sanitizeForCell(path)}`);
+  for (const [name, path] of roots) push(`  ${padEnd(name, 13)} ${sanitizeForCell(maskPath(path))}`);
 
   push('');
   push('harnesses');
@@ -111,7 +126,7 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
 
   push('');
   push('hooks');
-  for (const h of report.hooks) push(statusRow(h.harness, labelW, hookStatus(h), `(${h.scope}) ${displayPath(h.configPath, home)}`));
+  for (const h of report.hooks) push(statusRow(h.harness, labelW, hookStatus(h), `(${h.scope}) ${maskPath(h.configPath)}`));
   if (report.hooks.length === 0) push('  none installed');
   const resolvableNote = report.hooks.find((h) => h.resolvable !== null)?.resolvableNote;
   if (resolvableNote !== undefined && resolvableNote !== '') {

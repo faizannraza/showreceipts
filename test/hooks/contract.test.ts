@@ -29,7 +29,11 @@ const GENERATED_DIR = join(HOOKS_ROOT, 'generated');
  * off-CI a ×2 cushion absorbs a loaded developer machine (observed spawn
  * times sit 5–10× under the raw class budgets) without weakening the CI gate.
  */
-const BUDGET_FACTOR = process.env['CI'] !== undefined ? 3 : 2;
+// CI runners (macOS especially) can be 4×+ slower than a laptop under load:
+// the 5 MB afterFileEdit case measured 6.2 s on a macos-node20 runner whose
+// ×3 ceiling was 4.5 s. ×8 keeps the gate meaningful (a hang or quadratic
+// blowup still fails) without flaking on slow shared hardware.
+const BUDGET_FACTOR = process.env['CI'] !== undefined ? 8 : 2;
 /** The frozen invocation instant every ledger line's `t` must carry. */
 const NOW_ISO = '2026-08-29T12:00:00.000Z';
 
