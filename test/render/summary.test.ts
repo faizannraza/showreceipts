@@ -378,7 +378,7 @@ describe('doctor renderer', () => {
     const lines = renderDoctor(makeDoctor(), { cols: 120, unicode: true });
     const text = lines.join('\n');
     expect(text).toContain('node v26.0.0 darwin');
-    expect(text).toContain('showreceipts  /home/u/.showreceipts');
+    expect(text).toContain('showreceipts  ~/.showreceipts');
     expect(text).toContain('37 sessions · 12.0 MB · versions 2.1.214, 2.1.251 · installed 2.1.251 · 2 bad lines');
     expect(text).toContain('not found · ~/.codex');
     expect(text).toContain('installed · (user) ~/.claude/settings.json');
