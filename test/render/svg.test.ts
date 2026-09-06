@@ -31,6 +31,22 @@ describe('golden bytes', () => {
   });
 });
 
+describe('badge (docs/release.md step 4: the demo image labels itself)', () => {
+  it('renders the visible tag and folds it into the aria-label', () => {
+    const svg = renderReceiptSvg(fixture('contradicted-demo'), { ...OPTS, badge: 'demo scenario' });
+    expect(svg).toContain('aria-label="showreceipts demo scenario receipt #0badf00d"');
+    expect(svg).toContain('>demo scenario</text>');
+    // deterministic like everything else
+    expect(renderReceiptSvg(fixture('contradicted-demo'), { ...OPTS, badge: 'demo scenario' })).toBe(svg);
+  });
+
+  it('without a badge the aria-label and document are unchanged', () => {
+    const svg = renderReceiptSvg(fixture('contradicted-demo'), OPTS);
+    expect(svg).toContain('aria-label="showreceipts receipt #0badf00d"');
+    expect(svg).not.toContain('demo scenario');
+  });
+});
+
 describe('document structure', () => {
   const svg = renderReceiptSvg(fixture('contradicted-demo'), OPTS);
 

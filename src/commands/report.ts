@@ -192,9 +192,25 @@ export async function run(ctx: CommandContext): Promise<number> {
       throw new Error(`${dirname(out)} is not a real directory (symlink or file) — refusing to write the report through it (use --out)`);
     }
   }
-  ensureDir(dirname(out));
-  if (!explicitOut) assertRealDirectory(dirname(out));
-  atomicWriteFile(out, html);
+  try {
+    ensureDir(dirname(out));
+    if (!explicitOut) assertRealDirectory(dirname(out));
+    atomicWriteFile(out, html);
+  } catch (err) {
+    // A raw errno ("ENOENT: no such file or directory, mkdir …") says neither
+    // what happened nor what to do next; name the target and the cause.
+    const code = (err as NodeJS.ErrnoException).code;
+    if (typeof code !== 'string') throw err; // e.g. the symlink refusal carries its own tailored message
+    const cause =
+      code === 'ENOENT' || code === 'ENOTDIR'
+        ? `parent directory does not exist (${code})`
+        : code === 'EACCES' || code === 'EPERM' || code === 'EROFS'
+          ? `permission denied (${code})`
+          : err instanceof Error
+            ? err.message
+            : String(err);
+    throw new Error(`report: cannot write ${out} — ${cause}`);
+  }
 
   if (prepared.json) {
     ctx.stdout.write(
@@ -209,6 +225,7 @@ export async function run(ctx: CommandContext): Promise<number> {
     );
   } else {
     const lines = [`report ${g.arrow} ${sanitizeForCell(displayPath(out, prepared.homeDir))} (${fmtBytes(bytes)}, ${sessions.length} session(s))`, sectionLine];
+    if (sessions.length === 0) lines.push(`  no sessions found${sep}try 'showreceipts demo' for sample receipts`);
     if (budget.degraded.length > 0) lines.push(`  degraded: ${budget.degraded.join(` ${g.arrow} `)}${hiddenRows > 0 ? ` (${hiddenRows} timeline row(s) hidden)` : ''}`);
     ctx.stdout.write(`${lines.join('\n')}\n`);
     if (budget.softExceeded) ctx.stderr.write(`showreceipts: warning: the report exceeds 8 MB (${fmtBytes(bytes)})\n`);

@@ -23,8 +23,10 @@
 import type { Receipt, ReceiptLine, TimelineEntry } from '../model/types.js';
 import { formatPct, formatUsd } from '../cost/format.js';
 import { hashStrings } from '../util/hashpaths.js';
+import { displayPath } from '../util/paths.js';
 import { sanitizeForCell } from '../util/sanitize.js';
 import { formatClock, formatDateRange, formatDuration, parseIso, type Tz } from '../util/time.js';
+import { capPostFinal } from './postfinal.js';
 
 /** Options of {@link renderMarkdownReceipt}. */
 export interface MarkdownOptions {
@@ -36,6 +38,15 @@ export interface MarkdownOptions {
    * never appears in the output.
    */
   hashPaths?: { salt: string; cwd: string; extraTokens?: readonly string[] } | undefined;
+  /**
+   * Home directory for the `~` display of the header cwd and the timeline
+   * table's file paths (matching the terminal renderer, which never prints
+   * the raw home path). The renderer stays pure — callers resolve it
+   * (`prepare(ctx).homeDir`; the hook passes the user home). Omitted ⇒ raw
+   * paths; a `--hash-paths` receipt is unaffected either way (its paths are
+   * already replaced before this mapping could match).
+   */
+  homeDir?: string | undefined;
 }
 
 /** Glyph words for the CLAIMED table (§5.2; `said` never reaches `lines`). */
@@ -105,9 +116,9 @@ function timeRange(r: Receipt, tz: Tz): string | null {
 }
 
 /** Header facts (§10.1 header, one Markdown line): short id, cwd, branch, times, duration, turn. */
-function header(r: Receipt, tz: Tz): string {
+function header(r: Receipt, tz: Tz, homeDir?: string): string {
   const parts: string[] = [`**receipt #${text(r.shortId)}**`];
-  if (r.cwd !== '') parts.push(text(r.cwd));
+  if (r.cwd !== '') parts.push(text(homeDir === undefined ? r.cwd : displayPath(r.cwd, homeDir)));
   // §10.1 branch display, as in `term.ts branchLabel`: `HEAD` marks a
   // detached checkout, empty/unknown shows `no branch`.
   parts.push(r.branch === null || r.branch === '' ? 'no branch' : r.branch === 'HEAD' ? 'detached HEAD' : text(r.branch));
@@ -148,11 +159,20 @@ function alsoSections(r: Receipt): string[] {
     for (const did of r.alsoDid) out.push(`- ${did.warn === true ? '**!** ' : ''}${text(did.text)}`);
     out.push('');
   }
-  for (const pf of r.postFinal ?? []) {
+  // Post-final notes share the terminal cap (render/postfinal.ts): a real
+  // 54-agent session flooded the export with 54 near-identical lines.
+  const { shown, rest } = capPostFinal(r.postFinal);
+  for (const pf of shown) {
     const who = pf.agentId === null ? 'the main agent' : `agent ${text(pf.agentId)}`;
     out.push(
       `_after this message: ${who} ran ${plural(pf.toolCalls, 'tool call')} ` +
         `(${plural(pf.files, 'file')}, ${plural(pf.testRuns, 'test run')}) — not evidence for the claims above_`,
+      '',
+    );
+  }
+  if (rest !== null) {
+    out.push(
+      `_after this message: ${plural(rest.agents, 'more agent')} ran ${plural(rest.toolCalls, 'tool call')} — not evidence for the claims above_`,
       '',
     );
   }
@@ -210,7 +230,7 @@ function verdictLine(r: Receipt): string {
 }
 
 /** One timeline row (`--timeline`): time, tool, summary, exit, files, $, agent, flags. */
-function timelineRow(e: TimelineEntry, tz: Tz, refDayMs: number): string {
+function timelineRow(e: TimelineEntry, tz: Tz, refDayMs: number, homeDir?: string): string {
   const ms = parseIso(e.at);
   const time = ms === null ? '—' : formatClock(ms, tz, refDayMs);
   const cells = [
@@ -218,7 +238,7 @@ function timelineRow(e: TimelineEntry, tz: Tz, refDayMs: number): string {
     text(e.tool),
     text(e.summary),
     e.exit === null ? '' : String(e.exit),
-    e.files.map(text).join(', '),
+    e.files.map((f) => text(homeDir === undefined ? f : displayPath(f, homeDir))).join(', '),
     e.usd === null ? '' : text(formatUsd(e.usd)),
     e.agentId === null ? '' : text(e.agentId),
     e.flags.join(' '),
@@ -227,7 +247,7 @@ function timelineRow(e: TimelineEntry, tz: Tz, refDayMs: number): string {
 }
 
 /** The `--timeline` table (§5.2): every tool call of the receipt turn, in `seq` order. */
-function timelineTable(r: Receipt, tz: Tz): string[] {
+function timelineTable(r: Receipt, tz: Tz, homeDir?: string): string[] {
   const entries = r.timeline ?? [];
   const refDayMs = parseIso(r.startedAt) ?? 0;
   return [
@@ -235,7 +255,7 @@ function timelineTable(r: Receipt, tz: Tz): string[] {
     '',
     '| time | tool | summary | exit | files | $ | agent | flags |',
     '| --- | --- | --- | --- | --- | --- | --- | --- |',
-    ...entries.map((e) => timelineRow(e, tz, refDayMs)),
+    ...entries.map((e) => timelineRow(e, tz, refDayMs, homeDir)),
   ];
 }
 
@@ -269,7 +289,7 @@ export function renderMarkdownReceipt(receipt: Receipt, opts: MarkdownOptions = 
     r.hashPaths = true;
   }
   const tz: Tz = opts.tz ?? 'utc';
-  const blocks: string[][] = [[badge(r)], [header(r, tz)], body(r)];
+  const blocks: string[][] = [[badge(r)], [header(r, tz, opts.homeDir)], body(r)];
   const also = alsoSections(r);
   // `alsoSections` ends every subsection with a spacer line; drop the last
   // one — the block joiner inserts the blank line between blocks itself.
@@ -278,7 +298,7 @@ export function renderMarkdownReceipt(receipt: Receipt, opts: MarkdownOptions = 
   const cost = costLine(r);
   if (cost !== null) blocks.push([cost]);
   blocks.push([verdictLine(r)]);
-  if (r.timeline !== undefined) blocks.push(timelineTable(r, tz));
+  if (r.timeline !== undefined) blocks.push(timelineTable(r, tz, opts.homeDir));
   blocks.push(['_evidence from log only_']);
   return `${blocks.map((lines) => lines.join('\n')).join('\n\n')}\n`;
 }

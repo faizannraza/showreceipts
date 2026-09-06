@@ -108,7 +108,9 @@ describe('applyJsonWriter — install', () => {
     expect(outcome.result.action).toBe('installed');
     expect(outcome.result.backup).toBeNull();
     expect(outcome.createdHooksKey).toBe(true);
-    expect(outcome.result.diff).toContain('+++ b/');
+    // absolute labels are emitted verbatim (Pass 3: no `a//` doubled slash)
+    expect(outcome.result.diff).toContain(`+++ ${ctx.target.path}`);
+    expect(outcome.result.diff).not.toContain('+++ b/');
     expect(backups).toEqual([]);
     const text = readFileSync(ctx.target.path, 'utf8');
     expect(text.endsWith('\n')).toBe(true);
@@ -224,5 +226,12 @@ describe('unifiedDiff', () => {
     expect(diff).toContain('@@ -1,3 +1,3 @@');
     expect(diff).toContain('-b');
     expect(diff).toContain('+B');
+  });
+
+  it('emits absolute labels verbatim (no a// doubled slash — Pass 3)', () => {
+    const diff = unifiedDiff('a\n', 'b\n', '/private/tmp/fresh-home/.claude/settings.json');
+    expect(diff).toContain('--- /private/tmp/fresh-home/.claude/settings.json');
+    expect(diff).toContain('+++ /private/tmp/fresh-home/.claude/settings.json');
+    expect(diff).not.toContain('a//');
   });
 });

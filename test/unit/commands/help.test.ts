@@ -13,6 +13,7 @@ import {
   SHARED_OPTIONS,
   sharedOptions,
   usage,
+  wrapSynopsis,
   type HelpSection,
 } from '../../../src/commands/help.js';
 
@@ -62,6 +63,9 @@ describe('the shared option table', () => {
       const accepted = new Set(flagsFor(command).filter((s) => !s.hidden).map((s) => s.name));
       for (const row of SHARED_OPTIONS) {
         if (!accepted.has(row.flag) || row.flag === 'help' || row.flag === 'version') continue;
+        // bench overrides the shared --since text (its default window is 30d,
+        // not the shared 90d — cli/help.ts FLAG_HELP.since textBy).
+        if (command === 'bench' && row.flag === 'since') continue;
         expect(rendered, `${command}: --${row.flag}`).toContain(`\n${formatOption(row)}\n`);
       }
     }
@@ -88,18 +92,39 @@ describe('usage(command, section)', () => {
     expect(text.endsWith(`\n${PRIVACY_FOOTER}\n`)).toBe(true);
   });
 
-  it('wraps the synopsis and the detail at 100 columns', () => {
+  it('wraps the synopsis, the detail and the option rows at the default 80 columns', () => {
     const text = usage('audit', section);
     for (const line of text.split('\n')) {
-      // option rows and the verbatim §12.4 footer may exceed, as in the S01 renderer
-      if (line.startsWith('  --') || line === PRIVACY_FOOTER) continue;
-      expect(line.length, line).toBeLessThanOrEqual(100);
+      // only the verbatim §12.4 privacy footer stays one (pinned) line
+      if (line === PRIVACY_FOOTER) continue;
+      expect(line.length, line).toBeLessThanOrEqual(80);
     }
     // wrapped synopsis continuation lines are indented under "Usage: "
     const lines = text.split('\n');
     const usageIndex = lines.findIndex((l) => l.startsWith('Usage: '));
     expect(usageIndex).toBeGreaterThan(0);
     expect(lines[usageIndex + 1]?.startsWith('       ')).toBe(true);
+  });
+
+  it('an explicit width flows the same screen wider', () => {
+    const at102 = usage('audit', section, 102);
+    for (const line of at102.split('\n')) {
+      if (line === PRIVACY_FOOTER) continue;
+      expect(line.length, line).toBeLessThanOrEqual(102);
+    }
+    expect(at102.split('\n').length).toBeLessThanOrEqual(usage('audit', section).split('\n').length);
+  });
+
+  it('wrapSynopsis never splits a bracket group across lines', () => {
+    const synopsis =
+      'Usage: showreceipts report [--out FILE] [--hash-paths|--hash-paths=both] [--full N] [--limit N] [--ascii|--unicode] [--bench] [--json]';
+    const lines = wrapSynopsis(synopsis, 60, 7);
+    expect(lines.length).toBeGreaterThan(1);
+    for (const line of lines) {
+      expect(line.length, line).toBeLessThanOrEqual(60);
+      expect(line, line).not.toMatch(/\[[^\]]*$/); // no line ends inside an open group
+      expect(line).not.toContain('\u00a0'); // the atomizing placeholder never leaks
+    }
   });
 
   it('formatOption pads the flag column to the S01 width and trims trailing space', () => {

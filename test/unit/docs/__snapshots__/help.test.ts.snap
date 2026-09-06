@@ -3,72 +3,87 @@
 exports[`showreceipts <cmd> --help (§12.4) > audit: snapshot 1`] = `
 "showreceipts audit — Scan agent session logs on disk; print a summary, the latest receipt and your false-done rate
 
-Usage: showreceipts [audit] [--since 90d|YYYY-MM-DD] [--until …] [--all] [--harness h[,h]]
-       [--project <substr|path>] [--limit N] [--all-claims] [--json] [--no-cache] [--as-of DATE]
-       [--prices FILE] [--width N] [--ascii|--unicode] [--no-color] [--tz local|utc] [--now ISO]
+Usage: showreceipts [audit] [--since 90d|YYYY-MM-DD] [--until …] [--all]
+       [--harness h[,h]] [--project <substr|path>] [--limit N] [--all-claims]
+       [--json] [--no-cache] [--as-of DATE] [--prices FILE] [--width N]
+       [--ascii|--unicode] [--no-color] [--tz local|utc] [--now ISO]
 
-Scans the agent session logs found on this machine (Claude Code and Codex transcripts, hook-captured
-ledgers), builds a receipt for the last "done" turn of every session in the window, then prints a
-summary table, the most recent receipt and your false-done rate. Read-only over the logs; never
-fails because of one bad file; exits 0 even when no session is found.
+Scans the agent session logs found on this machine (Claude Code and Codex
+transcripts, hook-captured ledgers), builds a receipt for the last "done" turn
+of every session in the window, then prints a summary table, the most recent
+receipt and your false-done rate. Read-only over the logs; never fails because
+of one bad file; exits 0 even when no session is found.
 
 Options
   --since <d|date>         Only sessions ending after this (default 90d)
   --until <d|date>         Only sessions ending before this
   --all                    No time window: every session on disk
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
   --project <p>            Match session cwd substring or path
   --limit <n>              Rows in the session table (default 20)
-  --all-claims             Show every claim of the latest receipt (default: 12 rows)
+  --all-claims             Show every claim of the latest receipt (default: 12
+                           rows)
   --json                   Machine-readable output
-  --width <n>              Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
   --ascii                  ASCII box and glyphs
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --no-cache               Ignore the parse cache
   --as-of <date>           Price everything at that date's rates (YYYY-MM-DD)
   --prices <file>          Override prices.json
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
 exports[`showreceipts <cmd> --help (§12.4) > bench: snapshot 1`] = `
 "showreceipts bench — False-done / unverified / test-run rates per model × harness × version; --publish writes aggregates only
 
-Usage: showreceipts bench [--since 30d] [--month YYYY-MM] [--harness …] [--publish [FILE]] [--json]
+Usage: showreceipts bench [--since 30d] [--month YYYY-MM] [--harness …]
+       [--publish [FILE]] [--json]
 
-Aggregates the false-done, unverified and test-run rates per model × harness × version over the
-window (--since, or a calendar month with --month YYYY-MM). --publish writes an aggregates-only JSON
-file (no paths, ids, prompts or day-precision dates) that is safe to share.
+Aggregates the false-done, unverified and test-run rates per model × harness ×
+version over the window (--since, or a calendar month with --month YYYY-MM).
+--publish writes an aggregates-only JSON file (no paths, ids, prompts or
+day-precision dates) that is safe to share.
 
 Options
-  --since <d|date>         Only sessions ending after this (default 90d)
+  --since <d|date>         Only sessions ending after this (default 30d; --month
+                           for a calendar month)
   --until <d|date>         Only sessions ending before this
   --all                    No time window: every session on disk
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
   --project <p>            Match session cwd substring or path
   --limit <n>              Rows in the session table (default 20)
   --json                   Machine-readable output
-  --width <n>              Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
   --ascii                  ASCII box and glyphs
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --no-cache               Ignore the parse cache
   --as-of <date>           Price everything at that date's rates (YYYY-MM-DD)
   --prices <file>          Override prices.json
   --month <YYYY-MM>        Calendar-month window (instead of --since)
-  --publish [file]         Write the aggregates-only publish file (default under .showreceipts/)
+  --publish [file]         Write the aggregates-only publish file (default under
+                           .showreceipts/)
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
@@ -77,77 +92,89 @@ exports[`showreceipts <cmd> --help (§12.4) > demo: snapshot 1`] = `
 
 Usage: showreceipts demo [--json] [--width N] [--ascii] [--tz …]
 
-Renders bundled synthetic receipts so you can see the output without any session data. Ignores every
-root on disk, the parse cache and every price override.
+Renders bundled synthetic receipts so you can see the output without any session
+data. Ignores every root on disk, the parse cache and every price override.
 
 Options
   --json                   Machine-readable output
-  --width <n>              Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
   --ascii                  ASCII box and glyphs
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
 exports[`showreceipts <cmd> --help (§12.4) > doctor: snapshot 1`] = `
 "showreceipts doctor — What was found on disk, unknown record shapes, hook status, price coverage
 
-Usage: showreceipts doctor [--json] [--clear-cache] [--prune-ledgers <days>] [--verbose]
+Usage: showreceipts doctor [--json] [--clear-cache] [--prune-ledgers <days>]
+       [--verbose]
 
-Reports what was found on disk (roots, sessions, harness versions), unknown record shapes, installed
-hook status and price coverage. Exit 4 signals a core-shape problem; warnings alone exit 0.
---clear-cache empties the parse cache; --prune-ledgers <days> removes hook ledgers older than that.
+Reports what was found on disk (roots, sessions, harness versions), unknown
+record shapes, installed hook status and price coverage. Exit 4 signals a
+core-shape problem; warnings alone exit 0. --clear-cache empties the parse
+cache; --prune-ledgers <days> removes hook ledgers older than that.
 
 Options
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
   --json                   Machine-readable output
-  --width <n>              Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
   --ascii                  ASCII box and glyphs
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --no-cache               Ignore the parse cache
   --clear-cache            Empty ~/.showreceipts/cache
   --prune-ledgers <days>   Delete hook ledgers older than N days
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
 exports[`showreceipts <cmd> --help (§12.4) > export: snapshot 1`] = `
 "showreceipts export — Markdown (--md) or JSON (--json) receipt for PR descriptions and CI artifacts
 
-Usage: showreceipts export <id|latest> (--md | --json) [--out FILE] [--hash-paths] [--timeline]
-       [--turn N]
+Usage: showreceipts export <id|latest> (--md | --json) [--out FILE]
+       [--hash-paths] [--timeline] [--turn N]
 
-Prints one session's receipt as Markdown (--md) or JSON (--json) for PR descriptions and CI
-artifacts; --out writes it to a file instead of stdout. Exits 5 when the id is not found or
-ambiguous.
+Prints one session's receipt as Markdown (--md) or JSON (--json) for PR
+descriptions and CI artifacts; --out writes it to a file instead of stdout.
+Exits 5 when the id is not found or ambiguous.
 
 Options
   --since <d|date>         Only sessions ending after this (default 90d)
   --until <d|date>         Only sessions ending before this
   --all                    No time window: every session on disk
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
   --project <p>            Match session cwd substring or path
   --json                   Machine-readable output
   --md                     Markdown output
   --out <file>             Write to this file
-  --width <n>              Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
   --ascii                  ASCII box and glyphs
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --no-cache               Ignore the parse cache
   --as-of <date>           Price everything at that date's rates (YYYY-MM-DD)
   --prices <file>          Override prices.json
@@ -155,9 +182,10 @@ Options
   --turn <n>               Receipt for turn N instead of the last done turn
   --timeline               Include the evidence timeline
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
@@ -165,19 +193,21 @@ exports[`showreceipts <cmd> --help (§12.4) > report: snapshot 1`] = `
 "showreceipts report — Write a single-file HTML report to .showreceipts/report.html
 
 Usage: showreceipts report [--out .showreceipts/report.html] [--open]
-       [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …] [--project …] [--limit
-       N] [--ascii|--unicode] [--json]
+       [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …]
+       [--project …] [--limit N] [--ascii|--unicode] [--bench] [--json]
 
-Writes a single-file HTML report (session list, receipts, timelines) to .showreceipts/report.html
-under the current git root, or to --out. The file loads nothing from the network. --open launches it
-in your browser; --hash-paths replaces absolute paths with hashes so the file can be shared (=both
-keeps a toggle).
+Writes a single-file HTML report (session list, receipts, timelines) to
+.showreceipts/report.html under the current git root (or the current directory
+outside a repo), or to --out. The file loads nothing from the network. --open
+launches it in your browser; --hash-paths replaces absolute paths with hashes so
+the file can be shared (=both keeps a toggle).
 
 Options
   --since <d|date>         Only sessions ending after this (default 90d)
   --until <d|date>         Only sessions ending before this
   --all                    No time window: every session on disk
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
   --project <p>            Match session cwd substring or path
   --limit <n>              Rows in the session table (default 20)
   --json                   Machine-readable output
@@ -186,45 +216,53 @@ Options
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --no-cache               Ignore the parse cache
   --as-of <date>           Price everything at that date's rates (YYYY-MM-DD)
   --prices <file>          Override prices.json
-  --hash-paths [=both]     Replace absolute paths with hashes (=both keeps a toggle)
+  --hash-paths [=both]     Replace absolute paths with hashes (=both keeps a
+                           toggle)
   --open                   Open the report in the default browser
   --full <n>               Embed full timelines for the N most recent sessions
-  --bench                  Include the bench table in the report
+  --bench                  Print payload size per section and card count; write
+                           nothing
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
 exports[`showreceipts <cmd> --help (§12.4) > session: snapshot 1`] = `
 "showreceipts session — Full receipt for one session (id prefix, path, or "latest") with the evidence timeline
 
-Usage: showreceipts session <id|prefix|path|latest> [--turn N] [--json] [--explain-claim]
-       [--timeline] [--no-cache] [common options]
+Usage: showreceipts session <id|prefix|path|latest> [--turn N] [--json]
+       [--explain-claim] [--timeline] [--no-cache] [common options]
 
-Prints the full receipt for one session, every claim with its evidence, selected by id prefix,
-transcript path or "latest". --timeline adds the evidence timeline, --explain-claim shows how each
-claim was recognised and judged, --turn N picks a turn other than the last done one. Exits 5 when
-the id is not found or the prefix is ambiguous (the candidates are listed).
+Prints the full receipt for one session, every claim with its evidence, selected
+by id prefix, transcript path or "latest". --timeline adds the evidence
+timeline, --explain-claim shows how each claim was recognised and judged, --turn
+N picks a turn other than the last done one. Exits 5 when the id is not found or
+the prefix is ambiguous (the candidates are listed).
 
 Options
   --since <d|date>         Only sessions ending after this (default 90d)
   --until <d|date>         Only sessions ending before this
   --all                    No time window: every session on disk
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
   --project <p>            Match session cwd substring or path
   --json                   Machine-readable output
-  --width <n>              Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
   --ascii                  ASCII box and glyphs
   --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --no-cache               Ignore the parse cache
   --as-of <date>           Price everything at that date's rates (YYYY-MM-DD)
   --prices <file>          Override prices.json
@@ -232,41 +270,51 @@ Options
   --explain-claim          Show how each claim was recognised and judged
   --timeline               Include the evidence timeline
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
 exports[`showreceipts <cmd> --help (§12.4) > setup: snapshot 1`] = `
 "showreceipts setup — Install Stop/post-tool hooks in the harnesses found on this machine (idempotent; --dry-run; --remove)
 
-Usage: showreceipts setup [--harness h[,h]] [--all] [--dry-run] [--remove] [--restore <backup>]
-       [--strict] [--project] [--shared] [--json]
+Usage: showreceipts setup [--harness h[,h]] [--all] [--dry-run] [--remove]
+       [--restore <backup>] [--strict] [--project] [--shared] [--json]
 
-Detects the harnesses installed on this machine and installs the showreceipts Stop/post-tool hooks
-in their config files. Idempotent: a backup of every touched file is kept under
-~/.showreceipts/backups. --dry-run shows the diff without writing, --remove uninstalls, --restore
-<backup> rolls back (pass the same --project/--shared scope flags as the setup run that wrote the
-backup), --strict enables the contradiction nudge, --project and --shared select project-level
-config files. Exits 3 when a manual step is required (the snippet is printed).
+Detects the harnesses installed on this machine and installs the showreceipts
+Stop/post-tool hooks in their config files. Idempotent: a backup of every
+touched file is kept under ~/.showreceipts/backups. --dry-run shows the diff
+without writing, --remove uninstalls, --restore <backup> rolls back (pass the
+same --project/--shared scope flags as the setup run that wrote the backup),
+--strict enables the contradiction nudge, --project and --shared select
+project-level config files. Exits 3 when a manual step is required (the snippet
+is printed).
 
 Options
   --all                    Every harness found on this machine
-  --harness <list>         claude-code,codex,cursor,gemini,copilot,hermes,dsh
-  --project <p>            Write the project-level config instead of the user-level one
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
+  --project                Write the project-level config instead of the
+                           user-level one
   --json                   Machine-readable output
   --no-color               Disable color (also NO_COLOR)
-  --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)
+  --now <iso>              Pretend the current time is this ISO-8601 timestamp
+                           (also SHOWRECEIPTS_NOW)
   --dry-run                Show what would change without writing
   --remove                 Uninstall the showreceipts hooks
-  --restore <backup>       Restore a config backup written by setup (use the same scope flags as that run)
-  --strict                 Nudge the agent when its final message is contradicted (Stop hook)
-  --shared                 Write the shared project config (.claude/settings.json) instead of the local one
+  --restore <backup>       Restore a config backup written by setup (use the
+                           same scope flags as that run)
+  --strict                 Nudge the agent when its final message is
+                           contradicted (Stop hook)
+  --shared                 Write the shared project config
+                           (.claude/settings.json) instead of the local one
   --verbose                Print unknown-shape counts and other diagnostics
-  --debug                  Debug logging on stderr (hook: ~/.showreceipts/hook.log)
+  --debug                  Debug logging on stderr (hook:
+                           ~/.showreceipts/hook.log)
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;
 
@@ -276,24 +324,36 @@ exports[`showreceipts --help (top level) > exits 0 with the §12.4 screen verbat
 Usage: showreceipts [command] [options]
 
 Commands
-  audit (default)   Scan agent session logs on disk; print a summary, the latest receipt and your false-done rate
-  session <id>      Full receipt for one session (id prefix, path, or "latest") with the evidence timeline
+  audit (default)   Scan agent session logs on disk; print a summary, the latest
+                    receipt and your false-done rate
+  session <id>      Full receipt for one session (id prefix, path, or "latest")
+                    with the evidence timeline
   report            Write a single-file HTML report to .showreceipts/report.html
-  export <id>       Markdown (--md) or JSON (--json) receipt for PR descriptions and CI artifacts
-  setup             Install Stop/post-tool hooks in the harnesses found on this machine (idempotent; --dry-run; --remove)
+  export <id>       Markdown (--md) or JSON (--json) receipt for PR descriptions
+                    and CI artifacts
+  setup             Install Stop/post-tool hooks in the harnesses found on this
+                    machine (idempotent; --dry-run; --remove)
   demo              Render bundled synthetic receipts (no data needed)
-  bench             False-done / unverified / test-run rates per model × harness × version; --publish writes aggregates only
-  doctor            What was found on disk, unknown record shapes, hook status, price coverage
+  bench             False-done / unverified / test-run rates per model × harness
+                    × version; --publish writes aggregates only
+  doctor            What was found on disk, unknown record shapes, hook status,
+                    price coverage
   hook              (internal) hook entrypoint invoked by harnesses
 
 Options
-  --since <d|date>  Only sessions ending after this (default 90d)      --harness <list>   claude-code,codex,cursor,gemini,copilot,hermes,dsh
-  --project <p>     Match session cwd substring or path                --json             Machine-readable output
-  --as-of <date>    Price everything at that date's rates (YYYY-MM-DD) --prices <file>    Override prices.json
-  --no-color        Disable color (also NO_COLOR)                        --ascii            ASCII box and glyphs
-  --width <n>       Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
-  --no-cache        Ignore the parse cache
+  --since <d|date>         Only sessions ending after this (default 90d)
+  --harness <list>         claude-code, codex, cursor, gemini, copilot, hermes,
+                           dsh, opencode, openclaw
+  --project <p>            Match session cwd substring or path
+  --json                   Machine-readable output
+  --as-of <date>           Price everything at that date's rates (YYYY-MM-DD)
+  --prices <file>          Override prices.json
+  --no-color               Disable color (also NO_COLOR)
+  --ascii                  ASCII box and glyphs
+  --width <n>              Terminal width to render for (40–200; < 74 narrow
+                           mode; > 102 capped)
+  --no-cache               Ignore the parse cache
 
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
+Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (git root, or the current directory outside a repo) and ~/.showreceipts/.
 "
 `;

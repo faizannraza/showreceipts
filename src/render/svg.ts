@@ -27,6 +27,12 @@ export interface SvgOptions {
   tz?: Tz | undefined;
   /** The user's home directory (`~` display form of the cwd). */
   homeDir: string;
+  /**
+   * Optional provenance tag (`demo scenario`): drawn small in the top-right
+   * corner of the paper and folded into the `aria-label`, so the image says
+   * what it is even when it travels alone (release asset, rehosted README).
+   */
+  badge?: string | undefined;
 }
 
 /** Font size in px; the §10.1 rule fixes the advance at `cw = 0.6 × font-size`. */
@@ -141,13 +147,19 @@ export function renderReceiptSvg(receipt: Receipt, opts: SvgOptions): string {
   });
   let maxWidth = 0;
   for (const line of lines) maxWidth = Math.max(maxWidth, displayWidth(strip(line)));
-  const width = px(maxWidth * CHAR_WIDTH + 2 * PADDING);
+  const widthPx = maxWidth * CHAR_WIDTH + 2 * PADDING;
+  const width = px(widthPx);
   const height = px(lines.length * LINE_HEIGHT + 2 * PADDING);
+  const badge = opts.badge !== undefined && opts.badge !== '' ? opts.badge : null;
+  const label = `showreceipts ${badge === null ? '' : `${badge} `}receipt #${strip(receipt.shortId)}`;
   const parts: string[] = [
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="showreceipts receipt #${esc(strip(receipt.shortId))}">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(label)}">`,
     `<rect width="${width}" height="${height}" rx="8" fill="${BACKGROUND}"/>`,
     `<g font-family="${FONT_STACK}" font-size="${FONT_SIZE}" fill="${INK}">`,
   ];
+  if (badge !== null) {
+    parts.push(`<text x="${px(widthPx - 12)}" y="16" text-anchor="end" font-size="11" fill="${FILL_BY_SGR[SGR.dim]}">${esc(badge)}</text>`);
+  }
   lines.forEach((line, i) => parts.push(textElement(line, i)));
   parts.push('</g>', '</svg>', '');
   return parts.join('\n');

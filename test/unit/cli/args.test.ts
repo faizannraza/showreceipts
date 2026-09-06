@@ -51,6 +51,19 @@ describe('parse: commands and positionals', () => {
     expect(err.command).toBe('audit');
   });
 
+  it("treats bare 'help' as --help (git/npm muscle memory)", () => {
+    const parsed = parse(['help']);
+    expect(parsed.command).toBe('audit');
+    expect(parsed.flags['help']).toBe(true);
+    expect(parsed.positionals).toEqual([]);
+  });
+
+  it('suggests the nearest command for a close typo (edit distance ≤ 2)', () => {
+    expect(usageError(['sessions']).message).toBe("unknown command 'sessions' — did you mean 'session'?");
+    expect(usageError(['doctr']).message).toBe("unknown command 'doctr' — did you mean 'doctor'?");
+    expect(usageError(['benchh']).message).toBe("unknown command 'benchh' — did you mean 'bench'?");
+  });
+
   it('rejects surplus positionals naming the command', () => {
     expect(usageError(['audit', 'extra']).message).toBe("audit: unexpected argument 'extra'");
     expect(usageError(['session', 'a', 'b']).message).toBe("session: unexpected argument 'b'");
@@ -70,7 +83,7 @@ describe('parse: commands and positionals', () => {
 
   it('treats everything after -- as positional', () => {
     expect(parse(['session', '--', '--not-a-flag']).positionals).toEqual(['--not-a-flag']);
-    expect(usageError(['--', 'audit']).message).toBe("unknown command 'audit'");
+    expect(usageError(['--', 'audit']).message).toBe("unknown command 'audit' — did you mean 'audit'?");
   });
 
   it('treats a lone dash and an empty token as positionals', () => {

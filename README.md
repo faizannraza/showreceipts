@@ -32,9 +32,16 @@ false-done rate. The second installs a Stop hook in every harness it finds —
 idempotent, with backups, previewable with `--dry-run` — so a receipt lands in
 `.showreceipts/last-receipt.md` the moment an agent claims it's done.
 
-A note on `npx`: it adds roughly 0.3–0.6 s of npm overhead on every run
-(measured 0.33–1.18 s here). `npm i -g showreceipts` removes it, and `setup`
-recommends the global install for hooks.
+A note on `npx`: it adds roughly 0.3–0.6 s of npm overhead on every warm run,
+and up to about 1.2 s on a cold npx cache (measured 0.33–1.18 s here).
+`npm i -g showreceipts` removes it, and `setup` recommends the global install
+for hooks.
+
+Upgrade with `npm update -g showreceipts`, then re-run `showreceipts setup` so
+the hooks' launcher copy updates too. To leave: `showreceipts setup --remove`
+uninstalls the hooks surgically (`--remove --all` also deletes the launcher;
+backups of every config it ever touched are kept under
+`~/.showreceipts/backups`), then `npm rm -g showreceipts`.
 
 ## What a receipt looks like
 
@@ -103,7 +110,10 @@ Claim extraction is a versioned, deterministic rule grammar — no LLM, no
 heuristic scoring — applied to the agent's final message only. Negated,
 hedged, deferred and quoted-instruction sentences are never scored;
 third-party attributions are recognised but not scored. The receipt always
-prints "N claims recognized" and never implies it scored every sentence.
+carries the recognized-claim count — `claimsRecognized`, `notScored` and
+`sentencesScanned` in the JSON, "claims recognized: N (of which M not
+scored)" in the Markdown export, and the terminal no-claims box prints it —
+and never implies it scored every sentence.
 The full grammar (this table is generated from `src/claims/rules.ts` and is
 the same one the tool executes):
 
@@ -183,8 +193,9 @@ What is read: Claude Code transcripts, Codex rollouts, showreceipts' own
 hook-captured ledgers, and (for `setup`/`doctor` only) the harness config
 files. Never read: persisted tool outputs (`tool-results/`), background task
 files (`tasks/`), `auth.json`, `.env`, git internals. What is written: only
-`.showreceipts/` in your repos and `~/.showreceipts/` — receipts, the parse
-cache, ledgers, backups — all `0600`/`0700`, atomic and masked.
+`.showreceipts/` (under the git root, or the current directory outside a
+repo) and `~/.showreceipts/` — receipts, the parse cache, ledgers, backups —
+all `0600`/`0700`, atomic and masked.
 `report --hash-paths` replaces every path with a hash so reports can be
 shared; `bench --publish` writes aggregates only (no paths, ids, prompts or
 day-precision dates) and never sends anything anywhere. The full tables —

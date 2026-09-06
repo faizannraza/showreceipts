@@ -18,6 +18,7 @@ import { createContext } from '../../src/cli/context.js';
 import { DEMO_HOME, demoReceipts, run } from '../../src/commands/demo.js';
 import { SCENARIOS } from '../../src/demo/scenarios.js';
 import { assertWidth } from '../../src/render/box.js';
+import { approxLegend } from '../../src/render/summary.js';
 import { renderReceipt, renderReceiptLines, type TermOptions } from '../../src/render/term.js';
 import { makeTempDir } from '../helpers/tmp.js';
 
@@ -144,11 +145,13 @@ describe('layout invariants over every scenario', () => {
 // ---------------------------------------------------------------------------
 
 describe('demo command', () => {
-  it('default text output is the docs/samples files concatenated with blank lines', async () => {
+  it('default text output is the docs/samples files concatenated, plus the one-line ≈ legend', async () => {
     const { code, out } = await runDemo(['--width', '74', '--tz', 'utc', '--no-color', '--unicode']);
     expect(code).toBe(0);
     const expected = SCENARIOS.map((s) => readFileSync(join(SAMPLES_DIR, `${s.name}.txt`), 'utf8')).join('\n');
-    expect(out).toBe(expected);
+    // §8.3 / Pass 3: a screen that showed ≈ explains it once, after the last receipt.
+    expect(out).toBe(`${expected}\n${approxLegend(true, 74).join('\n')}\n`);
+    expect(out.match(/≈ = estimated/g)?.length).toBe(1);
   });
 
   it('--json emits one array with every scenario receipt, in order', async () => {
@@ -175,6 +178,9 @@ describe('demo command', () => {
     expect(svg.startsWith('<svg ')).toBe(true);
     expect(svg).toContain('#0badf00d');
     expect(svg).not.toContain('<script');
+    // the standalone image is labelled as the demo scenario (docs/release.md step 4)
+    expect(svg).toContain('aria-label="showreceipts demo scenario receipt #0badf00d"');
+    expect(svg).toContain('>demo scenario</text>');
     expect(out).toContain('RECEIPT');
   });
 

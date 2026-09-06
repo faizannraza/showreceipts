@@ -62,12 +62,14 @@ Versions in this release: rules `claims/2` + `reconcile/2`, prices
   "How to …" headings and "To <verb>:" instructional openers are scored as
   claims; a parenthetical conditional can re-scope a completed action to
   deferred.
-- **Codex ≥ 0.148 rollouts: waiver.** No redacted Codex ≥ 0.148 rollout
-  fixture landed for 0.1.0; the reader is verified against the two real
-  0.98.0 rollouts and the `shell_command` shape only. Newer rollouts parse
-  best-effort and unknown payloads are surfaced by `doctor` as counts.
-  Capturing a redacted ≥ 0.148 fixture with a golden is the first 0.1.x
-  task.
+- **Codex ≥ 0.148 rollouts: waiver.** No *real* redacted Codex ≥ 0.148
+  rollout landed for 0.1.0 — the 0.148 dialect is covered only by a
+  hand-written synthetic `shell_command` fixture (stamped `0.148.0`, which
+  is why `docs/catalogue.md` lists that version); the reader is verified
+  against the two real 0.98.0 rollouts plus that synthetic shape. Newer
+  rollouts parse best-effort and unknown payloads are surfaced by `doctor`
+  as counts. Capturing a real redacted ≥ 0.148 fixture with a golden is the
+  first 0.1.x task.
 - **The parse cache keeps the newest turn's prompt in its resume state.**
   A cache entry's `builderState` nulls every finalized turn's prompt text
   (its echo hashes are preserved, so receipts are unaffected), but the

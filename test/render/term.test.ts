@@ -358,6 +358,42 @@ describe('branch display (§10.1: HEAD → detached HEAD, empty → no branch)',
   });
 });
 
+describe('stats pluralization (§10.1)', () => {
+  it('1 file changed is singular, matching the Markdown export', () => {
+    const receipt: Receipt = structuredClone(entryOf('cjk-path'));
+    receipt.stats = { ...receipt.stats, filesChanged: 1 };
+    const text = renderReceiptLines(receipt, opts(80, MODES[1])).map(inner).join('\n');
+    expect(text).toContain('1 file changed');
+    expect(text).not.toContain('1 files changed');
+  });
+});
+
+describe('audit no-claims cross-reference (TermOptions.noClaimsHint)', () => {
+  /** The kind text word-wraps inside the box, so assert on the reflowed text. */
+  const flat = (lines: readonly string[]): string =>
+    lines
+      .map(inner)
+      .map((l) => l.trim())
+      .join(' ')
+      .replace(/\s+/g, ' ');
+
+  it('appends the earlier-claims hint after the pinned §10.1 kind text', () => {
+    const receipt = structuredClone(entryOf('hook-captured'));
+    const text = flat(renderReceiptLines(receipt, opts(100, MODES[1], { noClaimsHint: { claims: 4, sessionShortId: '1e2c0d07', turn: 2 } })));
+    expect(text).toContain('no claims recognized in the final message (0 claims · 4 sentences)');
+    expect(text).toContain('4 claims across earlier done turns — showreceipts session 1e2c0d07 --turn 2');
+  });
+
+  it('omits --turn when no earlier turn is known and renders nothing without the option', () => {
+    const receipt = structuredClone(entryOf('hook-captured'));
+    const hinted = flat(renderReceiptLines(receipt, opts(100, MODES[1], { noClaimsHint: { claims: 2, sessionShortId: 'abcd1234' } })));
+    expect(hinted).toContain('2 claims across earlier done turns — showreceipts session abcd1234');
+    expect(hinted).not.toContain('--turn');
+    const plain = flat(renderReceiptLines(receipt, opts(100, MODES[1])));
+    expect(plain).not.toContain('earlier done turns');
+  });
+});
+
 describe('post-final notes cap (a real 46-subagent session rendered 92 note lines)', () => {
   const withAgents = (n: number): string => {
     const receipt: Receipt = {

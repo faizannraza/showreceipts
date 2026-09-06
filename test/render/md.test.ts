@@ -278,6 +278,44 @@ describe('hostile receipt', () => {
 // Kind variants and the cost line
 // ---------------------------------------------------------------------------
 
+describe('post-final notes cap (shared with the terminal renderer)', () => {
+  const withAgents = (n: number): Receipt =>
+    makeReceipt({
+      postFinal: Array.from({ length: n }, (_, i) => ({ agentId: `a${String(i).padStart(2, '0')}`, toolCalls: i + 1, files: 0, testRuns: 0 })),
+    });
+
+  it('renders every per-agent note at 3 or fewer agents', () => {
+    const md = renderMarkdownReceipt(withAgents(3), { tz: 'utc' });
+    expect(md.match(/after this message: agent /g)?.length).toBe(3);
+    expect(md).not.toContain('more agents');
+  });
+
+  it('collapses the tail beyond 3 agents into one aggregate line (a real export carried 54)', () => {
+    const md = renderMarkdownReceipt(withAgents(54), { tz: 'utc' });
+    expect(md.match(/after this message: agent /g)?.length).toBe(3);
+    expect(md).toContain('51 more agents ran');
+    expect(md).toContain('not evidence for the claims above');
+  });
+});
+
+describe('homeDir display (parity with the terminal header)', () => {
+  it('maps the header cwd to ~ when homeDir is given', () => {
+    const md = renderMarkdownReceipt(makeReceipt({ cwd: '/home/u/proj' }), { tz: 'utc', homeDir: '/home/u' });
+    expect(md).toContain(' ~/proj ');
+    expect(md).not.toContain(' /home/u/proj ');
+  });
+
+  it('leaves the cwd raw without homeDir', () => {
+    const md = renderMarkdownReceipt(makeReceipt({ cwd: '/home/u/proj' }), { tz: 'utc' });
+    expect(md).toContain('/home/u/proj');
+  });
+
+  it('maps timeline file cells too', () => {
+    const md = renderMarkdownReceipt(makeReceipt(), { tz: 'utc', homeDir: '/Users/eve' });
+    expect(md).toContain('~/secret/place.txt');
+  });
+});
+
 describe('kind variants', () => {
   it('hook-captured receipts say so in the header and cost line', () => {
     const md = renderMarkdownReceipt(makeReceipt({ source: 'ledger' }), { tz: 'utc' });

@@ -165,6 +165,38 @@ describe('report over the fixture tree', () => {
   });
 });
 
+describe('failure and empty-state messages (Pass 3)', () => {
+  it('a nonexistent --out parent fails with a friendly message, not a raw errno', async () => {
+    await expect(runReport([...BASE, '--out', '/nonexistent-showreceipts-xyz/r.html'])).rejects.toThrow(
+      /report: cannot write \/nonexistent-showreceipts-xyz\/r\.html — /,
+    );
+  });
+
+  it('with no sessions found the human output points at demo', async () => {
+    const home = makeTempDir('sr-report-empty-');
+    const stdout = sink();
+    const stderr = sink();
+    const out = join(makeTempDir('sr-report-out-'), 'r.html');
+    const ctx = createContext(parse(['report', '--all', '--no-color', '--unicode', '--out', out]), {
+      stdout,
+      stderr,
+      env: {
+        HOME: home,
+        CLAUDE_CONFIG_DIR: join(home, 'no-claude'),
+        CODEX_HOME: join(home, 'no-codex'),
+        SHOWRECEIPTS_HOME: join(home, 'sr'),
+      },
+      cwd: makeTempDir('sr-report-empty-cwd-'),
+      now: NOW,
+      isTTY: false,
+    });
+    const code = await run(ctx);
+    expect(code).toBe(0);
+    expect(stdout.text).toContain('0 session(s)');
+    expect(stdout.text).toContain("no sessions found · try 'showreceipts demo' for sample receipts");
+  });
+});
+
 describe('--open (injected spawner; §13.4 — never spawns in tests)', () => {
   it('builds the platform argv arrays', () => {
     expect(openCommandFor('darwin', '/x/r.html')).toEqual({ command: 'open', args: ['/x/r.html'] });

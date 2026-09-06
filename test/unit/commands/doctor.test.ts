@@ -112,7 +112,11 @@ describe('doctor over the healthy fixture tree', () => {
     const r = await runDoctor(['doctor', '--width', '80', '--no-color', '--ascii', '--home-dir', '/home/u']);
     expect(r.code).toBe(0);
     for (const section of ['roots', 'harnesses', 'hooks', 'ledgers', 'prices', 'cache']) expect(r.stdout).toContain(section);
-    expect(r.stdout).toContain(CLEANUP_NOTE);
+    // The durability note word-wraps to the width budget (Pass 3), so pin
+    // its content rather than the single-line literal.
+    expect(r.stdout).toContain('cleanupPeriodDays');
+    expect(r.stdout).toContain('durable record');
+    expect(r.stdout.replace(/\n/g, ' ')).toContain(CLEANUP_NOTE.slice(0, 60));
   });
 });
 

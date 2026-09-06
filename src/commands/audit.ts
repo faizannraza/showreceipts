@@ -20,13 +20,14 @@
 import type { Harness, RateRow, Receipt, Session, SessionCard } from '../model/types.js';
 import { HARNESSES, HARNESS_LABELS } from '../model/types.js';
 import type { CommandContext } from '../cli/context.js';
+import { paint } from '../util/ansi.js';
 import { buildRateRows, buildSessionCard, sessionKey } from '../pipeline/cards.js';
 import { dedupeUsage } from '../pipeline/dedupe.js';
 import { buildReceipt, buildTurnReceipts, type ReceiptOptions } from '../pipeline/receipt.js';
 import { loadSessions, type LoadDiagnostics, type LoadResult, type ScannedSummary } from '../pipeline/run.js';
 import { glyphSet } from '../render/glyphs.js';
-import { renderAuditFooter, renderAuditHeader, renderRateTable, renderSessionTable, type AuditScan } from '../render/summary.js';
-import { renderReceipt } from '../render/term.js';
+import { approxLegend, renderAuditFooter, renderAuditHeader, renderRateTable, renderSessionTable, type AuditScan } from '../render/summary.js';
+import { renderReceipt, type TermOptions } from '../render/term.js';
 import { inspectHooks } from '../setup/inspect.js';
 import { stableStringify } from '../util/json.js';
 import { parseIso } from '../util/time.js';
@@ -102,6 +103,22 @@ function scannedOf(sessions: readonly Session[], load: LoadResult): ScannedSumma
 /** The newest session with ≥ 1 done turn (§10.1 "latest"); `sessions` is already (`endedAt` desc) sorted. */
 function latestDoneSession(sessions: readonly Session[]): Session | null {
   return sessions.find((s) => s.kind === 'normal' && s.turns.some((t) => t.isDone)) ?? null;
+}
+
+/**
+ * The audit-only cross-reference appended to a `no-claims` latest receipt
+ * (§10.1 audit screen): the session table's CLAIMS column sums recognized
+ * claims across every done turn, so when the final done turn recognized
+ * none the two numbers on the same screen look self-contradictory. Returns
+ * `undefined` unless earlier done turns actually carry claims.
+ */
+export function noClaimsHintOf(latest: Receipt, card: SessionCard | undefined): TermOptions['noClaimsHint'] {
+  if (latest.kind !== 'no-claims' || card === undefined) return undefined;
+  const earlier = card.claims - latest.claimsRecognized;
+  if (earlier <= 0) return undefined;
+  const turns = latest.turnsWithClaims.filter((t) => t !== latest.turnIndex);
+  const turn = turns.length > 0 ? Math.max(...turns) : undefined;
+  return { claims: earlier, sessionShortId: latest.shortId, ...(turn === undefined ? {} : { turn }) };
 }
 
 /** The header's per-harness counts, in the fixed enum order, zero rows omitted (§10.2). */
@@ -240,6 +257,7 @@ export async function run(ctx: CommandContext): Promise<number> {
     ...renderSessionTable(cards, { ...summary, limit }),
   ];
   if (latest !== null) {
+    const latestCard = latestSession === null ? undefined : cards.find((c) => c.id === latestSession.sessionId);
     lines.push(
       '',
       renderReceipt(latest, {
@@ -250,9 +268,16 @@ export async function run(ctx: CommandContext): Promise<number> {
         homeDir: prepared.homeDir,
         capRows: AUDIT_CAP_ROWS,
         allClaims: ctx.args.flags['all-claims'] === true,
+        noClaimsHint: noClaimsHintOf(latest, latestCard),
       }).trimEnd(),
     );
   }
+  // §8.3 / Pass 3: the ≈ marker is explained once whenever the screen showed
+  // an estimated cost (in the latest receipt's cost line or a table row).
+  const approxShown =
+    (latest !== null && latest.kind !== 'no-turns' && latest.source !== 'ledger' && latest.cost.unverified) ||
+    cards.some((c) => c.unverified && c.costUsd !== null);
+  if (approxShown) lines.push(...approxLegend(unicode, cols).map((l) => paint('dim', l, color === true)));
   lines.push('', ...renderRateTable(rate, summary));
   lines.push(
     '',

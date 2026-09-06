@@ -6,10 +6,12 @@ to the **final message of a turn only** — the message the agent ends on when
 it says it's done. The rules are deterministic regexes over sentences; the
 same final message always yields the same claims, on every machine.
 
-Recall is intentionally limited: the receipt prints "N claims recognized" and
-never implies it scored every assertion. How well the grammar covers what a
-human reader would call a claim — and how often the verdicts are right — is
-measured in [`accuracy.md`](accuracy.md).
+Recall is intentionally limited: the receipt always carries the
+recognized-claim count (`claimsRecognized`/`notScored`/`sentencesScanned` in
+the JSON, "claims recognized: N" in the Markdown export, and the terminal
+no-claims box prints it) and never implies it scored every assertion. How
+well the grammar covers what a human reader would call a claim — and how
+often the verdicts are right — is measured in [`accuracy.md`](accuracy.md).
 
 ## Polarity, hedges and scoping
 

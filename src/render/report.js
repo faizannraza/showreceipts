@@ -114,9 +114,12 @@
   }
 
   // ---- formatting ----
+  /* Section 8.3 shape: null -> n/a; <0.01 -> 4 decimals; <1000 -> 2; >=1000 -> comma-grouped dollars. */
   function fmtUsd(v, approx) {
-    if (v === null || v === undefined) return '—';
-    return (approx ? '≈' : '') + '$' + (v < 0.1 ? v.toFixed(4) : v.toFixed(2));
+    if (v === null || v === undefined) return 'n/a';
+    var p = (approx ? '≈' : '') + '$';
+    if (v < 0.01) return p + (v === 0 ? '0.00' : v.toFixed(4));
+    return v < 1000 ? p + v.toFixed(2) : p + String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   function fmtPct(num, den) {
     return den ? Math.round((num / den) * 100) + '%' : '—';
@@ -550,12 +553,24 @@
         add(paper, el('div', d.warn ? 'glyph-unk' : null, (d.warn ? '⚠ ' : '· ') + d.text));
       }
     }
+    /* Section 11.2 item 6: post-final activity, capped like the terminal (3 + aggregate). */
+    var pfs = receipt.postFinal || [];
+    var pfNote = function (who, calls, tail) {
+      add(paper, el('div', null, '· after this message: ' + who + ' ran ' + calls + ' tool calls ' + tail + '— not evidence for the claims above'));
+    };
+    for (i = 0; i < pfs.length && i < 3; i++) {
+      pfNote(pfs[i].agentId == null ? 'the main agent' : 'agent ' + pfs[i].agentId, pfs[i].toolCalls, '(' + pfs[i].files + ' files, ' + pfs[i].testRuns + ' test runs) ');
+    }
+    if (pfs.length > 3) {
+      for (var pfCalls = 0, j = 3; j < pfs.length; j++) pfCalls += pfs[j].toolCalls;
+      pfNote(pfs.length - 3 + ' more agents', pfCalls, '');
+    }
     add(paper, el('div', 'rule'));
     var st = receipt.stats || {};
     add(paper, el('div', 'hd',
       st.toolCalls + ' tool calls · ' + st.filesChanged + ' files changed · ' + st.testRuns + ' test runs · ' + st.apiCalls + ' api calls'));
     var rc = receipt.cost;
-    add(paper, el('div', 'hd', 'cost ' + fmtUsd(rc ? rc.usd : null, rc && rc.unverified) + ' (API-equivalent)'));
+    add(paper, el('div', 'hd', receipt.source === 'ledger' ? 'cost n/a (hook-captured)' : 'cost ' + fmtUsd(rc ? rc.usd : null, rc && rc.unverified) + ' (API-equivalent)'));
     add(main, paper);
     if (receipt.finalText) {
       var det = el('details', 'acc');

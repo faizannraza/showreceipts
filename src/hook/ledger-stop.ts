@@ -250,7 +250,14 @@ export async function runLedgerStop(input: LedgerStopInput): Promise<LedgerStopR
   let files: ReceiptFilesResult | null = null;
   if (ctx.home !== '') {
     try {
-      files = writeFiles({ receipt, cwd: ctx.cwd, home: ctx.home, harness: ctx.harness, safeSid: safeSid(input.sid) });
+      files = writeFiles({
+        receipt,
+        cwd: ctx.cwd,
+        home: ctx.home,
+        harness: ctx.harness,
+        safeSid: safeSid(input.sid),
+        displayHome: ctx.env['HOME'] ?? '',
+      });
     } catch (err) {
       ctx.debug(`${ctx.harness} ${ctx.event}: receipt files not written (${err instanceof Error ? err.message : String(err)})`);
     }

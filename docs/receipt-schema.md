@@ -297,6 +297,7 @@ A block whose body is a bare string (e.g. `"Receipt"`) is an alias.
   "cacheHitPct": "number|null",
   "unverified": "boolean",
   "unpriced": ["string"],
+  "unverifiedModels?": ["string"],
   "apiEquivalent": "true",
   "pricesVersion": "string",
   "overrideHash?": "string",

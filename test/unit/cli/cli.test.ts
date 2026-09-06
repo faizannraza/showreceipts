@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { COMMANDS, parse, UsageError } from '../../../src/cli/args.js';
 import { createContext, resolveNow, type CommandContext } from '../../../src/cli/context.js';
 import { commandHelp, HELP_TEXT, usageFooter } from '../../../src/cli/help.js';
+import { PRIVACY_FOOTER } from '../../../src/commands/help.js';
 import { main, type MainOptions } from '../../../src/cli.js';
 import { TOOL_VERSION } from '../../../src/version.js';
 import { makeTempDir } from '../../helpers/tmp.js';
@@ -82,6 +83,17 @@ describe('main: version and help', () => {
     }
   });
 
+  it('hook --help at an interactive stdin prints the hook help block (Pass 3)', async () => {
+    const r = await run(['hook', '--help'], { stdinIsTTY: true });
+    expect(r).toEqual({ code: 0, stdout: commandHelp('hook'), stderr: '' });
+  });
+
+  it('hook --help with piped stdin keeps the §9 JSON-only contract', async () => {
+    const r = await run(['hook', '--help'], { stdinIsTTY: false });
+    expect(r.code).toBe(0);
+    expect(r.stdout).toBe('{}\n');
+  });
+
   it('per-command help lists exactly the accepted, non-hidden flags', () => {
     const setup = commandHelp('setup');
     expect(setup).toContain('--dry-run');
@@ -100,7 +112,11 @@ describe('main: version and help', () => {
     const hook = commandHelp('hook');
     expect(hook).toContain('--strict-reasons <list>');
     for (const command of COMMANDS) {
-      for (const line of commandHelp(command).split('\n')) expect(line.length, `${command}: ${line}`).toBeLessThanOrEqual(125);
+      for (const line of commandHelp(command).split('\n')) {
+        // the one-line title and the pinned §12.4 footer stay unwrapped
+        if (line === PRIVACY_FOOTER || line.startsWith('showreceipts ')) continue;
+        expect(line.length, `${command}: ${line}`).toBeLessThanOrEqual(102);
+      }
     }
   });
 

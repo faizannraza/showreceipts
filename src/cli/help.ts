@@ -1,37 +1,16 @@
 /**
- * Help text: the §12.4 top-level screen verbatim, plus one block per command
- * (`showreceipts <cmd> --help`) assembled from the flag table in `args.ts`.
- * S23c later moves the shared option table into `commands/help.ts` and the
- * command steps add their own sections.
+ * Help text (§12.4): the top-level screen and one block per command
+ * (`showreceipts <cmd> --help`), assembled from the flag table in `args.ts`
+ * with the shared §12.4 machinery of `commands/help.ts` (which the command
+ * steps also use, so the two renderers stay byte-identical).
+ *
+ * Pass 3: every screen is single-column and adapts to the terminal width —
+ * the CLI shell resolves the column count and passes it in; the exported
+ * {@link HELP_TEXT} is the 80-column render used when the width is unknown
+ * (and what the committed snapshots pin).
  */
-import { flagsFor, type CommandName, type FlagSpec } from './args.js';
-
-/** The `showreceipts --help` screen (ARCHITECTURE §12.4, verbatim). */
-export const HELP_TEXT = `showreceipts — your coding agent said "done". Show receipts.
-
-Usage: showreceipts [command] [options]
-
-Commands
-  audit (default)   Scan agent session logs on disk; print a summary, the latest receipt and your false-done rate
-  session <id>      Full receipt for one session (id prefix, path, or "latest") with the evidence timeline
-  report            Write a single-file HTML report to .showreceipts/report.html
-  export <id>       Markdown (--md) or JSON (--json) receipt for PR descriptions and CI artifacts
-  setup             Install Stop/post-tool hooks in the harnesses found on this machine (idempotent; --dry-run; --remove)
-  demo              Render bundled synthetic receipts (no data needed)
-  bench             False-done / unverified / test-run rates per model × harness × version; --publish writes aggregates only
-  doctor            What was found on disk, unknown record shapes, hook status, price coverage
-  hook              (internal) hook entrypoint invoked by harnesses
-
-Options
-  --since <d|date>  Only sessions ending after this (default 90d)      --harness <list>   claude-code,codex,cursor,gemini,copilot,hermes,dsh
-  --project <p>     Match session cwd substring or path                --json             Machine-readable output
-  --as-of <date>    Price everything at that date's rates (YYYY-MM-DD) --prices <file>    Override prices.json
-  --no-color        Disable color (also NO_COLOR)                        --ascii            ASCII box and glyphs
-  --width <n>       Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)
-  --no-cache        Ignore the parse cache
-
-Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.
-`;
+import { flagsFor, type CommandName } from './args.js';
+import { HELP_COLS_DEFAULT, optionLines, PRIVACY_FOOTER, wrapSynopsis, wrapText } from '../commands/help.js';
 
 /** One-line summaries (the Commands column of §12.4). */
 export const COMMAND_SUMMARY: Readonly<Record<CommandName, string>> = {
@@ -52,7 +31,7 @@ export const COMMAND_SYNOPSIS: Readonly<Record<CommandName, string>> = {
     'showreceipts [audit] [--since 90d|YYYY-MM-DD] [--until …] [--all] [--harness h[,h]] [--project <substr|path>] [--limit N] [--all-claims] [--json] [--no-cache] [--as-of DATE] [--prices FILE] [--width N] [--ascii|--unicode] [--no-color] [--tz local|utc] [--now ISO]',
   session: 'showreceipts session <id|prefix|path|latest> [--turn N] [--json] [--explain-claim] [--timeline] [--no-cache] [common options]',
   report:
-    'showreceipts report [--out .showreceipts/report.html] [--open] [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …] [--project …] [--limit N] [--ascii|--unicode] [--json]',
+    'showreceipts report [--out .showreceipts/report.html] [--open] [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …] [--project …] [--limit N] [--ascii|--unicode] [--bench] [--json]',
   export: 'showreceipts export <id|latest> (--md | --json) [--out FILE] [--hash-paths] [--timeline] [--turn N]',
   setup: 'showreceipts setup [--harness h[,h]] [--all] [--dry-run] [--remove] [--restore <backup>] [--strict] [--project] [--shared] [--json]',
   hook: 'showreceipts hook <harness> [<event>] [--strict] [--strict-max N] [--strict-reasons list] [--force-record] [--verbose] [--debug]',
@@ -67,7 +46,7 @@ const COMMAND_DETAIL: Readonly<Record<CommandName, string>> = {
   session:
     'Prints the full receipt for one session, every claim with its evidence, selected by id prefix, transcript path or "latest". --timeline adds the evidence timeline, --explain-claim shows how each claim was recognised and judged, --turn N picks a turn other than the last done one. Exits 5 when the id is not found or the prefix is ambiguous (the candidates are listed).',
   report:
-    'Writes a single-file HTML report (session list, receipts, timelines) to .showreceipts/report.html under the current git root, or to --out. The file loads nothing from the network. --open launches it in your browser; --hash-paths replaces absolute paths with hashes so the file can be shared (=both keeps a toggle).',
+    'Writes a single-file HTML report (session list, receipts, timelines) to .showreceipts/report.html under the current git root (or the current directory outside a repo), or to --out. The file loads nothing from the network. --open launches it in your browser; --hash-paths replaces absolute paths with hashes so the file can be shared (=both keeps a toggle).',
   export:
     'Prints one session\'s receipt as Markdown (--md) or JSON (--json) for PR descriptions and CI artifacts; --out writes it to a file instead of stdout. Exits 5 when the id is not found or ambiguous.',
   setup:
@@ -90,21 +69,28 @@ interface FlagHelp {
 }
 
 const FLAG_HELP: Readonly<Record<string, FlagHelp>> = {
-  since: { arg: '<d|date>', text: 'Only sessions ending after this (default 90d)' },
+  since: {
+    arg: '<d|date>',
+    text: 'Only sessions ending after this (default 90d)',
+    // bench defaults to 30d, not the shared 90d (§12.1, commands/bench.ts).
+    textBy: { bench: 'Only sessions ending after this (default 30d; --month for a calendar month)' },
+  },
   until: { arg: '<d|date>', text: 'Only sessions ending before this' },
   all: { text: 'No time window: every session on disk', textBy: { setup: 'Every harness found on this machine' } },
-  harness: { arg: '<list>', text: 'claude-code,codex,cursor,gemini,copilot,hermes,dsh' },
+  harness: { arg: '<list>', text: 'claude-code, codex, cursor, gemini, copilot, hermes, dsh, opencode, openclaw' },
   project: {
     arg: '<p>',
     text: 'Match session cwd substring or path',
     textBy: { setup: 'Write the project-level config instead of the user-level one' },
+    // setup's --project is a boolean scope selector (§12.1; args.ts kindBy).
+    argBy: { setup: '' },
   },
   limit: { arg: '<n>', text: 'Rows in the session table (default 20)' },
   'all-claims': { text: 'Show every claim of the latest receipt (default: 12 rows)' },
   json: { text: 'Machine-readable output' },
   md: { text: 'Markdown output' },
   out: { arg: '<file>', text: 'Write to this file' },
-  width: { arg: '<n>', text: 'Terminal width to render for (40–200; < 74 switches to narrow mode; > 102 is treated as 102)' },
+  width: { arg: '<n>', text: 'Terminal width to render for (40–200; < 74 narrow mode; > 102 capped)' },
   ascii: { text: 'ASCII box and glyphs' },
   unicode: { text: 'Unicode box and glyphs (default on a UTF-8 terminal)' },
   'no-color': { text: 'Disable color (also NO_COLOR)' },
@@ -125,7 +111,7 @@ const FLAG_HELP: Readonly<Record<string, FlagHelp>> = {
   timeline: { text: 'Include the evidence timeline' },
   open: { text: 'Open the report in the default browser' },
   full: { arg: '<n>', text: 'Embed full timelines for the N most recent sessions' },
-  bench: { text: 'Include the bench table in the report' },
+  bench: { text: 'Print payload size per section and card count; write nothing' },
   month: { arg: '<YYYY-MM>', text: 'Calendar-month window (instead of --since)' },
   publish: { arg: '[file]', text: 'Write the aggregates-only publish file (default under .showreceipts/)' },
   'dry-run': { text: 'Show what would change without writing' },
@@ -147,48 +133,77 @@ const FLAG_HELP: Readonly<Record<string, FlagHelp>> = {
 
 const META_FLAGS: ReadonlySet<string> = new Set(['help', 'version']);
 
-/** Greedy word-wrap at `width` columns; continuation lines get `indent` spaces. */
-function wrap(text: string, width: number, indent = 0): string[] {
-  const lines: string[] = [];
-  const pad = ' '.repeat(indent);
-  let line = '';
-  for (const word of text.split(' ')) {
-    const prefix = lines.length === 0 ? '' : pad;
-    if (line !== '' && prefix.length + line.length + 1 + word.length > width) {
-      lines.push(prefix + line);
-      line = word;
-    } else {
-      line = line === '' ? word : `${line} ${word}`;
-    }
+/** The Commands column entries, in §12.4 order. */
+const COMMAND_LEFT: Readonly<Record<CommandName, string>> = {
+  audit: 'audit (default)',
+  session: 'session <id>',
+  report: 'report',
+  export: 'export <id>',
+  setup: 'setup',
+  demo: 'demo',
+  bench: 'bench',
+  doctor: 'doctor',
+  hook: 'hook',
+};
+
+const COMMAND_ORDER: readonly CommandName[] = ['audit', 'session', 'report', 'export', 'setup', 'demo', 'bench', 'doctor', 'hook'];
+
+/** Width of the Commands column ('audit (default)' is the widest entry). */
+const COMMAND_COLUMN = 17;
+
+/** The global flags the top-level Options block lists (§12.4 excerpt). */
+const TOP_FLAGS: readonly string[] = ['since', 'harness', 'project', 'json', 'as-of', 'prices', 'no-color', 'ascii', 'width', 'no-cache'];
+
+/**
+ * The `showreceipts --help` screen flowed at `cols` columns (§12.4):
+ * commands and options single-column, descriptions wrapped and hanging.
+ */
+export function topHelp(cols: number = HELP_COLS_DEFAULT): string {
+  const width = Math.min(Math.max(cols, 40), 102);
+  const lines: string[] = [
+    'showreceipts — your coding agent said "done". Show receipts.',
+    '',
+    'Usage: showreceipts [command] [options]',
+    '',
+    'Commands',
+  ];
+  for (const command of COMMAND_ORDER) {
+    lines.push(...optionLines(COMMAND_LEFT[command], COMMAND_SUMMARY[command], width, COMMAND_COLUMN));
   }
-  if (line !== '') lines.push((lines.length === 0 ? '' : pad) + line);
-  return lines;
+  lines.push('', 'Options');
+  for (const name of TOP_FLAGS) {
+    const help = FLAG_HELP[name];
+    if (help === undefined) continue;
+    const left = help.arg !== undefined && help.arg !== '' ? `--${name} ${help.arg}` : `--${name}`;
+    lines.push(...optionLines(left, help.text, width));
+  }
+  lines.push('', PRIVACY_FOOTER);
+  return `${lines.join('\n')}\n`;
 }
 
-function formatFlag(spec: FlagSpec, command: CommandName): string {
-  const help = FLAG_HELP[spec.name];
-  const arg = help?.argBy?.[command] ?? help?.arg;
-  const left = arg !== undefined && arg !== '' ? `--${spec.name} ${arg}` : `--${spec.name}`;
-  const text = help?.textBy?.[command] ?? help?.text ?? '';
-  return `  ${left.padEnd(24)} ${text}`.trimEnd();
-}
+/** The `showreceipts --help` screen at the default 80 columns (ARCHITECTURE §12.4). */
+export const HELP_TEXT = topHelp();
 
-/** The `showreceipts <command> --help` block: one paragraph plus the command's flags. */
-export function commandHelp(command: CommandName): string {
+/** The `showreceipts <command> --help` block: one paragraph plus the command's flags, flowed at `cols`. */
+export function commandHelp(command: CommandName, cols: number = HELP_COLS_DEFAULT): string {
+  const width = Math.min(Math.max(cols, 40), 102);
   const lines = [
     `showreceipts ${command} — ${COMMAND_SUMMARY[command]}`,
     '',
-    ...wrap(`Usage: ${COMMAND_SYNOPSIS[command]}`, 100, 7),
+    ...wrapSynopsis(`Usage: ${COMMAND_SYNOPSIS[command]}`, width, 7),
     '',
-    ...wrap(COMMAND_DETAIL[command], 100),
+    ...wrapText(COMMAND_DETAIL[command], width),
     '',
     'Options',
   ];
   for (const spec of flagsFor(command)) {
     if (spec.hidden || META_FLAGS.has(spec.name)) continue;
-    lines.push(formatFlag(spec, command));
+    const help = FLAG_HELP[spec.name];
+    const arg = help?.argBy?.[command] ?? help?.arg;
+    const left = arg !== undefined && arg !== '' ? `--${spec.name} ${arg}` : `--${spec.name}`;
+    lines.push(...optionLines(left, help?.textBy?.[command] ?? help?.text ?? '', width));
   }
-  lines.push('', 'Nothing leaves this machine. Read-only over agent logs. Writes only .showreceipts/ (in git repos) and ~/.showreceipts/.');
+  lines.push('', PRIVACY_FOOTER);
   return `${lines.join('\n')}\n`;
 }
 

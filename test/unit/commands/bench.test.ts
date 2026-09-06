@@ -75,7 +75,10 @@ describe('bench text and --json', () => {
     const r = await runBench([...BASE, '--since', '2026-01-01']);
     expect(r.code).toBe(0);
     expect(r.stdout).toContain('bench');
-    expect(r.stdout).toContain(CLEANUP_NOTE);
+    // wrapped at the width budget (Pass 3): pin the content, not the line
+    expect(r.stdout).toContain('cleanupPeriodDays');
+    expect(r.stdout).toContain('durable record');
+    expect(r.stdout.replace(/\n/g, ' ')).toContain(CLEANUP_NOTE.slice(0, 60));
   });
 
   it('--json validates against the schema with the window', async () => {
@@ -152,7 +155,8 @@ describe('bench --publish (§13.3, Appendix D)', () => {
     const first = await runBench(['bench', '--month', '2026-02', '--publish', '--home-dir', '/home/u'], { cwd: repo });
     expect(first.code).toBe(0);
     expect(first.stdout).toContain('publish');
-    expect(first.stdout).toContain(CLEANUP_NOTE);
+    expect(first.stdout).toContain('cleanupPeriodDays');
+    expect(first.stdout).toContain('durable record');
     const dir = join(repo, '.showreceipts');
     const files = readdirSync(dir).filter((n) => n.endsWith('.json'));
     expect(files).toHaveLength(1);

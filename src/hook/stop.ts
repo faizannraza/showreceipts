@@ -497,6 +497,7 @@ export async function buildStopReceipt(input: StopReceiptInput): Promise<StopRec
         home: input.home,
         harness: input.harness,
         safeSid: safeSid(input.sessionId ?? session.sessionId),
+        displayHome: input.userHome,
       });
     } catch {
       files = null; // an unwritable location never blocks the stdout answer

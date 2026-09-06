@@ -28,8 +28,10 @@ import { buildReceipt } from '../pipeline/receipt.js';
 import { readClaudeCodeSession, type ClaudeCodeReadOptions } from '../readers/claude-code/reader.js';
 import { readCodexSession } from '../readers/codex/reader.js';
 import { readLedgerSession } from '../readers/ledger/reader.js';
+import { approxLegend } from '../render/summary.js';
 import { renderReceiptSvg } from '../render/svg.js';
 import { renderReceipt, type TermOptions } from '../render/term.js';
+import { paint } from '../util/ansi.js';
 import { stableStringify } from '../util/json.js';
 import type { Tz } from '../util/time.js';
 import { prepare } from './common.js';
@@ -135,14 +137,21 @@ export async function run(ctx: CommandContext): Promise<number> {
     ctx.stdout.write(`${stableStringify(receipts)}\n`);
   } else {
     const opts: TermOptions = { cols, unicode, color, tz, homeDir: DEMO_HOME };
-    ctx.stdout.write(receipts.map((r) => renderReceipt(r, opts)).join('\n'));
+    let text = receipts.map((r) => renderReceipt(r, opts)).join('\n');
+    // §8.3 / Pass 3: explain the ≈ marker once when any receipt showed it.
+    if (receipts.some((r) => r.kind !== 'no-turns' && r.source !== 'ledger' && r.cost.unverified)) {
+      text += `\n${approxLegend(unicode, cols)
+        .map((l) => paint('dim', l, color === true))
+        .join('\n')}\n`;
+    }
+    ctx.stdout.write(text);
   }
 
   const svgPath = flags['svg'];
   if (typeof svgPath === 'string' && svgPath !== '') {
     const first = receipts[0];
     if (first !== undefined) {
-      writeFileSync(svgPath, renderReceiptSvg(first, { cols, unicode, tz, homeDir: DEMO_HOME }));
+      writeFileSync(svgPath, renderReceiptSvg(first, { cols, unicode, tz, homeDir: DEMO_HOME, badge: 'demo scenario' }));
     }
   }
   return 0;

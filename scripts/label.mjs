@@ -419,7 +419,7 @@ function renderMode() {
   if (unclearTotal > 0) {
     knownIssues.push(`- ${unclearTotal} sampled claim${unclearTotal === 1 ? ' was' : 's were'} labelled *unclear* (the transcript alone cannot settle them); they are excluded from every precision denominator above.`);
   }
-  knownIssues.push('- Coverage is intentionally partial: the extractor recognises the §6.1 grammar only, so the receipt prints "N claims recognized" and never implies it scored everything the final message asserted (the coverage table above quantifies the gap on this sample).');
+  knownIssues.push('- Coverage is intentionally partial: the extractor recognises the §6.1 grammar only, so the receipt carries the recognized-claim count (always in the JSON and Markdown surfaces) and never implies it scored everything the final message asserted (the coverage table above quantifies the gap on this sample).');
   knownIssues.push('- Persisted tool outputs and interpreter-written files are invisible to the ledger (see "Known limitations"); claims that depend on them stay UNVERIFIED rather than risking a false CONTRADICTED.');
 
   const doc = `# Accuracy
@@ -471,8 +471,9 @@ sentences (${humanAny.length} human-called claims, ${recognisedAny.length} of th
 ${coverageRows.length > 0 ? coverageRows.join('\n') : '| — | 0 | 0 | — |'}
 | **any kind** | **${humanAny.length}** | **${recognisedAny.length}** | **${humanAny.length > 0 ? pct(recognisedAny.length / humanAny.length) : '—'}** |
 
-Coverage is deliberately conservative: the receipt prints
-"N claims recognized" and never implies it scored every assertion.
+Coverage is deliberately conservative: the receipt always carries the
+recognized-claim count (JSON `claimsRecognized`; the Markdown export and the
+terminal no-claims box print it) and never implies it scored every assertion.
 
 ## False positives observed
 

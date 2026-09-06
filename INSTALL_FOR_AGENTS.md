@@ -33,10 +33,14 @@ document and the CLI's own `--help` or output ever disagree, trust the CLI.
    showreceipts setup
    ```
 
-   Read the output. Two harnesses may require a manual step (exit code 3 —
-   the exact snippet to apply is printed): Codex needs its hook trusted via
-   `/hooks` inside `codex`, and Hermes may need the printed YAML block added
-   by hand plus a consent prompt accepted.
+   Read the output. Two harnesses can require a manual step signalled by
+   **exit code 3** (the exact snippet to apply is printed): Gemini, when its
+   `settings.json` carries comments that setup refuses to rewrite, and
+   Hermes, when the printed YAML block must be added by hand (plus a consent
+   prompt accepted). **Codex setup exits 0** but still prints one action you
+   must read from the output: trust the hook via `/hooks` inside `codex`
+   (`doctor` shows the trusted state) — skip it and the hook is installed
+   but inert.
 
 4. **Verify gate** — the install is complete only when BOTH pass:
 

@@ -31,6 +31,7 @@ import {
   type HeaderPart,
 } from './box.js';
 import { glyphSet, transliterate, type GlyphSet } from './glyphs.js';
+import { capPostFinal } from './postfinal.js';
 
 /** Options of {@link renderReceipt} (§10.1; the CLI resolves them from flags and the environment). */
 export interface TermOptions {
@@ -48,6 +49,14 @@ export interface TermOptions {
   allClaims?: boolean | undefined;
   /** Claim-row cap (`audit` passes 12); `undefined` shows all rows. */
   capRows?: number | undefined;
+  /**
+   * `audit` only: appended to the `no-claims` kind text so the receipt
+   * cross-references the session table's session-wide CLAIMS column —
+   * `· 4 claims across earlier done turns — showreceipts session 1e2c0d07
+   * --turn 2`. The pinned §10.1 kind text itself is unchanged (the hint is
+   * appended after it); `session`/`export`/hook callers leave this unset.
+   */
+  noClaimsHint?: { claims: number; sessionShortId: string; turn?: number | undefined } | undefined;
 }
 
 /** Everything one render carries around. */
@@ -156,9 +165,6 @@ function narrowHeader(ctx: Ctx, r: Receipt): string[] {
 // ---------------------------------------------------------------------------
 
 const GLYPH_KIND: Readonly<Record<ReceiptLine['glyph'], PaintKind>> = { ok: 'ok', bad: 'bad', unk: 'unk', said: 'dim' };
-
-/** Post-final agent notes rendered individually before the tail aggregates. */
-const PF_NOTES_MAX = 3;
 
 /**
  * Fits a claim into `budget` columns: the longest path-like token (contains
@@ -274,12 +280,11 @@ function alsoSection(ctx: Ctx, r: Receipt): string[] {
       for (const cont of lines.slice(1)) out.push(`  ${cont}`);
     }
   }
-  // Per-agent notes cap: a real session with 46 post-final subagents rendered
-  // 92 note lines and drowned the receipt, so beyond PF_NOTES_MAX agents the
-  // tail collapses into one aggregate line (tool calls sum exactly; files
-  // could double-count across agents, so the aggregate omits them).
-  const pfs = r.postFinal ?? [];
-  const pfShown = pfs.length > PF_NOTES_MAX ? pfs.slice(0, PF_NOTES_MAX) : pfs;
+  // Per-agent notes cap (render/postfinal.ts, shared with the Markdown
+  // renderer): a real session with 46 post-final subagents rendered 92 note
+  // lines and drowned the receipt, so beyond PF_NOTES_MAX agents the tail
+  // collapses into one aggregate line.
+  const { shown: pfShown, rest: pfRest } = capPostFinal(r.postFinal);
   for (const pf of pfShown) {
     const who = pf.agentId === null ? 'the main agent' : `agent ${sanitizeForCell(pf.agentId)}`;
     const note =
@@ -287,11 +292,9 @@ function alsoSection(ctx: Ctx, r: Receipt): string[] {
       `(${plural(pf.files, 'file')}, ${plural(pf.testRuns, 'test run')}) ${ctx.g.emDash} not evidence for the claims above`;
     for (const line of wrapWords(tl(ctx, note), T, 2, ctx.g.ellipsis)) out.push(pk(ctx, 'dim', line));
   }
-  if (pfs.length > pfShown.length) {
-    const rest = pfs.slice(pfShown.length);
-    const calls = rest.reduce((sum, pf) => sum + pf.toolCalls, 0);
+  if (pfRest !== null) {
     const note =
-      `after this message: ${plural(rest.length, 'more agent')} ran ${plural(calls, 'tool call')} ` +
+      `after this message: ${plural(pfRest.agents, 'more agent')} ran ${plural(pfRest.toolCalls, 'tool call')} ` +
       `${ctx.g.emDash} not evidence for the claims above`;
     for (const line of wrapWords(tl(ctx, note), T, 2, ctx.g.ellipsis)) out.push(pk(ctx, 'dim', line));
   }
@@ -303,7 +306,7 @@ function statsChunks(r: Receipt): string[] {
   if (r.kind === 'no-turns') return ['0 tool calls', '0 files changed'];
   const chunks = [
     plural(r.stats.toolCalls, 'tool call'),
-    `${r.stats.filesChanged} files changed`,
+    `${plural(r.stats.filesChanged, 'file')} changed`,
     plural(r.stats.testRuns, 'test run'),
   ];
   if (r.stats.compactions > 0) chunks.push(plural(r.stats.compactions, 'compaction'));
@@ -369,7 +372,17 @@ export function renderReceiptLines(receipt: Receipt, opts: TermOptions): string[
   if (receipt.kind === 'scored') {
     put(claimsSection(ctx, receipt, opts), out);
   } else {
-    put(wrapWords(kindText(ctx, receipt), geo.T, 3, g.ellipsis), out);
+    let text = kindText(ctx, receipt);
+    const hint = opts.noClaimsHint;
+    const hinted = receipt.kind === 'no-claims' && hint !== undefined && hint.claims > 0;
+    if (hinted && hint !== undefined) {
+      const turn = hint.turn === undefined ? '' : ` --turn ${hint.turn}`;
+      text += tl(
+        ctx,
+        ` · ${plural(hint.claims, 'claim')} across earlier done turns ${g.emDash} showreceipts session ${sanitizeForCell(hint.sessionShortId)}${turn}`,
+      );
+    }
+    put(wrapWords(text, geo.T, hinted ? 4 : 3, g.ellipsis), out);
   }
 
   const also = alsoSection(ctx, receipt);

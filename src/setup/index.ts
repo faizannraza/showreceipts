@@ -192,7 +192,7 @@ export function runSetup(opts: RunSetupOptions): RunSetupOutcome {
       results: [],
       exit: 0,
       notes: [
-        'no harnesses found on this machine (looked for ~/.claude, ~/.codex, ~/.cursor, ~/.gemini, ~/.copilot, ~/.hermes) — pass --harness to set one up anyway',
+        'no harnesses found on this machine (looked for ~/.claude, ~/.codex, ~/.cursor, ~/.gemini, ~/.copilot, ~/.hermes) — pass --harness to set one up anyway (dsh, opencode and openclaw are always opt-in)',
       ],
       snippets,
       errors,

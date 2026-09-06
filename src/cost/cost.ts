@@ -50,6 +50,7 @@ interface Acc {
   hitDen: number;
   unverified: boolean;
   unpriced: Set<string>;
+  unverifiedModels: Set<string>;
   notes: Set<string>;
 }
 
@@ -67,13 +68,19 @@ function newAcc(): Acc {
     hitDen: 0,
     unverified: false,
     unpriced: new Set(),
+    unverifiedModels: new Set(),
     notes: new Set(),
   };
 }
 
 /** Folds a resolution's provenance into the accumulator (`≈` and notes). */
 function noteMeta(acc: Acc, meta: RateMeta): void {
-  if (meta.approx) acc.unverified = true;
+  if (meta.approx) {
+    acc.unverified = true;
+    // Unpriced ids live in `Cost.unpriced`; every other ≈-contributing model
+    // is listed so `doctor` can name what the blanket warning is about.
+    if (meta.unpriced === undefined) acc.unverifiedModels.add(meta.id);
+  }
   for (const note of meta.notes) acc.notes.add(note);
 }
 
@@ -102,6 +109,7 @@ function finish(acc: Acc, opts: CostOpts, thinking: number | null): Cost {
     pricesVersion: opts.table.version,
     notes: [...acc.notes],
   };
+  if (acc.unverifiedModels.size > 0) cost.unverifiedModels = [...acc.unverifiedModels].sort();
   if (thinking !== null) cost.thinking = thinking;
   if (opts.table.overrideHash !== undefined) cost.overrideHash = opts.table.overrideHash;
   if (opts.asOf !== undefined) cost.asOf = opts.asOf;

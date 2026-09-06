@@ -21,6 +21,7 @@ import { statOrNull } from '../util/fs.js';
 import { stableStringify } from '../util/json.js';
 import { displayPath } from '../util/paths.js';
 import { sanitizeForCell } from '../util/sanitize.js';
+import { wrapToWidth } from '../util/width.js';
 import { prepare, startProgress } from './common.js';
 
 const DAY_MS = 86_400_000;
@@ -28,6 +29,11 @@ const DAY_MS = 86_400_000;
 /** The §12.3 durability note both `doctor` and `bench` print. */
 export const CLEANUP_NOTE =
   'Claude Code deletes transcripts after cleanupPeriodDays (default 30); hook-captured receipts under ~/.showreceipts/last/ are the durable record';
+
+/** {@link CLEANUP_NOTE} (or any note) word-wrapped to the `cols − 2` budget every doctor/bench line honours. */
+export function noteLines(note: string, cols: number): string[] {
+  return wrapToWidth(note, Math.max(40, Math.min(cols, 200)) - 2, 99);
+}
 
 /** `512 B`, `12.3 KB`, `4.0 MB`. */
 function fmtBytes(bytes: number): string {
@@ -152,7 +158,7 @@ export async function run(ctx: CommandContext): Promise<number> {
     const lines: string[] = [...actionNotes];
     lines.push(...renderDoctor(report, { cols: prepared.render.cols, unicode: prepared.render.unicode, color: prepared.render.color }));
     if (prepared.verbose) lines.push(...verboseLines(report));
-    lines.push('', CLEANUP_NOTE);
+    lines.push('', ...noteLines(CLEANUP_NOTE, prepared.render.cols));
     ctx.stdout.write(`${lines.join('\n')}\n`);
   }
   return report.problems.length > 0 ? 4 : 0;

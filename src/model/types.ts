@@ -633,6 +633,8 @@ export interface Cost {
   /** The `≈` flag: a price in the table is marked unverified. */
   unverified: boolean;
   unpriced: string[];
+  /** Model ids priced with an unverified/estimated rate (present only when non-empty; unpriced ids live in `unpriced`). */
+  unverifiedModels?: string[];
   apiEquivalent: true;
   pricesVersion: string;
   overrideHash?: string;

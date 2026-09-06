@@ -248,11 +248,13 @@ export async function collectDoctorReport(opts: CollectOptions): Promise<DoctorR
   const costOpts: ReceiptOptions = { now: opts.now, prices: opts.prices, homeDir: opts.homeDir };
   let unverifiedInUse = false;
   const unpriced = new Set<string>();
+  const unverifiedModels = new Set<string>();
   for (const session of load.sessions) {
     if (session.source === 'ledger') continue;
     const cost = sessionCost(session, costOpts);
     if (cost.unverified) unverifiedInUse = true;
     for (const model of cost.unpriced) unpriced.add(model);
+    for (const model of cost.unverifiedModels ?? []) unverifiedModels.add(model);
   }
   const prices: DoctorReport['prices'] = {
     version: opts.prices.version,
@@ -273,7 +275,17 @@ export async function collectDoctorReport(opts: CollectOptions): Promise<DoctorR
   ];
 
   const warnings: string[] = [...opts.priceNotes];
-  if (unverifiedInUse) warnings.push('unverified prices in use — costs print with the ≈ marker');
+  if (unverifiedInUse) {
+    // ≈ can also arise from non-model causes (unknown-TTL cache buckets, a
+    // missing cache-read rate), so the wording is per-session, not blanket;
+    // the model list names what the price table itself cannot verify.
+    const ids = [...unverifiedModels].sort();
+    warnings.push(
+      ids.length > 0
+        ? `unverified prices in use (${ids.join(', ')}) — sessions priced with them print costs with the ≈ marker`
+        : 'unverified prices in use — affected sessions print costs with the ≈ marker',
+    );
+  }
   if (prices.unpricedModels.length > 0) warnings.push(`unpriced models: ${prices.unpricedModels.join(', ')}`);
   if (!opts.hooks.some((h) => h.installed)) {
     warnings.push('no hooks installed — only transcript harnesses are audited (run `showreceipts setup`)');

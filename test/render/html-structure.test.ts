@@ -96,8 +96,11 @@ describe('self-containment', () => {
     }
   });
 
-  it('keeps the template (without data) at or under 40 KB', () => {
-    expect(Buffer.byteLength(templateOnly(html), 'utf8')).toBeLessThanOrEqual(40 * 1024);
+  it('keeps the template (without data) at or under 42 KB', () => {
+    // 40 KB → 42 KB (Pass-3 closing review): the previous cap had 5 bytes of
+    // headroom left, blocking the §8.3 fmtUsd shape, the hook-captured cost
+    // guard and the §11.2 postFinal lines in report.js (docs/decisions.md).
+    expect(Buffer.byteLength(templateOnly(html), 'utf8')).toBeLessThanOrEqual(42 * 1024);
   });
 });
 

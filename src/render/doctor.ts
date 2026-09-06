@@ -4,11 +4,20 @@
  * cache size, then warnings and problems. Unboxed lines, each at most
  * `cols − 2` columns; problems are painted `bad`, warnings `warn`. Pure —
  * the doctor command gathers, this module only formats.
+ *
+ * Layout discipline (Pass 3): status facts come FIRST on harness/hook rows —
+ * they are what doctor exists to show — and the config/root path comes last,
+ * `~`-abbreviated and middle-truncated to the remaining budget, so a long
+ * path can never push `installed`/`not installed` off an 80-column screen.
+ * Warnings and problems word-wrap onto indented continuation lines instead
+ * of being cut mid-sentence.
  */
 import type { DoctorHarnessReport, DoctorHookReport, DoctorReport } from '../model/types.js';
 import { paint } from '../util/ansi.js';
+import { displayPath } from '../util/paths.js';
 import { sanitizeForCell } from '../util/sanitize.js';
-import { displayWidth, padEnd, truncateToWidth } from '../util/width.js';
+import { displayWidth, padEnd, truncateToWidth, wrapToWidth } from '../util/width.js';
+import { middleTruncatePath } from './box.js';
 import { glyphSet, transliterate } from './glyphs.js';
 
 /** Options of {@link renderDoctor}. */
@@ -29,30 +38,27 @@ function fmtBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-/** One harness row: root, session count, bytes, versions seen, installed version, bad-line count. */
-function harnessRow(h: DoctorHarnessReport, sep: string): string {
-  const parts = [sanitizeForCell(h.root)];
-  if (!h.found) {
-    parts.push('not found');
-  } else {
-    parts.push(plural(h.sessions, 'session'), fmtBytes(h.bytes));
-    if (h.versions.length > 0) parts.push(`versions ${h.versions.map(sanitizeForCell).join(', ')}`);
-    if (h.installedVersion !== null) parts.push(`installed ${sanitizeForCell(h.installedVersion)}`);
-    if (h.badLines > 0) parts.push(`${plural(h.badLines, 'bad line')}`);
-    if (h.hooksDisabled === true) parts.push('hooks disabled');
-  }
-  return parts.join(sep);
+/** One harness row's status facts (path is appended last by the caller). */
+function harnessStatus(h: DoctorHarnessReport): string[] {
+  if (!h.found) return ['not found'];
+  const parts = [plural(h.sessions, 'session'), fmtBytes(h.bytes)];
+  if (h.versions.length > 0) parts.push(`versions ${h.versions.map(sanitizeForCell).join(', ')}`);
+  if (h.installedVersion !== null) parts.push(`installed ${sanitizeForCell(h.installedVersion)}`);
+  if (h.badLines > 0) parts.push(`${plural(h.badLines, 'bad line')}`);
+  if (h.hooksDisabled === true) parts.push('hooks disabled');
+  return parts;
 }
 
-/** One hook row: scope, config path and the installed/strict/trust facts. */
-function hookRow(h: DoctorHookReport, sep: string): string {
-  const parts = [`(${h.scope}) ${sanitizeForCell(h.configPath)}`, h.installed ? 'installed' : 'not installed'];
+/** One hook row's status facts (scope + path appended last by the caller). */
+function hookStatus(h: DoctorHookReport): string[] {
+  const parts = [h.installed ? 'installed' : 'not installed'];
   if (h.disabled) parts.push('disabled');
   if (h.strict) parts.push('strict');
   if (h.resolvable === false) parts.push('not resolvable');
   if (h.trusted === false) parts.push('untrusted');
+  if (h.configReadable === false) parts.push('config unreadable');
   if (h.otherStopHooks.length > 0) parts.push(`${plural(h.otherStopHooks.length, 'other stop hook')}`);
-  return parts.join(sep);
+  return parts;
 }
 
 /**
@@ -66,9 +72,23 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
   const budget = Math.max(40, Math.min(opts.cols, 200)) - 2;
   const sep = g.unicode ? ' · ' : ' - ';
   const tlx = (s: string): string => (g.unicode ? s : transliterate(s));
+  const home = report.roots.userHome;
   const out: string[] = [];
   const push = (line: string): void => {
     out.push(displayWidth(line) > budget ? truncateToWidth(line, budget, g.ellipsis) : line);
+  };
+  /** Status facts first, then the path fitted into whatever room remains (min 16 columns). */
+  const statusRow = (label: string, labelW: number, status: readonly string[], path: string): string => {
+    const prefix = `  ${padEnd(label, labelW)} ${tlx(status.join(sep))}${tlx(sep)}`;
+    const room = budget - displayWidth(prefix);
+    const display = sanitizeForCell(displayPath(path, home));
+    const fitted = displayWidth(display) <= room ? display : middleTruncatePath(display, Math.max(16, room), g.ellipsis);
+    return `${prefix}${fitted}`;
+  };
+  /** Word-wrapped, glyph-prefixed note (warnings/problems); continuations indent under the text. */
+  const noteLines = (glyph: string, text: string): string[] => {
+    const wrapped = wrapToWidth(tlx(sanitizeForCell(text)), Math.max(20, budget - 4), 99);
+    return wrapped.map((line, i) => (i === 0 ? `  ${glyph} ${line}` : `    ${line}`));
   };
 
   push(`node ${sanitizeForCell(report.node.version)} ${sanitizeForCell(report.node.platform)}`);
@@ -86,13 +106,19 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
   push('');
   push('harnesses');
   const labelW = Math.min(14, Math.max(...report.harnesses.map((h) => displayWidth(h.harness)), 7));
-  for (const h of report.harnesses) push(`  ${padEnd(h.harness, labelW)} ${tlx(harnessRow(h, sep))}`);
+  for (const h of report.harnesses) push(statusRow(h.harness, labelW, harnessStatus(h), h.root));
   if (report.harnesses.length === 0) push('  none');
 
   push('');
   push('hooks');
-  for (const h of report.hooks) push(`  ${padEnd(h.harness, labelW)} ${tlx(hookRow(h, sep))}`);
+  for (const h of report.hooks) push(statusRow(h.harness, labelW, hookStatus(h), `(${h.scope}) ${displayPath(h.configPath, home)}`));
   if (report.hooks.length === 0) push('  none installed');
+  const resolvableNote = report.hooks.find((h) => h.resolvable !== null)?.resolvableNote;
+  if (resolvableNote !== undefined && resolvableNote !== '') {
+    for (const line of wrapToWidth(tlx(`resolvable: ${sanitizeForCell(resolvableNote)}`), Math.max(20, budget - 2), 99)) {
+      push(paint('dim', `  ${line}`, color));
+    }
+  }
 
   push('');
   push('ledgers');
@@ -107,7 +133,7 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
   push(`  version ${sanitizeForCell(report.prices.version)}${override}`);
   if (report.prices.unverifiedInUse) push(paint('warn', `  ${g.warn} unverified rates in use`, color));
   if (report.prices.unpricedModels.length > 0) {
-    push(paint('warn', truncateToWidth(`  ${g.warn} unpriced: ${report.prices.unpricedModels.map(sanitizeForCell).join(', ')}`, budget, g.ellipsis), color));
+    for (const line of noteLines(g.warn, `unpriced: ${report.prices.unpricedModels.join(', ')}`)) push(paint('warn', line, color));
   }
 
   push('');
@@ -117,12 +143,12 @@ export function renderDoctor(report: DoctorReport, opts: DoctorOptions): string[
   if (report.warnings.length > 0) {
     push('');
     push('warnings');
-    for (const w of report.warnings) push(paint('warn', truncateToWidth(`  ${g.warn} ${tlx(sanitizeForCell(w))}`, budget, g.ellipsis), color));
+    for (const w of report.warnings) for (const line of noteLines(g.warn, w)) push(paint('warn', line, color));
   }
   if (report.problems.length > 0) {
     push('');
     push('problems');
-    for (const p of report.problems) push(paint('bad', truncateToWidth(`  ${g.bad} ${tlx(sanitizeForCell(p))}`, budget, g.ellipsis), color));
+    for (const p of report.problems) for (const line of noteLines(g.bad, p)) push(paint('bad', line, color));
   }
   return out;
 }

@@ -132,7 +132,7 @@ describe('setup — idempotency and the launcher sidecar', () => {
     expect(results).toHaveLength(9);
     for (const result of results) {
       expect(result.launcher).toBe(h.launcher);
-      if (result.diff !== '') expect(result.diff).toContain('+++ b/');
+      if (result.diff !== '') expect(result.diff).toContain(`+++ ${result.path}`);
     }
   });
 

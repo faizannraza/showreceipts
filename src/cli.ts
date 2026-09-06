@@ -3,7 +3,8 @@
  * command module and maps errors to exit codes (ARCHITECTURE §12.2).
  *
  * Startup cost matters (`--version` must finish in ≤ 80 ms), so the top level
- * imports only `node:*` and the four tiny `cli/` modules; every command is a
+ * imports only `node:*`, the tiny `cli/` modules and the shared help table
+ * they pull in (`commands/help.ts`, dependency-free); every command is a
  * lazy thunk with a literal specifier, which `tsc` type-checks and
  * `scripts/check-no-network.mjs` accepts.
  */
@@ -11,7 +12,7 @@ import { realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { parse, peekCommand, UsageError, type CommandName } from './cli/args.js';
 import { createContext, type CommandContext, type ContextInputs } from './cli/context.js';
-import { commandHelp, HELP_TEXT, usageFooter } from './cli/help.js';
+import { commandHelp, topHelp, usageFooter } from './cli/help.js';
 import { TOOL_VERSION } from './version.js';
 
 /** The shape every `src/commands/<name>.ts` module exports. */
@@ -42,6 +43,35 @@ function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
+/**
+ * Terminal width for a help screen: `--width`, the tty, then `COLUMNS`,
+ * else 80. `render/box.ts resolveCols` is imported lazily so the
+ * `--version` startup path stays lean.
+ */
+async function helpColumns(
+  flags: Record<string, unknown>,
+  overrides: Partial<ContextInputs>,
+  stdout: NodeJS.WritableStream,
+): Promise<number> {
+  const { resolveCols } = await import('./render/box.js');
+  const env = overrides.env ?? process.env;
+  const stdoutColumns =
+    'columns' in overrides
+      ? overrides.columns
+      : typeof (stdout as { columns?: unknown }).columns === 'number'
+        ? (stdout as { columns?: number }).columns
+        : undefined;
+  try {
+    return resolveCols({
+      width: typeof flags['width'] === 'number' ? (flags['width'] as number) : undefined,
+      stdoutColumns,
+      COLUMNS: env['COLUMNS'],
+    });
+  } catch {
+    return 80;
+  }
+}
+
 async function dispatch(
   argv: readonly string[],
   overrides: Partial<ContextInputs>,
@@ -55,7 +85,18 @@ async function dispatch(
       return 0;
     }
     if (args.flags['help'] === true) {
-      stdout.write(args.commandGiven ? commandHelp(args.command) : HELP_TEXT);
+      const cols = await helpColumns(args.flags, overrides, stdout);
+      stdout.write(args.commandGiven ? commandHelp(args.command, cols) : topHelp(cols));
+      return 0;
+    }
+  } else if (argv.includes('--help')) {
+    // §9 keeps hook stdout JSON-only for harnesses (they always pipe
+    // stdin); an interactive human at a TTY gets the help block instead of
+    // the never-fail `{}` answer. The meta-flag lands in `args.unknown`
+    // (the hook parse is lenient), so argv is checked directly.
+    const stdinIsTTY = overrides.stdinIsTTY ?? process.stdin.isTTY === true;
+    if (stdinIsTTY) {
+      stdout.write(commandHelp('hook', await helpColumns(args.flags, overrides, stdout)));
       return 0;
     }
   }

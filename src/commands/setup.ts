@@ -6,6 +6,7 @@
  * 3 manual step required (snippet printed to stderr).
  */
 import { homedir } from 'node:os';
+import { basename, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { CommandContext } from '../cli/context.js';
 import { HARNESSES, type Harness, type SetupResult } from '../model/types.js';
@@ -43,6 +44,22 @@ export async function run(ctx: CommandContext): Promise<number> {
     throw new CommandUsageError('--project and --shared are mutually exclusive', 'setup');
   }
   const scope: SetupScope = flags['shared'] === true ? 'shared' : flags['project'] === true ? 'project' : 'user';
+  const restoreFlag = typeof flags['restore'] === 'string' ? flags['restore'] : undefined;
+  if (restoreFlag !== undefined) {
+    // §12.2: a malformed --restore value is a usage error (exit 2, the
+    // 'showreceipts:' prefix and the usage footer), like every other bad
+    // flag value — validated here, before any I/O. `setup/index.ts` keeps
+    // its own checks as defence in depth; only real runtime failures
+    // (unreadable backup, config mismatch, write failure) stay exit 1.
+    const backupPath = resolve(ctx.cwd, restoreFlag);
+    const harness = basename(dirname(backupPath));
+    if (!(HARNESSES as readonly string[]).includes(harness)) {
+      throw new CommandUsageError(`--restore: expected a path under ~/.showreceipts/backups/<harness>/ (got ${restoreFlag})`, 'setup');
+    }
+    if (!/^.+\.\d+$/.test(basename(backupPath))) {
+      throw new CommandUsageError(`--restore: not a backup file name (<basename>.<unix-ms>): ${basename(backupPath)}`, 'setup');
+    }
+  }
   const home = homedir();
   const opts: RunSetupOptions = {
     env: ctx.env,

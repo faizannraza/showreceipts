@@ -57,7 +57,8 @@ describe('setup — --dry-run (§12.1)', () => {
     expect(r.code).toBe(0);
     const results = JSON.parse(r.stdout) as SetupResult[];
     expect(results.map((x) => x.action)).toEqual(['dry-run', 'dry-run']);
-    expect(results[0]?.diff).toContain('+++ b/');
+    // absolute config paths label the diff verbatim (Pass 3: no `a//`)
+    expect(results[0]?.diff).toContain(`+++ ${join(h.home, '.claude', 'settings.json')}`);
     expect(existsSync(join(h.home, '.claude', 'settings.json'))).toBe(false);
     expect(existsSync(join(h.home, '.hermes', 'config.yaml'))).toBe(false);
     expect(existsSync(h.sr)).toBe(false); // not even the launcher or the sidecar

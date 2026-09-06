@@ -11,7 +11,7 @@ import { HARNESS_LABELS } from '../model/types.js';
 import { formatUsd } from '../cost/format.js';
 import { sanitizeForCell } from '../util/sanitize.js';
 import { formatDateRange, isoDay, parseIso } from '../util/time.js';
-import { displayWidth, padEnd, truncateToWidth } from '../util/width.js';
+import { displayWidth, padEnd, truncateToWidth, wrapToWidth } from '../util/width.js';
 import { packLines } from './box.js';
 import { glyphSet, transliterate, type GlyphSet } from './glyphs.js';
 
@@ -229,11 +229,16 @@ export function renderRateTable(rows: readonly RateRow[], opts: SummaryOptions):
       a.harnessVersion.localeCompare(b.harnessVersion),
   );
   const out: string[] = [];
+  let smallSample = false;
   for (const row of sorted) {
+    // A row with no done turns carries no rate at all — '(0 of 0)' is pure
+    // noise on the screen (the JSON and HTML surfaces keep the raw rows).
+    if (row.doneTurns === 0) continue;
     const version = row.harnessVersion === '' ? '' : ` ${sanitizeForCell(row.harnessVersion)}`;
     const label = `${sanitizeForCell(row.model)}${sep}${HARNESS_LABELS[row.harness]}${version}`;
     let numbers: string;
     if (row.doneTurns < 10) {
+      smallSample = true;
       numbers = `${g.emDash}  (${row.contradictedTurns} of ${row.doneTurns})`;
     } else {
       const pct = Math.round((row.contradictedTurns / row.doneTurns) * 100);
@@ -247,5 +252,13 @@ export function renderRateTable(rows: readonly RateRow[], opts: SummaryOptions):
       out.push(`    ${truncateToWidth(numbers, budget - 4, g.ellipsis)}`);
     }
   }
-  return out.length === 0 ? ['no rate data (no done turns)'] : out;
+  if (out.length === 0) return ['no rate data (no done turns)'];
+  if (smallSample) out.push(...wrapToWidth(`${g.emDash} = fewer than 10 done turns (contradicted of total)`, budget, 9));
+  return out;
+}
+
+/** The `≈` explanation printed once under a screen that showed an estimated cost (§8.3), wrapped to `cols − 2`. */
+export function approxLegend(unicode: boolean, cols: number): string[] {
+  const line = '≈ = estimated (unverified rate, unknown cache TTL, or unpriced model/speed/tier) — see docs/prices.md';
+  return wrapToWidth(unicode ? line : transliterate(line), Math.max(40, Math.min(cols, 200)) - 2, 9);
 }

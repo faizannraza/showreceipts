@@ -32,7 +32,7 @@ import { basename, displayPath } from '../util/paths.js';
 import { sanitizeForCell } from '../util/sanitize.js';
 import { parseIso } from '../util/time.js';
 import { loadOptionsOf, prepare, startProgress } from './common.js';
-import { CLEANUP_NOTE } from './doctor.js';
+import { CLEANUP_NOTE, noteLines } from './doctor.js';
 
 const DAY_MS = 86_400_000;
 
@@ -135,7 +135,7 @@ export async function run(ctx: CommandContext): Promise<number> {
     atomicWriteFile(out, serialized);
     const arrow = prepared.render.unicode ? '→' : '->';
     ctx.stdout.write(
-      `publish ${arrow} ${sanitizeForCell(displayPath(out, prepared.homeDir))} (${publishRows.length} row(s), ${period.from}${period.partial ? ', partial month' : ''})\n${CLEANUP_NOTE}\n`,
+      `publish ${arrow} ${sanitizeForCell(displayPath(out, prepared.homeDir))} (${publishRows.length} row(s), ${period.from}${period.partial ? ', partial month' : ''})\n${noteLines(CLEANUP_NOTE, prepared.render.cols).join('\n')}\n`,
     );
     return 0;
   }
@@ -156,7 +156,12 @@ export async function run(ctx: CommandContext): Promise<number> {
     windowMonth !== undefined
       ? `bench${sep}${windowMonth}${sep}${sessions.length} session(s)`
       : `bench${sep}${sessions.length} session(s)`;
-  const lines = [header, ...renderRateTable(rows, { cols: prepared.render.cols, unicode: prepared.render.unicode }), '', CLEANUP_NOTE];
+  const lines = [
+    header,
+    ...renderRateTable(rows, { cols: prepared.render.cols, unicode: prepared.render.unicode }),
+    '',
+    ...noteLines(CLEANUP_NOTE, prepared.render.cols),
+  ];
   ctx.stdout.write(`${lines.join('\n')}\n`);
   return 0;
 }

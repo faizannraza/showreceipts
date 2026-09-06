@@ -10,7 +10,7 @@
   │  ALSO SAID (not scored)                                              │
   │  ~ I didn't run the linter.                                          │
   ├──────────────────────────────────────────────────────────────────────┤
-  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  2 tool calls · 1 file changed · 1 test run                          │
   │  cost n/a (hook-captured)                                            │
   │  VERDICT: 2 VERIFIED                                                 │
   └──────────────────────────────────────────────────────────────────────┘

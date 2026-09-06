@@ -12,7 +12,7 @@
   │  ALSO DID (not mentioned)                                            │
   │  · 1 file changed (src/stages.py)                                    │
   ├──────────────────────────────────────────────────────────────────────┤
-  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  2 tool calls · 1 file changed · 1 test run                          │
   │  cost $0.0010 (API-equivalent) · cache hit 0%                        │
   │  VERDICT: 1 VERIFIED                                                 │
   └──────────────────────────────────────────────────────────────────────┘

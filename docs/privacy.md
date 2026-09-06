@@ -25,7 +25,7 @@ rather than risking a false CONTRADICTED. That trade is deliberate.
 | Path | Written by | Content |
 |---|---|---|
 | `<cwd>/.showreceipts/report.html` | `report` | the HTML report (path-hashed on request) |
-| `<cwd>/.showreceipts/last-receipt.{md,json}` (in git repos) or `~/.showreceipts/last/<harness>/<safeSid>.{md,json}` | `hook` (Stop) | the last receipt; `setup` prints the `.gitignore` hint |
+| `<git root>/.showreceipts/last-receipt.{md,json}` (in git repos) or `~/.showreceipts/last/<harness>/last-receipt.{md,json}` | `hook` (Stop) | the latest receipt per repo / per harness — each Stop overwrites the previous one; `receipts.log` keeps an append-only one-line summary per receipt; `setup` prints the `.gitignore` hint |
 | `<cwd>/.showreceipts/<period>-<contentHash>.json` (git repos) or `~/.showreceipts/publish/` | `bench --publish` | aggregates only (see below) |
 | `~/.showreceipts/ledger/<harness>/<safeSid>.jsonl` | `hook` | hook-captured events, truncated and masked; never removed by `--clear-cache`; pruning is the explicit `doctor --prune-ledgers <days>` |
 | `~/.showreceipts/cache/<sha>.json` | pipeline | parsed sessions — no file contents, no dollar amounts |

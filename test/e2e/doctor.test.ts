@@ -68,6 +68,9 @@ describe('doctor text screen', () => {
     const r = run(['doctor', '--width', '80', '--no-color', '--ascii', '--home-dir', '/home/u']);
     expect(r.code).toBe(0);
     for (const section of ['roots', 'harnesses', 'hooks', 'ledgers', 'prices', 'cache']) expect(r.stdout).toContain(section);
-    expect(r.stdout).toContain(CLEANUP_NOTE);
+    // wrapped at the width budget (Pass 3): pin the content, not the literal line
+    expect(r.stdout).toContain('cleanupPeriodDays');
+    expect(r.stdout).toContain('durable record');
+    expect(r.stdout.replace(/\n/g, ' ')).toContain(CLEANUP_NOTE.slice(0, 60));
   });
 });

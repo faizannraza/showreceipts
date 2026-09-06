@@ -111,7 +111,9 @@ export async function run(ctx: CommandContext): Promise<number> {
   };
   const receipt = buildReceipt(session, receiptOpts);
 
-  const output = json ? `${receiptToJson(receipt)}\n` : renderMarkdownReceipt(receipt, { tz: prepared.render.tz });
+  const output = json
+    ? `${receiptToJson(receipt)}\n`
+    : renderMarkdownReceipt(receipt, { tz: prepared.render.tz, homeDir: prepared.homeDir });
 
   const out = flags['out'];
   if (typeof out === 'string' && out !== '') {

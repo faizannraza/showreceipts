@@ -13,6 +13,8 @@ export interface ContextInputs {
   isTTY: boolean;
   /** Terminal width reported by the tty, if any (`COLUMNS` lives in `env`). */
   columns: number | undefined;
+  /** Whether stdin is an interactive terminal (`hook --help` at a TTY prints help instead of `{}`). */
+  stdinIsTTY: boolean;
   env: Readonly<Record<string, string | undefined>>;
   cwd: string;
   /** The clock: `--now` → `SHOWRECEIPTS_NOW` → the injected `now` → `Date.now()`. */
@@ -73,7 +75,8 @@ export function createContext(args: ParsedArgs, overrides: Partial<ContextInputs
   const env = overrides.env ?? process.env;
   const cwd = overrides.cwd ?? process.cwd();
   const isTTY = overrides.isTTY ?? (!stdoutInjected && process.stdout.isTTY === true);
+  const stdinIsTTY = overrides.stdinIsTTY ?? (!stdoutInjected && process.stdin.isTTY === true);
   const columns = 'columns' in overrides ? overrides.columns : stdoutInjected ? undefined : ttyColumns();
   const now = resolveNow(args, env, overrides.now);
-  return { args, now, stdout, stderr, isTTY, columns, env, cwd };
+  return { args, now, stdout, stderr, isTTY, stdinIsTTY, columns, env, cwd };
 }

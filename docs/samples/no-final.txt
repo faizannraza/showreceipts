@@ -7,7 +7,7 @@
   │  ALSO DID (not mentioned)                                            │
   │  · 1 file changed (src/parser.ts)                                    │
   ├──────────────────────────────────────────────────────────────────────┤
-  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  2 tool calls · 1 file changed · 1 test run                          │
   │  cost $0.0002 (API-equivalent) · cache hit 0%                        │
   │  VERDICT: NO FINAL MESSAGE                                           │
   └──────────────────────────────────────────────────────────────────────┘

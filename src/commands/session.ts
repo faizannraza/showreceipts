@@ -17,8 +17,10 @@ import type { CommandContext } from '../cli/context.js';
 import { buildReceipt, receiptToJson, type ReceiptOptions } from '../pipeline/receipt.js';
 import { AmbiguousError, NotFoundError, resolveSession } from '../pipeline/resolve-session.js';
 import { loadSessions, type LoadResult } from '../pipeline/run.js';
+import { paint } from '../util/ansi.js';
 import { packLines } from '../render/box.js';
 import { glyphSet, transliterate } from '../render/glyphs.js';
+import { approxLegend } from '../render/summary.js';
 import { renderReceipt } from '../render/term.js';
 import { renderTimeline } from '../render/timeline.js';
 import { sanitizeForCell } from '../util/sanitize.js';
@@ -148,6 +150,9 @@ export async function run(ctx: CommandContext): Promise<number> {
 
   const { cols, unicode, color, tz } = prepared.render;
   const pieces: string[] = [renderReceipt(receipt, { cols, unicode, color, tz, homeDir: prepared.homeDir }).trimEnd()];
+  if (receipt.kind !== 'no-turns' && receipt.source !== 'ledger' && receipt.cost.unverified) {
+    pieces.push(approxLegend(unicode, cols).map((l) => paint('dim', l, color === true)).join('\n'));
+  }
   if (wantTimeline) {
     const entries = receipt.timeline ?? [];
     pieces.push(

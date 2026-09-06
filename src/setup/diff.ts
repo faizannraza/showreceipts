@@ -62,8 +62,11 @@ function editScript(a: string[], b: string[]): Op[] {
 
 /**
  * A unified diff between two texts (empty string when they are equal).
- * `label` names both sides (`--- a/<label>` / `+++ b/<label>`); hunks carry
- * `context` lines of context and standard `@@ -i,n +j,m @@` headers.
+ * `label` names both sides: a relative label gets the git-style `a/`/`b/`
+ * prefixes; an absolute label is emitted verbatim (`--- /path` /
+ * `+++ /path`, plain `diff -u` style) — `a//path` would double the slash.
+ * Hunks carry `context` lines of context and standard `@@ -i,n +j,m @@`
+ * headers.
  */
 export function unifiedDiff(oldText: string, newText: string, label: string, context = 3): string {
   if (oldText === newText) return '';
@@ -99,7 +102,7 @@ export function unifiedDiff(oldText: string, newText: string, label: string, con
     else clusters.push({ first: k, last: k });
   });
 
-  const out: string[] = [`--- a/${label}`, `+++ b/${label}`];
+  const out: string[] = label.startsWith('/') ? [`--- ${label}`, `+++ ${label}`] : [`--- a/${label}`, `+++ b/${label}`];
   for (const cluster of clusters) {
     const start = Math.max(0, cluster.first - context);
     const end = Math.min(ops.length - 1, cluster.last + context);

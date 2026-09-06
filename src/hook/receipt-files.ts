@@ -29,6 +29,8 @@ export interface ReceiptFilesInput {
   safeSid: string;
   /** Time zone for the Markdown render (default `utc` — deterministic). */
   tz?: Tz;
+  /** The user home for `~` display in the Markdown render (NOT the showreceipts home); omitted ⇒ raw paths. */
+  displayHome?: string;
 }
 
 /** Where {@link writeReceiptFiles} wrote. */
@@ -58,7 +60,9 @@ export function writeReceiptFiles(input: ReceiptFilesInput): ReceiptFilesResult 
   const masked = maskDeep(receipt);
   const mdPath = join(dir, 'last-receipt.md');
   const jsonPath = join(dir, 'last-receipt.json');
-  atomicWriteFile(mdPath, renderMarkdownReceipt(masked, { tz: input.tz ?? 'utc' }), { mode: 0o600 });
+  const mdOpts: { tz: Tz; homeDir?: string } = { tz: input.tz ?? 'utc' };
+  if (input.displayHome !== undefined && input.displayHome !== '') mdOpts.homeDir = input.displayHome;
+  atomicWriteFile(mdPath, renderMarkdownReceipt(masked, mdOpts), { mode: 0o600 });
   atomicWriteFile(jsonPath, `${stableStringify(masked)}\n`, { mode: 0o600 });
   ensureDir(home, 0o700);
   const logPath = join(home, 'receipts.log');

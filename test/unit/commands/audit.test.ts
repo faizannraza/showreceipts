@@ -12,7 +12,8 @@ import { flagsFor, parse, type CommandName } from '../../../src/cli/args.js';
 import { createContext } from '../../../src/cli/context.js';
 import { commandHelp } from '../../../src/cli/help.js';
 import { main } from '../../../src/cli.js';
-import { HELP as AUDIT_HELP, run as runAudit, type AuditJson } from '../../../src/commands/audit.js';
+import type { Receipt, SessionCard } from '../../../src/model/types.js';
+import { HELP as AUDIT_HELP, noClaimsHintOf, run as runAudit, type AuditJson } from '../../../src/commands/audit.js';
 import { HELP as DEMO_HELP } from '../../../src/commands/demo.js';
 import { formatOption, type HelpSection } from '../../../src/commands/help.js';
 import { displayWidth } from '../../../src/util/width.js';
@@ -350,5 +351,32 @@ describe('§12.4 help sections', () => {
     expect(await runAudit(ctx)).toBe(0);
     expect(out.text.startsWith('showreceipts audit — ')).toBe(true);
     expect(out.text).toContain('Nothing leaves this machine.');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// noClaimsHintOf (Pass 3: the audit-only CLAIMS-column cross-reference)
+// ---------------------------------------------------------------------------
+
+describe('noClaimsHintOf', () => {
+  const receiptOf = (over: Partial<Receipt> = {}): Receipt =>
+    ({ kind: 'no-claims', shortId: '1e2c0d07', claimsRecognized: 0, turnIndex: 6, turnsWithClaims: [2, 4], ...over }) as Receipt;
+  const cardOf = (claims: number): SessionCard => ({ claims }) as SessionCard;
+
+  it('points at the newest earlier turn with scored claims', () => {
+    expect(noClaimsHintOf(receiptOf(), cardOf(4))).toEqual({ claims: 4, sessionShortId: '1e2c0d07', turn: 4 });
+  });
+
+  it("subtracts the final turn's own recognized count and omits --turn without earlier scored turns", () => {
+    expect(noClaimsHintOf(receiptOf({ claimsRecognized: 1, turnsWithClaims: [] }), cardOf(3))).toEqual({
+      claims: 2,
+      sessionShortId: '1e2c0d07',
+    });
+  });
+
+  it('returns undefined for scored receipts, missing cards and zero earlier claims', () => {
+    expect(noClaimsHintOf(receiptOf({ kind: 'scored' }), cardOf(4))).toBeUndefined();
+    expect(noClaimsHintOf(receiptOf(), undefined)).toBeUndefined();
+    expect(noClaimsHintOf(receiptOf(), cardOf(0))).toBeUndefined();
   });
 });

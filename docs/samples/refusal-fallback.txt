@@ -12,7 +12,7 @@
   │  · 1 file changed (src/crawler.py)                                   │
   │  · model fell back claude-fable-5 → claude-opus-4-8 (refusal)        │
   ├──────────────────────────────────────────────────────────────────────┤
-  │  2 tool calls · 1 files changed · 1 test run                         │
+  │  2 tool calls · 1 file changed · 1 test run                          │
   │  cost $0.71 (API-equivalent) · cache hit 100%                        │
   │  VERDICT: 1 VERIFIED                                                 │
   └──────────────────────────────────────────────────────────────────────┘

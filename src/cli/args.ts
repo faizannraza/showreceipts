@@ -292,6 +292,35 @@ function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
+/** Levenshtein distance over two short lowercase tokens (suggestion hint only). */
+function editDistance(a: string, b: string): number {
+  const row: number[] = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = row[0] as number;
+    row[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const tmp = row[j] as number;
+      row[j] = Math.min(tmp + 1, (row[j - 1] as number) + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return row[b.length] as number;
+}
+
+/** The closest command name within edit distance 2 (`sessions` → `session`), or `null`. */
+function suggestCommand(tok: string): CommandName | null {
+  let best: CommandName | null = null;
+  let bestDistance = 3;
+  for (const command of COMMANDS) {
+    const d = editDistance(tok.toLowerCase(), command);
+    if (d < bestDistance) {
+      bestDistance = d;
+      best = command;
+    }
+  }
+  return best;
+}
+
 /**
  * Parses argv into a command, positionals and validated flags.
  * Throws `UsageError` on any problem — never for the `hook` command.
@@ -317,7 +346,13 @@ export function parse(argv: readonly string[]): ParsedArgs {
         if (tok === command) continue;
       }
       if (!given) {
-        fail(`unknown command '${tok}'`, tok);
+        // `showreceipts help` is git/npm muscle memory for `--help`.
+        if (tok === 'help' && !onlyPositionals) {
+          flags['help'] = true;
+          continue;
+        }
+        const hint = suggestCommand(tok);
+        fail(`unknown command '${tok}'${hint === null ? '' : ` — did you mean '${hint}'?`}`, tok);
       } else if (positionals.length >= MAX_POSITIONALS[command]) {
         fail(`${command}: unexpected argument '${tok}'`, tok);
       } else {

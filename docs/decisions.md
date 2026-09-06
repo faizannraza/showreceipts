@@ -1144,3 +1144,41 @@ the Stop-path redundant `cache.put` skip) stand as recorded above.
   (~491 MB rss / 219 MB V8 heap), so a heavier real corpus cannot fail CI.
   If multi-big-session corpora become common, add a two-big-files perf
   scenario or assert an audit rss envelope; watch item, no code change.
+
+### Pass-3 closing review (lead notes)
+
+- **Report template byte budget 40 KB → 42 KB** (`test/render/html-structure.test.ts`).
+  The old cap had 5 bytes of headroom, blocking three §8.3/§11.2 conformance
+  fixes in `report.js`: the `formatUsd` shape (`n/a` for null, 4 decimals
+  below $0.01, comma-grouped whole dollars ≥ $1,000), `cost n/a
+  (hook-captured)` for ledger receipts, and the postFinal lines in the
+  receipt view (capped at 3 + one aggregate, like the terminal). Measured
+  41,990 bytes with the fixes applied; the separate 900-line `report.js`
+  source budget still stands (exactly 900 after compaction).
+- **The Markdown export caps post-final notes like the terminal** (3
+  per-agent notes + one aggregate; shared `render/postfinal.ts`),
+  superseding the Pass-2 note that left the export uncapped: a real
+  54-agent session flooded the PR-oriented export with 54 near-identical
+  "after this message: agent …" lines directly above its "… · 1 subagent"
+  stats line.
+- **`setup --restore` shape errors are exit 2.** The pre-I/O path/name-shape
+  checks are validated in `commands/setup.ts` as `CommandUsageError`
+  (§12.2 usage error: `showreceipts:` prefix + usage footer);
+  `setup/index.ts` keeps its own checks as defence in depth, and genuine
+  I/O failures (unreadable backup, config mismatch, write failure) stay
+  exit 1.
+- **Help is single-column and width-adaptive** (§12.4 amended): the CLI
+  resolves the terminal width via `resolveCols` (default 80, cap 102) and
+  flows every help screen at it; the S33 snapshots pin the 80-column
+  render, bracket groups wrap atomically, and the two-column 140-character
+  Options block is retired. `hook --help` at an interactive stdin prints
+  the help block; a piped stdin keeps the §9 `{}` contract.
+- **The `≈` legend** — `audit`/`session`/`demo` print `≈ = estimated
+  (unverified rate, unknown cache TTL, or unpriced model/speed/tier) — see
+  docs/prices.md` once whenever a rendered cost carried the marker,
+  satisfying the Pass-3 "`≈` explained in the footer once" item (the
+  CHANGELOG sentence is now true as written).
+- **Receipt JSON gains optional `Cost.unverifiedModels`** (model ids priced
+  with unverified/estimated rates; `docs/receipt-schema.md` updated) so
+  `doctor` can name the models behind its unverified-prices warning instead
+  of making a blanket "costs print with ≈" claim.

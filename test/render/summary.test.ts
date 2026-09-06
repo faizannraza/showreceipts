@@ -238,14 +238,28 @@ describe('rate table (§5.4 display)', () => {
     for (const line of lines) expect(displayWidth(line)).toBeLessThanOrEqual(58);
   });
 
-  it('hides the percentage below 10 done turns (`—  (3 of 4)`) and omits zero unverified', () => {
+  it('hides the percentage below 10 done turns (`—  (3 of 4)`), explains the notation, and omits zero unverified', () => {
     const lines = renderRateTable(
       [makeRate({ doneTurns: 4, contradictedTurns: 3, unverifiedTurns: 0, model: 'gpt-5.2-codex', harness: 'codex', harnessVersion: '0.98.0' })],
       U,
     );
-    expect(lines).toEqual(['gpt-5.2-codex · Codex 0.98.0  —  (3 of 4)']);
+    expect(lines).toEqual(['gpt-5.2-codex · Codex 0.98.0  —  (3 of 4)', '— = fewer than 10 done turns (contradicted of total)']);
     const noUnv = renderRateTable([makeRate({ unverifiedTurns: 0 })], { cols: 100, unicode: true });
     expect(noUnv[0]).not.toContain('unverified');
+    // ≥ 10 done turns everywhere ⇒ no legend line
+    expect(noUnv).toHaveLength(1);
+  });
+
+  it('skips rows with zero done turns entirely (`(0 of 0)` is noise)', () => {
+    expect(renderRateTable([makeRate({ doneTurns: 0, contradictedTurns: 0, unverifiedTurns: 0 })], U)).toEqual([
+      'no rate data (no done turns)',
+    ]);
+    const mixed = renderRateTable([makeRate(), makeRate({ doneTurns: 0, contradictedTurns: 0, model: 'zero-done-model' })], {
+      cols: 100,
+      unicode: true,
+    });
+    expect(mixed.join('\n')).not.toContain('zero-done-model');
+    expect(mixed.join('\n')).not.toContain('(0 of 0)');
   });
 
   it('sorts by doneTurns desc, then model, harness, version', () => {
@@ -366,8 +380,9 @@ describe('doctor renderer', () => {
     expect(text).toContain('node v26.0.0 darwin');
     expect(text).toContain('showreceipts  /home/u/.showreceipts');
     expect(text).toContain('37 sessions · 12.0 MB · versions 2.1.214, 2.1.251 · installed 2.1.251 · 2 bad lines');
-    expect(text).toContain('/home/u/.codex · not found');
-    expect(text).toContain('(user) /home/u/.claude/settings.json · installed');
+    expect(text).toContain('not found · ~/.codex');
+    expect(text).toContain('installed · (user) ~/.claude/settings.json');
+    expect(text).toContain('resolvable: in this shell; the harness process PATH may differ');
     expect(text).toContain('5 sessions · 1 partial · 0 gaps');
     expect(text).toContain('version 2026-08-29');
     expect(text).toContain('! unverified rates in use');
@@ -384,6 +399,37 @@ describe('doctor renderer', () => {
     for (const line of lines) expect(displayWidth(line)).toBeLessThanOrEqual(58);
     expect(lines.join('\n')).not.toMatch(/[\x00-\x08\x0b-\x1f\x7f-\x9f]/);
     expect(lines.join('\n')).toContain('x unreadable root:');
+  });
+
+  it('keeps the status visible at 80 columns even with a long config path (status first, path last)', () => {
+    const report = makeDoctor();
+    const hook = report.hooks[0] as (typeof report.hooks)[number];
+    report.hooks[0] = {
+      ...hook,
+      strict: true,
+      configPath: '/home/u/some/very/deeply/nested/directories/for/an/unusually/long/harness/configuration/settings.json',
+    };
+    const lines = renderDoctor(report, { cols: 80, unicode: true });
+    const row = lines.find((l) => l.includes('strict'));
+    expect(row).toBeDefined();
+    expect(row).toContain('installed · strict');
+    expect(row).toContain('settings.json'); // the basename survives the middle truncation
+    for (const line of lines) expect(displayWidth(line)).toBeLessThanOrEqual(78);
+  });
+
+  it('word-wraps warnings onto indented continuation lines instead of truncating them', () => {
+    const report = makeDoctor();
+    report.warnings = [
+      'no hooks installed — only transcript harnesses are audited (run `showreceipts setup`) and this warning carries a deliberately long tail so it cannot fit one line',
+    ];
+    const lines = renderDoctor(report, { cols: 80, unicode: true });
+    // wrapped content survives in full (a wrap point may fall inside a phrase)
+    const flat = lines.join(' ').replace(/\s+/g, ' ');
+    expect(flat).toContain('run `showreceipts setup`');
+    expect(flat).toContain('cannot fit one line');
+    const idx = lines.findIndex((l) => l.includes('! no hooks installed'));
+    expect(idx).toBeGreaterThan(-1);
+    expect(lines[idx + 1]).toMatch(/^ {4}\S/);
   });
 });
 

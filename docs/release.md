@@ -10,10 +10,20 @@ secret in the repository, ever.
 npm only lets you configure a trusted publisher for a package that already
 exists, so the very first publish is manual, from the author's laptop:
 
+0. Create and push the GitHub repository `package.json` names
+   (`github.com/faizannraza/showreceipts`), get `ci.yml` green on the
+   matrix, and enable "Private vulnerability reporting" in the repository
+   settings so `SECURITY.md`'s advisories link resolves — step 4's
+   trusted-publisher registration targets this repo.
 1. `npm login` with the author account (granular token + 2FA).
 2. From a clean checkout of the release commit:
    `npm run test:all && node scripts/pack-smoke.mjs && npm run deps:guard`
-3. `npm publish --access public --provenance`
+3. `npm publish --access public --no-provenance` — the flag is required:
+   npm refuses to generate provenance outside a supported CI (GitHub
+   Actions / GitLab), `publishConfig.provenance` is set in `package.json`,
+   and `--dry-run` never exercises that path, so a plain laptop publish
+   fails only at the real attempt. Provenance starts with the first OIDC
+   workflow release, which attaches it automatically.
 4. Register the workflow as the trusted publisher (needs npm ≥ 11.10;
    `npm install -g npm@^11.10` first if necessary):
 

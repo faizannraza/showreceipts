@@ -60,8 +60,9 @@ sentences (19 human-called claims, 17 of them recognised; 8 recognised sentence(
 | verification | 8 | 5 | 62.5 % |
 | **any kind** | **19** | **17** | **89.5 %** |
 
-Coverage is deliberately conservative: the receipt prints
-"N claims recognized" and never implies it scored every assertion.
+Coverage is deliberately conservative: the receipt always carries the
+recognized-claim count (JSON `claimsRecognized`; the Markdown export and the
+terminal no-claims box print it) and never implies it scored every assertion.
 
 ## False positives observed
 
@@ -110,5 +111,5 @@ Sentences are paraphrased — no session text is reproduced here.
 - `git.push` produced a wrong NOT_SCORED verdict in the hand-labelled sample: a completed force-push followed by a parenthetical "would have refused if …" aside, mis-classified as deferred — conditional cues inside a parenthetical must not re-scope the main clause's past-tense verb.
 - `git.commit` produced a wrong UNVERIFIED verdict in the hand-labelled sample: instructions telling the user how to commit ("To commit: run …"), scored as a commit claim — "To <verb>:" instructional openers should defer the clause.
 - 3 sampled claims were labelled *unclear* (the transcript alone cannot settle them); they are excluded from every precision denominator above.
-- Coverage is intentionally partial: the extractor recognises the §6.1 grammar only, so the receipt prints "N claims recognized" and never implies it scored everything the final message asserted (the coverage table above quantifies the gap on this sample).
+- Coverage is intentionally partial: the extractor recognises the §6.1 grammar only, so the receipt carries the recognized-claim count (always in the JSON and Markdown surfaces) and never implies it scored everything the final message asserted (the coverage table above quantifies the gap on this sample).
 - Persisted tool outputs and interpreter-written files are invisible to the ledger (see "Known limitations"); claims that depend on them stay UNVERIFIED rather than risking a false CONTRADICTED.
