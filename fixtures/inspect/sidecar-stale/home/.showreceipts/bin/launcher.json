@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0",
+  "node": "__ROOT__/missing/node",
+  "cli": "__ROOT__/missing/cli.js",
+  "launcher": "__ROOT__/missing/showreceipts-hook"
+}

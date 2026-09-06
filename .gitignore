@@ -1,7 +1,10 @@
 node_modules/
-dist/
-coverage/
-.showreceipts/
+/dist/
+/coverage/
+# Anchored to the repo root: fixtures/inspect/** contains directories named
+# .showreceipts/ that MUST be committed (CI failed when an unanchored pattern
+# silently excluded them — see the v0.1.0 first-push incident).
+/.showreceipts/
 fixtures/labels/*.jsonl
 fixtures/hooks/generated/
 fixtures/.forbidden.local

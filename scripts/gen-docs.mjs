@@ -248,11 +248,18 @@ function publishExample() {
         SHOWRECEIPTS_HOME: join(tmp, 'sr'),
       },
     });
-    let text = readFileSync(out, 'utf8');
-    // The payload is byte-stable; pretty-print a single-line file for reading.
-    if (!text.trimEnd().includes('\n')) text = `${JSON.stringify(JSON.parse(text), null, 2)}\n`;
-    if (!text.endsWith('\n')) text += '\n';
-    return `\`\`\`json\n${text}\`\`\`\n`;
+    const payload = JSON.parse(readFileSync(out, 'utf8'));
+    // Everything in the payload is byte-stable across machines EXCEPT the
+    // platform fields (node major, os) and the contentHash that covers them.
+    // Redact those two visibly so `gen-docs --check` is a fixed point on every
+    // OS/Node combination (the first push failed CI when a doc generated on
+    // darwin/node-26 was re-checked on linux/node-20). The caption in
+    // docs/privacy.md tells the reader exactly which fields are redacted.
+    if (payload.platform && typeof payload.platform === 'object') {
+      payload.platform = { node: '(varies by machine)', os: '(varies by machine)' };
+    }
+    if (typeof payload.contentHash === 'string') payload.contentHash = '(varies by machine)';
+    return `\`\`\`json\n${JSON.stringify(payload, null, 2)}\n\`\`\`\n`;
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }

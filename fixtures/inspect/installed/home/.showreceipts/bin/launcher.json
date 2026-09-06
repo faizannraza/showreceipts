@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0",
+  "node": "__ROOT__/home/.showreceipts/bin/node",
+  "cli": "__ROOT__/home/.showreceipts/bin/0.1.0/cli.js",
+  "launcher": "__ROOT__/home/.showreceipts/bin/showreceipts-hook"
+}
