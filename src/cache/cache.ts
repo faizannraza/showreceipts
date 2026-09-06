@@ -21,8 +21,13 @@ import { maskDeep, maskSecrets } from '../util/mask.js';
 
 /** `resultText` cap per tool call inside a cache entry (§4.9). */
 export const RESULT_TEXT_CAP = 512;
-/** `finalText` cap per turn inside a cache entry (§4.9). */
-const FINAL_TEXT_CAP = 64 * 1024;
+/**
+ * `finalText` cap per turn (§4.9) — applied when a cache entry is written AND
+ * at the cold parse seam (`pipeline/run.ts`, `enrichSession`), so cold and
+ * warm receipts carry identical bytes and claim extraction never runs over an
+ * unbounded final message.
+ */
+export const FINAL_TEXT_CAP = 64 * 1024;
 /** The per-path index the Stop hook uses (`lookupByPath`), beside the entries. */
 const INDEX_NAME = 'index.json';
 const KEY_RE = /^[0-9a-f]{64}$/;
@@ -151,6 +156,12 @@ export function trimForCache(session: Session): Session {
       if (key in call.input) input[key] = call.input[key];
     }
     call.input = input;
+    // `command` duplicates `input.command` for every reader that sets both
+    // (measured byte-identical across the whole real corpus; ~3 MB of shell
+    // text stored twice in the worst live entry) — store it once and let
+    // `get` reinflate it. The equality guard keeps the rare shapes where the
+    // two differ (Codex `cmd` vs `command`) intact.
+    if (call.command !== undefined && call.command === input['command']) delete call.command;
   }
   for (const row of out.usageRows) delete row.inherited;
   // `planUsagePct` is a logged rate-limit fact (§4.3.5), not a computed
@@ -160,6 +171,22 @@ export function trimForCache(session: Session): Session {
   out.cost = emptyCost();
   if (planUsagePct !== undefined) out.cost.planUsagePct = planUsagePct;
   return out;
+}
+
+/**
+ * Reinflates what `trimForCache` stored once: a call whose `command` equalled
+ * its `input.command` was written without the duplicate — restore it so a
+ * warm session carries exactly the cold session's bytes (§4.9 parity).
+ */
+function reinflateEntry(entry: CacheEntry): CacheEntry {
+  const calls: unknown = entry.session.toolCalls;
+  if (!Array.isArray(calls)) return entry;
+  for (const item of calls) {
+    if (!isRecord(item) || item['command'] !== undefined) continue;
+    const input = item['input'];
+    if (isRecord(input) && typeof input['command'] === 'string') item['command'] = input['command'];
+  }
+  return entry;
 }
 
 /** Validates a parsed entry file; `null` for anything that is not a `v: 1` entry stored under `key`. */
@@ -205,7 +232,7 @@ export function createCache(options: CacheOptions): ParseCache {
       corrupt += 1;
       return null;
     }
-    return entry;
+    return reinflateEntry(entry);
   }
 
   function put(key: string, entry: CacheEntry): void {
@@ -217,8 +244,24 @@ export function createCache(options: CacheOptions): ParseCache {
     const path = entry.session.transcriptPath;
     if (typeof path === 'string' && path !== '') {
       const byPath = readIndex();
-      byPath[pathKey(path, toolVersion)] = key;
+      const hash = pathKey(path, toolVersion);
+      const previous = byPath[hash];
+      byPath[hash] = key;
       atomicWriteFile(indexPath, stableStringify({ v: 1, byPath }), { mode: 0o600 });
+      // Evict the entry this path pointed at before: its key was derived from
+      // an older (size, mtime, manifest) of the same file, so no ref can ever
+      // hit it again — without this, an active session leaves one full entry
+      // behind per re-parse (measured 39 MB per `audit` run for one live
+      // session) until `doctor --clear-cache`. A concurrent reader that
+      // already resolved the old key sees a plain miss, which every caller
+      // treats as "re-parse" anyway.
+      if (previous !== undefined && previous !== key) {
+        try {
+          fs.unlinkSync(join(dir, `${previous}.json`));
+        } catch {
+          // already evicted by a concurrent put, or never written
+        }
+      }
     }
   }
 

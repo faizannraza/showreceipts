@@ -338,3 +338,45 @@ describe('CJK and long paths', () => {
     expect(text).not.toContain('deeply-nested-directory-segment-05');
   });
 });
+
+describe('branch display (§10.1: HEAD → detached HEAD, empty → no branch)', () => {
+  const headerLine2 = (branch: string | null): string => {
+    const receipt: Receipt = { ...structuredClone(entryOf('cjk-path')), branch };
+    return renderReceipt(receipt, { cols: 80, unicode: true, homeDir: HOME }).split('\n')[2] as string;
+  };
+
+  it('maps HEAD to detached HEAD', () => {
+    expect(headerLine2('HEAD')).toContain(' · detached HEAD · ');
+  });
+
+  it('maps the empty string to no branch', () => {
+    expect(headerLine2('')).toContain(' · no branch · ');
+  });
+
+  it('leaves a real branch name alone', () => {
+    expect(headerLine2('main')).toContain(' · main · ');
+  });
+});
+
+describe('post-final notes cap (a real 46-subagent session rendered 92 note lines)', () => {
+  const withAgents = (n: number): string => {
+    const receipt: Receipt = {
+      ...structuredClone(entryOf('cjk-path')),
+      postFinal: Array.from({ length: n }, (_, i) => ({ agentId: `agent${String(i).padStart(2, '0')}`, toolCalls: i + 1, files: 0, testRuns: 0 })),
+    };
+    return renderReceipt(receipt, { cols: 80, unicode: true, homeDir: HOME });
+  };
+
+  it('shows every agent note at 3 or fewer agents, with no aggregate', () => {
+    const text = withAgents(3);
+    expect(text.match(/after this message: agent /g)?.length).toBe(3);
+    expect(text).not.toContain('more agents');
+  });
+
+  it('collapses the tail beyond 3 agents into one aggregate line', () => {
+    const text = withAgents(46);
+    expect(text.match(/after this message: agent /g)?.length).toBe(3);
+    expect(text).toContain('43 more agents ran');
+    expect(text).toContain('not evidence for the claims above');
+  });
+});

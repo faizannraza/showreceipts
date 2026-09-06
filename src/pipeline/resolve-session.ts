@@ -19,11 +19,12 @@
  * → ledger → echo hashes → within-session usage dedupe) so a
  * path-selected session judges identically to a scanned one.
  */
-import { closeSync, openSync, readSync } from 'node:fs';
+import { closeSync, openSync, readSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, isAbsolute, join, normalize } from 'node:path';
 import type { Harness, Roots, Session, SessionRef } from '../model/types.js';
 import { HARNESSES } from '../model/types.js';
+import { FINAL_TEXT_CAP, truncateBytes } from '../cache/cache.js';
 import { echoHashes } from '../claims/text.js';
 import { buildLedger } from '../ledger/index.js';
 import { readClaudeCodeSession, type ClaudeCodeReadOptions } from '../readers/claude-code/reader.js';
@@ -31,6 +32,7 @@ import { readCodexSession } from '../readers/codex/reader.js';
 import { readLedgerSession } from '../readers/ledger/reader.js';
 import { statOrNull } from '../util/fs.js';
 import { makeRepoRootResolver } from '../util/gitroot.js';
+import { maskDeep } from '../util/mask.js';
 import { isUnder, toPosix } from '../util/paths.js';
 import { parseIso } from '../util/time.js';
 import { markSessionInherited } from './dedupe.js';
@@ -72,6 +74,12 @@ export interface ResolveContext {
   roots: Roots;
   /** The command's working directory (relative path selectors resolve against it). */
   cwd: string;
+  /**
+   * The selection window the session set was loaded under. A miss over a
+   * windowed set names the window — the session may exist on disk outside it,
+   * and a bare "no session matches" would falsely imply nonexistence.
+   */
+  window?: { all: boolean; since: string } | undefined;
 }
 
 /** The candidate row of a session. */
@@ -131,6 +139,8 @@ const ROLLOUT_RE = /^rollout-.*-([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}
 /** The fs-backed head reader injected into the ledger reader (Copilot final-text fallback, §4.4). */
 function readTranscriptHead(path: string, maxBytes: number): string | null {
   try {
+    // A FIFO/device here would block `openSync` forever; only regular files are read.
+    if (!statSync(path).isFile()) return null;
     const fd = openSync(path, 'r');
     try {
       const buf = Buffer.alloc(maxBytes);
@@ -223,24 +233,38 @@ export async function readSessionAtPath(path: string, roots: Roots): Promise<Ses
 
 /**
  * The S18 post-read chain for one already-read session (repo root, ledger
- * assembly, echo hashes, within-session usage dedupe) — shared by
- * {@link readSessionAtPath} and the S29 hook stop flow
- * (`hook/ledger-stop.ts`), so a hook-built session behaves exactly like a
- * scanned one. Returns its (mutated) argument.
+ * assembly, echo hashes, within-session usage dedupe, then the §4.9
+ * finalText cap and secret masking — the same seam `pipeline/run.ts` applies,
+ * so cold, warm and hook-built sessions all carry identical masked bytes) —
+ * shared by {@link readSessionAtPath} and the S28/S29 hook stop flows.
+ * Returns the masked session (a rebuilt object, not the argument).
  */
 export function enrichSession(session: Session): Session {
   const repoRootOf = makeRepoRootResolver();
   session.repoRoot = session.cwd === '' ? null : repoRootOf(session.cwd);
   session.ledger = buildLedger(session, { repoRootOf, tmpRoots: [tmpdir()] });
   for (const turn of session.turns) {
-    turn.echoHashes = turn.userText === null || turn.userText === '' ? [] : echoHashes(turn.userText);
+    // §4.9: a resumed parse may carry privacy-nulled prompt text with the
+    // echo hashes preserved from the stored builder state — keep those, and
+    // recompute only when the prompt text itself is present.
+    if (turn.userText !== null && turn.userText !== '') turn.echoHashes = echoHashes(turn.userText);
+    else turn.echoHashes = turn.echoHashes ?? [];
   }
   markSessionInherited(session);
-  return session;
+  for (const turn of session.turns) {
+    if (turn.finalText !== null) turn.finalText = truncateBytes(turn.finalText, FINAL_TEXT_CAP);
+  }
+  return maskDeep(session);
+}
+
+/** The window suffix of a not-found message: names the filter that may be hiding the session. */
+function windowSuffix(window: ResolveContext['window']): string {
+  if (window === undefined || window.all) return '';
+  return ` in the selected window (--since ${window.since}) — try --all or a wider --since`;
 }
 
 /** Resolves an id or id prefix over `sessionId`, `shortId` and the transcript filename (§4.1; case-insensitive). */
-function resolveId(selector: string, sessions: readonly Session[]): Session {
+function resolveId(selector: string, sessions: readonly Session[], window?: ResolveContext['window']): Session {
   const sel = selector.toLowerCase();
   const exact = sessions.filter((s) => s.sessionId.toLowerCase() === sel);
   if (exact.length === 1) return exact[0] as Session;
@@ -265,7 +289,7 @@ function resolveId(selector: string, sessions: readonly Session[]): Session {
       matches.slice().sort(byRecency).map(candidateOf),
     );
   }
-  throw new NotFoundError(`no session matches '${selector}'`);
+  throw new NotFoundError(`no session matches '${selector}'${windowSuffix(window)}`);
 }
 
 /**
@@ -287,7 +311,7 @@ export async function resolveSession(selector: string, ctx: ResolveContext): Pro
     // §4.1: a bare `*.jsonl` transcript *filename* (no separator) that names
     // no file on disk still matches scanned sessions by filename.
     const bareName = !trimmed.includes('/') && !trimmed.includes('\\') && trimmed !== '~' && trimmed !== '.' && trimmed !== '..';
-    if (bareName && statOrNull(abs)?.isFile() !== true) return resolveId(trimmed, ctx.sessions);
+    if (bareName && statOrNull(abs)?.isFile() !== true) return resolveId(trimmed, ctx.sessions, ctx.window);
     return readSessionAtPath(abs, ctx.roots);
   }
   // A bare token naming an existing file (e.g. `x.jsonl` without a slash is
@@ -295,5 +319,5 @@ export async function resolveSession(selector: string, ctx: ResolveContext): Pro
   const asFile = absolutePathOf(trimmed, ctx);
   const stat = statOrNull(asFile);
   if (stat !== null && stat.isFile()) return readSessionAtPath(asFile, ctx.roots);
-  return resolveId(trimmed, ctx.sessions);
+  return resolveId(trimmed, ctx.sessions, ctx.window);
 }

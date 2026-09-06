@@ -82,7 +82,12 @@ export async function run(ctx: CommandContext): Promise<number> {
 
   let session;
   try {
-    session = await resolveSession(selector, { sessions, roots: prepared.roots, cwd: ctx.cwd });
+    session = await resolveSession(selector, {
+      sessions,
+      roots: prepared.roots,
+      cwd: ctx.cwd,
+      window: { all: prepared.all, since: typeof flags['since'] === 'string' ? flags['since'] : '90d' },
+    });
   } catch (err) {
     if (err instanceof AmbiguousError || err instanceof NotFoundError) return reportResolveFailure(ctx, err);
     throw err;

@@ -25,6 +25,28 @@ export function statOrNull(path: string): fs.Stats | null {
   }
 }
 
+/** `fs.lstatSync` (never follows a symlink) that returns `null` for a missing or unreadable path. */
+export function lstatOrNull(path: string): fs.Stats | null {
+  try {
+    return fs.lstatSync(path);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Asserts that `path` exists and is a real directory — not a symlink, not a
+ * file (SECURITY.md: a repository shipping `.showreceipts` as a symlink must
+ * never redirect showreceipts' writes). Call it after `ensureDir` to close
+ * the check-then-create race.
+ */
+export function assertRealDirectory(path: string): void {
+  const stat = lstatOrNull(path);
+  if (stat === null || !stat.isDirectory()) {
+    throw new Error(`${path} is not a real directory (symlink or file) — refusing to write through it`);
+  }
+}
+
 /** `fs.realpathSync` falling back to the input when the path does not resolve. */
 export function realpathOrSelf(path: string): string {
   try {

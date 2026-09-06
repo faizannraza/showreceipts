@@ -6,7 +6,7 @@
  * every one parseable, zero `badLines` through the S09 reader, mode `0600`.
  */
 import { spawn } from 'node:child_process';
-import { readFileSync, rmSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import type { SessionRef } from '../../src/model/types.js';
@@ -44,8 +44,8 @@ function payload(lane: number, i: number): string {
   });
 }
 
-/** Spawns one hook process and resolves with its exit code and stdout. */
-function spawnHook(env: Record<string, string>, stdin: string): Promise<{ code: number | null; stdout: string }> {
+/** Spawns one hook process and resolves with its exit code, stdout, and any stdin write error. */
+function spawnHook(env: Record<string, string>, stdin: string): Promise<{ code: number | null; stdout: string; stdinError?: string | undefined }> {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [CLI_PATH, 'hook', 'cursor', 'postToolUse', '--now', PINNED_NOW], {
       cwd,
@@ -53,13 +53,22 @@ function spawnHook(env: Record<string, string>, stdin: string): Promise<{ code: 
       stdio: ['pipe', 'pipe', 'ignore'],
     });
     let stdout = '';
+    let stdinError: string | undefined;
     child.stdout.setEncoding('utf8');
     child.stdout.on('data', (chunk: string) => {
       stdout += chunk;
     });
+    // A child that exits before draining the 64 KiB payload surfaces here as
+    // an asynchronous 'error' (write EPIPE) on our write side; without a
+    // listener it becomes an uncaught exception that kills the whole vitest
+    // worker. Fold it into the result so the owning lane fails with its
+    // event id instead.
+    child.stdin.on('error', (err: Error) => {
+      stdinError = err.message;
+    });
     child.on('error', reject);
     child.on('close', (code) => {
-      resolve({ code, stdout });
+      resolve({ code, stdout, stdinError });
     });
     child.stdin.end(stdin);
   });
@@ -73,11 +82,17 @@ describe('hook ledger concurrency (§9: 16 × 50 events, one file)', () => {
       const lane = async (n: number): Promise<void> => {
         for (let i = 0; i < EVENTS_PER_LANE; i++) {
           const result = await spawnHook(env, payload(n, i));
-          expect(result.code).toBe(0);
+          expect(result.stdinError, `lane ${n} event ${i}: stdin write error`).toBeUndefined();
+          expect(result.code, `lane ${n} event ${i}`).toBe(0);
           expect(JSON.parse(result.stdout)).toEqual({});
         }
       };
       await Promise.all(Array.from({ length: LANES }, (_, n) => lane(n)));
+
+      // A zero-byte stdin drain answers {} and deposits its tool-post line
+      // under an unknown-* sid file instead — any stray file here pinpoints
+      // that drop mechanism on the next flake.
+      expect(readdirSync(join(srHome, 'ledger', 'cursor'))).toEqual([`${SID}.jsonl`]);
 
       const path = join(srHome, 'ledger', 'cursor', `${SID}.jsonl`);
       expect(statSync(path).mode & 0o777).toBe(0o600);

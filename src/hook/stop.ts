@@ -20,6 +20,7 @@ import { basename, dirname, join, sep } from 'node:path';
 import { cacheKey, createCache, trimForCache, type CacheEntry } from '../cache/cache.js';
 import type { Receipt, Session, SessionRef, Turn } from '../model/types.js';
 import { buildReceipt, type ReceiptOptions } from '../pipeline/receipt.js';
+import { redactBuilderState } from '../pipeline/redact-state.js';
 import { enrichSession } from '../pipeline/resolve-session.js';
 import {
   readClaudeCodeSession,
@@ -144,7 +145,12 @@ function realSleep(ms: number): Promise<void> {
 /** Up to `maxBytes` from the head or tail of a file as UTF-8, or `null` when unreadable. */
 function boundedRead(path: string, maxBytes: number, end: 'head' | 'tail'): string | null {
   try {
-    const size = statSync(path).size;
+    const stat = statSync(path);
+    // §9 self-timeout invariant: `open(2)` on a FIFO with no writer blocks in
+    // the kernel — synchronously, so the watchdog timer could never fire.
+    // `statSync` on a FIFO does not block; only regular files are read.
+    if (!stat.isFile()) return null;
+    const size = stat.size;
     const length = Math.min(maxBytes, size);
     const position = end === 'head' ? 0 : size - length;
     const fd = openSync(path, 'r');
@@ -381,7 +387,8 @@ export async function buildStopReceipt(input: StopReceiptInput): Promise<StopRec
     toolVersion,
     disabled: input.home === '' || input.noCache === true,
   });
-  const anchor: ResumeAnchor | null = input.harness === 'claude-code' ? cache.lookupByPath(real) : null;
+  const cachedEntry: CacheEntry | null = input.harness === 'claude-code' ? cache.lookupByPath(real) : null;
+  const anchor: ResumeAnchor | null = cachedEntry;
 
   const parseOnce = async (): Promise<ParsedAttempt | null> => {
     const stat = statOrNull(real);
@@ -442,9 +449,15 @@ export async function buildStopReceipt(input: StopReceiptInput): Promise<StopRec
   if (attempt.fromReader && !cache.disabled) {
     try {
       const key = cacheKey(attempt.ref, toolVersion);
-      const entry: CacheEntry = { v: 1, key, session: trimForCache(session), bytesParsed: attempt.bytesParsed, tailHash: attempt.tailHash };
-      if (attempt.builderState !== undefined) entry.builderState = attempt.builderState;
-      cache.put(key, entry);
+      // A resume whose file state (size, mtime, manifest) still matches the
+      // anchor produced exactly the entry already stored under `key` —
+      // re-serializing and re-writing it (multi-MB for large sessions,
+      // measured ~1 s per Stop on a real 38 MB transcript) buys nothing.
+      if (cachedEntry === null || cachedEntry.key !== key) {
+        const entry: CacheEntry = { v: 1, key, session: trimForCache(session), bytesParsed: attempt.bytesParsed, tailHash: attempt.tailHash };
+        if (attempt.builderState !== undefined) entry.builderState = redactBuilderState(attempt.builderState);
+        cache.put(key, entry);
+      }
     } catch {
       // a failed cache write never blocks a receipt
     }

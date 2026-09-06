@@ -230,10 +230,18 @@ function isToolItem(item: string): boolean {
 }
 
 const LIST_SEP_RE = /\s*\/\s*|\s*\+\s*|,\s+|\s+and\s+/;
+// The list repetition is bounded ({1,12}: the trailing 12 separators — 13
+// items — are all `expandToolLists` ever keeps) and the aux-verb run is
+// bounded ({0,6}): both were unbounded and ambiguous (`and` is a separator
+// AND a word; `is ` repeats), which made matching quadratic on adversarial
+// final messages (ReDoS: minutes on a 40 KB clause).
 const CHAIN_RE =
-  /((?:`[^`]+`|[A-Za-z][\w.-]*)(?:(?:\s*\/\s*|\s*\+\s*|,\s+|\s+and\s+)(?:`[^`]+`|[A-Za-z][\w.-]*))+)\s+((?:(?:all|both|are|is|were|was|still|now|also)\s+)*(?:clean|green|ok|pass(?:es|ed|ing)?|succeed(?:s|ed)?)(?![\p{L}\p{N}_]))/giu;
+  /((?:`[^`]+`|[A-Za-z][\w.-]*)(?:(?:\s*\/\s*|\s*\+\s*|,\s+|\s+and\s+)(?:`[^`]+`|[A-Za-z][\w.-]*)){1,12})\s+((?:(?:all|both|are|is|were|was|still|now|also)\s+){0,6}(?:clean|green|ok|pass(?:es|ed|ing)?|succeed(?:s|ed)?)(?![\p{L}\p{N}_]))/giu;
 const PAREN_RE =
-  /\(([^()]{2,160})\)\s*((?:(?:all|both|are|is|were|was|still|now|also)\s+)*(?:passed|pass(?:es|ing)?|green|clean|ok|succeeded))(?![\p{L}\p{N}_])/giu;
+  /\(([^()]{2,160})\)\s*((?:(?:all|both|are|is|were|was|still|now|also)\s+){0,6}(?:passed|pass(?:es|ing)?|green|clean|ok|succeeded))(?![\p{L}\p{N}_])/giu;
+
+/** Cheap literal gate before the expensive list regexes run at all. */
+const LIST_PREDICATE_RE = /clean|green|ok|pass|succeed/i;
 
 /**
  * §4.7 step 3 expansion: a slash/plus/comma/`and` list of tools sharing one
@@ -242,6 +250,7 @@ const PAREN_RE =
  */
 function expandToolLists(clause: string): string[] {
   if (/validation\s+gate/i.test(clause)) return [];
+  if (!LIST_PREDICATE_RE.test(clause)) return [];
   const out: string[] = [];
   for (const m of clause.matchAll(CHAIN_RE)) {
     const items = (m[1] as string).split(LIST_SEP_RE).map((s) => s.replace(/`/g, '').trim()).filter((s) => s !== '');

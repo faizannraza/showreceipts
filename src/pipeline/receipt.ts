@@ -27,7 +27,7 @@ import type {
   WriteFact,
 } from '../model/types.js';
 import { HARNESS_LABELS } from '../model/types.js';
-import { RESULT_TEXT_CAP, truncateBytes } from '../cache/cache.js';
+import { FINAL_TEXT_CAP, RESULT_TEXT_CAP, truncateBytes } from '../cache/cache.js';
 import { extractClaims, type ExtractResult } from '../claims/extract.js';
 import { RULES_VERSION } from '../claims/rules.js';
 import { priceClaudeCode, priceCodex, type CodexCostOpts, type CostOpts } from '../cost/cost.js';
@@ -101,7 +101,10 @@ function extractFor(session: Session, turn: Turn): ExtractResult | null {
   }
   let result = map.get(turn.index);
   if (result === undefined) {
-    result = extractClaims(turn.finalText, {
+    // §4.9 parity + ReDoS bound: extraction never runs over more than the
+    // 64 KiB a cache entry carries — the parse seam caps transcript finals,
+    // and this guards the stop-hook override path (stdin `last_assistant_message`).
+    result = extractClaims(truncateBytes(turn.finalText, FINAL_TEXT_CAP), {
       turnIndex: turn.index,
       echoHashes: turn.echoHashes,
       ledgerPaths: ledgerPathsOf(session),
@@ -626,7 +629,9 @@ function receiptVerdict(counts: Record<Verdict, number>): Receipt['verdict'] {
 
 function statsOf(session: Session, window: Window, sentences: number): Receipt['stats'] {
   const files = new Set(windowFilesChanged(session, window).map((w) => w.path));
-  const testRuns = session.ledger.testRuns.filter((t) => window.callById.has(t.toolCallId) && t.kind === 'run').length;
+  // Every kind counts: a snapshot-update run is a test run in the log (§4.5.6
+  // — not evidence, but "0 test runs" would be a false statement about it).
+  const testRuns = session.ledger.testRuns.filter((t) => window.callById.has(t.toolCallId)).length;
   const agents = new Set<string>();
   for (const c of window.calls) if (c.agentId !== null) agents.add(c.agentId);
   return {
@@ -655,7 +660,7 @@ function postFinalOf(session: Session, window: Window): Receipt['postFinal'] {
     const files = new Set(
       session.ledger.writes.filter((w) => ids.has(w.toolCallId) && w.status === 'ok' && filesChangedEligible(w)).map((w) => w.path),
     );
-    const testRuns = session.ledger.testRuns.filter((t) => ids.has(t.toolCallId) && t.kind === 'run').length;
+    const testRuns = session.ledger.testRuns.filter((t) => ids.has(t.toolCallId)).length;
     out.push({ agentId, toolCalls: calls.length, files: files.size, testRuns });
   }
   out.sort((a, b) => ((a.agentId ?? '') < (b.agentId ?? '') ? -1 : 1));

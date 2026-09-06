@@ -40,7 +40,8 @@ const TOOLS_BUILD = String.raw`(?:npm\s+run\s+|yarn\s+|pnpm\s+|cargo\s+|go\s+|do
 const CLEAN = String.raw`clean|pass(?:es|ed|ing)?|green|ok|succeed(?:s|ed)?|successful(?:ly)?|no\s+(?:errors|issues|warnings|problems)|0\s+(?:errors|problems)|without\s+(?:errors|warnings)|${MARK_OK}`;
 const GAP = String.raw`(?:\s+(?:--?[\w-]+|check|run|step|job|output|is|are|was|were|all|and|already|still|now|also|remains?|came\s+back|comes\s+back|→|->|:)){0,4}\s*`;
 const CLEAN_END = String.raw`(?=\s*(?:[.,;:!)\]]|(?:on|for|in|with|across|and|again|at)\b|\(|$))`;
-const AUX = String.raw`(?:(?:are|is|were|was|still|now|all|already|should|would|might|may|could|will|can|do|does|did|not|never|probably|likely|hopefully|just|no\s+longer)\s+)*`;
+// Bounded ({0,6}): the unbounded star was quadratic on adversarial aux runs (ReDoS).
+const AUX = String.raw`(?:(?:are|is|were|was|still|now|all|already|should|would|might|may|could|will|can|do|does|did|not|never|probably|likely|hopefully|just|no\s+longer)\s+){0,6}`;
 
 const rx = (src: string): RegExp => new RegExp(src, 'iu');
 const INT_RE = /(?<![\w/.])(\d{1,6})(?![\w/.])/u;
@@ -280,7 +281,7 @@ export const RULES: readonly Rule[] = [
       return p === undefined ? { kind: 'no-change' } : { kind: 'no-change', subject: p.display };
     }, notes: 'Row 21; consumes its own "no"; PATH captured when present.' },
   { id: 'verify.generic', kind: 'verification', triggers: [
-      rx(String.raw`(?:^|\b(?:i|i've|we|we've|and|also|then|now|everything|all|both|each|which|that|it|this|fix\s*#?\d+|\w+\s+is|\w+\s+are)\s+)(?:(?:was|were|is|are|has\s+been|have\s+been|got|just|also|then|now|independently)\s+)*(?:re-)?(?:verified|validated|confirmed|double-checked|sanity-checked|smoke-tested)${END}(?!\s+(?:email|bug|findings?|context|numbers?|claims?|account|commit|badge|token|user|file|tour|copy|source|data|example|by\s+(?:the\s+)?(?:brief|docs?|user|reviewer|provider|maintainer|community)))`),
+      rx(String.raw`(?:^|\b(?:i|i've|we|we've|and|also|then|now|everything|all|both|each|which|that|it|this|fix\s*#?\d+|\w+\s+is|\w+\s+are)\s+)(?:(?:was|were|is|are|has\s+been|have\s+been|got|just|also|then|now|independently)\s+){0,6}(?:re-)?(?:verified|validated|confirmed|double-checked|sanity-checked|smoke-tested)${END}(?!\s+(?:email|bug|findings?|context|numbers?|claims?|account|commit|badge|token|user|file|tour|copy|source|data|example|by\s+(?:the\s+)?(?:brief|docs?|user|reviewer|provider|maintainer|community)))`),
       rx(String.raw`\b(?:tested\s+(?:it\s+)?(?:manually|locally|end-to-end|by\s+hand)|manually\s+tested|works?\s+as\s+expected|working\s+(?:correctly|as\s+intended|end-to-end)|confirmed\s+(?:live|working))${END}`),
       rx(String.raw`\b(?:should|would|might|may|could|will)\s+(?:now\s+|all\s+|just\s+)?works?${END}(?!\s+(?:by|like|around|through)\b)`),
     ], fields: () => ({}), notes: 'Row 19; never CONTRADICTED; modal "should work" defers via the cue rules.' },

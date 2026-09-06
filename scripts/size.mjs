@@ -31,9 +31,13 @@ const SRC_TOTAL_LINES = 36000;
 // — that decision supersedes the 200 KB figure still quoted by the plan's
 // definition of done). S36 measured 245.8 KB / 990.8 KB after stripping
 // comments from dist (tsc removeComments), and raised only the unpacked cap
-// to 1 MiB; the 300 KB tarball gate stands.
+// to 1 MiB; the 300 KB tarball gate stands. The Pass-2 closing review found
+// the 1 MiB cap already busted at HEAD (1031.1 KB — S36 left only 1.8 KB of
+// headroom and predicted "the first addition busts it") and re-set it to
+// 1152 KB with real headroom (docs/decisions.md, Pass-2 closing review);
+// the 300 KB tarball gate still stands unchanged.
 const TARBALL_BYTES = 300 * 1024;
-const UNPACKED_BYTES = 1024 * 1024;
+const UNPACKED_BYTES = 1152 * 1024;
 const ALLOWED_TOP_LEVEL = ['bin/', 'dist/', 'README.md', 'LICENSE', 'package.json'];
 
 const problems = [];

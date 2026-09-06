@@ -11,6 +11,7 @@
  */
 import { isAbsolute, join, relative, resolve, sep } from 'node:path';
 import type { Harness } from '../model/types.js';
+import { lstatOrNull } from '../util/fs.js';
 import { findGitRoot } from '../util/gitroot.js';
 import { sha256 } from '../util/hash.js';
 import { safeSid } from '../util/ids.js';
@@ -75,7 +76,16 @@ export function statePath(home: string, harness: Harness, sid: string): string {
  */
 export function lastReceiptDir(cwd: string, home: string, harness: Harness, _sid: string): string {
   const root = findGitRoot(cwd);
-  if (root !== null) return assertInside(root, join(root, '.showreceipts'));
+  if (root !== null) {
+    const dir = join(root, '.showreceipts');
+    // SECURITY.md: a cloned repository can ship `.showreceipts` as a symlink
+    // (git checks out symlinks by default), redirecting receipt writes to any
+    // directory its author names. `assertInside` is lexical and cannot see
+    // that, so require the entry to be a real directory (or absent — it will
+    // be created); anything else falls back to the home location.
+    const stat = lstatOrNull(dir);
+    if (stat === null || stat.isDirectory()) return assertInside(root, dir);
+  }
   const base = join(home, 'last');
   return assertInside(base, join(base, harness));
 }

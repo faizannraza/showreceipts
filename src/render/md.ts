@@ -108,7 +108,9 @@ function timeRange(r: Receipt, tz: Tz): string | null {
 function header(r: Receipt, tz: Tz): string {
   const parts: string[] = [`**receipt #${text(r.shortId)}**`];
   if (r.cwd !== '') parts.push(text(r.cwd));
-  parts.push(r.branch === null ? 'no branch' : text(r.branch));
+  // §10.1 branch display, as in `term.ts branchLabel`: `HEAD` marks a
+  // detached checkout, empty/unknown shows `no branch`.
+  parts.push(r.branch === null || r.branch === '' ? 'no branch' : r.branch === 'HEAD' ? 'detached HEAD' : text(r.branch));
   const range = timeRange(r, tz);
   if (range !== null) parts.push(range);
   if (r.kind !== 'no-turns') parts.push(text(formatDuration(r.turnActiveMs ?? r.durationMs)));

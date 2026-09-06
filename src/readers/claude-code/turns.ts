@@ -37,6 +37,13 @@ export interface GroupState {
   interruptSeqs: number[];
   /** Σ `system/turn_duration.durationMs` attributed to this group; `null` when none. */
   durationMs: number | null;
+  /**
+   * §4.7 echo hashes of `userText`, stamped by the pipeline's cache-write
+   * redaction (`pipeline/redact-state.ts`) so a stored builder state can null
+   * a finalized group's prompt text (§4.9: the cache holds no prompt text)
+   * without losing the warm-resume echo check.
+   */
+  echoHashes?: string[];
 }
 
 /** One assistant message (grouped by `message.id`) as accumulated during the feed (serialisable). */
@@ -49,8 +56,14 @@ export interface MessageState extends UsageGroupState {
   excluded: boolean;
   /** `isSidechain: true` on any line (never a final). */
   sidechain: boolean;
-  /** Non-empty `text` blocks in file order. */
+  /** Non-empty `text` blocks in file order (bounded by the builder's per-message budget). */
   texts: { seq: number; text: string }[];
+  /** Total UTF-8 bytes accumulated in `texts` (budget bookkeeping; absent in pre-cap states). */
+  textBytes?: number;
+  /** The per-message text budget was hit: `texts` holds the head, `tailText` the newest block's tail. */
+  textsTruncated?: boolean;
+  /** Tail of the newest text block once the budget is hit (keeps the flush-guard suffix intact). */
+  tailText?: { seq: number; text: string };
   /** Line uuids of the message (retraction check). */
   uuids: string[];
   lastSeq: number;
@@ -221,7 +234,9 @@ export function assembleTurns(
         kind,
         promptId: group.promptId,
         userText: group.userText,
-        echoHashes: [],
+        // A resumed builder may carry privacy-nulled prompt text with the
+        // hashes preserved (§4.9); enrichment recomputes when text is present.
+        echoHashes: group.echoHashes === undefined ? [] : [...group.echoHashes],
         segments: [groupSegment(group, kind)],
         seqStart: group.seqStart,
         seqEnd: group.seqEnd,
@@ -336,6 +351,14 @@ export function assembleTurns(
           .sort((a, b) => a.seq - b.seq)
           .map((t) => t.text)
           .filter((t) => t !== '');
+        // The builder's per-message budget was hit (a pathological single-turn
+        // giant): head blocks + marker + the newest block's tail, so the join
+        // can never throw `Invalid string length` and the flush guard's
+        // ends-with check still sees the true message tail.
+        if (final.textsTruncated === true) {
+          texts.push('… [assistant text truncated by showreceipts]');
+          if (final.tailText !== undefined && final.tailText.text !== '') texts.push(final.tailText.text);
+        }
         turn.finalText = texts.join('\n\n');
         turn.finalSeq = final.lastSeq;
         turn.finalMessageId = final.key;

@@ -114,9 +114,9 @@
   }
 
   // ---- formatting ----
-  function fmtUsd(v) {
+  function fmtUsd(v, approx) {
     if (v === null || v === undefined) return '—';
-    return '$' + (v < 0.1 ? v.toFixed(4) : v.toFixed(2));
+    return (approx ? '≈' : '') + '$' + (v < 0.1 ? v.toFixed(4) : v.toFixed(2));
   }
   function fmtPct(num, den) {
     return den ? Math.round((num / den) * 100) + '%' : '—';
@@ -401,7 +401,7 @@
       add(opt, pillFor(c.verdict));
       add(opt, el('span', 'who', c.harnessLabel + ' · ' + c.model));
       add(opt, el('span', 'meta mono', c.shortId));
-      add(opt, el('span', 'cost', fmtUsd(c.costUsd) + (c.unverified ? ' ≈' : '')));
+      add(opt, el('span', 'cost', fmtUsd(c.costUsd, c.unverified)));
       add(opt, el('span', 'sub',
         fmtWhen(c.endedAt) + ' · ' + c.turns + ' turns · ' + c.claims + ' claims · ' + (c.title || c.cwd)));
       opt.addEventListener('click', function () { go({ s: c.shortId, seq: null }); });
@@ -525,7 +525,7 @@
     add(paper, el('h2', null, 'SHOWRECEIPTS · ' + String(receipt.harnessLabel || receipt.harness).toUpperCase()));
     add(paper, el('div', 'hd',
       receipt.model + (receipt.harnessVersion ? ' · ' + receipt.harnessVersion : '') + ' · session ' + receipt.shortId));
-    add(paper, el('div', 'hd', (receipt.branch ? receipt.branch + ' · ' : '') + receipt.cwd));
+    add(paper, el('div', 'hd', (receipt.branch ? (receipt.branch === 'HEAD' ? 'detached HEAD' : receipt.branch) + ' · ' : '') + receipt.cwd));
     add(paper, el('div', 'hd',
       fmtWhen(receipt.startedAt) + ' → ' + fmtWhen(receipt.endedAt) + (card.title ? ' · ' + card.title : '')));
     add(paper, el('div', 'rule'));
@@ -554,8 +554,8 @@
     var st = receipt.stats || {};
     add(paper, el('div', 'hd',
       st.toolCalls + ' tool calls · ' + st.filesChanged + ' files changed · ' + st.testRuns + ' test runs · ' + st.apiCalls + ' api calls'));
-    add(paper, el('div', 'hd',
-      'cost ' + fmtUsd(receipt.cost ? receipt.cost.usd : null) + (receipt.cost && receipt.cost.unverified ? ' ≈' : '') + ' (api-equivalent)'));
+    var rc = receipt.cost;
+    add(paper, el('div', 'hd', 'cost ' + fmtUsd(rc ? rc.usd : null, rc && rc.unverified) + ' (API-equivalent)'));
     add(main, paper);
     if (receipt.finalText) {
       var det = el('details', 'acc');

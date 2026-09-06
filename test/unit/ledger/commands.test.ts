@@ -171,10 +171,22 @@ describe('extractCommands directly', () => {
     expect(facts[0]?.mayRunTests).toBe(true);
   });
 
-  it('attributes the harness exit across a && chain', () => {
+  it('attributes the harness exit across a && chain (no signature ⇒ nothing fabricated)', () => {
     const facts = extractCommands([shellCall('cd site && npm run build', { exitCode: 1 })], ctx);
     expect(facts[0]?.chained).toBe(true);
-    expect(facts[0]?.segments[1]?.exitCode).toBe(1);
+    expect(facts[0]?.exitCode).toBe(1); // the harness exit stays on the CommandFact
+    // §4.5.5: without an output signature the failing unit is unknown — no
+    // fabricated exit 0 for `cd`, no fabricated exit 1 for the build, and the
+    // unproven check segment is short-circuited.
+    expect(facts[0]?.segments[0]?.exitCode).toBeNull();
+    expect(facts[0]?.segments[0]?.ran).toBe(true);
+    expect(facts[0]?.segments[1]?.exitCode).toBeNull();
+    expect(facts[0]?.segments[1]?.ran).toBe('short-circuited');
+  });
+
+  it('attributes the harness exit across a && chain when a signature pins the failure', () => {
+    const facts = extractCommands([shellCall('cd site && npm run build', { exitCode: 1, resultText: 'src/x.ts(3,1): error TS2322: nope' })], ctx);
     expect(facts[0]?.segments[0]?.exitCode).toBe(0);
+    expect(facts[0]?.segments[1]?.exitCode).toBe(1);
   });
 });

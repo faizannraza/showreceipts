@@ -39,14 +39,32 @@ const KEY_VALUE = /([A-Za-z0-9_-]{0,64}(?:password|passwd|secret|token))=("[^"]*
 /** A quote/backtick run closing an unquoted value (`curl "…?token=x"`): kept so the surrounding literal stays balanced. */
 const CLOSING_DELIMITERS = /["'`]+$/;
 
+/**
+ * Hint prefilters: each alternative is a substring every match of one of the
+ * patterns above must contain, so a string rejected by both hints can contain
+ * no secret and is returned untouched. Masking runs over every parsed session
+ * (tens of MB on real corpora) and the expensive patterns — `KEY_VALUE`
+ * retries its `{0,64}` key prefix at every position — measured 32–51 MB/s;
+ * with the hints, secret-free strings (99.9 % of real strings) pass at
+ * 250–760 MB/s (7.8× on a real 26 MB corpus), and outputs are byte-identical.
+ */
+const WHOLE_HINT_CS = /-----BEGIN [A-Z ]*PRIVATE KEY|sk-|gh[pousr]_|github_pat_|AKIA|xox[abops]-|AIza/;
+const BEARER_HINT = /Bearer /i;
+const KEY_VALUE_HINT = /(?:password|passwd|secret|token)=/i;
+
 /** Replaces every credential-shaped substring of `s` with `«masked»`. */
 export function maskSecrets(s: string): string {
+  const whole = WHOLE_HINT_CS.test(s) || BEARER_HINT.test(s);
+  const keyValue = KEY_VALUE_HINT.test(s);
+  if (!whole && !keyValue) return s;
   let out = s;
-  for (const re of WHOLE) out = out.replace(re, MASK);
-  out = out.replace(KEY_VALUE, (_m, key: string, value: string) => {
-    const closing = /^["']/.test(value) ? '' : (CLOSING_DELIMITERS.exec(value)?.[0] ?? '');
-    return `${key}=${MASK}${closing}`;
-  });
+  if (whole) for (const re of WHOLE) out = out.replace(re, MASK);
+  if (keyValue) {
+    out = out.replace(KEY_VALUE, (_m, key: string, value: string) => {
+      const closing = /^["']/.test(value) ? '' : (CLOSING_DELIMITERS.exec(value)?.[0] ?? '');
+      return `${key}=${MASK}${closing}`;
+    });
+  }
   return out;
 }
 

@@ -42,6 +42,8 @@ export interface StdinRead {
   bytes: number;
   /** The payload exceeded the cap. */
   overflow: boolean;
+  /** The drain ended on a read error (never a plain EOF): its code and the bytes drained by then. */
+  error?: { code: string; bytes: number };
 }
 
 /** Test seams; production uses the defaults (fd 0, real TTY check, 32 MiB / 64 KiB). */
@@ -126,17 +128,28 @@ export function readStdin(options: ReadStdinOptions = {}): StdinRead {
   let kept = 0;
   let total = 0;
   let retries = 0;
+  let endedOn: string | undefined;
   const scratch = Buffer.allocUnsafe(CHUNK_BYTES);
   for (;;) {
     let read: number;
     try {
       read = fs.readSync(fd, scratch, 0, CHUNK_BYTES, null);
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === 'EAGAIN' && retries < EAGAIN_RETRIES) {
+      const code = (err as NodeJS.ErrnoException).code ?? 'UNKNOWN';
+      // EAGAIN — a non-blocking pipe with nothing buffered yet — always
+      // retries within the budget. Any OTHER error while ZERO bytes have
+      // arrived gets the same patience (except a true end: win32 'EOF', or
+      // a dead descriptor 'EBADF'): treating the first transient error as
+      // end-of-drain answered `{}` and silently deposited the event in an
+      // unknown-sid ledger (the S31 concurrency drop). Once bytes have
+      // arrived, or the budget is spent, the drain ends with what came.
+      const retryable = code === 'EAGAIN' || (total === 0 && code !== 'EOF' && code !== 'EBADF');
+      if (retryable && retries < EAGAIN_RETRIES) {
         retries += 1;
         sleepMs(2);
         continue;
       }
+      if (code !== 'EOF') endedOn = code; // win32 'EOF' is a normal end, not an error
       break; // EOF (win32 pipes), EBADF, EIO, or a pipe that never becomes readable
     }
     if (read <= 0) break;
@@ -146,17 +159,23 @@ export function readStdin(options: ReadStdinOptions = {}): StdinRead {
       kept += read;
     }
   }
-  if (total === 0) return { json: {}, salvage: {}, bytes: 0, overflow: false };
+  // The §9 hook runtime logs `error` to hook.log so a dropped event is
+  // visible post-hoc; a clean EOF never sets it.
+  const withError = (r: StdinRead): StdinRead => {
+    if (endedOn !== undefined) r.error = { code: endedOn, bytes: total };
+    return r;
+  };
+  if (total === 0) return withError({ json: {}, salvage: {}, bytes: 0, overflow: false });
   const body = Buffer.concat(chunks);
   if (total > maxBytes) {
     const head = body.subarray(0, salvageBytes).toString('utf8');
-    return { json: null, salvage: salvageFields(head), bytes: total, overflow: true };
+    return withError({ json: null, salvage: salvageFields(head), bytes: total, overflow: true });
   }
   const text = body.toString('utf8');
   try {
-    return { json: JSON.parse(text) as unknown, salvage: {}, bytes: total, overflow: false };
+    return withError({ json: JSON.parse(text) as unknown, salvage: {}, bytes: total, overflow: false });
   } catch {
     const head = body.subarray(0, salvageBytes).toString('utf8');
-    return { json: null, salvage: salvageFields(head), bytes: total, overflow: false };
+    return withError({ json: null, salvage: salvageFields(head), bytes: total, overflow: false });
   }
 }

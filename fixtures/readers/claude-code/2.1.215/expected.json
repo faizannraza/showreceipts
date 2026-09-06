@@ -1708,13 +1708,13 @@
     "f150468e-ae67-4d6b-a36d-688ae5025a53": {
       "writes": 230,
       "commands": 155,
-      "testRuns": 22,
-      "checks": 44,
+      "testRuns": 21,
+      "checks": 37,
       "git": 0,
       "network": 6,
       "integrity": 0,
       "danger": 9,
-      "filesChanged": 90,
+      "filesChanged": 86,
       "integrityKinds": {},
       "dangerKinds": {
         "kill": 1,

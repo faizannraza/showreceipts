@@ -26,7 +26,7 @@ import { applyBudget, type BudgetReport } from '../render/budget.js';
 import { glyphSet } from '../render/glyphs.js';
 import { renderHtml, type HashPathsMode } from '../render/html.js';
 import { buildReportPayload, type ReportSessionInput } from '../render/payload.js';
-import { atomicWriteFile, ensureDir } from '../util/fs.js';
+import { assertRealDirectory, atomicWriteFile, ensureDir, lstatOrNull } from '../util/fs.js';
 import { findGitRoot } from '../util/gitroot.js';
 import { stableStringify } from '../util/json.js';
 import { displayPath } from '../util/paths.js';
@@ -34,9 +34,11 @@ import { sanitizeForCell } from '../util/sanitize.js';
 import { parseIso } from '../util/time.js';
 import { loadOptionsOf, prepare, startProgress } from './common.js';
 
-/** What a spawner returns: only `unref` is ever called. */
+/** What a spawner returns: `unref` is always called; a real `ChildProcess` also exposes `on`, used to catch the async spawn 'error'. */
 export interface SpawnHandle {
   unref(): void;
+  /** Present on real child processes: a missing opener binary (ENOENT) arrives here asynchronously. */
+  on?(event: 'error', listener: (err: Error) => void): unknown;
 }
 
 /** The process-spawning seam (§13.4): argv array, detached, ignored stdio. */
@@ -57,9 +59,21 @@ export function openCommandFor(platform: string, target: string): { command: str
  * stdio and unref'd so the CLI never waits on the browser. Tests pass a
  * fake `spawner`; the default is the real `child_process.spawn`.
  */
-export function openReport(target: string, platform: string, spawner: Spawner = defaultSpawner): void {
+export function openReport(target: string, platform: string, spawner: Spawner = defaultSpawner, onError?: (message: string) => void): void {
   const { command, args } = openCommandFor(platform, target);
-  spawner(command, args, { detached: true, stdio: 'ignore' }).unref();
+  const child = spawner(command, args, { detached: true, stdio: 'ignore' });
+  // The opener binary can be missing (xdg-open on minimal Linux): spawn()
+  // delivers ENOENT asynchronously on the child, after run() has returned,
+  // so without a listener it becomes an unhandled 'error' event that kills
+  // the CLI with a raw stack trace even though the report was written.
+  // Mirror swallowEpipe's injected-sink guard (cli.ts): attach only when the
+  // handle actually exposes `on` (test fakes may not).
+  if (typeof child.on === 'function') {
+    child.on('error', () => {
+      onError?.(`showreceipts: could not open a browser (${command} missing or failed to start); open ${target} yourself\n`);
+    });
+  }
+  child.unref();
 }
 
 /** The §11.1 printed sections; `template` is everything outside the data block. */
@@ -164,11 +178,22 @@ export async function run(ctx: CommandContext): Promise<number> {
   }
 
   const outFlag = flags['out'];
-  const out =
-    typeof outFlag === 'string' && outFlag !== ''
-      ? normalize(isAbsolute(outFlag) ? outFlag : join(ctx.cwd, outFlag))
-      : join(findGitRoot(ctx.cwd) ?? ctx.cwd, '.showreceipts', 'report.html');
+  const explicitOut = typeof outFlag === 'string' && outFlag !== '';
+  const out = explicitOut
+    ? normalize(isAbsolute(outFlag as string) ? (outFlag as string) : join(ctx.cwd, outFlag as string))
+    : join(findGitRoot(ctx.cwd) ?? ctx.cwd, '.showreceipts', 'report.html');
+  if (!explicitOut) {
+    // SECURITY.md: a cloned repo can ship `.showreceipts` as a symlink and
+    // redirect the default report anywhere its author names. Only a real
+    // directory (or nothing yet) is written to; an explicit --out is the
+    // user's own choice and stays exempt.
+    const entry = lstatOrNull(dirname(out));
+    if (entry !== null && !entry.isDirectory()) {
+      throw new Error(`${dirname(out)} is not a real directory (symlink or file) — refusing to write the report through it (use --out)`);
+    }
+  }
   ensureDir(dirname(out));
+  if (!explicitOut) assertRealDirectory(dirname(out));
   atomicWriteFile(out, html);
 
   if (prepared.json) {
@@ -190,6 +215,14 @@ export async function run(ctx: CommandContext): Promise<number> {
     if (budget.overCap) ctx.stderr.write('showreceipts: warning: the report still exceeds the 16 MB hard cap after degradation\n');
   }
 
-  if (flags['open'] === true) openReport(out, process.platform);
+  if (flags['open'] === true) {
+    openReport(out, process.platform, undefined, (message) => {
+      try {
+        ctx.stderr.write(message);
+      } catch {
+        // the stream may already be gone; the report itself was written
+      }
+    });
+  }
   return 0;
 }

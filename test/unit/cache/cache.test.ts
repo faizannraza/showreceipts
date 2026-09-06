@@ -274,6 +274,15 @@ describe('trimForCache', () => {
     expect((trimmed.turns[0] as Turn).finalText).toBe('Done. I ran the tests and they pass.');
   });
 
+  it('keeps a command that differs from input.command (codex `cmd` shapes)', () => {
+    const session = makeSession();
+    const call = session.toolCalls[0] as ToolCall;
+    call.command = 'apply_patch <<PATCH';
+    call.input = { command: 'something else' };
+    const trimmed = trimForCache(session);
+    expect((trimmed.toolCalls[0] as ToolCall).command).toBe('apply_patch <<PATCH');
+  });
+
   it('drops patch, attempted and every input key except the allowed five', () => {
     const trimmed = trimForCache(makeSession());
     const call = trimmed.toolCalls[0] as ToolCall;
@@ -340,16 +349,24 @@ describe('cacheKey', () => {
 });
 
 describe('createCache', () => {
-  it('round-trips an entry unchanged after trimming', async () => {
+  it('round-trips an entry unchanged after trimming (command reinflated on read)', async () => {
     await withTempDir((dir) => {
       const cache = createCache({ dir: join(dir, 'cache'), toolVersion: TOOL_VERSION });
       const session = makeSession();
       (session.toolCalls[0] as ToolCall).resultText = 'plain result, no secrets';
       const trimmed = trimForCache(session);
+      // §4.9 size: the stored entry drops the `command` duplicate…
+      expect((trimmed.toolCalls[0] as ToolCall).command).toBeUndefined();
       const key = cacheKey(makeRef(), TOOL_VERSION);
       const entry = makeEntry(trimmed, key);
       cache.put(key, entry);
-      expect(cache.get(key)).toEqual(entry);
+      // …and `get` reinflates it from `input.command`, so the warm session
+      // carries exactly the cold session's bytes.
+      const expected = structuredClone(entry);
+      for (const call of expected.session.toolCalls) {
+        if (call.command === undefined && typeof call.input['command'] === 'string') call.command = call.input['command'];
+      }
+      expect(cache.get(key)).toEqual(expected);
     });
   });
 
@@ -429,7 +446,12 @@ describe('createCache', () => {
       expect(disabled.get(key)).toBeNull();
       expect(disabled.lookupByPath(makeSession().transcriptPath as string)).toBeNull();
       disabled.put(key, entry); // no-op
-      expect(enabled.get(key)).toEqual(entry); // and it clobbered nothing
+      // …and it clobbered nothing (`get` reinflates the deduplicated command).
+      const expected = structuredClone(entry);
+      for (const call of expected.session.toolCalls) {
+        if (call.command === undefined && typeof call.input['command'] === 'string') call.command = call.input['command'];
+      }
+      expect(enabled.get(key)).toEqual(expected);
 
       const fresh = createCache({ dir: join(dir, 'fresh'), toolVersion: TOOL_VERSION, disabled: true });
       fresh.put(key, entry);
@@ -445,7 +467,10 @@ describe('createCache', () => {
       const keyA = cacheKey(makeRef(), TOOL_VERSION);
       const keyB = cacheKey(makeRef({ size: 999 }), TOOL_VERSION);
       cache.put(keyA, makeEntry(trimForCache(makeSession()), keyA));
-      cache.put(keyB, makeEntry(trimForCache(makeSession()), keyB));
+      // A different transcript path: a re-put for the *same* path evicts the
+      // stale entry (see the eviction test), which is not what this test is
+      // about.
+      cache.put(keyB, makeEntry(trimForCache(makeSession('/roots/claude/projects/-p/other000.jsonl')), keyB));
       const stats = cache.stats();
       expect(stats.entries).toBe(2);
       expect(stats.bytes).toBeGreaterThan(0);
@@ -477,6 +502,37 @@ describe('createCache', () => {
       const other = createCache({ dir: cacheDir, toolVersion: '9.9.9' });
       expect(other.lookupByPath(path)).toBeNull();
       expect(pathKey(path, TOOL_VERSION)).not.toBe(pathKey(path, '9.9.9'));
+    });
+  });
+
+  it('evicts the stale entry when a re-parse of the same transcript repoints the path index', async () => {
+    await withTempDir((dir) => {
+      const cacheDir = join(dir, 'cache');
+      const cache = createCache({ dir: cacheDir, toolVersion: TOOL_VERSION });
+      const path = '/roots/claude/projects/-p/57687dd1.jsonl';
+      const otherPath = '/roots/claude/projects/-p/other000.jsonl';
+      const keyOther = cacheKey(makeRef({ path: otherPath }), TOOL_VERSION);
+      cache.put(keyOther, makeEntry(trimForCache(makeSession(otherPath)), keyOther));
+
+      const keyA = cacheKey(makeRef(), TOOL_VERSION);
+      cache.put(keyA, makeEntry(trimForCache(makeSession(path)), keyA));
+      expect(cache.stats().entries).toBe(2);
+
+      // The same transcript grown: the old entry can never be hit again
+      // (its key hashed the old size/mtime), so the put removes it.
+      const keyB = cacheKey(makeRef({ size: 2000, mtimeMs: 1_764_000_000_500 }), TOOL_VERSION);
+      cache.put(keyB, makeEntry(trimForCache(makeSession(path)), keyB));
+      expect(cache.get(keyA)).toBeNull();
+      expect(cache.get(keyB)?.key).toBe(keyB);
+      expect(cache.lookupByPath(path)?.key).toBe(keyB);
+      // The other transcript's entry is untouched.
+      expect(cache.get(keyOther)?.key).toBe(keyOther);
+      expect(cache.stats().entries).toBe(2);
+
+      // Re-putting the same key leaves the entry in place.
+      cache.put(keyB, makeEntry(trimForCache(makeSession(path)), keyB));
+      expect(cache.get(keyB)?.key).toBe(keyB);
+      expect(cache.stats().entries).toBe(2);
     });
   });
 

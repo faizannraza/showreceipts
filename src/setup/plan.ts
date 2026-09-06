@@ -8,6 +8,7 @@
 import { join } from 'node:path';
 import type { Harness, SetupResult } from '../model/types.js';
 import { statOrNull } from '../util/fs.js';
+import { shQuote } from './launcher.js';
 
 /** Where a config lands (§12.1 `--project` / `--shared`). */
 export type SetupScope = 'user' | 'project' | 'shared';
@@ -100,12 +101,13 @@ export function configTarget(harness: Harness, scope: SetupScope, i: TargetInput
 
 /**
  * The hook command string (§9): the launcher's absolute path, double-quoted
- * so paths with spaces survive every harness's shell/`shlex` split, then
+ * AND escaped (`shQuote`: `\ $ \` "`) so paths with spaces or shell
+ * metacharacters survive every harness's shell/`shlex` split, then
  * `hook <dialect> <event>` (+ ` --strict`). `setup` never emits a bare
  * `showreceipts …` command (§9 "Launcher").
  */
 export function hookCommand(launcherPath: string, dialect: string, event: string, strict = false): string {
-  return `"${launcherPath}" hook ${dialect} ${event}${strict ? ' --strict' : ''}`;
+  return `${shQuote(launcherPath)} hook ${dialect} ${event}${strict ? ' --strict' : ''}`;
 }
 
 /** Everything one harness writer needs for one `setup` invocation. */

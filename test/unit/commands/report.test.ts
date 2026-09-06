@@ -64,7 +64,8 @@ async function runReport(argv: string[], opts: { cwd?: string; srHome?: string }
   return { code, stdout: stdout.text, stderr: stderr.text };
 }
 
-// `report` accepts no render flags (§12.1) — only the window, --out and modes.
+// `report` renders no width-fitted screen (§12.1: no --width), but accepts
+// --ascii/--unicode to pin its status-line glyphs (Pass 2 determinism).
 // `--all`: the legacy fixture ends 2025-09-01, outside any 2026 window.
 const BASE = ['report', '--all', '--home-dir', '/home/u', '--no-color'];
 
@@ -184,6 +185,45 @@ describe('--open (injected spawner; §13.4 — never spawns in tests)', () => {
     };
     openReport('/tmp/r.html', 'darwin', fake);
     expect(calls).toEqual([{ command: 'open', args: ['/tmp/r.html'], options: { detached: true, stdio: 'ignore' } }]);
+    expect(unrefs).toBe(1);
+  });
+
+  it('a missing opener (async ENOENT) becomes a stderr hint, never an unhandled error', async () => {
+    // xdg-open is routinely absent on minimal Linux: spawn() delivers ENOENT
+    // asynchronously on the child, after run() returned — pre-fix this was an
+    // uncaught 'error' event and a raw stack trace (exit 1).
+    let listener: ((err: Error) => void) | undefined;
+    let unrefs = 0;
+    const fake: Spawner = () => ({
+      unref(): void {
+        unrefs += 1;
+      },
+      on(_event: 'error', l: (err: Error) => void): void {
+        listener = l;
+      },
+    });
+    const messages: string[] = [];
+    openReport('/x/r.html', 'linux', fake, (m) => messages.push(m));
+    expect(unrefs).toBe(1);
+    expect(listener).toBeDefined();
+    // The error arrives on a later tick, well after openReport returned.
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
+    (listener as (err: Error) => void)(new Error('spawn xdg-open ENOENT'));
+    expect(messages).toEqual(['showreceipts: could not open a browser (xdg-open missing or failed to start); open /x/r.html yourself\n']);
+  });
+
+  it('a handle without `on` (plain fake spawner) is tolerated', () => {
+    let unrefs = 0;
+    const fake: Spawner = () => ({
+      unref(): void {
+        unrefs += 1;
+      },
+    });
+    expect(() => {
+      openReport('/x/r.html', 'linux', fake, () => undefined);
+    }).not.toThrow();
     expect(unrefs).toBe(1);
   });
 });

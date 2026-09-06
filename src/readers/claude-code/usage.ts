@@ -77,18 +77,23 @@ function otherEphemeral(cc: Record<string, number>): number {
   return sum;
 }
 
+/** A finite number, else 0 — `JSON.parse("1e999")` is `Infinity` and would poison every downstream sum. */
+function fin(v: unknown): number {
+  return typeof v === 'number' && Number.isFinite(v) ? v : 0;
+}
+
 function bucketise(a: RawUsage): Omit<UsageAttempt, 'model' | 'billed'> {
   const cc = a.cache_creation;
   const ccRecord = cc !== null && typeof cc === 'object' ? cc : null;
   return {
-    in: a.input_tokens ?? 0,
-    w5: ccRecord?.['ephemeral_5m_input_tokens'] ?? 0,
-    w1: ccRecord?.['ephemeral_1h_input_tokens'] ?? 0,
+    in: fin(a.input_tokens),
+    w5: fin(ccRecord?.['ephemeral_5m_input_tokens']),
+    w1: fin(ccRecord?.['ephemeral_1h_input_tokens']),
     wX: ccRecord === null ? 0 : otherEphemeral(ccRecord),
     // Legacy path (§8.3): the undifferentiated bucket only when no breakdown exists.
-    wU: ccRecord === null ? (a.cache_creation_input_tokens ?? 0) : 0,
-    rd: a.cache_read_input_tokens ?? 0,
-    out: a.output_tokens ?? 0,
+    wU: ccRecord === null ? fin(a.cache_creation_input_tokens) : 0,
+    rd: fin(a.cache_read_input_tokens),
+    out: fin(a.output_tokens),
   };
 }
 

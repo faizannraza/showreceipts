@@ -150,7 +150,10 @@ function extractDetailed(finalText: string, ctx: ExtractContext): Detailed {
             claim.id = claimId(ctx.turnIndex, claim);
             claim.echoed = isEchoed(claim, echo);
             fired.add(rule.id);
-            const key = `${claim.kind}|${claim.subject ?? ''}|${claim.polarity}|${claim.family ?? claim.op ?? ''}`;
+            // `sha` is part of the identity: a message citing two different
+            // commit shas is two claims, not one (sha-less git claims keep
+            // the previous key — the suffix is empty for them).
+            const key = `${claim.kind}|${claim.subject ?? ''}|${claim.polarity}|${claim.family ?? claim.op ?? ''}|${claim.sha ?? ''}`;
             const prev = byKey.get(key);
             if (prev === undefined) {
               byKey.set(key, claim);
@@ -169,9 +172,9 @@ function extractDetailed(finalText: string, ctx: ExtractContext): Detailed {
 
 /**
  * Extracts every claim from a final message (§4.7). Identical
- * `(kind, subject, polarity, family/op)` claims dedupe to one, keeping the
- * max count; `position` is the clause order; ids are stable across runs and
- * unique within a message.
+ * `(kind, subject, polarity, family/op, sha)` claims dedupe to one, keeping
+ * the max count; `position` is the clause order; ids are stable across runs
+ * and unique within a message.
  */
 export function extractClaims(finalText: string, ctx: ExtractContext): ExtractResult {
   const { claims, sentences } = extractDetailed(finalText, ctx);

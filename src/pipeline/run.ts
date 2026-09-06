@@ -14,8 +14,9 @@ import { closeSync, openSync, readSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { Diagnostics, Harness, Roots, Session, SessionRef, ToolCall } from '../model/types.js';
-import { cacheKey, createCache, trimForCache, type CacheEntry, type ParseCache } from '../cache/cache.js';
+import { cacheKey, createCache, FINAL_TEXT_CAP, trimForCache, truncateBytes, type CacheEntry, type ParseCache } from '../cache/cache.js';
 import { echoHashes } from '../claims/text.js';
+import { maskDeep } from '../util/mask.js';
 import { enumerateSessions, type EnumerateCounts } from '../discover/enumerate.js';
 import { buildLedger } from '../ledger/index.js';
 import { readClaudeCodeSession, type ClaudeCodeReadOptions } from '../readers/claude-code/reader.js';
@@ -27,6 +28,7 @@ import { uuidVersion } from '../util/ids.js';
 import { canon, isUnder, toPosix } from '../util/paths.js';
 import { parseIso } from '../util/time.js';
 import { markSessionInherited } from './dedupe.js';
+import { redactBuilderState } from './redact-state.js';
 
 /** In-memory `resultText` retention after the ledger parsers ran (§4.2.5): head 4 KB + `…` + tail 4 KB. */
 const TRIM_HEAD = 4096;
@@ -115,7 +117,10 @@ function fileTailHash(path: string, size: number): string {
 /** The fs-backed head reader injected into the ledger reader (Copilot final-text fallback, §4.4). */
 function readTranscriptHead(path: string, maxBytes: number): string | null {
   try {
-    const size = statSync(path).size;
+    const stat = statSync(path);
+    // A FIFO/device here would block `openSync` forever (§9 invariant).
+    if (!stat.isFile()) return null;
+    const size = stat.size;
     const length = Math.min(maxBytes, size);
     const fd = openSync(path, 'r');
     try {
@@ -248,9 +253,22 @@ async function parseRef(
   session.repoRoot = session.cwd === '' ? null : repoRootOf(session.cwd);
   session.ledger = buildLedger(session, { repoRootOf, tmpRoots });
   for (const turn of session.turns) {
-    turn.echoHashes = turn.userText === null || turn.userText === '' ? [] : echoHashes(turn.userText);
+    // §4.9: a resumed parse may carry privacy-nulled prompt text with the
+    // echo hashes preserved from the stored builder state — keep those, and
+    // recompute only when the prompt text itself is present.
+    if (turn.userText !== null && turn.userText !== '') turn.echoHashes = echoHashes(turn.userText);
+    else turn.echoHashes = turn.echoHashes ?? [];
   }
   for (const call of session.toolCalls) trimCall(call);
+  // §4.9: masking applies before any write to a receipt or report, and a warm
+  // (cache-restored) session is masked by `cache.put` — masking the cold
+  // session at the same seam keeps cold and warm receipts byte-identical and
+  // closes the cold-path secret leak into `report`/`export`. The finalText
+  // cap mirrors `trimForCache` for the same parity.
+  for (const turn of session.turns) {
+    if (turn.finalText !== null) turn.finalText = truncateBytes(turn.finalText, FINAL_TEXT_CAP);
+  }
+  session = maskDeep(session);
   const out: { session: Session; bytesParsed: number; tailHash: string; builderState?: string } = { session, bytesParsed, tailHash };
   if (builderState !== undefined) out.builderState = builderState;
   return out;
@@ -339,7 +357,7 @@ export async function loadSessions(opts: LoadOptions): Promise<LoadResult> {
           session: trimForCache(session),
           bytesParsed: parsed.bytesParsed,
           tailHash: parsed.tailHash,
-          ...(parsed.builderState !== undefined ? { builderState: parsed.builderState } : {}),
+          ...(parsed.builderState !== undefined ? { builderState: redactBuilderState(parsed.builderState) } : {}),
         };
         cache.put(key, entry);
       }

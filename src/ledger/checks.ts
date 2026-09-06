@@ -183,6 +183,15 @@ function parseSummary(segment: ShellSegment, text: string): SummaryParse | null 
   return null; // clippy, go vet, npm scripts, …: exit only (§4.6.5)
 }
 
+/**
+ * True when the prepared output carries a summary for this check segment's
+ * program (§4.5.5 "ran": a parsed summary proves the tool actually ran).
+ * Used by `ledger/shell` exit attribution for signature-less failing chains.
+ */
+export function checkSummaryMatches(segment: ShellSegment, text: string): boolean {
+  return parseSummary(segment, text) !== null;
+}
+
 const SUBCOMMAND_TOOLS: ReadonlySet<string> = new Set(['ruff', 'biome', 'go', 'cargo', 'deno', 'uv']);
 const MODE_WORDS: ReadonlySet<string> = new Set(['check', 'format', 'lint', 'vet', 'clippy', 'fmt', 'build', 'run']);
 const VALUE_FLAGS: ReadonlySet<string> = new Set(['-p', '--project', '--config', '-c', '--rulesdir', '--max-warnings']);

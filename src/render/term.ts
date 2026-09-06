@@ -100,6 +100,17 @@ function sessionSpanToken(r: Receipt, tz: Tz): string | null {
   return `session ${formatDateRange(fromMs, toMs, tz)} (${r.sessionSpan.days}d)`;
 }
 
+/**
+ * The §10.1 branch display: `HEAD` (git's marker for a detached checkout,
+ * never a legal branch name) renders `detached HEAD`; `null`/empty render
+ * `no branch`; anything else is a real branch name, sanitised.
+ */
+export function branchLabel(branch: string | null): string {
+  if (branch === null || branch === '') return 'no branch';
+  if (branch === 'HEAD') return 'detached HEAD';
+  return sanitizeForCell(branch);
+}
+
 /** Both header lines' parts, pre-sanitised; renderer fragments already transliterated. */
 function headerParts(ctx: Ctx, r: Receipt): { line1: HeaderPart[]; line2: HeaderPart[] } {
   const version = r.harnessVersion === null ? '' : ` ${sanitizeForCell(r.harnessVersion)}`;
@@ -111,7 +122,7 @@ function headerParts(ctx: Ctx, r: Receipt): { line1: HeaderPart[]; line2: Header
   if (r.source === 'ledger') line1.push({ text: 'hook-captured' });
   const line2: HeaderPart[] = [
     { text: sanitizeForCell(displayPath(r.cwd, ctx.homeDir)), role: 'cwd' },
-    { text: r.branch === null ? 'no branch' : sanitizeForCell(r.branch), role: 'branch' },
+    { text: branchLabel(r.branch), role: 'branch' },
   ];
   const range = timeRange(r, ctx.tz);
   if (range !== null) line2.push({ text: tl(ctx, range) });
@@ -145,6 +156,9 @@ function narrowHeader(ctx: Ctx, r: Receipt): string[] {
 // ---------------------------------------------------------------------------
 
 const GLYPH_KIND: Readonly<Record<ReceiptLine['glyph'], PaintKind>> = { ok: 'ok', bad: 'bad', unk: 'unk', said: 'dim' };
+
+/** Post-final agent notes rendered individually before the tail aggregates. */
+const PF_NOTES_MAX = 3;
 
 /**
  * Fits a claim into `budget` columns: the longest path-like token (contains
@@ -260,11 +274,25 @@ function alsoSection(ctx: Ctx, r: Receipt): string[] {
       for (const cont of lines.slice(1)) out.push(`  ${cont}`);
     }
   }
-  for (const pf of r.postFinal ?? []) {
+  // Per-agent notes cap: a real session with 46 post-final subagents rendered
+  // 92 note lines and drowned the receipt, so beyond PF_NOTES_MAX agents the
+  // tail collapses into one aggregate line (tool calls sum exactly; files
+  // could double-count across agents, so the aggregate omits them).
+  const pfs = r.postFinal ?? [];
+  const pfShown = pfs.length > PF_NOTES_MAX ? pfs.slice(0, PF_NOTES_MAX) : pfs;
+  for (const pf of pfShown) {
     const who = pf.agentId === null ? 'the main agent' : `agent ${sanitizeForCell(pf.agentId)}`;
     const note =
       `after this message: ${who} ran ${plural(pf.toolCalls, 'tool call')} ` +
       `(${plural(pf.files, 'file')}, ${plural(pf.testRuns, 'test run')}) ${ctx.g.emDash} not evidence for the claims above`;
+    for (const line of wrapWords(tl(ctx, note), T, 2, ctx.g.ellipsis)) out.push(pk(ctx, 'dim', line));
+  }
+  if (pfs.length > pfShown.length) {
+    const rest = pfs.slice(pfShown.length);
+    const calls = rest.reduce((sum, pf) => sum + pf.toolCalls, 0);
+    const note =
+      `after this message: ${plural(rest.length, 'more agent')} ran ${plural(calls, 'tool call')} ` +
+      `${ctx.g.emDash} not evidence for the claims above`;
     for (const line of wrapWords(tl(ctx, note), T, 2, ctx.g.ellipsis)) out.push(pk(ctx, 'dim', line));
   }
   return out;

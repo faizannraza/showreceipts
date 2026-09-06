@@ -10,7 +10,7 @@
 import { join } from 'node:path';
 import type { Harness, Receipt } from '../model/types.js';
 import { renderMarkdownReceipt } from '../render/md.js';
-import { appendLine, atomicWriteFile, ensureDir } from '../util/fs.js';
+import { appendLine, assertRealDirectory, atomicWriteFile, ensureDir } from '../util/fs.js';
 import { stableStringify } from '../util/json.js';
 import { maskDeep } from '../util/mask.js';
 import { sanitizeForCell } from '../util/sanitize.js';
@@ -51,6 +51,10 @@ export function writeReceiptFiles(input: ReceiptFilesInput): ReceiptFilesResult 
   const { receipt, cwd, home, harness } = input;
   const dir = lastReceiptDir(cwd, home, harness, input.safeSid);
   ensureDir(dir, 0o700);
+  // Re-verify after creation: a symlink swapped in between the
+  // `lastReceiptDir` check and `ensureDir` (which follows links) must not
+  // receive the receipt — the caller treats the throw as "files not written".
+  assertRealDirectory(dir);
   const masked = maskDeep(receipt);
   const mdPath = join(dir, 'last-receipt.md');
   const jsonPath = join(dir, 'last-receipt.json');

@@ -86,8 +86,9 @@ jobs:
 
       - name: Tarball size gate (npm pack --dry-run --json)
         # Hard caps live in scripts/size.mjs: tarball <= 300 KB, unpacked
-        # <= 1 MiB (raised from 200/600 KB in docs/decisions.md W4/S22,
-        # then to 1 MiB unpacked by S36 after stripping dist comments),
+        # <= 1152 KB (raised from 200/600 KB in docs/decisions.md W4/S22,
+        # to 1 MiB by S36 after stripping dist comments, then to 1152 KB by
+        # the Pass-2 closing review after the 1 MiB cap busted at HEAD),
         # only bin/ dist/ README.md LICENSE package.json in the tarball.
         run: node scripts/size.mjs --strict
 

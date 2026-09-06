@@ -48,6 +48,12 @@ export function resolveNow(
   if (fromEnv !== undefined && fromEnv !== '') {
     const parsed = parseIsoTimestamp(fromEnv);
     if (parsed === undefined) {
+      // §9: the hook must never die on a malformed environment variable — the
+      // throw would happen before `runHook` starts, so recording would stop
+      // silently with zero diagnostics. The hook falls back to the wall clock
+      // (mirroring its lenient argv contract); every other command keeps the
+      // exit-2 contract so a typo can never silently change the output.
+      if (args.command === 'hook') return fallback ?? new Date();
       throw new UsageError(`SHOWRECEIPTS_NOW: expected an ISO-8601 timestamp (got '${fromEnv}')`, args.command);
     }
     return parsed;

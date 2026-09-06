@@ -133,3 +133,24 @@ describe('report text output', () => {
     for (const word of ['report', 'cards', 'receipts', 'timelines', 'template']) expect(r.stdout).toContain(word);
   });
 });
+
+describe('locale determinism (Pass 2: identical stdout under different LANG)', () => {
+  it('--ascii pins the status-line glyphs across LC_ALL/LANG; the artifacts are byte-identical', () => {
+    // Pre-fix `report` accepted no --ascii/--unicode, so its two status lines
+    // picked glyphs from the ambient locale (`→`/`·` vs `->`/`-`) and stdout
+    // could not be made byte-identical across locales with pinned flags.
+    const outA = join(outDir, 'lc-c.html');
+    const outB = join(outDir, 'lc-utf8.html');
+    const base = ['report', '--all', '--home-dir', '/home/u', '--no-color', '--ascii'];
+    const a = runCli([...base, '--out', outA], { env: { ...ENV, LC_ALL: 'C', LC_CTYPE: 'C', LANG: 'C' }, cwd });
+    const b = runCli([...base, '--out', outB], { env: { ...ENV, LC_ALL: 'en_US.UTF-8', LC_CTYPE: 'en_US.UTF-8', LANG: 'en_US.UTF-8' }, cwd });
+    expect(a.code).toBe(0);
+    expect(b.code).toBe(0);
+    expect(a.stdout).toContain('report -> ');
+    expect(a.stdout).not.toContain('→');
+    expect(a.stdout).not.toContain('·');
+    // Identical modulo the differing --out file names.
+    expect(a.stdout.split('lc-c.html').join('OUT')).toBe(b.stdout.split('lc-utf8.html').join('OUT'));
+    expect(readFileSync(outA)).toEqual(readFileSync(outB));
+  });
+});

@@ -42,6 +42,43 @@ export interface BuilderOptions {
   home: string;
 }
 
+/**
+ * Per-message text budget: the head kept in `MessageState.texts` (8 MiB —
+ * far above any real final message) plus the newest block's tail
+ * ({@link MESSAGE_TEXT_TAIL}). Without a bound, one pathological assistant
+ * message accumulating hundreds of MB either throws `Invalid string length`
+ * at the turn join or aborts the whole hook process inside
+ * `JSON.stringify` — silently killing that session's receipts.
+ */
+export const MESSAGE_TEXT_BUDGET = 8 * 1024 * 1024;
+/** Tail bytes kept from the newest block once the budget is hit (flush guard needs the true suffix). */
+export const MESSAGE_TEXT_TAIL = 64 * 1024;
+
+/**
+ * Appends one assistant text block to its message, bounded by
+ * {@link MESSAGE_TEXT_BUDGET}: under budget the block is kept whole; the
+ * first overflowing block keeps its head up to the budget (char-sliced —
+ * close enough for a guard); every block past the budget only refreshes
+ * `tailText` (the newest block's last {@link MESSAGE_TEXT_TAIL} chars), and
+ * the message is marked `textsTruncated` for the turn join.
+ */
+function noteMessageText(msg: MessageState, seq: number, text: string): void {
+  const total = msg.textBytes ?? 0;
+  const bytes = Buffer.byteLength(text, 'utf8');
+  if (msg.textsTruncated !== true && total + bytes <= MESSAGE_TEXT_BUDGET) {
+    msg.texts.push({ seq, text });
+    msg.textBytes = total + bytes;
+    return;
+  }
+  if (msg.textsTruncated !== true) {
+    const room = MESSAGE_TEXT_BUDGET - total;
+    if (room > 0) msg.texts.push({ seq, text: text.slice(0, room) });
+    msg.textBytes = MESSAGE_TEXT_BUDGET;
+    msg.textsTruncated = true;
+  }
+  msg.tailText = { seq, text: text.length > MESSAGE_TEXT_TAIL ? text.slice(-MESSAGE_TEXT_TAIL) : text };
+}
+
 /** Top-level record types that are recognised but carry nothing the session needs. */
 const RECOGNISED_TYPES: ReadonlySet<string> = new Set([
   'mode',
@@ -783,7 +820,7 @@ export class SessionBuilder {
         const blockType = asString(block['type']);
         if (blockType === 'text') {
           const text = asString(block['text']);
-          if (text !== null && text !== '') msg.texts.push({ seq, text });
+          if (text !== null && text !== '') noteMessageText(msg, seq, text);
           continue;
         }
         if (blockType === 'thinking' || blockType === 'redacted_thinking') continue;

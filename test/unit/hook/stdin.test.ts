@@ -98,6 +98,21 @@ describe('readStdin: unparsable, TTY, empty', () => {
   });
 });
 
+describe('readStdin: drain-ending errors are reported, never thrown', () => {
+  it('a dead descriptor (EBADF) yields {} plus an error report for hook.log', () => {
+    const r = readStdin({ fd: 1_000_000, isTTY: false });
+    expect(r.json).toEqual({});
+    expect(r.bytes).toBe(0);
+    expect(r.overflow).toBe(false);
+    expect(r.error).toEqual({ code: 'EBADF', bytes: 0 });
+  });
+
+  it('a clean EOF never sets the error field', () => {
+    expect(readFrom('')).toEqual({ json: {}, salvage: {}, bytes: 0, overflow: false });
+    expect(readFrom('{"a":1}').error).toBeUndefined();
+  });
+});
+
 describe('salvageFields', () => {
   it('conversation_id wins over session_id and sessionId; escapes are decoded', () => {
     const s = salvageFields('{"sessionId":"c","session_id":"b","conversation_id":"a","command":"echo \\"hi\\""}');

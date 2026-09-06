@@ -8,6 +8,8 @@
  * precedence over chain propagation.
  */
 import type { ExitSource, ShellSegment } from '../../model/types.js';
+import { checkSummaryMatches } from '../checks.js';
+import { parseGeneric, parseOutput, prepareOutput, RUNNERS, type RunnerSpec } from '../runners.js';
 import { initialCwd } from './cwd.js';
 import { lexRaw } from './lex.js';
 import { buildItems, finalizePipes, type BuildContext, type SegLink, type ShellParse } from './segments.js';
@@ -138,6 +140,21 @@ function markDidNotRun(parse: ShellParse, unit: Unit): void {
   }
 }
 
+/**
+ * True when the combined output carries a parsed result for this test/check
+ * segment (§4.5.5 "ran"): its runner's §7 parser, or its check program's
+ * summary grammar, matched — proof the tool actually started.
+ */
+function outputProvesRan(seg: ShellSegment, prepared: string): boolean {
+  if (prepared === '') return false;
+  if (seg.family === 'test') {
+    const spec = RUNNERS.find((r) => r.detect(seg)) ?? (RUNNERS[RUNNERS.length - 1] as RunnerSpec);
+    if (spec.id === 'generic') return parseGeneric(prepared) !== null;
+    return parseOutput(spec, prepared) !== null;
+  }
+  return checkSummaryMatches(seg, prepared);
+}
+
 /** The last unit in `run` whose segs match a signature present in `output`, else `null`. */
 function findFailingUnit(parse: ShellParse, run: Unit[], output: string | undefined): number | null {
   if (output === undefined || output === '') return null;
@@ -156,7 +173,10 @@ function findFailingUnit(parse: ShellParse, run: Unit[], output: string | undefi
  * exit 0 propagates 0 to every segment; with a non-zero exit the failure is
  * pinned by output signatures (`error TS\d+`, `✖ N problems`, `Found N
  * error`, `npm error`), later segments become `ran:false` (test/check
- * segments `ran:'short-circuited'`); the pipeline-sink rule takes precedence
+ * segments `ran:'short-circuited'`); a non-zero multi-unit chain with NO
+ * signature match assigns exit unknown to every unit and short-circuits any
+ * later test/check segment whose runner/check parser did not match the
+ * output (nothing is fabricated); the pipeline-sink rule takes precedence
  * (`exitCode:null`, `exitCodeSource:'sink'` unless pipefail); `;` chains give
  * the code to the last segment only; exit 0 after `||` leaves earlier
  * segments unknown with a "failed-somewhere" note; a trailing `&` makes
@@ -203,11 +223,35 @@ export function attributeExit(parse: ShellParse, harnessExit: number | null, sou
     for (const unit of run) assignUnit(parse, unit, 0, source);
     return;
   }
-  const failing = findFailingUnit(parse, run, output) ?? run.length - 1;
+  const failing = findFailingUnit(parse, run, output);
+  if (failing === null && run.length > 1) {
+    // §4.5.5: a non-zero `&&` chain with no output signature proves nothing
+    // about which unit failed. Pinning the last unit fabricated exit 0 for
+    // the command that actually failed and a red run for a runner that never
+    // started. Instead every unit's exit becomes unknown (the harness exit
+    // stays on the CommandFact), and a test/check segment past the first
+    // unit is `ran:'short-circuited'` — unless the combined output carries
+    // its own parsed result, which proves it ran.
+    const prepared = output === undefined || output === '' ? '' : prepareOutput(output);
+    for (const unit of run) {
+      const first = unit === run[0];
+      for (const m of unit.segs) {
+        const seg = parse.segments[m] as ShellSegment;
+        const link = parse.links[m] as SegLink;
+        seg.exitCode = null;
+        seg.exitCodeSource = link.sink ? 'sink' : 'unknown';
+        if (!first && seg.family !== undefined && CHECK_FAMILIES.has(seg.family) && !outputProvesRan(seg, prepared)) {
+          seg.ran = 'short-circuited';
+        }
+      }
+    }
+    return;
+  }
+  const pinned = failing ?? run.length - 1;
   for (let u = 0; u < run.length; u += 1) {
     const unit = run[u] as Unit;
-    if (u < failing) assignUnit(parse, unit, 0, 'backfilled');
-    else if (u === failing) assignUnit(parse, unit, harnessExit, u === run.length - 1 ? source : 'parsed');
+    if (u < pinned) assignUnit(parse, unit, 0, 'backfilled');
+    else if (u === pinned) assignUnit(parse, unit, harnessExit, u === run.length - 1 ? source : 'parsed');
     else markDidNotRun(parse, unit);
   }
 }

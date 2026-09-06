@@ -325,7 +325,11 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   fresh commit to `commit-precedes-edits`) on a no-op. Pinned by the
   "staleness boundary" block in `test/unit/reconcile/cross.test.ts`. The same
   boundary also skips docs and the S17 non-executable list
-  (`.md .txt .rst .json .yml .yaml .toml .lock LICENSE*`).
+  (`.md .txt .rst .json .yml .yaml .toml .lock` plus **exact** license-file
+  basenames — `licen[cs]e(s)` with an optional `.md/.txt/.rst` extension; a
+  broad `LICENSE*` glob would swallow real source files like
+  `license_check.py` and leave a stale green run wrongly VERIFIED, so the
+  refinement is anchored).
 - `git-op-failed` already existed in §4.8 rows 15–16 and in the S02 `Reason`
   enum, so no ARCHITECTURE.md patch was needed; positive/negative cases are
   pinned in fixtures 15/16 and `cross.test.ts`.
@@ -1057,3 +1061,86 @@ unpacked 1022.2/1024 KB).
   and a one-time `git ls-files` check that `fixtures/labels/*.jsonl` and
   `fixtures/.forbidden.local` stay untracked (both are `.gitignore`d and
   outside the npm `files` set — never force-add them).
+
+## Pass-2 closing review (lead)
+
+Closing pass 2026-09-05 over the whole repository; every confirmed finding
+applied (blockers/majors mandatory, minors all taken), regression tests added
+per behavioral fix, full validation chain green. The already-shipped fixes the
+pass verified (masking hint prefilters, stale-entry eviction in `cache.put`,
+the Stop-path redundant `cache.put` skip) stand as recorded above.
+
+- **`builderState` prompt-text leak closed (§4.9/§13.1).** Cache entries
+  embedded the untrimmed serialized builder `groups`, so every turn's raw
+  prompt text was persisted verbatim (2 MB paste → 2 MB in the entry, cache
+  and cold-scan time scaling with prompt bytes). `pipeline/redact-state.ts`
+  now nulls every finalized group's `userText` at the cache-write seam
+  (`pipeline/run.ts`, `hook/stop.ts`), memoising its §4.7 `echoHashes` first;
+  `assembleTurns` seeds `Turn.echoHashes` from the group and
+  `enrichSession`/`parseRef` keep stored hashes when `userText` is null, so
+  warm incremental resumes reproduce the cold receipt (echo check included) —
+  asserted by `test/unit/cache/privacy.test.ts`. Deliberate exception, kept
+  for Stop-resume: the still-open trailing/current group keeps its text until
+  a later re-parse finalizes it (noted in the CHANGELOG known issues). The
+  redaction lives in the pipeline layer because readers may not import
+  `claims/` (§0.5).
+- **Cache entries store command text once.** `trimForCache` drops the
+  top-level `ToolCall.command` when it equals `input.command` (measured
+  byte-identical across the whole real corpus; ~3 MB stored twice in the
+  worst live entry) and `cache.get` reinflates it, so warm sessions carry
+  exactly the cold bytes. Shapes where the two differ (Codex `cmd`) keep
+  both. The larger ledger trim (segments+raw, ~17 MB on the worst entry)
+  stays deferred behind golden verification as the review recommended.
+- **Unpacked-size cap re-set 1 MiB → 1152 KB.** The 1 MiB cap was busted at
+  HEAD (1031.1 KB; S36 left 1.8 KB of headroom and predicted the first
+  addition would bust it), failing every required CI job (`npm run size` is
+  strict under CI) and the release gate. Trimming was the wrong trade —
+  README (30 KB, packed by design) and `dist/render/report.js` are not to be
+  compromised — so the cap moves to 1152 KB (~120 KB headroom), tarball cap
+  unchanged at 300 KB. `release.yml`/`docs/release.md` comments updated.
+- **`report --open` no longer crashes when the opener is missing.**
+  `xdg-open` is routinely absent on minimal Linux; spawn() delivers ENOENT
+  asynchronously after `run()` returned, killing the CLI with a raw stack
+  trace though the report was written. The child now gets an 'error' listener
+  (guarded `on?.` so fake spawners keep working) that prints one stderr hint;
+  exit stays 0.
+- **Session table fits `cols − 2` at 40–58.** The last-resort shrink refused
+  to shave any column at/below 8 display columns, flooring the table at
+  ~56–58 regardless of budget (a real `COLUMNS=40` terminal overflowed by ~20
+  columns). After the shave-to-8 pass the renderer now drops COST → DATE →
+  CLAIMS while over budget, then shaves to a hard floor. The width-60 e2e
+  audit snapshot re-pinned (its table sat at 60 = cols, over the cols−2
+  budget; it now drops COST and fits 58).
+- **`report` stdout is locale-pinnable.** `--ascii`/`--unicode` are now
+  accepted by `report` (they pin the two status lines' glyphs; `--width`
+  stays render-only), so the Pass-2 byte-identical-across-LANG check has a
+  flag to hold on to; e2e-asserted. §12.1's "no render flags for report"
+  is amended by this entry.
+- **E2E gate de-flaked.** (i) The 16×50 hook concurrency test attaches a
+  stdin 'error' handler per child and folds EPIPE into the failing lane
+  (instead of 4 uncaught exceptions killing the vitest worker) and asserts
+  the cursor ledger dir holds only the session file, pinpointing zero-byte
+  drops. (ii) `hook/stdin.ts` retries any zero-byte read error within the
+  existing budget (EAGAIN semantics; win32 'EOF' and EBADF still end the
+  drain) and reports drain-ending errors, which the runtime logs to
+  `hook.log` — a dropped event is now visible post-hoc. (iii) The e2e
+  `--version` median assertion is demoted to a recorded soft budget with a
+  ×10 pathology stop; `scripts/perf.mjs` keeps the hard serial ≤ 80 ms gate
+  (observed flaking at ×3 under parallel-fork load: median 565 ms in 1 of 3
+  runs).
+- **§4.10 cold-throughput figure calibrated.** The "Cold ≥ 60 MB/s full
+  pipeline" number is a synthetic-corpus figure (S36: 166–179 MB/s full
+  reader on the 60 MB synthetic file). Claims-dense real corpora measure
+  roughly 30–55 MB/s cold depending on content mix and machine load (frozen
+  180.7 MB / 6-session real snapshot: ~50 MB/s lightly loaded, ~3× the
+  synthetic per-byte cost; tool-output-heavy live trees can exceed 60). The
+  perf suite's 20 MB/s hard floor holds with wide margin; the cache-entry
+  ledger trim above is the main further lever. No code change.
+- **Peak-RSS observation (real corpora).** Cold audit over the real tree
+  peaks at ~762 MiB maxrss, with a 38 MB + 31 MB back-to-back parse
+  accounting for ~648 MiB of it — allocator slack, not cross-file
+  accumulation (records stay bounded per file as designed). The perf suite's
+  800 MB rss assertion only gates the synthetic single-file 60 MB parse
+  (~491 MB rss / 219 MB V8 heap), so a heavier real corpus cannot fail CI.
+  If multi-big-session corpora become common, add a two-big-files perf
+  scenario or assert an audit rss envelope; watch item, no code change.

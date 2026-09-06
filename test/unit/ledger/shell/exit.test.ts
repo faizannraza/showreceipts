@@ -95,12 +95,61 @@ describe('&& chains (§4.5.5)', () => {
     expect(p.segments.find((s) => s.program === 'pytest')?.ran).toBe('short-circuited');
   });
 
-  it('exit 1 with no signature stays on the last segment', () => {
+  it('exit 1 with no signature fabricates nothing: exits unknown, the test segment short-circuited', () => {
     const p = parse('echo start && npm test', 1);
-    expect(p.segments[0]?.exitCode).toBe(0);
-    expect(p.segments[0]?.exitCodeSource).toBe('backfilled');
-    expect(p.segments[1]?.exitCode).toBe(1);
-    expect(p.segments[1]?.exitCodeSource).toBe('harness');
+    expect(p.segments[0]?.exitCode).toBeNull();
+    expect(p.segments[0]?.exitCodeSource).toBe('unknown');
+    expect(p.segments[0]?.ran).toBe(true);
+    expect(p.segments[1]?.exitCode).toBeNull();
+    expect(p.segments[1]?.ran).toBe('short-circuited');
+  });
+
+  it('a single-unit non-zero exit still belongs to that unit', () => {
+    const p = parse('npm test', 1);
+    expect(p.segments[0]?.exitCode).toBe(1);
+    expect(p.segments[0]?.exitCodeSource).toBe('harness');
+    expect(p.segments[0]?.ran).toBe(true);
+  });
+});
+
+describe('no-signature failing chains fabricate nothing (§4.5.5, Pass-1 regression)', () => {
+  it('bash scripts/build.sh && npx vitest run failing at the build: vitest did not run', () => {
+    const p = parse('bash scripts/build.sh && npx vitest run', 127, "build failed: missing dependency 'esbuild'");
+    const build = p.segments[0];
+    const vitest = p.segments.find((s) => s.family === 'test');
+    // The first unit definitely ran (the shell executed it), but its exit is
+    // unknown — never a fabricated `exit 0 (chained)`.
+    expect(build?.ran).toBe(true);
+    expect(build?.exitCode).toBeNull();
+    expect(build?.exitCodeSource).toBe('unknown');
+    // The trailing runner has no parsed output: it never started.
+    expect(vitest?.ran).toBe('short-circuited');
+    expect(vitest?.exitCode).toBeNull();
+  });
+
+  it('a parsed red result in the output proves the test segment ran', () => {
+    const p = parse('bash scripts/build.sh && npx vitest run', 1, 'Test Files  1 failed (1)\n     Tests  2 failed | 3 passed (5)');
+    const vitest = p.segments.find((s) => s.family === 'test');
+    expect(vitest?.ran).toBe(true);
+    expect(vitest?.exitCode).toBeNull();
+    expect(vitest?.exitCodeSource).toBe('unknown');
+  });
+
+  it('a leading green run whose cleanup step failed keeps the run alive with an unknown exit', () => {
+    const p = parse('npx vitest run && bash scripts/cleanup.sh', 1, 'Test Files  1 passed (1)\n     Tests  3 passed (3)');
+    const vitest = p.segments.find((s) => s.family === 'test');
+    const cleanup = p.segments.find((s) => s.program === 'bash');
+    expect(vitest?.ran).toBe(true);
+    expect(vitest?.exitCode).toBeNull();
+    expect(cleanup?.ran).toBe(true);
+    expect(cleanup?.exitCode).toBeNull();
+  });
+
+  it('a signature match keeps the precise pinning path (control)', () => {
+    const p = parse('npm run build && npx vitest run', 1, 'npm error code ELIFECYCLE\nnpm error command failed');
+    const build = p.segments.find((s) => s.program === 'npm-script:build');
+    expect(build?.exitCode).toBe(1);
+    expect(p.segments.find((s) => s.family === 'test')?.ran).toBe('short-circuited');
   });
 });
 

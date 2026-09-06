@@ -68,6 +68,12 @@ Versions in this release: rules `claims/2` + `reconcile/2`, prices
   best-effort and unknown payloads are surfaced by `doctor` as counts.
   Capturing a redacted ≥ 0.148 fixture with a golden is the first 0.1.x
   task.
+- **The parse cache keeps the newest turn's prompt in its resume state.**
+  A cache entry's `builderState` nulls every finalized turn's prompt text
+  (its echo hashes are preserved, so receipts are unaffected), but the
+  still-open trailing turn's prompt remains until a later Stop/audit
+  re-parse finalizes it — a deliberate §4.9 exception that keeps the
+  incremental Stop resume exact. `doctor --clear-cache` removes it.
 - **Persisted tool outputs are never read** (`tool-results/` is a privacy
   boundary), so evidence that exists only there is invisible — affected
   claims stay UNVERIFIED rather than risking a false CONTRADICTED.

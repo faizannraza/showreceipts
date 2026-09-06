@@ -91,8 +91,9 @@ On a `v*` tag, one `publish` job on `ubuntu-latest` with
    `npm run lint:nonet` → `npm run deps:guard`.
 6. **Size gate** — `node scripts/size.mjs --strict`, which runs
    `npm pack --dry-run --json` and enforces: tarball ≤ 300 KB, unpacked
-   ≤ 1 MiB (raised from the original 200/600 KB for the W4 report renderer,
-   then to 1 MiB unpacked by S36 — see `docs/decisions.md` W4/S22 and the
+   ≤ 1152 KB (raised from the original 200/600 KB for the W4 report renderer,
+   to 1 MiB unpacked by S36, then to 1152 KB by the Pass-2 closing review —
+   see `docs/decisions.md` and the
    history note in `scripts/size.mjs`), no `.map`/`.d.ts`/test files, only
    `bin/ dist/ README.md LICENSE package.json` in the tarball, and
    `dist/cost/prices.json` + `dist/demo/**` present.

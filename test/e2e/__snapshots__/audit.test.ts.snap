@@ -17,7 +17,7 @@ f15…8e  cc 2.1.215→2.1.233  claude-fable-5   Aug 18  52      UNVER    $277.7
 
   ┌────────────────────────────────────────────────────────────────────────────┐
   │  RECEIPT  #6954d8ef · Claude Code 2.1.251 · claude-fable-5                 │
-  │  ~ · HEAD · Aug 30 02:47 → 02:59 · 11m                                     │
+  │  ~ · detached HEAD · Aug 30 02:47 → 02:59 · 11m                            │
   ├────────────────────────────────────────────────────────────────────────────┤
   │  no claims recognized in the final message (0 claims · 3 sentences)        │
   ├────────────────────────────────────────────────────────────────────────────┤
@@ -60,20 +60,20 @@ exports[`the audit screen (text) > renders narrow mode within --width 60 1`] = `
 "showreceipts 0.1.0 · scanned 9 sessions · Claude Code 6
   · Codex 3 · Feb 10 – Aug 30
 
-ID      HARNESS   MODEL     DATE    CLAIMS  VERDICT  COST
-695…ef  cc 2.1.…  claude-…  Aug 30  0       NONE     $29.16
-1f5…70  cc 2.1.…  unknown   Aug 29  0       —        n/a
-2c7…eb  cc 2.1.…  claude-…  Aug 29  8       UNVER    $136.03
-21c…82  cc 2.1.…  claude-…  Aug 23  45      UNVER    $73.74
-576…d1  cc 2.1.…  claude-…  Aug 21  4       OK       $140.54
-f15…8e  cc 2.1.…  claude-…  Aug 18  52      UNVER    $277.74
-9e0…2b  codex 0…  gpt-5.6…  Aug 15  8       CONTRA   ≈$0.02
-4ff…73  codex 0…  gpt-5.2…  Feb 11  26      UNVER    ≈$7.89
-177…b3  codex 0…  gpt-5.2…  Feb 10  1       UNVER    ≈$0.07
+ID      HARNESS   MODEL     DATE    CLAIMS  VERDICT
+695…ef  cc 2.1.…  claude-…  Aug 30  0       NONE
+1f5…70  cc 2.1.…  unknown   Aug 29  0       —
+2c7…eb  cc 2.1.…  claude-…  Aug 29  8       UNVER
+21c…82  cc 2.1.…  claude-…  Aug 23  45      UNVER
+576…d1  cc 2.1.…  claude-…  Aug 21  4       OK
+f15…8e  cc 2.1.…  claude-…  Aug 18  52      UNVER
+9e0…2b  codex 0…  gpt-5.6…  Aug 15  8       CONTRA
+4ff…73  codex 0…  gpt-5.2…  Feb 11  26      UNVER
+177…b3  codex 0…  gpt-5.2…  Feb 10  1       UNVER
 
 ┌──────────────────────────────────────────────────────────┐
 │  RECEIPT #6954d8ef · Claude Code 2.1.251 · claude-fable-5│
-│  ~ · HEAD · Aug 30 02:47 → 02:59 · 11m                   │
+│  ~ · detached HEAD · Aug 30 02:47 → 02:59 · 11m          │
 ├──────────────────────────────────────────────────────────┤
 │  no claims recognized in the final message (0 claims · 3 │
 │  sentences)                                              │

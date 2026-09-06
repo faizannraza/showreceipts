@@ -52,7 +52,7 @@ export const COMMAND_SYNOPSIS: Readonly<Record<CommandName, string>> = {
     'showreceipts [audit] [--since 90d|YYYY-MM-DD] [--until …] [--all] [--harness h[,h]] [--project <substr|path>] [--limit N] [--all-claims] [--json] [--no-cache] [--as-of DATE] [--prices FILE] [--width N] [--ascii|--unicode] [--no-color] [--tz local|utc] [--now ISO]',
   session: 'showreceipts session <id|prefix|path|latest> [--turn N] [--json] [--explain-claim] [--timeline] [--no-cache] [common options]',
   report:
-    'showreceipts report [--out .showreceipts/report.html] [--open] [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …] [--project …] [--limit N] [--json]',
+    'showreceipts report [--out .showreceipts/report.html] [--open] [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …] [--project …] [--limit N] [--ascii|--unicode] [--json]',
   export: 'showreceipts export <id|latest> (--md | --json) [--out FILE] [--hash-paths] [--timeline] [--turn N]',
   setup: 'showreceipts setup [--harness h[,h]] [--all] [--dry-run] [--remove] [--restore <backup>] [--strict] [--project] [--shared] [--json]',
   hook: 'showreceipts hook <harness> [<event>] [--strict] [--strict-max N] [--strict-reasons list] [--force-record] [--verbose] [--debug]',

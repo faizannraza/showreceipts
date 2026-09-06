@@ -141,8 +141,11 @@ export const FLAG_SPECS: readonly FlagSpec[] = [
   { name: 'md', kind: 'bool', commands: ['export'] },
   { name: 'out', kind: 'string', commands: ['report', 'export'] },
   { name: 'width', kind: 'number', commands: RENDER, validate: width },
-  { name: 'ascii', kind: 'bool', commands: RENDER },
-  { name: 'unicode', kind: 'bool', commands: RENDER },
+  // `report`'s status lines carry renderer glyphs, so --ascii/--unicode pin
+  // them for byte-identical stdout across locales (Pass 2 determinism);
+  // --width stays RENDER-only (report renders no width-fitted screen).
+  { name: 'ascii', kind: 'bool', commands: [...RENDER, 'report'] },
+  { name: 'unicode', kind: 'bool', commands: [...RENDER, 'report'] },
   { name: 'no-color', kind: 'bool', commands: ALL },
   { name: 'tz', kind: 'enum', commands: [...RENDER, 'report', 'hook'], choices: ['local', 'utc'], default: 'local' },
   { name: 'now', kind: 'string', commands: ALL, validate: isoTimestamp },

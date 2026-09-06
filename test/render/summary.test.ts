@@ -151,6 +151,34 @@ describe('session table (§10.1 fitting sequence)', () => {
     expect(text).not.toContain('1e60d0ff');
   });
 
+  it('never overflows at 40–55 columns: low-priority columns drop before lines do (Pass 2)', () => {
+    // The pre-fix last resort refused to shrink any column at/below 8 display
+    // columns, flooring the table at ~56–58 regardless of budgetOf(cols) —
+    // `COLUMNS=40` overflowed a real 40-column terminal by ~20 columns.
+    for (const cols of [40, 41, 45, 50, 55]) {
+      const lines = renderSessionTable(cards, { cols, unicode: true });
+      for (const line of lines) expect(displayWidth(line), `cols ${cols}: '${line}'`).toBeLessThanOrEqual(cols - 2);
+      expect(lines.length).toBe(4); // header + 3 rows — dropping columns, never rows
+    }
+    const narrow = renderSessionTable(cards, { cols: 40, unicode: true });
+    const header = narrow[0] as string;
+    expect(header).toContain('ID');
+    expect(header).toContain('VERDICT');
+    expect(header).not.toContain('COST');
+    expect(header).not.toContain('DATE');
+    expect(header).not.toContain('CLAIMS');
+    // At 50 the budget re-fits CLAIMS: only COST and DATE drop.
+    const mid = renderSessionTable(cards, { cols: 50, unicode: true })[0] as string;
+    expect(mid).toContain('CLAIMS');
+    expect(mid).not.toContain('COST');
+    // ASCII mode fits the same widths (wider `...` ellipsis).
+    for (const cols of [40, 41]) {
+      for (const line of renderSessionTable(cards, { cols, unicode: false })) {
+        expect(displayWidth(line), `ascii cols ${cols}: '${line}'`).toBeLessThanOrEqual(cols - 2);
+      }
+    }
+  });
+
   it('honours --limit and renders `no sessions` when empty', () => {
     const many = Array.from({ length: 25 }, (_, i) => makeCard({ id: `s${String(i).padStart(2, '0')}`, shortId: `s${String(i).padStart(2, '0')}abcde` }));
     expect(renderSessionTable(many, { cols: 102, unicode: true }).length).toBe(21);

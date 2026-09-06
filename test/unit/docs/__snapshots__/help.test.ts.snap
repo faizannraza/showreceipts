@@ -166,7 +166,7 @@ exports[`showreceipts <cmd> --help (§12.4) > report: snapshot 1`] = `
 
 Usage: showreceipts report [--out .showreceipts/report.html] [--open]
        [--hash-paths|--hash-paths=both] [--full N] [--since …] [--harness …] [--project …] [--limit
-       N] [--json]
+       N] [--ascii|--unicode] [--json]
 
 Writes a single-file HTML report (session list, receipts, timelines) to .showreceipts/report.html
 under the current git root, or to --out. The file loads nothing from the network. --open launches it
@@ -182,6 +182,8 @@ Options
   --limit <n>              Rows in the session table (default 20)
   --json                   Machine-readable output
   --out <file>             Write to this file
+  --ascii                  ASCII box and glyphs
+  --unicode                Unicode box and glyphs (default on a UTF-8 terminal)
   --no-color               Disable color (also NO_COLOR)
   --tz local|utc           Time zone for printed times (default local)
   --now <iso>              Pretend the current time is this ISO-8601 timestamp (also SHOWRECEIPTS_NOW)

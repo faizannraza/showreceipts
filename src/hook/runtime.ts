@@ -260,6 +260,11 @@ export async function runHook(
   try {
     // §9: stdin is always drained before any early return.
     const stdin = seams.stdin ?? readStdin();
+    if (stdin.error !== undefined) {
+      // A drain that ended on a read error is how events get silently
+      // dropped (S31 concurrency review) — leave a trace either way.
+      log(`stdin drain ended on ${stdin.error.code} after ${stdin.error.bytes} byte(s)`);
+    }
     const harness = args.positionals[0] ?? '';
     const dialect = registry[harness];
     if (dialect === undefined) {

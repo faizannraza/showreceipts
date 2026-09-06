@@ -9,8 +9,10 @@
  * the write boundaries are computed as
  *   `W`    = last `ok` source write `seq < F` — not a test file, not a doc,
  *            not `metadataOnly`, not a non-executable file (`.md .txt .rst
- *            .json .yml .yaml .toml .lock LICENSE*` — the §4.8 stale-run
- *            refinement; decision recorded in docs/decisions.md S17),
+ *            .json .yml .yaml .toml .lock` and exact license-file basenames
+ *            `license/licence(s)` with an optional doc extension — the §4.8
+ *            stale-run refinement; decision recorded in docs/decisions.md
+ *            S17; a source file like `license_check.py` moves `W`),
  *   `Wall` = last `ok` write of any kind `seq < F`, still ignoring
  *            `metadataOnly` (a `touch`/`mkdir` never makes a commit stale).
  *
@@ -57,8 +59,14 @@ export const ECHO_NOTE = "echoes the user's message";
 /** Cross-cutting note ii — a verifying write the user touched afterwards. */
 export const USER_MODIFIED_NOTE = 'file changed outside the agent';
 
-/** Non-executable files ignored by the staleness boundary (S17 instruction 2). */
-const NONEXEC_RE = /\.(?:md|txt|rst|json|ya?ml|toml|lock)$|(?:^|\/)license[^/]*$/i;
+/**
+ * Non-executable files ignored by the staleness boundary (S17 instruction 2).
+ * The license alternative is anchored to exact license-file basenames
+ * (`LICENSE`, `licence`, `LICENSES.md`, …): a broad `license*` prefix would
+ * swallow real source files (`license_check.py`) and leave a stale green run
+ * wrongly VERIFIED. Doc extensions are already covered by the first arm.
+ */
+const NONEXEC_RE = /\.(?:md|txt|rst|json|ya?ml|toml|lock)$|(?:^|\/)licen[cs]es?(?:\.(?:md|txt|rst))?$/i;
 
 /** Programs that inspect rather than exercise the change (§4.8 row 19). */
 const INSPECTION_FREE = new Set(['echo', 'ls', 'cd', 'pwd', 'mkdir', 'touch', 'cp', 'mv', 'rm', 'sleep', 'printf', 'true', 'cat']);
@@ -289,6 +297,16 @@ function runLabel(run: TestRun): string {
  */
 function noTestRunJudgement(ctx: RowContext): Judgement {
   const { claim, turn, facts } = ctx;
+  // §4.5.6: a snapshot-update run (`vitest run -u`) IS a test run in the log —
+  // present but never evidence — so "no test run in log" would be false and
+  // the guarded contradiction must not fire. UNVERIFIED, citing the run.
+  const snapshots = facts.testRuns.filter((r) => r.kind === 'snapshot-update' && r.seq < facts.finalSeq && !isBackgroundRun(facts, r));
+  if (snapshots.length > 0) {
+    const last = snapshots[snapshots.length - 1] as TestRun;
+    return judgement(claim, 'UNVERIFIED', 'no-evidence', [factRef(facts, last, turn, runLabel(last))], 'only a snapshot-update run in log', [
+      'snapshot update run (not evidence)',
+    ]);
+  }
   const absent = absenceRef(turn, 'no test run in log');
   const okWrites = facts.writes.filter((w) => w.status === 'ok' && (w.source === 'tool' || w.source === 'patch'));
   if (okWrites.length === 0) return judgement(claim, 'UNVERIFIED', 'no-evidence', [absent], 'no test run and no writes in log');
@@ -323,8 +341,22 @@ function judgeTestPass(ctx: RowContext, count?: number): Judgement {
   if (evRun !== undefined) {
     const laterTestWrites = facts.writes.filter((w) => w.status === 'ok' && w.isTestFile && w.seq > evRun.seq);
     if (laterTestWrites.length === 0) {
-      const laterPartial = foreground.filter((r) => r.seq > evRun.seq && r.scope === 'subset').length;
-      const notes = laterPartial > 0 ? [`+${laterPartial} later partial run${laterPartial === 1 ? '' : 's'}`] : [];
+      // §4.8 row 1: `R` is the LATEST run in the window. A later conclusive
+      // non-subset red run is a positive contrary fact — the green run must
+      // not suppress it (the window starts after `W`, so no source write
+      // separates the two). `partial:true` claims are never contradicted (v).
+      const laterRed = foreground.filter((r) => r.seq > evRun.seq && r.green === false);
+      const laterRedFull = laterRed.filter((r) => r.scope !== 'subset' && redCanContradict(r));
+      if (laterRedFull.length > 0 && claim.partial !== true) {
+        const red = laterRedFull[laterRedFull.length - 1] as TestRun;
+        return judgement(claim, 'CONTRADICTED', 'last-run-red', [factRef(facts, red, turn, runLabel(red))], 'last run red');
+      }
+      const laterSubset = foreground.filter((r) => r.seq > evRun.seq && r.scope === 'subset');
+      const redSubset = laterSubset.filter((r) => r.green === false).length;
+      const notes =
+        laterSubset.length > 0
+          ? [`+${laterSubset.length} later partial run${laterSubset.length === 1 ? '' : 's'}${redSubset > 0 ? ` (${redSubset} red)` : ''}`]
+          : [];
       return judgement(claim, 'VERIFIED', 'ok', [factRef(facts, evRun, turn, runLabel(evRun))], 'conclusive green run after the last edit', notes);
     }
     const weakened = ctx.ledger.integrity.some((s) => s.kind === 'test-weakened' && s.seq > evRun.seq && s.seq <= facts.finalSeq);
@@ -831,6 +863,30 @@ function judgeGitCommit(ctx: RowContext): Judgement {
     return judgement(claim, 'VERIFIED', 'ok', [gitRef(facts, last, turn, label)], 'commit after the last write');
   }
   if (claim.sha !== undefined && eligible.length > 0) {
+    // §1 precision doctrine: `sha-mismatch` needs positive contrary evidence.
+    // (a) A commit with the claimed sha that exists in the log but precedes
+    // later writes is not contrary — the claim is true of an earlier commit.
+    const matchedAnywhere = okCommits.filter(shaMatches);
+    if (matchedAnywhere.length > 0) {
+      const last = matchedAnywhere[matchedAnywhere.length - 1] as GitFact;
+      const later = new Set(facts.writes.filter((w) => isStaleAny(w) && w.seq > last.seq).map((w) => w.path)).size;
+      const sha = (last.sha ?? '').slice(0, 7);
+      return judgement(
+        claim,
+        'UNVERIFIED',
+        'commit-precedes-edits',
+        [gitRef(facts, last, turn, sha === '' ? 'git commit' : `git commit → ${evidenceLabel(sha)}`)],
+        `commit matches but precedes ${later} later edit${later === 1 ? '' : 's'}`
+      );
+    }
+    // (b) A commit whose sha was never printed (`git commit -q`) may BE the
+    // claimed one — absence of the sha is not a mismatch (§4.6.6 sha:null).
+    const unknownSha = okCommits.filter((g) => g.sha === null || g.sha === undefined || g.sha === '');
+    if (unknownSha.length > 0) {
+      const cite = ([...eligible].reverse().find((g) => unknownSha.includes(g)) ?? unknownSha[unknownSha.length - 1]) as GitFact;
+      return judgement(claim, 'UNVERIFIED', 'exit-unknown', [gitRef(facts, cite, turn, 'git commit')], 'commit sha not printed');
+    }
+    // Every ok commit's sha is known and none matches: positive mismatch.
     const last = eligible[eligible.length - 1] as GitFact;
     const actual = (last.sha ?? '').slice(0, 7);
     return judgement(
@@ -872,17 +928,23 @@ function judgeGitPush(ctx: RowContext): Judgement {
   const pushes = facts.git.filter((g) => g.op === 'push' || g.op === 'force-push');
   const lastOkCommit = facts.git.filter((g) => g.op === 'commit' && g.ok === true).pop();
   const commitSeq = lastOkCommit?.seq ?? null;
+  // `git add … && git commit … && git push` in ONE call stamps both facts with
+  // the call's seq; `extractGit` always emits the commit fact before the push
+  // fact of the same call, so intra-call `facts.git` order breaks the tie.
+  const commitIdx = lastOkCommit === undefined ? -1 : facts.git.indexOf(lastOkCommit);
+  const followsCommit = (g: GitFact): boolean =>
+    commitSeq === null || g.seq > commitSeq || (g.seq === commitSeq && facts.git.indexOf(g) > commitIdx);
   const detailMatches = (g: GitFact): boolean =>
     (claim.branch === undefined || g.branch === undefined || g.branch === claim.branch) &&
     (claim.remote === undefined || g.remote === undefined || g.remote === claim.remote);
   const okPushes = pushes.filter((g) => g.ok === true && detailMatches(g));
-  const current = okPushes.filter((g) => commitSeq === null || g.seq > commitSeq);
+  const current = okPushes.filter(followsCommit);
   if (current.length > 0) {
     const last = current[current.length - 1] as GitFact;
     const where = last.branch === undefined ? '' : ` → ${evidenceLabel(`${last.remote ?? 'origin'}/${last.branch}`)}`;
     return judgement(claim, 'VERIFIED', 'ok', [gitRef(facts, last, turn, `git push${where}`)], 'push after the last commit');
   }
-  const attempts = pushes.filter((g) => g.ok === false && (commitSeq === null || g.seq > commitSeq));
+  const attempts = pushes.filter((g) => g.ok === false && followsCommit(g));
   if (attempts.length > 0) {
     const last = attempts[attempts.length - 1] as GitFact;
     const exit = gitExit(facts, last);
@@ -892,6 +954,21 @@ function judgeGitPush(ctx: RowContext): Judgement {
   if (okPushes.length > 0) {
     const last = okPushes[okPushes.length - 1] as GitFact;
     return judgement(claim, 'UNVERIFIED', 'push-precedes-commit', [gitRef(facts, last, turn, 'git push')], 'push precedes the last commit');
+  }
+  // A push IS in the log — it just went elsewhere. "no git push in log" would
+  // be an untrue statement about the log; name the mismatch instead.
+  const mismatched = pushes.filter((g) => g.ok === true && !detailMatches(g));
+  if (mismatched.length > 0) {
+    const last = mismatched[mismatched.length - 1] as GitFact;
+    const actual = `${last.remote ?? 'origin'}/${last.branch ?? '?'}`;
+    const wanted = `${claim.remote ?? last.remote ?? 'origin'}/${claim.branch ?? last.branch ?? '?'}`;
+    return judgement(
+      claim,
+      'UNVERIFIED',
+      'no-git-op',
+      [gitRef(facts, last, turn, `git push → ${evidenceLabel(actual)}`)],
+      `push went to ${evidenceLabel(actual)}, not ${evidenceLabel(wanted)}`
+    );
   }
   return judgement(claim, 'UNVERIFIED', 'no-git-op', [absenceRef(turn, 'no git push in log')], 'no git push in log');
 }

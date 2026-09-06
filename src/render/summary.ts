@@ -172,17 +172,29 @@ export function renderSessionTable(cards: readonly SessionCard[], opts: SummaryO
     const id = col('ID');
     id.cells = id.cells.map((v) => middleTruncateId(v, 6, g.ellipsis));
   }
-  // Last resort below the sequence's floor: shave the widest column until the
-  // table fits (very narrow terminals; §10.1 lines must never overflow).
+  // Last resort below the sequence's floor (very narrow terminals; §10.1
+  // lines must never overflow, so the cols − 2 budget binds at every accepted
+  // width): shave the widest column down to 8, then — because 7 columns of
+  // ≤ 8 still floor at ~56–58 — drop the lowest-priority columns entirely,
+  // then shave further to a hard floor. Partial COST/DATE/CLAIMS cells are
+  // worth less than fitting lines at --width 40.
   let guard = 0;
-  while (tableWidth(columns) > budget && guard++ < 100) {
-    let widest: Column | undefined;
-    for (const c of columns) if (widthOf(c) > 8 && (widest === undefined || widthOf(c) > widthOf(widest))) widest = c;
-    if (widest === undefined) break;
-    const target = widthOf(widest) - 1;
-    widest.cells = widest.cells.map((v) => truncateToWidth(v, target, g.ellipsis));
-    widest.header = truncateToWidth(widest.header, Math.max(target, 2), g.ellipsis);
+  const shaveTo = (floor: number): void => {
+    while (tableWidth(columns) > budget && guard++ < 200) {
+      let widest: Column | undefined;
+      for (const c of columns) if (widthOf(c) > floor && (widest === undefined || widthOf(c) > widthOf(widest))) widest = c;
+      if (widest === undefined) return;
+      const target = widthOf(widest) - 1;
+      widest.cells = widest.cells.map((v) => truncateToWidth(v, target, g.ellipsis));
+      widest.header = truncateToWidth(widest.header, Math.max(target, 2), g.ellipsis);
+    }
+  };
+  shaveTo(8);
+  for (const header of ['COST', 'DATE', 'CLAIMS']) {
+    if (tableWidth(columns) <= budget) break;
+    if (columns.length > 2) columns = columns.filter((c) => c.header !== header);
   }
+  shaveTo(3);
 
   const widths = columns.map(widthOf);
   const tlx = (s: string): string => (g.unicode ? s : transliterate(s));

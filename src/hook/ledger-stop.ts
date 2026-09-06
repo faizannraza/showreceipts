@@ -81,6 +81,10 @@ function mtimeFs(path: string): number | null {
 /** Bounded head read for the Copilot final-text fallback (never loads a whole transcript). */
 function readHeadFs(path: string, maxBytes: number): string | null {
   try {
+    // §9 self-timeout invariant: the stdin-supplied transcript path may name
+    // a FIFO — `openSync` on one blocks the event loop forever, so only
+    // regular files are opened (`statSync` on a FIFO does not block).
+    if (!statSync(path).isFile()) return null;
     const fd = openSync(path, 'r');
     try {
       const buf = Buffer.allocUnsafe(maxBytes);
