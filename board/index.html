@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>showreceipts board</title>
+<style>
+  :root {
+    --bg: #0b0b0c;
+    --panel: #131315;
+    --panel-2: #17171a;
+    --ink: #e7e4da;
+    --ink-dim: #9a978d;
+    --ink-faint: #6b685f;
+    --rule: #2a2a2e;
+    --tape: #f4f1e8;
+    --tape-ink: #1a1a1a;
+    --ok: #7bd88f;
+    --bad: #ff6b6b;
+    --unk: #e8c76b;
+    --link: #8fb7ff;
+    --grey-row: #66635b;
+    --mono: "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 24px 18px 64px; }
+
+  header.top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; border-bottom: 1px solid var(--rule); padding-bottom: 14px; }
+  header.top h1 { font-size: 18px; margin: 0; letter-spacing: 0.5px; }
+  header.top h1 .tick { color: var(--ok); }
+  header.top h1 .cross { color: var(--bad); }
+  header.top h1 .quest { color: var(--unk); }
+  header.top nav { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; }
+  .tagline { color: var(--ink-dim); font-size: 13px; margin: 10px 0 22px; }
+
+  .tape {
+    background: var(--tape);
+    color: var(--tape-ink);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin: 0 0 22px;
+    box-shadow: 0 1px 0 #cbc7ba inset, 0 -1px 0 #cbc7ba inset;
+    position: relative;
+  }
+  .tape::before, .tape::after {
+    content: "";
+    position: absolute; left: 0; right: 0; height: 8px;
+    background-image: linear-gradient(135deg, transparent 66%, var(--bg) 67%), linear-gradient(45deg, transparent 66%, var(--bg) 67%);
+    background-size: 12px 12px; background-repeat: repeat-x;
+  }
+  .tape::before { top: -8px; }
+  .tape::after { bottom: -8px; transform: scaleY(-1); }
+  .tape h2 { font-size: 13px; margin: 0 0 4px; letter-spacing: 1px; text-transform: uppercase; color: #4a4740; }
+  .tape .big { font-size: 15px; margin: 8px 0; }
+  .tape .label { font-size: 12px; color: #55524a; margin-top: 10px; border-top: 1px dashed #b9b5a8; padding-top: 8px; }
+  .tape .nums { display: flex; gap: 26px; flex-wrap: wrap; margin: 6px 0; }
+  .tape .nums b { font-size: 22px; display: block; font-weight: 700; }
+  .tape .nums .k { font-size: 11px; color: #55524a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tape .nums .bad { color: #b02a2a; }
+  .tape .nums .unk { color: #9a7d16; }
+
+  .caveats { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; margin: 0 0 22px; }
+  .caveats h3 { margin: 0 0 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-dim); }
+  .caveats ol { margin: 0; padding-left: 20px; }
+  .caveats li { margin: 6px 0; color: var(--ink); }
+  .caveats li b { color: var(--ink); }
+
+  .progress { font-size: 13px; color: var(--ink-dim); margin: 0 0 20px; padding: 10px 14px; border: 1px dashed var(--rule); border-radius: 4px; }
+  .progress b { color: var(--ink); }
+
+  .board-head { display: flex; align-items: baseline; gap: 12px; margin: 26px 0 10px; }
+  .board-head h2 { font-size: 15px; margin: 0; letter-spacing: 0.5px; }
+  .board-head .sub { font-size: 12px; color: var(--ink-faint); }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 13px; }
+  thead th {
+    text-align: left; padding: 10px 12px; font-weight: 600; color: var(--ink-dim);
+    border-bottom: 1px solid var(--rule); white-space: nowrap; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  tbody td { padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr.grey td { color: var(--grey-row); }
+  tbody tr.grey .model { color: var(--grey-row); }
+  .model { color: var(--ink); font-weight: 600; }
+  .num { font-variant-numeric: tabular-nums; }
+  .verdict .cross { color: var(--bad); }
+  .verdict .quest { color: var(--unk); }
+  .verdict .tick { color: var(--ok); }
+  tr.grey .verdict .cross, tr.grey .verdict .quest, tr.grey .verdict .tick { color: var(--grey-row); }
+  .flag { display: block; font-size: 11px; color: var(--unk); margin-top: 4px; }
+  tr.grey .flag { color: var(--ink-faint); }
+  .pill { font-size: 11px; color: var(--ink-faint); }
+
+  .loading, .errbox { padding: 18px; color: var(--ink-dim); }
+  .errbox { color: var(--bad); }
+
+  footer { margin-top: 40px; border-top: 1px solid var(--rule); padding-top: 16px; font-size: 12px; color: var(--ink-faint); }
+  footer p { margin: 6px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1><span class="tick">&#10003;</span><span class="cross">&#10007;</span><span class="quest">?</span>&nbsp; showreceipts board</h1>
+    <nav>
+      <a id="repo-link" href="https://github.com/faizannraza/showreceipts">repo</a>
+      <a id="accuracy-link" href="https://github.com/faizannraza/showreceipts/blob/main/docs/accuracy.md">how verdicts are checked</a>
+      <a id="responses-link" href="https://github.com/faizannraza/showreceipts/blob/main/RESPONSES.md">disputes (RESPONSES.md)</a>
+    </nav>
+  </header>
+
+  <p class="tagline">
+    A board of false-done rates: how often a model, in a given harness, ended a turn claiming done
+    while its own tool log said otherwise. Every number here is aggregates only, submitted by the
+    person who ran it, and reviewed by a human before it publishes.
+  </p>
+
+  <section class="tape" aria-label="the author's own August numbers">
+    <h2>Receipt: one machine, August</h2>
+    <div class="big">The author's own sessions, run through showreceipts.</div>
+    <div class="nums">
+      <div><b>114</b><span class="k">done turns</span></div>
+      <div><b class="bad">0</b><span class="k">contradicted by their own log</span></div>
+      <div><b class="unk">63</b><span class="k">unverified</span></div>
+    </div>
+    <div class="label">
+      One person's data, not a published row. It sits above the board as a worked example of the
+      format, not as evidence about any model: a single submitter never clears the threshold below.
+    </div>
+  </section>
+
+  <section class="caveats">
+    <h3>Read this before the table</h3>
+    <ol>
+      <li><b>Contradiction requires positive contrary evidence.</b> A claim is only marked contradicted
+        when the session's own tool log carries evidence against it (a red exit code after the claim, a
+        file the log never touched). Absence is never contradiction; missing evidence stays unverified.</li>
+      <li><b>Submissions are self-selected.</b> People choose whether to submit their own numbers, so the
+        board is a convenience sample, not a survey. Read it as such.</li>
+      <li><b>Harness and version matter as much as the model.</b> Rows are grouped by model, harness and
+        harness version together, because the same model contradicts itself at different rates under
+        different harnesses and releases.</li>
+      <li><b>Minimum n to publish is 50 done-claims from 5 or more submitters.</b> Below that, a row is
+        greyed and labelled a format example: a small denominator makes a misleading rate.</li>
+      <li><b>Seed rows are the author's data shown as format examples.</b> The greyed rows exist so the
+        layout is legible before any real row lands; they are not a claim about any model.</li>
+    </ol>
+  </section>
+
+  <p class="progress" id="progress">
+    first real row unlocks at 50 claims from 5+ submitters; currently 0 from 0
+  </p>
+
+  <div class="board-head">
+    <h2>The board</h2>
+    <span class="sub" id="board-sub"></span>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr>
+          <th>model</th>
+          <th>harness</th>
+          <th>version</th>
+          <th>rules</th>
+          <th>done claims contradicted by the session's own tool log</th>
+          <th>unverified</th>
+          <th>sessions</th>
+          <th>submitters</th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+        <tr><td colspan="8" class="loading">Loading board data&#8230;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>showreceipts reconciles a coding agent's final-message claims against its own tool ledger. The
+      verb here is always "contradicted by its own log", never anything stronger.</p>
+    <p>Not affiliated with, endorsed by, or sponsored by any model provider or harness vendor. No vendor
+      logos, no vendor claims. The rows are user-submitted aggregates, reviewed by a human before they land.</p>
+    <p>Source, method and the dispute lane are linked at the top of this page.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var MIN_DONE_TURNS = 50;
+  var MIN_SUBMITTERS = 5;
+
+  var HARNESS_LABELS = {
+    "claude-code": "Claude Code",
+    "codex": "Codex",
+    "cursor": "Cursor",
+    "gemini": "Gemini CLI",
+    "copilot": "Copilot CLI",
+    "hermes": "Hermes",
+    "dsh": "dsh",
+    "opencode": "OpenCode",
+    "openclaw": "OpenClaw"
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function submitterCount(row) {
+    if (Array.isArray(row.submitters)) return row.submitters.length;
+    if (typeof row.submitters === "number") return row.submitters;
+    return 0;
+  }
+
+  // Percentage is hidden below 10 done turns: a small denominator misleads.
+  function verdictCell(row) {
+    var done = row.doneTurns || 0;
+    var bad = row.contradictedTurns || 0;
+    var pct = done >= 10 ? " (" + Math.round((bad / done) * 100) + "%)" : "";
+    var mark = bad > 0 ? '<span class="cross">&#10007;</span>' : '<span class="tick">&#10003;</span>';
+    return mark + " <span class=\"num\">" + bad + "</span> of <span class=\"num\">" + done +
+      "</span> done claims contradicted by the session's own tool log" + pct;
+  }
+
+  function unverifiedCell(row) {
+    var u = row.unverifiedTurns || 0;
+    var mark = u > 0 ? '<span class="quest">?</span> ' : "";
+    return mark + '<span class="num">' + u + "</span>";
+  }
+
+  function renderRows(data) {
+    var rows = (data && Array.isArray(data.rows)) ? data.rows : [];
+    var body = document.getElementById("rows");
+    var sub = document.getElementById("board-sub");
+
+    if (!rows.length) {
+      body.innerHTML = '<tr><td colspan="8" class="loading">No rows yet. The board fills as reviewed submissions land.</td></tr>';
+      sub.textContent = "0 rows";
+      return;
+    }
+
+    var html = "";
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var subs = submitterCount(r);
+      var done = r.doneTurns || 0;
+      var belowThreshold = done < MIN_DONE_TURNS || subs < MIN_SUBMITTERS;
+      var cls = belowThreshold ? "grey" : "";
+      var modelText = esc(r.modelLabel || r.model || "unknown");
+      var harnessText = esc(HARNESS_LABELS[r.harness] || r.harness || "unknown");
+      var flag = belowThreshold
+        ? '<span class="flag">below publication threshold - shown as format example</span>'
+        : "";
+
+      html += '<tr class="' + cls + '">' +
+        '<td class="model">' + modelText + flag + "</td>" +
+        "<td>" + harnessText + "</td>" +
+        '<td class="pill">' + esc(r.harnessVersion || "unknown") + "</td>" +
+        '<td class="pill">' + esc(r.rulesVersion || "unknown") + "</td>" +
+        '<td class="verdict">' + verdictCell(r) + "</td>" +
+        "<td>" + unverifiedCell(r) + "</td>" +
+        '<td class="num">' + (r.sessions || 0) + "</td>" +
+        '<td class="num">' + subs + "</td>" +
+        "</tr>";
+    }
+    body.innerHTML = html;
+    sub.textContent = rows.length + (rows.length === 1 ? " row" : " rows");
+
+    updateProgress(rows);
+  }
+
+  // Progress counts only real (non-exemplar) rows toward the first published row.
+  function updateProgress(rows) {
+    var bestDone = 0;
+    var bestSubs = 0;
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      if (r.exemplar) continue;
+      var subs = submitterCount(r);
+      var done = r.doneTurns || 0;
+      // Track the row closest to publishing (most done claims).
+      if (done > bestDone) { bestDone = done; bestSubs = subs; }
+    }
+    document.getElementById("progress").innerHTML =
+      "first real row unlocks at <b>" + MIN_DONE_TURNS + "</b> claims from <b>" + MIN_SUBMITTERS +
+      "+</b> submitters; currently <b>" + bestDone + "</b> from <b>" + bestSubs + "</b>";
+  }
+
+  fetch("data/rows.json", { cache: "no-store" })
+    .then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(renderRows)
+    .catch(function (err) {
+      document.getElementById("rows").innerHTML =
+        '<tr><td colspan="8" class="errbox">Could not load data/rows.json: ' + esc(err.message) + "</td></tr>";
+    });
+})();
+</script>
+</body>
+</html>

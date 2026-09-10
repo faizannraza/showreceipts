@@ -102,7 +102,14 @@ export function packTarball(): PackedTarball {
   const dest = makeTempDir('showreceipts-pack-');
   const stdout = runNpm(['pack', '--json', '--ignore-scripts', '--pack-destination', dest], PROJECT_ROOT);
   const parsed = JSON.parse(stdout) as unknown;
-  const info = (Array.isArray(parsed) ? parsed[0] : parsed) as {
+  // npm <= 11 prints an array of pack records; npm >= 12 prints an object
+  // keyed by package name. Accept both shapes.
+  const record = Array.isArray(parsed)
+    ? parsed[0]
+    : typeof parsed === 'object' && parsed !== null && !('filename' in parsed)
+      ? Object.values(parsed)[0]
+      : parsed;
+  const info = record as {
     filename: string;
     size: number;
     unpackedSize: number;

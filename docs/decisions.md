@@ -4,15 +4,15 @@ Architecture ambiguities resolved during the build, folded in by the wave lead
 at each wave merge (PLAN §0.3). Later steps append under their own headings;
 never name a real session id, path, user or private project here.
 
-## W0 — Foundation (S01–S03)
+## W0 - Foundation (S01–S03)
 
-### S01 — CLI skeleton
+### S01 - CLI skeleton
 
 - `src/cli.ts` top-level imports. The review checklist says "`node:*` only";
   the file also imports `./cli/args.js`, `./cli/context.js`, `./cli/help.js`
   and `./version.js`, because argv must be parsed before any command is
-  chosen. The intent of the rule — no eager command, reader or network module,
-  `--version` ≤ 80 ms — holds (≈ 60 ms median under netguard). Read the rule as
+  chosen. The intent of the rule - no eager command, reader or network module,
+  `--version` ≤ 80 ms - holds (≈ 60 ms median under netguard). Read the rule as
   "`node:*` and `src/cli/*` only".
 - `main(argv, overrides?)` accepts `MainOptions.loaders`, a map of fake command
   modules, as a test seam; production callers never pass it.
@@ -28,7 +28,7 @@ never name a real session id, path, user or private project here.
   and `fetch` are patched eagerly, so an ESM `import 'node:http'` is still
   blocked at the socket.
 
-### S02 — model and utilities
+### S02 - model and utilities
 
 - Display width of `✅ tests pass` is 13 and of `📦 shipped` is 10; the plan's
   12/9 is an arithmetic slip (U+2705 and U+1F4E6 are width 2 per §10.1). The
@@ -53,7 +53,7 @@ never name a real session id, path, user or private project here.
   boundary; the unit tests pin that cut, so only the JSDoc example was
   corrected to match.
 
-### S03 — fixtures
+### S03 - fixtures
 
 - Forbidden-list matching is separator-tolerant: an entry is split into its
   alphanumeric runs and masked in any spelling (`-`, `_`, `.`, space, none) at
@@ -76,15 +76,15 @@ never name a real session id, path, user or private project here.
   before `fixtures/` is committed (S03 acceptance criterion). S19 appends to
   this file rather than starting it.
 
-## W1 — Readers (S04–S10)
+## W1 - Readers (S04–S10)
 
-### S10 — real-data verification (M1 review fixes)
+### S10 - real-data verification (M1 review fixes)
 
 - **Record correction.** The first S10 build report attributed the +900
   deduped-output divergence to the 2.1.235 transcript and claimed that file's
   raw output sum matches the §0.3 pin of 4,599,129. Wrong file: the 2.1.235
-  transcript's raw sum is 3,458,905; the biggest-output session — the file
-  both §0.3 output pins are measured on — is the frozen 2.1.214+2.1.236
+  transcript's raw sum is 3,458,905; the biggest-output session - the file
+  both §0.3 output pins are measured on - is the frozen 2.1.214+2.1.236
   transcript (raw 4,599,129 with the byte-level splitter; `node:readline`
   mangles 16 of its lines and reads 4,598,288). The substantive conclusion
   stands: the divergence is on frozen bytes, not live-session drift.
@@ -98,14 +98,14 @@ never name a real session id, path, user or private project here.
   transcript: an assistant message re-emitted on two lines (same `message.id`,
   distinct uuids, `stop_reason` `"tool_use"`) whose **top-level usage is
   all-zero** while its single `usage.iterations[0]` carries `output_tokens`
-  900 / `input_tokens` 2 — one of §8.3's "12,461 of 12,463 single-iteration
+  900 / `input_tokens` 2 - one of §8.3's "12,461 of 12,463 single-iteration
   lines" exceptions. The same mechanism adds +1,500 on the 2.1.235 transcript
   (the two refusal-fallback records' refused attempts, 217 + 1,283 output
   tokens), which §8.3 explicitly requires to be billed. Changing the dedupe to
   reproduce 1,734,118 would unbill those attempts and break the S06 §8.3
   pins, so the reader keeps attempt billing; `verify:real` asserts **both**
-  quantities, each by its own method — 1,734,118 "deduped (§0.3 method)" and
-  1,735,018 "billed (§8.3 attempts)" — and both PASS on the frozen bytes.
+  quantities, each by its own method - 1,734,118 "deduped (§0.3 method)" and
+  1,735,018 "billed (§8.3 attempts)" - and both PASS on the frozen bytes.
 - **`verify:real` is now a gate with per-frozen-file pins.** §0.3's aggregate
   pins that include the live session (26,590 main lines, 440 timestamp
   regressions, 4,820 `message.id` groups, 3 interrupted turns) are permanently
@@ -119,110 +119,110 @@ never name a real session id, path, user or private project here.
   is read over these assertions.
 - **Interrupted-turn counting.** The reader's `Turn.interrupted` flag (last
   assistant message `tool_use`/`null`, or an interrupt segment closing the
-  turn — S06 instr. 3) counts 7 turns across the frozen transcripts alone,
+  turn - S06 instr. 3) counts 7 turns across the frozen transcripts alone,
   where §0.3's survey counted 3 across all files with its narrower
   interrupt-segment definition; the earlier report's "live-session drift"
   explanation for this row was therefore also wrong. The per-file pins use
   the reader's flag; the survey number remains an INFO row.
 
-### W1 merge — integration decisions (S04–S10, lead)
+### W1 merge - integration decisions (S04–S10, lead)
 
 Review-pass minors resolved at the wave close. Every fix below landed with a
 unit test; `typecheck`, the full suite, `lint:nonet`, `deps:guard`, `size`,
 `catalogue --check` and `verify:real` are green after them.
 
-- **S04/S09 — ledger line splitting.** `src/readers/ledger/reader.ts` keeps
+- **S04/S09 - ledger line splitting.** `src/readers/ledger/reader.ts` keeps
   its local splitter instead of consuming S04's `readJsonl`: ledger files are
   written by our own hooks (single-`appendFileSync` lines), the transcript
   reader's carry/offset/type-sniff machinery buys nothing on an in-memory
   text, and both splitters have torn-line tests. Revisit only if ledgers ever
   need incremental tail parsing.
-- **S09 — coverage readings (accepted).** (1) Zero tool events ⇒
+- **S09 - coverage readings (accepted).** (1) Zero tool events ⇒
   `ledgerCoverage: 'partial'` ("no tool events recorded"): an empty ledger
   cannot attest hook coverage, so a chat-only session is deliberately never
   `'all-tools'`. (2) For gemini/copilot/hermes/dsh one recorded tool event
   attests the whole managed hook block; hand-editing single entries out of
   the managed block is out of scope for v1.
-- **S09 — blank interim finals (fixed).** Empty-text `agent-response` lines
+- **S09 - blank interim finals (fixed).** Empty-text `agent-response` lines
   no longer count in `interimFinals` (a blank line can never be a final).
-- **S06 — result-text cap (fixed).** `capResultText` treats the 1 Mi cap as
+- **S06 - result-text cap (fixed).** `capResultText` treats the 1 Mi cap as
   a UTF-16 code-unit memory bound; a multibyte-heavy string within that cap
   is kept whole. The old byte-length early-return made head and tail overlap
   and *lengthen* such a string with a duplicated middle.
-- **S06 — denial kinds (fixed).** `toolDenialKind` present ⇒ denied, per
+- **S06 - denial kinds (fixed).** `toolDenialKind` present ⇒ denied, per
   §4.2.5 (b): `sandbox-denied` maps to itself, unknown future kinds fall
   back to `tool_use_error`. Previously only three literals were mapped.
-- **S06 — interrupted streams (fixed).** A usage row whose `message.id`
+- **S06 - interrupted streams (fixed).** A usage row whose `message.id`
   appears in a later line's `interruptedMessageId` is flagged `interrupted`
   (new optional `UsageRow.interrupted`), not `incomplete`, per §4.2.2
   "billed once and flagged `interrupted`". Billing is unchanged. The 2.1.235
   golden's `incomplete`/`incompleteMessages` moved 38 → 36 (its two
   interrupted streams); no `verify:real` pin involves those counts, and all
   pins still PASS on the frozen bytes.
-- **S07 — inherited snapshot (fixed).** `mergeSubagents` now matches
+- **S07 - inherited snapshot (fixed).** `mergeSubagents` now matches
   §4.2.7's inherited rule against main-file rows only (`agentId === null`),
   so a second merge (the reader's inline-then-dir double call) can no longer
   mark a row inherited for sharing an id with a previously merged subagent
   row. Main-file ids still inherit on any later merge.
-- **S07 — unreadable subagent files (fixed).** An enumerated `agent-*.jsonl`
+- **S07 - unreadable subagent files (fixed).** An enumerated `agent-*.jsonl`
   that cannot be opened leaves `subagent file <name> unreadable` in
   `diagnostics.notes` instead of vanishing silently.
-- **S07 — nested spawn ordering (test added).** A synthetic case now asserts
+- **S07 - nested spawn ordering (test added).** A synthetic case now asserts
   every merged event of a nested agent sits after its own spawning call
   inside the parent agent's file (the 2.1.235 fixture only pinned linkage).
-- **S07 — 2.1.241 journal (accepted).** The fixture ships no
+- **S07 - 2.1.241 journal (accepted).** The fixture ships no
   `journal.jsonl`; "counted, never parsed" stays pinned by the synthetic
   enumeration test. The fixture is not extended (S03 owns generation).
-- **S08 — Codex MCP heuristic (kept + trace).** `codexToolKind` keeps the
-  broad double-underscore test — Codex MCP tools are named `server__tool`,
+- **S08 - Codex MCP heuristic (kept + trace).** `codexToolKind` keeps the
+  broad double-underscore test - Codex MCP tools are named `server__tool`,
   without Claude Code's `mcp__` prefix, so restricting to `mcp__` would
-  misclassify real MCP calls — but a non-`mcp__` match now bumps
+  misclassify real MCP calls - but a non-`mcp__` match now bumps
   `unknownCodexPayloads['mcp-name:<name>']` so the catalogue surfaces the
   shape.
-- **S08 — step-text arithmetic slip.** The step's "352 zero-delta duplicates
+- **S08 - step-text arithmetic slip.** The step's "352 zero-delta duplicates
   across both files" reused the per-file figure (§4.3.5's "352 of 706" in
   one rollout); the cross-file total is 359 (7 + 352). `verify:real` pins
   359.
-- **S08 — stdin wording (routed).** The reader records structured facts only
+- **S08 - stdin wording (routed).** The reader records structured facts only
   (`stdinWrites[{seq, chars, interrupted?}]`, `target.interrupted`); the
   "interactive input" / "interrupted by Ctrl-C" wording belongs to receipt
-  composition/rendering — noted in the S18 step file so it is not dropped.
-- **S08 — defaulted patch exit (accepted).** An exec-delivered `apply_patch`
+  composition/rendering - noted in the S18 step file so it is not dropped.
+- **S08 - defaulted patch exit (accepted).** An exec-delivered `apply_patch`
   whose output matches no parser keeps `exitCodeSource: 'parsed'` for its
   defaulted exit 1 (the union has no 'default' member); commented at the
   site, and such a call is `isError` and never green either way.
-- **S05 — cache key granularity (accepted).** `cacheKey` hashes the
+- **S05 - cache key granularity (accepted).** `cacheKey` hashes the
   discovery-spelled path (realpath at the root only, §4.1); a transcript
   that is itself a symlink keys by its spelled path. S27b must realpath a
   hook-provided `transcript_path` before cache lookup (noted in the S27b
   step file).
-- **S05 — index concurrency / beside-file manifests (accepted).**
+- **S05 - index concurrency / beside-file manifests (accepted).**
   `index.json`'s read-modify-write is last-writer-wins: entries are never
   corrupted and a lost slot only costs one incremental-parse opportunity;
   single-writer in practice and self-healing on the next put. Beside-layout
   agent files joining every session's `subagentManifest` (so one beside-file
-  change invalidates the project's sessions together) is deliberate —
+  change invalidates the project's sessions together) is deliberate -
   attribution needs parsing, which discovery must never do.
-- **S10 — frozen-id prefixes (accepted).** The 8-character session-id
+- **S10 - frozen-id prefixes (accepted).** The 8-character session-id
   prefixes in `scripts/verify-real.mjs` stay: the script is author-only,
   runs against local logs, and a prefix identifies nothing beyond a
   session's existence; the redaction pipeline's full-id hash list
   intentionally cannot match prefixes. Recorded here in lieu of a
   docs/privacy.md (not yet created).
-- **S10 — goldens throughput.** The throughput line is written straight to
+- **S10 - goldens throughput.** The throughput line is written straight to
   `process.stdout` (vitest's console intercept swallows `console.log` from
   `afterAll`), and the 60 MB/s floor is asserted by a
-  `SHOWRECEIPTS_PERF=1`-gated test in `test/goldens/readers.test.ts` — plain
+  `SHOWRECEIPTS_PERF=1`-gated test in `test/goldens/readers.test.ts` - plain
   `npm test` runs suites in parallel, which roughly halves the measured MB/s
   and would flake the floor.
 
-## W2 — Ledger, claims, cost (S11–S16, lead)
+## W2 - Ledger, claims, cost (S11–S16, lead)
 
 Review-pass minors resolved at the wave close. Fixes below landed with unit
 tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
 `lint:nonet`, `deps:guard` and `size` are green after them.
 
-### S11 — shell lexing, segments, families
+### S11 - shell lexing, segments, families
 
 - **`mvn:verify|package` → family `test` (ratified).** §4.5.6's build row
   (`mvn:package|compile|verify`) conflicts with §7's maven detection
@@ -232,7 +232,7 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   `build`.
 - **`-p` stays a subset flag for every runner (ratified).** §4.5.6 lists
   `-p` in the one subset-flag list, so `pytest -p no:cacheprovider` (a plugin
-  flag) is labelled `subset` with the plugin name as target — a false
+  flag) is labelled `subset` with the plugin name as target - a false
   positive in the conservative direction (subset is weaker evidence than
   full), now pinned in `families.test.ts` rather than special-cased against
   the architecture text.
@@ -247,7 +247,7 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   30 ms budget. Uninstrumented budgets stay 5/20 ms per the S11 acceptance
   line; the guarded pathologies cost seconds, so 50/200 ms stays decisive.
 
-### S12 — fact extractors
+### S12 - fact extractors
 
 - **Additive type changes ratified.** `DangerFlag` kind `'kill'` (§4.6.8
   lists `pkill -f` with no matching kind), `WriteFact.metadataOnly`
@@ -262,9 +262,9 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   extractor test files is accepted for W2; hoist into a shared helper (with
   the S03 owner) only if the case format ever changes.
 
-### S13 — runner/check parsing, integrity
+### S13 - runner/check parsing, integrity
 
-- The builder report's "53 index entries" was a count slip — the file has 52
+- The builder report's "53 index entries" was a count slip - the file has 52
   (23 runner green/red pairs plus variants), and the 23×2 presence is
   test-asserted. No code change.
 - `parseOutput` parses the final 1 KB slice first and keeps a successful
@@ -273,17 +273,17 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   the final KB and a red run's non-zero exit vetoes green regardless.
   Accepted for v1.
 
-### S14 — ledger assembly
+### S14 - ledger assembly
 
 - The S14 checklist line "per-turn `W` excludes test-file writes" is a
   wording slip: `W` counts any `ok` write (§4.8 `W_all`) and `Wsrc` is the
   excluding counter, per the S02 type doc the code follows. Code unchanged.
 - W2 close: tests added for the transcript-path home fallback (home-prefix
-  and config-dir forms, plus home `''` — `~` collapses to `/`, never a
+  and config-dir forms, plus home `''` - `~` collapses to `/`, never a
   guessed user) and for a tool call whose `turnIndex` has no `Turn` (a
   `perTurn` entry still appears; no Turn counter is touched).
 
-### S15 — claim extraction
+### S15 - claim extraction
 
 - **Widened trigger fragments (ratified).** Several trigger regexes are
   deliberately wider than the §6.1 prose (modal/negation forms of
@@ -298,7 +298,7 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   `Expect …` is imperative; `as expected` is a genuine `verify.generic`
   positive).
 
-### S16 — pricing
+### S16 - pricing
 
 - `mergeTables` versions an override as
   `sha256(stableStringify({defaults, models}))[:8]`, not raw file bytes:
@@ -314,9 +314,9 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   provenance table; S33 confirms the wording when assembling
   `docs/prices.md`.
 
-## W3 — Reconcile, pipeline (S17–S19)
+## W3 - Reconcile, pipeline (S17–S19)
 
-### S17 — reconciler, explanations, false-done rate
+### S17 - reconciler, explanations, false-done rate
 
 - **§4.8 staleness ignores `WriteFact.metadataOnly` writes (lead-note
   decision).** A `touch`/`mkdir`/`chmod` between an edit and a test run bumps
@@ -326,7 +326,7 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   "staleness boundary" block in `test/unit/reconcile/cross.test.ts`. The same
   boundary also skips docs and the S17 non-executable list
   (`.md .txt .rst .json .yml .yaml .toml .lock` plus **exact** license-file
-  basenames — `licen[cs]e(s)` with an optional `.md/.txt/.rst` extension; a
+  basenames - `licen[cs]e(s)` with an optional `.md/.txt/.rst` extension; a
   broad `LICENSE*` glob would swallow real source files like
   `license_check.py` and leave a stale green run wrongly VERIFIED, so the
   refinement is anchored).
@@ -336,12 +336,12 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
 - Evidence strings: `EvidenceRef.label` stays time-free (§4.8 vii);
   `evidenceStrings()` in `src/reconcile/evidence.ts` appends the `(HH:MM)`
   clock from `ref.at`, merges same-label refs (`Edit ×3 (17:31, 17:32)`) and
-  then appends the judgement's notes as ` · note` — which reproduces the S17
+  then appends the judgement's notes as ` · note` - which reproduces the S17
   strings (`ruff → exit 1 (23:44) · 2 errors, never re-run`) while keeping
   `Judgement` JSON free of formatted times.
 - The guarded `no-test-run` uses the session-wide `ledger.opaqueTestCapable`
   counter (S17 step text) rather than the per-turn `opaqueTestCommands` in
-  the §4.8 row — the more conservative reading (post-final opaque commands
+  the §4.8 row - the more conservative reading (post-final opaque commands
   also block the contradiction).
 - `file.implemented_in` caps at UNVERIFIED (`no-evidence` + note) per
   Appendix E; `verify.generic` is never contradicted; a failed write only
@@ -352,7 +352,7 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   (dominant model by output tokens). `integritySignals`, `testRunRate` and
   `cacheHitPct` count each contributing session once per row.
 
-### S19 — Milestone M2: first real receipts; receipt goldens
+### S19 - Milestone M2: first real receipts; receipt goldens
 
 **Decisions.**
 
@@ -360,8 +360,8 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
   a known session event".** The §4.8 absence facts deliberately point at the
   turn's final message (`absenceRef` → `finalSeq`, fallback `seqEnd`), and
   row 17 attaches the `pr-link` record as context to an UNVERIFIED `git.pr`
-  (`prRefs` still never verify or contradict). The S19 resolution rule —
-  pinned in `test/goldens/receipts.test.ts` and `scripts/dev-receipt.mjs` —
+  (`prRefs` still never verify or contradict). The S19 resolution rule -
+  pinned in `test/goldens/receipts.test.ts` and `scripts/dev-receipt.mjs` -
   therefore accepts: a tool call matched by `toolCallId`+`seq` (or bare
   `seq`), the receipt turn's final seq, or a `Session.prRefs[].seq`. Under
   this rule every real and fixture receipt has zero unresolved refs; without
@@ -383,12 +383,12 @@ tests; `typecheck`, the full suite, coverage thresholds, `accuracy`,
 - **`codex/shell_command` re-dated (step 0)** to `gpt-5.6-terra` and
   2026-08-15 (rollout path, timestamps, `session_index`, `expected.json`
   source; reader golden regenerated). Engine-priced pins: 0.020749 at the
-  from-2026-07-30 window, 0.025936 under `--as-of 2026-07-15` — the window
+  from-2026-07-30 window, 0.025936 under `--as-of 2026-07-15` - the window
   switch S24/S26 will assert end-to-end. The two real `gpt-5.2-codex`
   rollout fixtures stay February 2026 and keep 0.068394 / 7.888091.
 
 **Author run (2026-09-02, `scripts/dev-receipt.mjs`, cache disabled, built
-`dist/`, prices 2026-08-29).** Per frozen file, over all done-turn receipts —
+`dist/`, prices 2026-08-29).** Per frozen file, over all done-turn receipts -
 claims recognized, verdict counts (V/U/C/NS), session cost (API-equivalent
 USD), cache-hit %, and cold wall time of the whole script run:
 
@@ -404,15 +404,15 @@ Total cold ≈ 3.6 s over 122 MB (< 6 s acceptance). Zero unresolved evidence
 refs on every file under the rule above.
 
 Representative evidence lines (top 3 per file, command text only):
-`488dd663` — `git commit → <sha> (20:13)`,
+`488dd663` - `git commit → <sha> (20:13)`,
 `uv run pytest -q → exit ? · 20 passed (20:12)`,
 `uv run mypy src/<proj>/ → exit 0 (20:12)`;
-`bceb4d10` — `no git push in log (07:33)`, `npx eslint . → exit 0 (07:26)`,
+`bceb4d10` - `no git push in log (07:33)`, `npx eslint . → exit 0 (07:26)`,
 `npx tsc --noEmit → exit 0 (07:26)`;
-`db935e59` — `no test run in log (23:16)`, `git commit (Aug 24 01:37)`,
+`db935e59` - `no test run in log (23:16)`, `git commit (Aug 24 01:37)`,
 `uv run pytest -q → exit ? · 397 passed (Aug 24 01:35)`;
-`019c45e8` — `script ran (05:09) · write not observable`;
-`019c4678` — `no write to src/io/ in log (08:15)` (+2 siblings).
+`019c45e8` - `script ran (05:09) · write not observable`;
+`019c4678` - `no write to src/io/ in log (08:15)` (+2 siblings).
 
 Sanity rules from the step, all verified on the real files: `git.commit`
 claims are VERIFIED with the sha when a `gitOperation` commit fact exists
@@ -437,19 +437,19 @@ worth a corpus case when rules are next revised.
 Wave-gate pass over S17–S19; the validation chain was green before and after
 these changes. Review findings fixed rather than carried:
 
-- **§5.2 ALSO DID order** — `pipeline/receipt.ts` now emits "N scripts may
+- **§5.2 ALSO DID order** - `pipeline/receipt.ts` now emits "N scripts may
   have written files" before failed patches, matching the §5.2 list order
   (S18 had the two swapped). No golden pins both lines in one window; a unit
   test now pins the relative order.
-- **In-window PR ref** — the "referenced PR #N" line derives its EvidenceRef
+- **In-window PR ref** - the "referenced PR #N" line derives its EvidenceRef
   from the first *in-window* `prRef` instead of `session.prRefs[0]`, so the
   ref can never point outside the judgement window.
-- **Warm/cold failed-patch parity** — the failed-patch path is parsed over
-  `truncateBytes(maskSecrets(head), 512)` — the exact §4.9 cache bytes — so a
+- **Warm/cold failed-patch parity** - the failed-patch path is parsed over
+  `truncateBytes(maskSecrets(head), 512)` - the exact §4.9 cache bytes - so a
   secret-shaped token in a result head can no longer make a warm receipt
   differ from a cold one. `cache/cache.ts` exports `truncateBytes` and
   `RESULT_TEXT_CAP` for this.
-- **`--hash-paths` bare tokens (§11.2)** — `util/hashpaths.ts hashStrings`
+- **`--hash-paths` bare tokens (§11.2)** - `util/hashpaths.ts hashStrings`
   gained an optional `extraTokens` parameter: bare username/home tokens are
   rewritten to `u:<8 hex>` after the path pass, so a username surviving as a
   hashed basename (`p:<hex>/<user>`) or inside a URL is caught. The
@@ -465,7 +465,7 @@ Carried unchanged (documented deviations, not defects): S17's session-wide
 claims, and evidence notes appended to the last evidence string (renderer
 composition to be confirmed in S20).
 
-### W4/S22 — HTML report; npm size limits raised (lead note)
+### W4/S22 - HTML report; npm size limits raised (lead note)
 
 **Size limits.** The npm tarball stood at 198.5/200 KB before this wave's
 render assets. Per the post-W3 lead note, `scripts/size.mjs` limits are
@@ -479,7 +479,7 @@ still hard gates under `--strict`.
   embeds two payloads while the document keeps exactly three `<script>`s.
 - `--hash-paths` over a multi-session payload hashes each card/receipt/
   timeline against its own session cwd (rate rows against none), via the
-  imported S18 `hashStrings` with `extraTokens` — never extended.
+  imported S18 `hashStrings` with `extraTokens` - never extended.
 - Budget stage 2 marks hidden runs with in-band positional gap rows
   (`+N hidden`, flag `gap`) so the app can band them without a payload-type
   extension; per-session totals also come back as `BudgetReport.hiddenRows`.
@@ -488,7 +488,7 @@ still hard gates under `--strict`.
   cannot get under 16 MB (the renderer/CLI warns, nothing is silently cut
   beyond the three stages).
 
-### W4/S22 — review fixes (post-review pass)
+### W4/S22 - review fixes (post-review pass)
 
 - **§11.4/§11.2 completed, not deviated.** `report.js` now implements the
   full shortcut set (`o`, `/`, `t`, `h`, `[`, `]`, `e` alongside
@@ -498,7 +498,7 @@ still hard gates under `--strict`.
   scanned range + per-harness counts, and the §11.2 footer privacy note.
   The shortcuts on/off switch moved from the header into the `?` sheet per
   §11.4; a header `?` button opens the sheet by pointer, so the switch stays
-  reachable with shortcuts off — and with them off, `?` no longer fires
+  reachable with shortcuts off - and with them off, `?` no longer fires
   (only Esc still closes the open sheet, as a dialog escape rather than a
   WCAG 2.1.4 single-character shortcut).
 - **Remaining §11.2 naming deviation (recorded).** Router keys are the S22
@@ -516,8 +516,8 @@ still hard gates under `--strict`.
   white/near-black label instead of `--pill-bg`). The §11.3 scaffolding
   (light on bare `:root`, dark under the guarded media query AND
   `[data-theme="dark"]`) is exact, and `test/render/html-contrast.test.ts`
-  now iterates the full §11.3-equivalent surface matrix —
-  ink/muted/accent/ok/bad/unk over bg/card/paper/band/sel, both palettes —
+  now iterates the full §11.3-equivalent surface matrix -
+  ink/muted/accent/ok/bad/unk over bg/card/paper/band/sel, both palettes -
   at ≥ 4.5:1 (stronger than the §11.3 floor, which allows 3:1 for
   glyph-only colours), plus the pill labels and the focus ring at ≥ 3:1.
 - **`finalText` caps (§11.1).** The 16 KB `--full` cap is now inclusive of
@@ -526,11 +526,11 @@ still hard gates under `--strict`.
   `…show full in session <shortId>`.
 - **Open for the lead at the W4 gate (no unilateral change made).** Unpacked
   dist now warns just over the 900 KB cap (parallel W4 steps landed after
-  the S22 measurement; this pass adds ~4 KB of report.js) — raise the cap or
+  the S22 measurement; this pass adds ~4 KB of report.js) - raise the cap or
   minify/trim dist before `--strict`. The pre-existing `src/` 12 000-line
   budget warning (~25k lines) also needs a ruling.
 
-### W4/S23b — demo command, §10.2 sample reconciliation, SVG
+### W4/S23b - demo command, §10.2 sample reconciliation, SVG
 
 **Reconciliation protocol.** The four §10.2 samples and the 60-column ASCII
 sample are now the byte-exact output of
@@ -540,58 +540,58 @@ sample are now the byte-exact output of
 `UPDATE_SAMPLES_SPEC=1` (one reconciliation pass), never by `UPDATE_GOLDENS`,
 so renderer drift fails `test/render/demo.test.ts` even after a golden
 refresh; regenerating them requires a new recorded decision here. No sample
-text was hand-edited — every §10.2 change traces to a decision below.
+text was hand-edited - every §10.2 change traces to a decision below.
 
-- **(a) No ALSO SAID on the spec samples** — as planned: the four spec
+- **(a) No ALSO SAID on the spec samples** - as planned: the four spec
   finals carry no negated, deferred, excluded or third-party clause; every
   other scenario's final has ≥ 1 negated claim (§14.1 patched).
-- **(b) Stats zero items** — `0 test runs` stays alongside tool calls and
+- **(b) Stats zero items** - `0 test runs` stays alongside tool calls and
   files changed (§10.1 patched; S20 already implements it).
-- **(c) Evidence clocks** — every evidence string carries `(HH:MM)` (S17)
+- **(c) Evidence clocks** - every evidence string carries `(HH:MM)` (S17)
   and wraps instead of dropping the time. At `E = 26` the long labels wrap,
   so §10.2 shows `ruff check . → exit 0` / `(23:29)` and
   `git commit → 1fc0c28` / `(23:31)` as two-line evidence cells rather than
   the plan's single-line guesses; `no git commit in log` gained `(23:52)`.
-- **(d) Narrow header re-flow and ALSO DID continuation** — exactly the S20
+- **(d) Narrow header re-flow and ALSO DID continuation** - exactly the S20
   implementation; the 60-column sample is regenerated from it.
-- **(e) Worst-first sample order** — §10.1's worst-first CLAIMED rule wins
+- **(e) Worst-first sample order** - §10.1's worst-first CLAIMED rule wins
   over the old §10.2 sample's ✓-first ordering; sample 1 now leads with
   `✗ Lint is clean.`.
-- **(f) Claims render the extracted clause verbatim** — capitalised
+- **(f) Claims render the extracted clause verbatim** - capitalised
   sentences with backticks and trailing periods
   (`✓ Updated `src/wattage/models.py`.`), not the old sample's normalised
   lower-case forms. The contradicted final was split into one sentence per
   claim (scenario tuning) so each file claim carries its own path.
-- **(g) Evidence labels are the full segment text** — `ruff check . → exit 1`,
+- **(g) Evidence labels are the full segment text** - `ruff check . → exit 1`,
   `uv run pytest -q → exit 0`, `mypy --strict src → exit 0`; the old
   sample's short forms (`ruff`, `uv run pytest`, `mypy`) do not exist in the
   frozen S17 engine.
-- **(h) Session-span token only from 2 day boundaries** — the all-VERIFIED
+- **(h) Session-span token only from 2 day boundaries** - the all-VERIFIED
   overnight sample rendered ` · session Aug 23 → Aug 24 (1d)`, forcing a cwd
   shrink, though its end clock already names the day. `render/term.ts` now
   omits the token when `sessionSpan.days < 2` (§10.1 patched); the receipt
   JSON keeps `sessionSpan` unchanged.
-- **(i) ALSO DID lines are the pipeline's real lines** — sample 1:
+- **(i) ALSO DID lines are the pipeline's real lines** - sample 1:
   `· 29 more files changed (src/wattage/, /tmp/demo-scratch/, tests/)` (the
   old "edited tests/test_normalize.py after last green run" bullet was
   untrue of the scenario: the test edit sits between green runs, so pytest
   stays VERIFIED); sample 2: `· 87 files changed (src/wattage/adapters/)`
   (no file claims, so nothing is "more"); sample 4 drops the `npm test`
   bullet (S18 lists unmentioned files, not unmentioned test runs).
-- **(j) Codex scenario tuning** — the notebook heredoc runs detached
+- **(j) Codex scenario tuning** - the notebook heredoc runs detached
   (`exit: null`): with every other command inspection-free, frozen row 19
   yields `no-run-after-write`, so the receipt is `2 UNVERIFIED` as specced
   (a green heredoc would have VERIFIED "works as expected"). ALSO DID gains
   the reader's `· 1 command moved to background (exit unknown)` line. The
-  §10.2 project is `~/proj/cyclone` (the S23a rename — the old name is on
+  §10.2 project is `~/proj/cyclone` (the S23a rename - the old name is on
   the fixtures' forbidden list), and the final's first sentence is
   `Created lea_col_drop_preview.ipynb.` so the claim fits the 36-column
   budget untruncated.
-- **(k) Ruff tail tuning** — the red ruff output carries no
+- **(k) Ruff tail tuning** - the red ruff output carries no
   `Found N errors.` summary line, so the check-red note is `never re-run`
   and the evidence fits its two lines; with the summary, line 2 truncated to
   `(23:44) Found 2 errors., …`.
-- **(l) Durations tuned to the sample clocks** — codex `durationMin: 13.1`
+- **(l) Durations tuned to the sample clocks** - codex `durationMin: 13.1`
   renders `04:56 → 05:09 · 13m`; cursor ledger `durationMin: 10` (stop event
   at −0.02 min) renders `10:02 → 10:11 · 9m`.
 - **`demo` defaults (S23b).** `--tz` defaults to `utc` for `demo` (the
@@ -600,7 +600,7 @@ text was hand-edited — every §10.2 change traces to a decision below.
   through S20 `resolveCols`/`decideUnicode`/`colorEnabled`; `--json` emits
   the receipts as one `stableStringify` array; hidden `--svg FILE` writes
   the first scenario's SVG. `demo` reads `process.platform` directly for the
-  unicode default — the command context carries no platform seam (S23c/S24
+  unicode default - the command context carries no platform seam (S23c/S24
   may rewire through `commands/common.ts`).
 - **SVG (S23b).** Deterministic dark-paper document: paper `#12161c`, ink
   `#e6edf3`, ok `#3fb950`, bad `#f85149`, unk/warn `#d29922`, dim `#8b949e`;
@@ -610,12 +610,12 @@ text was hand-edited — every §10.2 change traces to a decision below.
   `svg|rect|g|text|tspan` elements, no scripts, links or external
   references (golden + hygiene tests in `test/render/svg.test.ts`).
 
-### W4/S23c — command plumbing, hook inspection, JSON schema
+### W4/S23c - command plumbing, hook inspection, JSON schema
 
 - **`resolvable` is a static check, not a launcher run (§9 deviation,
   ARCHITECTURE patched).** `setup/inspect.ts` verifies the
   `~/.showreceipts/bin/launcher.json` sidecar (parses; `node`/`cli`/
-  `launcher` paths exist; launcher executable) and never spawns —
+  `launcher` paths exist; launcher executable) and never spawns -
   `child_process` stays confined to `commands/report.ts` (§13.4). Every
   hooks row carries `resolvableNote: 'static check; the harness process
   PATH may differ'`; the real `--version` run happens only in S31's
@@ -640,7 +640,7 @@ text was hand-edited — every §10.2 change traces to a decision below.
   error still surfaces. S26's e2e pins the behaviour end-to-end.
 - **`--until` day semantics.** A `YYYY-MM-DD` value names its whole day: the
   boundary is the following UTC midnight (exclusive); `Nd` counts back from
-  `ctx.now` with no bump. `LoadOptions` has no `until` — commands apply
+  `ctx.now` with no bump. `LoadOptions` has no `until` - commands apply
   `Prepared.untilMs` after loading.
 - **`SHOWRECEIPTS_NO_CACHE`**: any non-empty value except `0` disables the
   cache (the docs say `=1`; `=true` should not silently enable caching).
@@ -652,7 +652,7 @@ text was hand-edited — every §10.2 change traces to a decision below.
   output; no-op off-TTY and under `--json` (the S36 perf step reuses it).
 - **Home price override is non-fatal (§8.1).** An invalid
   `~/.showreceipts/prices.json` adds one `Prepared.priceNotes` line
-  ("… — override ignored"); an invalid or unreadable `--prices` file throws
+  ("… - override ignored"); an invalid or unreadable `--prices` file throws
   `PriceTableError` → exit 1.
 - **Schema grammar.** `docs/receipt-schema.md` encodes §12.3 as
   ```schema-fenced JSON whose string values are annotations
@@ -684,13 +684,13 @@ Fixed at the gate (code):
   `pipeline/resolve-session.ts resolveId` now also matches a prefix of the
   transcript file name (case-insensitive), and a bare `*.jsonl` selector that
   names no file on disk falls back to id/filename matching instead of failing
-  as a path — so `session rollout-2026…` resolves a Codex session, as §4.1
+  as a path - so `session rollout-2026…` resolves a Codex session, as §4.1
   promises. `session`/`export` share the resolver; tests added.
 - **`report.js` conforms to the §11.2/§11.4 storage keys and §4.1 short
   ids.** The localStorage keys are the architecture's `showreceipts.theme` /
   `showreceipts.keys` (were `sr-theme`/`sr-keys`, an S22 naming deviation no
   longer worth carrying), and the router's `s` regex is `{8,12}` (shortIds
-  are 8 hex, widened to 12 on collision — `{8,16}` was looser than anything
+  are 8 hex, widened to 12 on collision - `{8,16}` was looser than anything
   the tool emits).
 - **Timeline last-green band survives flag filters.** The `· after last
   green run ·` band was silently dropped when a timeline flag filter (e.g.
@@ -705,7 +705,7 @@ Fixed at the gate (code):
 - **Appendix D "at most one `/`" enforced literally.** `bench/validate.ts
   checkString` refused a slash only outside `schema`/`generator.rulesVersion`;
   a second slash *inside* those two paths now also refuses (unreachable via
-  the compile-time constants today — hardening only). The command-level
+  the compile-time constants today - hardening only). The command-level
   refusal wiring (validate → `bench --publish refused: <rule>` on stderr →
   exit 1, nothing written) gained a direct test: a home directory literally
   named `showreceipts` makes the username scan hit the payload's own
@@ -722,7 +722,7 @@ Fixed at the gate (code):
   collection (and dependent pack tests skip instead of crashing on an unset
   `cli`); `version.test.ts`'s title now says what it asserts (the 80 ms
   median is a recorded soft budget with a ×3 pathology ceiling; the hard
-  perf gates are S36's). `report.test.ts` keeps its describe-scope runs —
+  perf gates are S36's). `report.test.ts` keeps its describe-scope runs -
   same class, but a failure there is a clearly attributed collection error,
   not a crash.
 
@@ -763,7 +763,7 @@ Ratified as deviations / rulings (no code change):
   distinguishing the two is a possible W5 `doctor` refinement, not a §9
   requirement.
 - **Size budgets carried to S36** (warn-only today): `src/` 28,441 lines vs
-  the plan's 12,000 (§2's own ceiling is 14,000 — also exceeded; the
+  the plan's 12,000 (§2's own ceiling is 14,000 - also exceeded; the
   mandated JSDoc/test density was priced into neither number) and unpacked
   1,023.4 KB vs 900 KB. Ruling: keep the warnings and do not raise caps
   piecemeal mid-build; S36 must minify/trim `dist/` first and re-set both
@@ -773,12 +773,12 @@ Ratified as deviations / rulings (no code change):
   `S25.md` were re-extracted from the recovery capture
   (`scratchpad/s24-recovered.txt`) into the design steps directory so later
   waves and review passes can cite them. Step files S01–S16, S19 and most of
-  W5/W6 (beyond S27b/S36) are still missing on disk — the orchestrator
+  W5/W6 (beyond S27b/S36) are still missing on disk - the orchestrator
   should recover them before those waves start.
 
-### W5/S32 — live hooks on this machine (M4; author-only verification)
+### W5/S32 - live hooks on this machine (M4; author-only verification)
 
-`scripts/verify-hooks-local.mjs` — 68 checks, all PASS (2026-09-04). It only
+`scripts/verify-hooks-local.mjs` - 68 checks, all PASS (2026-09-04). It only
 reads real files and writes exclusively into `mkdtemp` directories; on any
 machine without the real roots or the frozen files it prints `skipped` and
 exits 0, so the Validate chain stays green on CI.
@@ -786,7 +786,7 @@ exits 0, so the Validate chain stays green on CI.
 - **`setup` in a temp HOME over a copy of the real Claude Code user
   settings.** Dry-run writes nothing (settings byte-identical, no backup, no
   launcher). The real run's diff adds only the `hooks` key with exactly
-  `Stop` (plus `SessionStart` with `--strict` — both variants exercised in
+  `Stop` (plus `SessionStart` with `--strict` - both variants exercised in
   separate temp homes); every pre-existing key is byte-for-byte untouched;
   the backup lands under the temp `~/.showreceipts/backups/claude-code/`
   with the original bytes; a second run reports `unchanged`, writes no new
@@ -808,7 +808,7 @@ exits 0, so the Validate chain stays green on CI.
 - **`doctor` over the real roots** with a temp `SHOWRECEIPTS_HOME`: exit 0
   for both the human and `--json` runs (≈ 7 s first scan of the real trees,
   ≈ 0.8 s from cache), `problems=0`, `warnings=4` (unverified prices, no
-  hooks installed — expected). `--json` shape (keys only): top level
+  hooks installed - expected). `--json` shape (keys only): top level
   `cache, harnesses, hooks, ledgers, node, prices, problems, roots,
   warnings`; per-harness rows `badLines, bashWithoutToolUseResult, bytes,
   emptyProjects, emptySessions, excludedSyntheticLines, found, harness,
@@ -821,15 +821,15 @@ exits 0, so the Validate chain stays green on CI.
 - **Real-config invariant, macOS deviation.** BSD `ls` has no
   `--time-style=full-iso`, so the before/after proof is an lstat metadata
   snapshot (size + nanosecond mtime; file contents never opened, symlinks
-  not followed) of both real roots — strictly stronger than the planned
+  not followed) of both real roots - strictly stronger than the planned
   `ls -la` diff. The whole real Codex root, the real settings file and the
   frozen transcript's entire project directory are asserted unchanged;
   changes elsewhere under the real Claude root would be reported separately
   as live-session activity (a running Claude Code session writes its own
   files while the script runs), but in the recorded runs nothing at all had
   changed.
-- **No git.** Temp "repos" are a bare `.git/` directory — the gitroot walk
-  only stats the marker — so the script never invokes git anywhere.
+- **No git.** Temp "repos" are a bare `.git/` directory - the gitroot walk
+  only stats the marker - so the script never invokes git anywhere.
 
 ### W5 integration close (lead)
 
@@ -848,11 +848,11 @@ deps:guard, size, e2e/hooks/setup, `verify-hooks-local`).
 - **S27 `record.ts` oversize-gap semantics documented.** The final
   degradation gap's `bytes` is the serialised size of the clamped line that
   still broke the 256 KiB cap (the only size knowable there), unlike stdin
-  salvage gaps whose `bytes` count the drained stdin — now stated in the
+  salvage gaps whose `bytes` count the drained stdin - now stated in the
   `prepareLedgerLine` JSDoc.
 - **S27 `hook.log` growth: tracked, not fixed in W5.** The debug log is
   append-only and unbounded; a size note in `doctor` or a cap is a W6 item
-  (S33/S36) — deliberately out of hook-path scope (the hook must stay
+  (S33/S36) - deliberately out of hook-path scope (the hook must stay
   simple and never fail).
 - **S29 Gemini `t` normalised to UTC.** `common()` re-renders a parseable
   event `timestamp` through its epoch (`new Date(parseIso(s)).toISOString()`)
@@ -875,7 +875,7 @@ deps:guard, size, e2e/hooks/setup, `verify-hooks-local`).
   (`capStdout` exported for them).
 - **S30 `--restore` scope note.** Backups are keyed by harness directory +
   config basename, and project- and user-scope configs of a harness can
-  share a basename — `--restore` must be run with the same
+  share a basename - `--restore` must be run with the same
   `--project`/`--shared` scope flags as the setup run that wrote the backup.
   Documented in `setup` help (long text + flag line) rather than changing
   the backup name format this late; a scope-stamped backup name is a
@@ -917,7 +917,7 @@ deps:guard, size, e2e/hooks/setup, `verify-hooks-local`).
 ## S36 perf numbers
 
 Measured 2026-09-04 on the author's machine (macOS, Node 26.0.0, Apple
-Silicon; parallel build agents running — spawn timings are best-of-N to shed
+Silicon; parallel build agents running - spawn timings are best-of-N to shed
 scheduler noise). All suites green via `npm run test:perf`
 (`SHOWRECEIPTS_PERF=1`, tolerance ×1 locally, ×3 under CI; the runner now
 passes `--no-file-parallelism` so timed suites never compete for cores).
@@ -926,9 +926,9 @@ passes `--no-file-parallelism` so timed suites never compete for cores).
 |---|---|---|
 | jsonl splitter over the 60 MB file | ≥ 60 MB/s | **252 MB/s** (118,784 records, 0 bad) |
 | full reader over the 60 MB tree | ≥ 20 hard / 40 warn / 60 target MB/s | **166 MB/s** (412 turns, 5,768 calls) |
-| parse peak memory | < 400 MB | **221 MB** V8-visible peak (rss 482 MB, loose 800 MB ceiling — below) |
+| parse peak memory | < 400 MB | **221 MB** V8-visible peak (rss 482 MB, loose 800 MB ceiling - below) |
 | warm `loadSessions`, 50 sessions | < 300 ms | **4 ms** (50/50 cache hits) |
-| spawned `audit`, fixture tree, warm | ≤ 500 ms local (was 400 — below) | **374 ms** best of 5 (cold 4.3 s) |
+| spawned `audit`, fixture tree, warm | ≤ 500 ms local (was 400 - below) | **374 ms** best of 5 (cold 4.3 s) |
 | `--version` | ≤ 80 ms | **59 ms** best of 3 |
 | Stop incremental resume, 100 lines | < 250 ms | **205 ms** best of 2 |
 | `report`, 500 cards + 50 timelines | data ≤ 5 MB, build < 2 s | **1.52 MB**, **182 ms** |
@@ -937,10 +937,10 @@ passes `--no-file-parallelism` so timed suites never compete for cores).
 - **Hot-spot fixes that produced these numbers** (warm spawned `audit` was
   706 ms before): the §8.1 price-row scan (exact → prefix → regex → alias)
   is memoised per table object in `cost/resolve.ts` (`matchRow` alone was
-  28 % of the warm audit profile — it re-walked every row and recompiled
+  28 % of the warm audit profile - it re-walked every row and recompiled
   regex rows per usage attempt); `pipeline/receipt.ts` memoises the
   session-level cost per (session, table object, `--as-of`) and skips
-  repeat `stampTurnCosts` for the same pair — `buildTurnReceipts` builds one
+  repeat `stampTurnCosts` for the same pair - `buildTurnReceipts` builds one
   receipt per done turn and each receipt priced the whole session, making
   the audit path quadratic in usage rows. Both memos are in-memory only and
   keyed by table identity, so `--prices`/`--as-of` always recompute and no
@@ -950,16 +950,16 @@ passes `--no-file-parallelism` so timed suites never compete for cores).
   the assertion is on the V8-visible peak (`heapTotal + external +
   arrayBuffers`, sampled every 25 ms), with rss printed and warned on but
   not asserted. Measured: the full parse peaks at 221 MB V8-visible while
-  macOS rss ratchets to ~480–540 MB and never comes back — freed allocator
+  macOS rss ratchets to ~480–540 MB and never comes back - freed allocator
   pages are not returned to the OS (the bare splitter over the same file
   shows rss 131 MB with an 8 MB heap; a 256 MB old-space cap left rss at
-  540 MB while OOM-killing the resume suite). The architecture's intent —
-  bounded working memory, one file at a time (§4.10) — is what the V8 peak
+  540 MB while OOM-killing the resume suite). The architecture's intent -
+  bounded working memory, one file at a time (§4.10) - is what the V8 peak
   measures; rss on Darwin measures the allocator.
 - **Stop resume budget 200 → 250 ms.** The measured floor is the resume
   anchor's JSON round-trip: this transcript's builder state is 33.9 MB
   (27.8 MB of it full `resultText`, which must survive verbatim or resumed
-  ledgers — and therefore warm receipts — would diverge from cold ones,
+  ledgers - and therefore warm receipts - would diverge from cold ones,
   breaking the S28 byte-identity invariant), and deserialize + re-serialize
   alone cost ~155–185 ms. A pair-array state encoding was tried and
   reverted (it made `JSON.stringify` slower). 250 ms keeps a real gate: a
@@ -970,14 +970,14 @@ passes `--no-file-parallelism` so timed suites never compete for cores).
   report assets justify exceeding the plan's original 200 KB stands),
   unpacked ≤ 1 MiB (measured **1022.2 KB**), `src/` ≤ 36,000 lines
   (measured **34,255** in 148 files). Functionality-preserving trims were
-  taken first — `tsc removeComments` strips JSDoc from `dist/`, which is
-  what brought the unpacked tree from ~1,180 KB under the 1 MiB cap — and
+  taken first - `tsc removeComments` strips JSDoc from `dist/`, which is
+  what brought the unpacked tree from ~1,180 KB under the 1 MiB cap - and
   the remaining gap to the plan's 12,000-line/600 KB figures is the
   mandated JSDoc/test density plus W4–W6 scope (renderers, nine hook
   dialects, nine setup writers) that those pre-build estimates never
   priced in. The named trim candidates were examined and declined:
-  `ledger/writes.ts` (872 lines) is dense but single-purpose — cutting it
-  risks §4.6 semantics for no gate the project still fails — and the
+  `ledger/writes.ts` (872 lines) is dense but single-purpose - cutting it
+  risks §4.6 semantics for no gate the project still fails - and the
   duplicated S12 fixture-loader boilerplate lives in `test/`, which counts
   toward no budget. Per-file line budgets stay hard and near their caps
   (`rules.ts` 299/300, `lex.ts` 350/350, `term.ts` 369/500, `report.js`
@@ -985,19 +985,19 @@ passes `--no-file-parallelism` so timed suites never compete for cores).
 - **Review-pass R1 amendments (2026-09-04).**
   - **Spawned-audit budget 400 → 500 ms local, best-of-5.** The review's
     independent run flaked at ×1 tolerance (warm best 442 ms vs the 400 ms
-    gate; an immediate re-run passed at 394 ms — effectively zero headroom;
+    gate; an immediate re-run passed at 394 ms - effectively zero headroom;
     a fresh best-of-5 sample here measured [403, 431, 411, 396, 374], four
     of five over the old gate). Profiling the warm run (415 ms wall)
     attributes ~111 ms of self-time to claims extraction
     (`extractDetailed`): 132 finals → 1,714 clauses → 112,296 trigger regex
     executions for 224 matches. Two behaviour-preserving rewrites were
-    prototyped and measured **neutral**, with byte-identical `audit` output —
+    prototyped and measured **neutral**, with byte-identical `audit` output -
     a manual `exec` loop replacing `matchAll` (drops the per-call RegExp
     clone + iterator allocation) and a combined per-(view, flags)
-    alternation prefilter — because the cost is raw regex scan volume
+    alternation prefilter - because the cost is raw regex scan volume
     (~65 triggers × ~1,700 clauses), not allocation overhead. A real
     reduction would need per-rule literal screens or claims caching, i.e.
-    semantic risk to the frozen claims engine and goldens — the wrong trade
+    semantic risk to the frozen claims engine and goldens - the wrong trade
     for a review fix. The local gate therefore takes the same
     documented-budget path as Stop resume (200 → 250 ms): 500 ms still
     gates hard (a cold run costs ~4 s and a cacheless warm path several
@@ -1005,15 +1005,15 @@ passes `--no-file-parallelism` so timed suites never compete for cores).
     build agents, and CI keeps its ×3 tolerance on top. Flagged for lead
     sign-off at the W6 merge.
   - **Parse rss now asserted at a loose 800 MB ceiling.** The substituted
-    V8-visible metric (above) stands, and peak rss — Darwin allocator
-    slack, measured ~480–540 MB — now trips an assertion at 800 MB instead
+    V8-visible metric (above) stands, and peak rss - Darwin allocator
+    slack, measured ~480–540 MB - now trips an assertion at 800 MB instead
     of only printing a WARN, so a genuine memory regression fails the
     suite. The metric substitution itself still needs explicit lead
     ratification at the wave merge.
   - **Cross-file ownership (unchanged from the build pass):** the S36
     hot-spot fixes live in `src/cost/resolve.ts` and `src/pipeline/receipt.ts`
     rather than the step-listed `src/readers/**` / `src/pipeline/run.ts`;
-    verified in-memory-only with the full suite byte-identical — needs lead
+    verified in-memory-only with the full suite byte-identical - needs lead
     reconciliation per BUILD-CONTEXT rule 1, nothing more.
 
 ### W6 integration close (lead)
@@ -1040,7 +1040,7 @@ unpacked 1022.2/1024 KB).
   asked for): S36 raised the unpacked cap 900 KB → 1 MiB after stripping
   comments from `dist/` (tarball cap unchanged at 300 KB); the W4/S22
   figures above are superseded. Measured at the 0.1.0 gate: 255.0 KB
-  tarball / 1,022.2 KB unpacked — 1.8 KB of headroom, so the first addition
+  tarball / 1,022.2 KB unpacked - 1.8 KB of headroom, so the first addition
   to `dist/` in 0.1.x must trim first or consciously re-set the cap with a
   note here. The stale 900 KB comment in `.github/workflows/release.yml`
   was updated to match (`docs/release.md` already said 1 MiB).
@@ -1049,18 +1049,18 @@ unpacked 1022.2/1024 KB).
   unit test (`test/unit/docs/generated.test.ts`: every inline
   cost-line quote outside gen regions must appear verbatim in
   `docs/samples/contradicted.txt`). The "3/29 done turns contradicted
-  (10%)" line is accepted as illustrative — it is introduced by "a table
+  (10%)" line is accepted as illustrative - it is introduced by "a table
   like:" and shows the shape, not a generated value. The stale `demo.tape`
   comment above the `--help` beat was rewritten to describe what the beat
   actually records.
 - **R1 amendment date corrected** 2026-09-05 → 2026-09-04 (the runs it
   describes were measured 2026-09-04).
-- **Left open on the human lead — not closable by agents** (no `git` for
+- **Left open on the human lead - not closable by agents** (no `git` for
   agents; this checkout is not a git repo): the Node 20 CI leg to green on
   the release commit; `git tag v0.1.0` and `docs/release.md` steps 6–7;
   and a one-time `git ls-files` check that `fixtures/labels/*.jsonl` and
   `fixtures/.forbidden.local` stay untracked (both are `.gitignore`d and
-  outside the npm `files` set — never force-add them).
+  outside the npm `files` set - never force-add them).
 
 ## Pass-2 closing review (lead)
 
@@ -1078,7 +1078,7 @@ the Stop-path redundant `cache.put` skip) stand as recorded above.
   (`pipeline/run.ts`, `hook/stop.ts`), memoising its §4.7 `echoHashes` first;
   `assembleTurns` seeds `Turn.echoHashes` from the group and
   `enrichSession`/`parseRef` keep stored hashes when `userText` is null, so
-  warm incremental resumes reproduce the cold receipt (echo check included) —
+  warm incremental resumes reproduce the cold receipt (echo check included) -
   asserted by `test/unit/cache/privacy.test.ts`. Deliberate exception, kept
   for Stop-resume: the still-open trailing/current group keeps its text until
   a later re-parse finalizes it (noted in the CHANGELOG known issues). The
@@ -1094,9 +1094,9 @@ the Stop-path redundant `cache.put` skip) stand as recorded above.
 - **Unpacked-size cap re-set 1 MiB → 1152 KB.** The 1 MiB cap was busted at
   HEAD (1031.1 KB; S36 left 1.8 KB of headroom and predicted the first
   addition would bust it), failing every required CI job (`npm run size` is
-  strict under CI) and the release gate. Trimming was the wrong trade —
+  strict under CI) and the release gate. Trimming was the wrong trade -
   README (30 KB, packed by design) and `dist/render/report.js` are not to be
-  compromised — so the cap moves to 1152 KB (~120 KB headroom), tarball cap
+  compromised - so the cap moves to 1152 KB (~120 KB headroom), tarball cap
   unchanged at 300 KB. `release.yml`/`docs/release.md` comments updated.
 - **`report --open` no longer crashes when the opener is missing.**
   `xdg-open` is routinely absent on minimal Linux; spawn() delivers ENOENT
@@ -1123,7 +1123,7 @@ the Stop-path redundant `cache.put` skip) stand as recorded above.
   drops. (ii) `hook/stdin.ts` retries any zero-byte read error within the
   existing budget (EAGAIN semantics; win32 'EOF' and EBADF still end the
   drain) and reports drain-ending errors, which the runtime logs to
-  `hook.log` — a dropped event is now visible post-hoc. (iii) The e2e
+  `hook.log` - a dropped event is now visible post-hoc. (iii) The e2e
   `--version` median assertion is demoted to a recorded soft budget with a
   ×10 pathology stop; `scripts/perf.mjs` keeps the hard serial ≤ 80 ms gate
   (observed flaking at ×3 under parallel-fork load: median 565 ms in 1 of 3
@@ -1138,7 +1138,7 @@ the Stop-path redundant `cache.put` skip) stand as recorded above.
   ledger trim above is the main further lever. No code change.
 - **Peak-RSS observation (real corpora).** Cold audit over the real tree
   peaks at ~762 MiB maxrss, with a 38 MB + 31 MB back-to-back parse
-  accounting for ~648 MiB of it — allocator slack, not cross-file
+  accounting for ~648 MiB of it - allocator slack, not cross-file
   accumulation (records stay bounded per file as designed). The perf suite's
   800 MB rss assertion only gates the synthetic single-file 60 MB parse
   (~491 MB rss / 219 MB V8 heap), so a heavier real corpus cannot fail CI.
@@ -1173,8 +1173,8 @@ the Stop-path redundant `cache.put` skip) stand as recorded above.
   render, bracket groups wrap atomically, and the two-column 140-character
   Options block is retired. `hook --help` at an interactive stdin prints
   the help block; a piped stdin keeps the §9 `{}` contract.
-- **The `≈` legend** — `audit`/`session`/`demo` print `≈ = estimated
-  (unverified rate, unknown cache TTL, or unpriced model/speed/tier) — see
+- **The `≈` legend** - `audit`/`session`/`demo` print `≈ = estimated
+  (unverified rate, unknown cache TTL, or unpriced model/speed/tier) - see
   docs/prices.md` once whenever a rendered cost carried the marker,
   satisfying the Pass-3 "`≈` explained in the footer once" item (the
   CHANGELOG sentence is now true as written).

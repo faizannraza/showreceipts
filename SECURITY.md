@@ -19,8 +19,8 @@ you believe is sensitive.
 - Anything that makes showreceipts **write outside** `.showreceipts/` and
   `~/.showreceipts/`, or modify a harness file beyond the surgical hook
   entries `setup` documents.
-- **Path traversal** from untrusted input — hook stdin session ids,
-  transcript-derived paths — escaping the directories showreceipts owns.
+- **Path traversal** from untrusted input (hook stdin session ids,
+  transcript-derived paths) escaping the directories showreceipts owns.
 - **Sanitisation bypass**: transcript-derived strings reaching the terminal,
   Markdown, HTML report or SVG with live ANSI escapes, control characters,
   bidi overrides, or script-capable HTML.
@@ -37,11 +37,11 @@ you believe is sensitive.
 
 ## Out of scope
 
-- Agents lying about their work — detecting that is the product, not a bug.
+- Agents lying about their work: detecting that is the product, not a bug.
 - Secrets that an *agent* printed into its own transcript: showreceipts never
   copies tool output bodies into receipts, but the transcript itself is the
   harness's artefact, not ours.
-- Vulnerabilities in the harnesses (Claude Code, Codex, Cursor, …) —
+- Vulnerabilities in the harnesses (Claude Code, Codex, Cursor, …);
   report those upstream.
 - Social engineering, or attacks requiring an already-compromised machine
   (an attacker who can read `~/.claude` doesn't need us).

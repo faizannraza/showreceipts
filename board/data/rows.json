@@ -1,0 +1,64 @@
+{
+  "schema": "showreceipts.board/1",
+  "note": "Aggregated board rows. Every row is merged from bench --publish submissions after a human reviews the PR. See board/README.md. The rows below are the author's format examples, each under the publication threshold, shown so the layout is legible before any real row lands.",
+  "thresholds": { "minDoneTurns": 50, "minSubmitters": 5 },
+  "rows": [
+    {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.x",
+      "model": "claude-opus-5",
+      "rulesVersion": "claims/2",
+      "sessions": 12,
+      "turns": 74,
+      "doneTurns": 31,
+      "contradictedTurns": 2,
+      "unverifiedTurns": 8,
+      "cleanTurns": 21,
+      "submitters": [{ "id": "example-a" }, { "id": "example-b" }, { "id": "example-c" }],
+      "exemplar": true
+    },
+    {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.x",
+      "model": "claude-sonnet-5",
+      "rulesVersion": "claims/2",
+      "sessions": 18,
+      "turns": 96,
+      "doneTurns": 44,
+      "contradictedTurns": 5,
+      "unverifiedTurns": 11,
+      "cleanTurns": 28,
+      "submitters": [{ "id": "example-a" }, { "id": "example-b" }, { "id": "example-d" }, { "id": "example-e" }],
+      "exemplar": true
+    },
+    {
+      "harness": "opencode",
+      "harnessVersion": "0.4.x",
+      "model": "other",
+      "modelLabel": "GLM-4.6 (other)",
+      "rulesVersion": "claims/2",
+      "sessions": 10,
+      "turns": 58,
+      "doneTurns": 27,
+      "contradictedTurns": 3,
+      "unverifiedTurns": 9,
+      "cleanTurns": 15,
+      "submitters": [{ "id": "example-f" }, { "id": "example-g" }],
+      "exemplar": true
+    },
+    {
+      "harness": "codex",
+      "harnessVersion": "0.5.x",
+      "model": "gpt-5.2",
+      "rulesVersion": "claims/2",
+      "sessions": 8,
+      "turns": 41,
+      "doneTurns": 19,
+      "contradictedTurns": 1,
+      "unverifiedTurns": 6,
+      "cleanTurns": 12,
+      "submitters": [{ "id": "example-h" }, { "id": "example-i" }],
+      "exemplar": true
+    }
+  ]
+}

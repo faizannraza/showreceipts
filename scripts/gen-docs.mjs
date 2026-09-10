@@ -127,15 +127,15 @@ const HARNESS_FACTS = {
   opencode: {
     label: 'OpenCode',
     from: 'plugin template (roadmap)',
-    exit: '—',
-    final: '—',
+    exit: '&#8212;',
+    final: '&#8212;',
     strict: 'no',
   },
   openclaw: {
     label: 'OpenClaw',
     from: 'plugin template (roadmap)',
-    exit: '—',
-    final: '—',
+    exit: '&#8212;',
+    final: '&#8212;',
     strict: 'no',
   },
 };

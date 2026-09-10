@@ -8,7 +8,7 @@ document and the CLI's own `--help` or output ever disagree, trust the CLI.
 
 ## Steps
 
-1. **Install** (prefer global — hooks outlive any single project):
+1. **Install** (prefer global: hooks outlive any single project):
 
    ```sh
    npm i -g showreceipts
@@ -18,7 +18,7 @@ document and the CLI's own `--help` or output ever disagree, trust the CLI.
    If a global install is not possible, `npx showreceipts` works for every
    command below (slower per invocation).
 
-2. **Preview what setup would change** — read the diff, change nothing yet:
+2. **Preview what setup would change**, reading the diff and changing nothing yet:
 
    ```sh
    showreceipts setup --dry-run
@@ -39,10 +39,10 @@ document and the CLI's own `--help` or output ever disagree, trust the CLI.
    Hermes, when the printed YAML block must be added by hand (plus a consent
    prompt accepted). **Codex setup exits 0** but still prints one action you
    must read from the output: trust the hook via `/hooks` inside `codex`
-   (`doctor` shows the trusted state) — skip it and the hook is installed
+   (`doctor` shows the trusted state); skip it and the hook is installed
    but inert.
 
-4. **Verify gate** — the install is complete only when BOTH pass:
+4. **Verify gate**: the install is complete only when BOTH pass:
 
    ```sh
    showreceipts doctor    # MUST exit 0
@@ -50,13 +50,13 @@ document and the CLI's own `--help` or output ever disagree, trust the CLI.
    ```
 
    Check the exit code of `doctor` explicitly (`echo $?`). Exit 0 with
-   warnings is a pass; exit 4 is a fail — it means core-shape breakage
+   warnings is a pass; exit 4 is a fail: it means core-shape breakage
    (unreadable root, unresolvable hook launcher, Node < 20) and the output
    names the problem. If `demo` prints framed CLAIMED/EVIDENCE receipts, the
    render pipeline works.
 
 5. **Report to your human**: paste the `setup` summary, the `doctor` exit
-   code, and — if any sessions exist on disk — the output of
+   code, and, if any sessions exist on disk, the output of
    `showreceipts audit --limit 5`.
 
 ## Notes

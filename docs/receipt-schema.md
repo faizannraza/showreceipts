@@ -5,7 +5,7 @@ annotated schema blocks. `test/helpers/schema.ts` parses the fenced
 ` ```schema <Name> ` blocks below and validates objects structurally against
 them (required keys present, primitive types correct, enum choices known);
 the e2e suites (S26), `setup --json` (S30) and the launcher tests (S31) run
-every command's output through it. Extra keys are tolerated — a schema names
+every command's output through it. Extra keys are tolerated: a schema names
 the guaranteed surface, not a closed set.
 
 ## Grammar
@@ -355,7 +355,7 @@ A block whose body is a bare string (e.g. `"Receipt"`) is an alias.
   "turns": "number",
   "doneTurns": "number",
   "claims": "number",
-  "verdict": "enum(VERIFIED|UNVERIFIED|CONTRADICTED|NO_CLAIMS|NO_FINAL|NO_TURNS|—)",
+  "verdict": "enum(VERIFIED|UNVERIFIED|CONTRADICTED|NO_CLAIMS|NO_FINAL|NO_TURNS|\u2014)",
   "costUsd": "number|null",
   "unverified": "boolean",
   "kind": "ReceiptKind"

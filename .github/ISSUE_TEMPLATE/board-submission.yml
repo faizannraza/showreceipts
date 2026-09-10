@@ -1,0 +1,50 @@
+name: Board submission
+description: Submit your `bench --publish` aggregates to the showreceipts board.
+title: "[board] submission"
+labels: ["board-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting to the board.
+
+        Paste the exact JSON that `bench --publish` printed. It is aggregates only:
+        no paths, no e-mail, no session ids, no day-precision dates. A workflow runs
+        the same whitelist validator that `bench --publish` runs, and on success opens
+        a pull request that a human reviews before anything publishes. Nothing here
+        auto-merges.
+
+        If you want to read what the payload contains before you paste it, see
+        `docs/privacy.md` ("The bench --publish payload").
+  - type: textarea
+    id: payload
+    attributes:
+      label: Publish payload
+      description: Paste the full JSON from `bench --publish`. Leave it inside the code fence.
+      render: json
+      placeholder: |
+        {
+          "schema": "showreceipts.bench-publish/1",
+          "generator": { "name": "showreceipts", "version": "0.1.0", "rulesVersion": "claims/2", "pricesVersion": "2026-08-29" },
+          "period": { "from": "2026-08", "to": "2026-08", "partial": false },
+          "platform": { "os": "linux", "node": "20" },
+          "contentHash": "0123456789abcdef",
+          "rows": []
+        }
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Confirmation
+      options:
+        - label: These numbers are aggregates only, produced by `bench --publish`, and they are mine to share.
+          required: true
+  - type: input
+    id: handle
+    attributes:
+      label: Handle (optional)
+      description: A public handle to credit on the board. Leave blank to stay anonymous.
+      placeholder: your-handle
+    validations:
+      required: false

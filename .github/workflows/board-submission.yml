@@ -1,0 +1,153 @@
+name: Board submission
+
+# Triggered when a submission issue is labelled `board-submission`, and manually
+# via workflow_dispatch. It parses the pasted `bench --publish` JSON from the
+# issue body, validates it against the published-fields whitelist (the same one
+# `bench --publish` runs, mirrored in board/scripts/ingest.mjs), merges the rows
+# into board/data/rows.json, and OPENS A PULL REQUEST for a human to review.
+#
+# It never auto-merges. Submission issue bodies are untrusted input: the body is
+# written to a file by a first-party action (never interpolated into a shell),
+# the ingest script only JSON.parses it (never executes it), caps sizes, and whitelists
+# every key. A rejected payload posts its reasons back to the issue and stops.
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to ingest
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: board-submission-${{ github.event.issue.number || github.event.inputs.issue_number }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    # For the `labeled` event, only run when the label added is board-submission.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'board-submission'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Resolve issue body and handle
+        id: resolve
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let issue;
+            if (context.eventName === 'workflow_dispatch') {
+              const number = Number(context.payload.inputs.issue_number);
+              const res = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: number });
+              issue = res.data;
+            } else {
+              issue = context.payload.issue;
+            }
+            const body = issue.body || '';
+            // Untrusted: write to a file, never echo into a shell.
+            fs.writeFileSync('issue-body.txt', body, 'utf8');
+            // Pull the optional handle out of the "Handle (optional)" section.
+            let handle = '';
+            const m = body.match(/###\s*Handle \(optional\)\s*\r?\n+([^\r\n]*)/i);
+            if (m) {
+              const raw = m[1].trim();
+              if (raw && raw !== '_No response_') handle = raw.replace(/[^A-Za-z0-9._-]/g, '').slice(0, 64);
+            }
+            core.setOutput('number', String(issue.number));
+            core.setOutput('handle', handle);
+
+      - name: Run ingest (parse, validate, merge)
+        id: ingest
+        continue-on-error: true
+        env:
+          SUBMIT_NUMBER: ${{ steps.resolve.outputs.number }}
+          SUBMIT_HANDLE: ${{ steps.resolve.outputs.handle }}
+        run: |
+          set -o pipefail
+          node board/scripts/ingest.mjs \
+            --board board/data/rows.json \
+            --issue-body-file issue-body.txt \
+            --out board/data/rows.json \
+            --submitter "issue-${SUBMIT_NUMBER}" \
+            --handle "${SUBMIT_HANDLE}" 2> ingest.log
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Report rejection
+        if: steps.ingest.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let log = '';
+            try { log = fs.readFileSync('ingest.log', 'utf8'); } catch (e) { log = String(e); }
+            const number = Number('${{ steps.resolve.outputs.number }}');
+            const body = [
+              'This submission was **not** ingested. The whitelist validator rejected the payload:',
+              '',
+              '```',
+              log.trim().slice(0, 4000),
+              '```',
+              '',
+              'The board only accepts the exact aggregates-only shape that `bench --publish` prints',
+              '(see `docs/privacy.md`). Fix the payload and edit the issue, then re-add the',
+              '`board-submission` label to try again. Nothing was committed.'
+            ].join('\n');
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: number, body });
+            core.setFailed('ingest rejected the payload');
+
+      - name: Open pull request
+        if: steps.ingest.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUBMIT_NUMBER: ${{ steps.resolve.outputs.number }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- board/data/rows.json; then
+            echo "No change to board/data/rows.json; nothing to open a PR for."
+            exit 0
+          fi
+          BRANCH="board-submission/issue-${SUBMIT_NUMBER}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add board/data/rows.json
+          git commit -m "board: ingest submission from issue #${SUBMIT_NUMBER}"
+          git push --force-with-lease origin "$BRANCH"
+          PR_URL=$(gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "board: submission from issue #${SUBMIT_NUMBER}" \
+            --body "Automated ingest of the aggregates in #${SUBMIT_NUMBER}, validated by board/scripts/ingest.mjs. **Review the diff before merging: this is untrusted user input.** Not auto-merged. Closes #${SUBMIT_NUMBER} on merge." \
+            --label board-submission)
+          echo "PR_URL=$PR_URL" >> "$GITHUB_ENV"
+
+      - name: Comment PR link on the issue
+        if: steps.ingest.outcome == 'success' && env.PR_URL != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const number = Number('${{ steps.resolve.outputs.number }}');
+            const body = [
+              'Validated. A pull request was opened for a maintainer to review before anything publishes:',
+              '',
+              process.env.PR_URL,
+              '',
+              'The board never auto-merges a submission: a human reads the diff first.'
+            ].join('\n');
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: number, body });

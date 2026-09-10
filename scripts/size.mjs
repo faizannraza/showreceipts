@@ -95,7 +95,11 @@ function npmPackDryRun() {
           shell: process.platform === 'win32',
         });
   const parsed = JSON.parse(stdout);
-  return Array.isArray(parsed) ? parsed[0] : parsed;
+  // npm <= 11 prints an array of pack records; npm >= 12 prints an object
+  // keyed by package name. Accept both shapes.
+  if (Array.isArray(parsed)) return parsed[0];
+  if (parsed !== null && typeof parsed === 'object' && !('filename' in parsed)) return Object.values(parsed)[0];
+  return parsed;
 }
 
 let pack;

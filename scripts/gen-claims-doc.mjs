@@ -25,16 +25,16 @@ const FIELDS = {
   'test.counts': '`{count}` · short ratio ⇒ negated `{ratio}`',
   'test.gate': '`{count?}` + one check `{family}` per listed tool',
   'test.count_clean': '`{count}`',
-  'test.ran': '—',
-  'test.nofail': '—',
-  'test.green_marker': '—',
+  'test.ran': '&#8212;',
+  'test.nofail': '&#8212;',
+  'test.green_marker': '&#8212;',
   'test.added': '`{count?}`',
   'check.lint': '`{family: lint, tool}`',
   'check.type': '`{family: type, tool}`',
   'check.format': '`{family: format, tool}`',
   'check.build': '`{family: build, tool}`',
   'check.marker': 'test or check `{family}` by word',
-  'file.verb': '`{verb, subject, fromPath?, explicitVerb, directObject?}` — one claim per PATH',
+  'file.verb': '`{verb, subject, fromPath?, explicitVerb, directObject?}` (one claim per PATH)',
   'file.implemented_in': '`{verb: update, subject}`',
   'file.count': '`{count}`',
   'file.new_file': '`{verb: create, subject}`',
@@ -47,14 +47,14 @@ const FIELDS = {
   'git.branch': '`{op: branch, branch}`',
   'git.tag': '`{op: tag, subject}`',
   'nochange.marker': '`{subject?}`',
-  'verify.generic': '—',
+  'verify.generic': '&#8212;',
   'verify.with_cmd': 'verification + command `{subject, successPredicate}`',
-  'done.marker': '—',
+  'done.marker': '&#8212;',
 };
 
-/** Escapes a regex source for a markdown table cell. */
+/** Escapes a regex source for a markdown table cell (em dash as an entity so the raw docs stay free of U+2014). */
 function code(source) {
-  const escaped = source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\|/g, '&#124;');
+  const escaped = source.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\|/g, '&#124;').replace(/—/g, '&#8212;');
   return `<code>${escaped}</code>`;
 }
 
@@ -68,7 +68,7 @@ lines.push('| id | kind | trigger | fields | notes |');
 lines.push('|---|---|---|---|---|');
 for (const rule of RULES) {
   const triggers = rule.triggers.map((t) => code(t.source)).join('<br>');
-  const fields = FIELDS[rule.id] ?? '—';
+  const fields = FIELDS[rule.id] ?? '&#8212;';
   lines.push(`| \`${rule.id}\` | ${rule.kind} | ${triggers} | ${fields} | ${rule.notes} |`);
 }
 lines.push('');

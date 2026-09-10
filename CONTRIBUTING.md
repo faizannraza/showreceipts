@@ -13,7 +13,7 @@ npm run test:e2e     # spawns dist/cli.js over the committed fixture tree
 npm run typecheck
 ```
 
-The full pre-merge gauntlet is `npm run test:all`. Everything runs offline —
+The full pre-merge gauntlet is `npm run test:all`. Everything runs offline;
 a test-time guard makes any network attempt throw.
 
 ## The non-negotiables
@@ -38,14 +38,14 @@ change for every user's false-done rate. So every PR touching
 `src/claims/rules.ts` or `src/reconcile/rules.ts` must:
 
 1. **Add corpus entries** to `fixtures/claims/corpus.jsonl` (or a reconcile
-   scenario fixture) covering the new behaviour — positive *and* negative
+   scenario fixture) covering the new behaviour, positive *and* negative
    cases. CI asserts 100 % of the corpus passes.
-2. **Bump the version** — `claims/N` in `src/claims/rules.ts` or
+2. **Bump the version**: `claims/N` in `src/claims/rules.ts` or
    `reconcile/N` in `src/reconcile/rules.ts`. Receipts and `--publish`
    payloads carry these versions; silent behaviour changes are not a thing.
 3. Respect the precision doctrine: absence of evidence is never
    contradiction. A rule that can produce a false CONTRADICTED needs to be
-   demoted or guarded — see the demotion story in `docs/accuracy.md` for how
+   demoted or guarded; see the demotion story in `docs/accuracy.md` for how
    that plays out in practice.
 
 `showreceipts session <id> --explain-claim` output makes an excellent bug
@@ -61,7 +61,7 @@ sensitive artefacts in the repo:
   rewrites paths, stubs long content and masks secret-shaped tokens.
 - The redaction is enforced, not trusted: `test/unit/fixtures/redaction.test.ts`
   scans every committed fixture against a **hashed forbidden list**
-  (`fixtures/redaction/forbidden.sha256.json`) — real session ids, user
+  (`fixtures/redaction/forbidden.sha256.json`): real session ids, user
   names, home paths and e-mail addresses can never land in the tree, in any
   separator spelling. Do not weaken that test; treat any change to
   `scripts/redact-fixture.mjs` or `scripts/lib/` as security review.
@@ -72,7 +72,7 @@ sensitive artefacts in the repo:
 ## Goldens and generated docs
 
 - Renderer/receipt goldens: `npm run goldens:update` after an intentional
-  output change; review the diff — goldens are the spec.
+  output change; review the diff, because goldens are the spec.
 - Generated documentation: `npm run docs:gen` rewrites the marked regions in
   `README.md` and `docs/` (claims table, prices table, coverage matrix, demo
   sample, publish example) plus `docs/catalogue.md` and `docs/receipt.svg`.

@@ -332,7 +332,7 @@ async function realMode() {
 const DEFINITION_5_4 = `- **Denominator**: done turns = human/skill turns with an \`end_turn\` final containing ≥ 1 scored claim or a completion marker (\`doneTurnsByTrigger {claims, markerOnly}\`); \`byTrigger {human, notification}\` records whether the final followed a task notification. Turns without claims are \`turns\`, not \`doneTurns\`.
 - **Numerators**: \`contradictedTurns\`, \`unverifiedTurns\` (none contradicted and ≥ 1 UNVERIFIED, or marker-only), \`cleanTurns\` (all scored claims VERIFIED, ≥ 1).
 - **Grouping**: model (dominant model of the turn by output tokens) × harness × \`Turn.harnessVersion\` (full; HTML collapses to \`2.1.x\`). Effects-only ledger sessions and \`ledgerCoverage:'partial'\` sessions are excluded and counted in \`ledgerIncompleteSessions\`; Copilot turns with a parsed transcript final and Hermes turns with \`post_llm_call\` text are included.
-- **Display**: "\`<contradicted> of <done> done turns contradicted (<pct>%)\`"; percentage hidden below 10 done turns (\`—  (3 of 4)\`); \`testRunRate\` = sessions with ≥ 1 test run / sessions; \`costPerDoneTurnUsd\` median/mean (null for ledger sessions). Definition published verbatim in \`docs/accuracy.md\`.`;
+- **Display**: "\`<contradicted> of <done> done turns contradicted (<pct>%)\`"; percentage hidden below 10 done turns (shown as an em dash followed by \`(3 of 4)\`); \`testRunRate\` = sessions with ≥ 1 test run / sessions; \`costPerDoneTurnUsd\` median/mean (null for ledger sessions). Definition published verbatim in \`docs/accuracy.md\`.`;
 
 /**
  * Per-verdict labelled counts. A wrong row carrying `resolvedIn` (the mis-
@@ -394,12 +394,12 @@ function renderMode() {
   const resolvedVersions = [...new Set(claims.rows.filter((r) => r.resolvedIn !== undefined).map((r) => String(r.resolvedIn)))].sort();
 
   const harnesses = Object.entries(meta.byHarness ?? {}).map(([h, n]) => `${n} ${h}`).join(', ');
-  const fmtP = (t) => (t.precision === null ? '—' : pct(t.precision));
+  const fmtP = (t) => (t.precision === null ? '&#8212;' : pct(t.precision));
   const verdictRows = verdicts.map((v) => {
     const t = stats[v];
     return `| ${v} | ${t.sampled} | ${t.correct} | ${t.wrong} | ${t.resolved} | ${t.unclear} | ${fmtP(t)} (n = ${t.n}) |`;
   });
-  const coverageRows = coverage.map((c) => `| ${c.kind} | ${c.human} | ${c.recognised} | ${c.human > 0 ? pct(c.recognised / c.human) : '—'} |`);
+  const coverageRows = coverage.map((c) => `| ${c.kind} | ${c.human} | ${c.recognised} | ${c.human > 0 ? pct(c.recognised / c.human) : '&#8212;'} |`);
   const fpRows = wrongs.map((r) =>
     `| \`${r.rule}\` | ${r.verdict} | ${r.paraphrase ?? '(paraphrase pending)'} | ${r.fix ?? '(fix pending)'} |`
   );
@@ -413,7 +413,7 @@ function renderMode() {
   }
   for (const r of wrongs) {
     const closer = r.resolvedIn !== undefined ? ` (resolved in \`${r.resolvedIn}\`)` : '';
-    knownIssues.push(`- \`${r.rule}\` produced a wrong ${r.verdict} verdict in the hand-labelled sample: ${r.paraphrase ?? '(paraphrase pending)'} — ${r.fix ?? '(fix pending)'}${closer}.`);
+    knownIssues.push(`- \`${r.rule}\` produced a wrong ${r.verdict} verdict in the hand-labelled sample: ${r.paraphrase ?? '(paraphrase pending)'}; ${r.fix ?? '(fix pending)'}${closer}.`);
   }
   const unclearTotal = verdicts.reduce((s, v) => s + stats[v].unclear, 0);
   if (unclearTotal > 0) {
@@ -424,7 +424,7 @@ function renderMode() {
 
   const doc = `# Accuracy
 
-*How often \`showreceipts\` is right when it scores a claim — measured, not asserted.*
+*How often \`showreceipts\` is right when it scores a claim: measured, not asserted.*
 
 Every number below is computed by \`node scripts/label.mjs --render\` from a
 hand-labelled sample of the author's own real sessions. The labelling files
@@ -454,22 +454,22 @@ session's tool log; *unclear* rows are excluded from the precision denominator.
 ${verdictRows.join('\n')}
 
 *wrong* counts unresolved mis-verdicts; *resolved* counts mis-verdicts already
-fixed by a rules bump — they leave the precision denominator but stay in the
+fixed by a rules bump; they leave the precision denominator but stay in the
 false-positive table below.
 
-**Gate (§14.3): CONTRADICTED precision ≥ 95 % — ${gateEvaluated ? (byDemotion ? `PASS by demotion (${contra.resolved} sampled false positive${contra.resolved === 1 ? '' : 's'}, all demoted in \`${resolvedVersions.join(', ')}\`; no unresolved CONTRADICTED error remains)` : gatePass ? `PASS at ${fmtP(contra)}` : `FAIL at ${fmtP(contra)}`) : 'not evaluated (no labelled CONTRADICTED rows)'}.**
+**Gate (§14.3): CONTRADICTED precision ≥ 95 %: ${gateEvaluated ? (byDemotion ? `PASS by demotion (${contra.resolved} sampled false positive${contra.resolved === 1 ? '' : 's'}, all demoted in \`${resolvedVersions.join(', ')}\`; no unresolved CONTRADICTED error remains)` : gatePass ? `PASS at ${fmtP(contra)}` : `FAIL at ${fmtP(contra)}`) : 'not evaluated (no labelled CONTRADICTED rows)'}.**
 ${unlabelledTotal > 0 ? `\n> ${unlabelledTotal} sampled claim(s) are still unlabelled and count nowhere above.\n` : ''}
 ## Coverage per kind (50-sentence sample)
 
 Precision says the claims we score are judged correctly; coverage asks the
-opposite question — of the sentences a human reader would call a claim, how
+opposite question: of the sentences a human reader would call a claim, how
 many did the extractor recognise at all? Labelled over ${labelledSents.length} sampled
 sentences (${humanAny.length} human-called claims, ${recognisedAny.length} of them recognised${extraRecognised.length > 0 ? `; ${extraRecognised.length} recognised sentence(s) the human called no claim` : ''}).
 
 | kind | human-called | recognised | coverage |
 |---|---|---|---|
-${coverageRows.length > 0 ? coverageRows.join('\n') : '| — | 0 | 0 | — |'}
-| **any kind** | **${humanAny.length}** | **${recognisedAny.length}** | **${humanAny.length > 0 ? pct(recognisedAny.length / humanAny.length) : '—'}** |
+${coverageRows.length > 0 ? coverageRows.join('\n') : '| &#8212; | 0 | 0 | &#8212; |'}
+| **any kind** | **${humanAny.length}** | **${recognisedAny.length}** | **${humanAny.length > 0 ? pct(recognisedAny.length / humanAny.length) : '&#8212;'}** |
 
 Coverage is deliberately conservative: the receipt always carries the
 recognized-claim count (JSON `claimsRecognized`; the Markdown export and the
@@ -478,7 +478,7 @@ terminal no-claims box print it) and never implies it scored every assertion.
 ## False positives observed
 
 Every sampled claim labelled *wrong*, the rule that misfired, and the fix.
-Sentences are paraphrased — no session text is reproduced here.
+Sentences are paraphrased; no session text is reproduced here.
 
 ${fpRows.length > 0 ? `| rule | verdict | what the sentence said (paraphrased) | fix |\n|---|---|---|---|\n${fpRows.join('\n')}` : '_None in this sample._'}
 
@@ -486,8 +486,8 @@ ${fpRows.length > 0 ? `| rule | verdict | what the sentence said (paraphrased) |
 
 - **Persisted tool outputs are never read.** v1 never opens
   \`<sessionId>/tool-results/\` (the §13.1 privacy boundary), so evidence that
-  exists only in a persisted output file — a test summary too large for the
-  transcript, say — is invisible. Affected claims stay UNVERIFIED; a
+  exists only in a persisted output file (a test summary too large for the
+  transcript, say) is invisible. Affected claims stay UNVERIFIED; a
   \`--read-persisted\` opt-in is a v1.1 candidate.
 - **Interpreter writes are inferred, not observed.** A file written by a
   Python/Node script the agent ran (rather than by an edit tool or a shell
